@@ -367,6 +367,13 @@ html {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(200%); }
 }
+
+/* Partners shimmer sweep animation */
+@keyframes shimmer-sweep {
+  0% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
+}
 .stats-shimmer {
   position: relative;
   overflow: hidden;
@@ -461,4 +468,19 @@ input:focus, textarea:focus, select:focus {
 .dark ::selection {
   background: rgba(212, 175, 55, 0.3);
   color: inherit;
+}
+
+/* Awards card animated border - CSS custom property for conic gradient rotation */
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes border-spin {
+  to {
+    --border-angle: 360deg;
+  }
+}
+.award-card-border {
+  animation: border-spin 3s linear infinite;
 }

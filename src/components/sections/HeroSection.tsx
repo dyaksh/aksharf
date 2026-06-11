@@ -171,6 +171,130 @@ function DecorativePattern() {
   );
 }
 
+// Canvas-based floating particle effect
+function HeroCanvas() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const prefersReduced = usePrefersReducedMotion();
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    const colors = ['#D4AF37', '#4A2364'];
+    const particleCount = 35;
+
+    interface Particle {
+      x: number;
+      y: number;
+      size: number;
+      speed: number;
+      opacity: number;
+      color: string;
+      drift: number;
+    }
+
+    let particles: Particle[] = [];
+    let animationId: number;
+
+    const resize = () => {
+      const parent = canvas.parentElement;
+      if (parent) {
+        canvas.width = parent.offsetWidth;
+        canvas.height = parent.offsetHeight;
+      }
+    };
+
+    const createParticle = (atTop = false): Particle => ({
+      x: Math.random() * canvas.width,
+      y: atTop ? canvas.height + 10 : Math.random() * canvas.height,
+      size: 1 + Math.random() * 2,
+      speed: 0.15 + Math.random() * 0.35,
+      opacity: 0.15 + Math.random() * 0.15,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      drift: (Math.random() - 0.5) * 0.3,
+    });
+
+    const initParticles = () => {
+      particles = Array.from({ length: particleCount }, () => createParticle(false));
+    };
+
+    const drawStatic = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach((p) => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.opacity;
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+    };
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p) => {
+        // Move upward
+        p.y -= p.speed;
+        p.x += p.drift;
+
+        // Fade out near top
+        const fadeStart = canvas.height * 0.15;
+        const currentOpacity = p.y < fadeStart
+          ? p.opacity * (p.y / fadeStart)
+          : p.opacity;
+
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = currentOpacity;
+        ctx.fill();
+
+        // Respawn at bottom if off-screen
+        if (p.y < -10) {
+          Object.assign(p, createParticle(true));
+        }
+      });
+
+      ctx.globalAlpha = 1;
+      animationId = requestAnimationFrame(animate);
+    };
+
+    resize();
+    initParticles();
+
+    if (prefersReduced) {
+      drawStatic();
+    } else {
+      animate();
+    }
+
+    const handleResize = () => {
+      resize();
+      if (prefersReduced) drawStatic();
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationId);
+    };
+  }, [prefersReduced]);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
+      aria-hidden="true"
+    />
+  );
+}
+
 // Word-by-word reveal for the headline
 function TypewriterHeadline() {
   const prefersReduced = usePrefersReducedMotion();
@@ -307,6 +431,9 @@ export default function HeroSection() {
       {/* Decorative SVG pattern behind hero text */}
       <DecorativePattern />
 
+      {/* Animated canvas particles */}
+      <HeroCanvas />
+
       {/* Grain texture overlay for visual depth */}
       <div
         className="absolute inset-0 pointer-events-none z-[1]"
@@ -352,7 +479,7 @@ export default function HeroSection() {
                 transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
               />
               <motion.p
-                className="text-xs tracking-[0.3em] text-gray-400 dark:text-gray-500 font-sans-body"
+                className="text-xs tracking-[0.3em] text-gray-500 dark:text-gray-400 font-sans-body"
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.6, delay: 0.5 }}
@@ -366,7 +493,7 @@ export default function HeroSection() {
 
             {/* Description */}
             <motion.p
-              className="text-base text-gray-500 dark:text-gray-400 leading-7 sm:leading-relaxed mb-8 font-sans-body max-w-lg"
+              className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-7 sm:leading-relaxed mb-8 font-sans-body max-w-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
@@ -401,9 +528,9 @@ export default function HeroSection() {
                 <Button
                   variant="outline"
                   onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="border-[#4A2364] text-[#4A2364] dark:border-[#6B3F8E] dark:text-[#6B3F8E] hover:bg-[#4A2364]/5 rounded-full px-8 min-h-12 font-sans-body text-sm font-medium relative overflow-hidden"
+                  className="border-[#4A2364] text-[#4A2364] dark:border-[#6B3F8E] dark:text-[#6B3F8E] hover:bg-[#4A2364]/5 rounded-full px-8 min-h-12 font-sans-body text-sm font-medium relative overflow-hidden whitespace-nowrap"
                 >
-                  Start a project
+                  Start a Project
                   {/* Gold underline that draws on hover */}
                   <motion.span
                     className="absolute bottom-3 left-1/2 -translate-x-1/2 h-[2px] bg-[#D4AF37]"

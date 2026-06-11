@@ -11,6 +11,7 @@ import {
   RotateCcw,
   Download,
   MousePointerClick,
+  Move,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -113,6 +114,10 @@ export default function CatalogSection() {
   const [currentPage, setCurrentPage] = useState(0);
   const [activeCategory, setActiveCategory] = useState<string>('All');
   const [zoomLevel, setZoomLevel] = useState(1);
+  const [isDragging, setIsDragging] = useState(false);
+  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
+  const dragStartRef = useRef({ x: 0, y: 0 });
+  const panStartRef = useRef({ x: 0, y: 0 });
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
   const imageContainerRef = useRef<HTMLDivElement>(null);
@@ -129,11 +134,17 @@ export default function CatalogSection() {
         categoryFilterMap[activeCategory]?.includes(p.page) ?? false
       );
 
+  const resetZoom = useCallback(() => {
+    setZoomLevel(1);
+    setPanOffset({ x: 0, y: 0 });
+  }, []);
+
   const handleOpenPage = useCallback((page: number) => {
     const idx = catalogPages.findIndex((p) => p.page === page);
     setCurrentPage(idx >= 0 ? idx : 0);
     setSelectedPage(page);
     setZoomLevel(1);
+    setPanOffset({ x: 0, y: 0 });
   }, []);
 
   // Listen for custom event from PortfolioSection "View Catalog Page" links
@@ -154,6 +165,7 @@ export default function CatalogSection() {
       setCurrentPage(newIdx);
       setSelectedPage(catalogPages[newIdx].page);
       setZoomLevel(1);
+      setPanOffset({ x: 0, y: 0 });
     }
   }, [currentPage]);
 
@@ -163,6 +175,7 @@ export default function CatalogSection() {
       setCurrentPage(newIdx);
       setSelectedPage(catalogPages[newIdx].page);
       setZoomLevel(1);
+      setPanOffset({ x: 0, y: 0 });
     }
   }, [currentPage]);
 
@@ -182,21 +195,63 @@ export default function CatalogSection() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedPage, handlePrevPage, handleNextPage]);
 
-  // Mouse wheel zoom
+  // Mouse wheel zoom (no Ctrl required)
   useEffect(() => {
     if (selectedPage === null) return;
+    const container = imageContainerRef.current;
+    if (!container) return;
     const handleWheel = (e: WheelEvent) => {
-      if (e.ctrlKey || e.metaKey) {
-        e.preventDefault();
-        setZoomLevel((prev) => {
-          const delta = e.deltaY > 0 ? -0.15 : 0.15;
-          return Math.min(3, Math.max(0.5, prev + delta));
-        });
-      }
+      e.preventDefault();
+      setZoomLevel((prev) => {
+        const delta = e.deltaY > 0 ? -0.15 : 0.15;
+        const next = Math.min(3, Math.max(0.5, prev + delta));
+        // Reset pan when zooming back to 1
+        if (next <= 1) setPanOffset({ x: 0, y: 0 });
+        return next;
+      });
     };
-    window.addEventListener('wheel', handleWheel, { passive: false });
-    return () => window.removeEventListener('wheel', handleWheel);
+    container.addEventListener('wheel', handleWheel, { passive: false });
+    return () => container.removeEventListener('wheel', handleWheel);
   }, [selectedPage]);
+
+  // Drag-to-pan handlers
+  const handleDragStart = useCallback(
+    (e: React.MouseEvent) => {
+      if (zoomLevel <= 1) return;
+      e.preventDefault();
+      setIsDragging(true);
+      dragStartRef.current = { x: e.clientX, y: e.clientY };
+      panStartRef.current = { ...panOffset };
+    },
+    [zoomLevel, panOffset]
+  );
+
+  const handleDragMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isDragging) return;
+      const dx = e.clientX - dragStartRef.current.x;
+      const dy = e.clientY - dragStartRef.current.y;
+      setPanOffset({
+        x: panStartRef.current.x + dx,
+        y: panStartRef.current.y + dy,
+      });
+    },
+    [isDragging]
+  );
+
+  const handleDragEnd = useCallback(() => {
+    setIsDragging(false);
+  }, []);
+
+  // Double-click to toggle zoom
+  const handleDoubleClick = useCallback(() => {
+    if (zoomLevel > 1) {
+      setZoomLevel(1);
+      setPanOffset({ x: 0, y: 0 });
+    } else {
+      setZoomLevel(2);
+    }
+  }, [zoomLevel]);
 
   // Thumbnail strip pages for dialog
   const thumbnailStart = Math.max(0, currentPage - 6);
@@ -368,36 +423,9 @@ export default function CatalogSection() {
                 </div>
               </div>
               <div className="flex items-center gap-2">
-                {/* Zoom controls */}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-white/60 hover:text-white hover:bg-white/10 h-8 w-8"
-                  onClick={() => setZoomLevel((prev) => Math.max(0.5, prev - 0.25))}
-                  disabled={zoomLevel <= 0.5}
-                >
-                  <ZoomOut className="w-4 h-4" />
-                </Button>
-                <span className="text-xs text-white/40 font-sans-body min-w-[3rem] text-center">
+                <span className="text-xs text-white/40 font-sans-body">
                   {Math.round(zoomLevel * 100)}%
                 </span>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-white/60 hover:text-white hover:bg-white/10 h-8 w-8"
-                  onClick={() => setZoomLevel((prev) => Math.min(3, prev + 0.25))}
-                  disabled={zoomLevel >= 3}
-                >
-                  <ZoomIn className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-white/60 hover:text-white hover:bg-white/10 h-8 w-8"
-                  onClick={() => setZoomLevel(1)}
-                >
-                  <RotateCcw className="w-4 h-4" />
-                </Button>
                 <div className="w-px h-5 bg-white/10 mx-1" />
                 <Button
                   variant="ghost"
@@ -413,21 +441,84 @@ export default function CatalogSection() {
             {/* Image */}
             <div
               ref={imageContainerRef}
-              className="flex-1 flex items-center justify-center p-4 overflow-auto"
+              className={`flex-1 flex items-center justify-center p-4 overflow-hidden relative ${
+                zoomLevel > 1 ? (isDragging ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-zoom-in'
+              }`}
+              onMouseDown={handleDragStart}
+              onMouseMove={handleDragMove}
+              onMouseUp={handleDragEnd}
+              onMouseLeave={handleDragEnd}
+              onDoubleClick={handleDoubleClick}
+              onClick={() => {
+                // Single click: zoom to 2x if at 1x (double-click handled separately)
+                if (zoomLevel <= 1 && !isDragging) setZoomLevel(2);
+              }}
             >
               {selectedPage !== null && (
                 <motion.img
                   key={currentPage}
                   src={catalogPages[currentPage]?.image}
                   alt={catalogPages[currentPage]?.title}
-                  className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
-                  style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'center center' }}
+                  className="max-w-full max-h-full object-contain rounded-lg shadow-2xl select-none pointer-events-none"
+                  style={{
+                    transform: `scale(${zoomLevel}) translate(${panOffset.x / zoomLevel}px, ${panOffset.y / zoomLevel}px)`,
+                    transformOrigin: 'center center',
+                    transition: isDragging ? 'none' : 'transform 0.3s ease-out',
+                  }}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3 }}
                   draggable={false}
                 />
               )}
+
+              {/* Zoom controls bar at bottom */}
+              <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/50 backdrop-blur-sm rounded-full px-4 py-2 border border-white/10">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-white/70 hover:text-white hover:bg-white/10 h-8 w-8"
+                  onClick={() =>
+                    setZoomLevel((prev) => {
+                      const next = Math.max(0.5, prev - 0.25);
+                      if (next <= 1) setPanOffset({ x: 0, y: 0 });
+                      return next;
+                    })
+                  }
+                  disabled={zoomLevel <= 0.5}
+                >
+                  <ZoomOut className="w-4 h-4" />
+                </Button>
+                <span className="text-xs text-white/60 font-sans-body min-w-[3rem] text-center">
+                  {Math.round(zoomLevel * 100)}%
+                </span>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-white/70 hover:text-white hover:bg-white/10 h-8 w-8"
+                  onClick={() => setZoomLevel((prev) => Math.min(3, prev + 0.25))}
+                  disabled={zoomLevel >= 3}
+                >
+                  <ZoomIn className="w-4 h-4" />
+                </Button>
+                <div className="w-px h-4 bg-white/10" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-white/70 hover:text-white hover:bg-white/10 h-8 w-8"
+                  onClick={resetZoom}
+                  title="Reset zoom (1:1)"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                </Button>
+                {zoomLevel > 1 && (
+                  <>
+                    <div className="w-px h-4 bg-white/10" />
+                    <Move className="w-3.5 h-3.5 text-white/40" />
+                    <span className="text-[10px] text-white/30 font-sans-body">Drag to pan</span>
+                  </>
+                )}
+              </div>
             </div>
 
             {/* Thumbnail Strip */}

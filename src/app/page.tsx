@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUp, Home } from 'lucide-react';
 import Header from '@/components/sections/Header';
 import HeroSection from '@/components/sections/HeroSection';
-import BrandMarquee from '@/components/sections/BrandMarquee';
+import PartnersTrust from '@/components/sections/PartnersTrust';
 import ProcessSection from '@/components/sections/ProcessSection';
 import ProjectTimeline from '@/components/sections/ProjectTimeline';
 import AboutSection from '@/components/sections/AboutSection';
@@ -146,7 +146,7 @@ export default function HomePage() {
       <main className="flex-1">
         <HeroSection />
         <SectionDivider fromBg="#F8F5F2" toBg="#FFFFFF" variant="curve" />
-        <BrandMarquee />
+        <PartnersTrust />
         <SectionDivider fromBg="#FFFFFF" toBg="#F8F5F2" variant="curve" />
         <ProcessSection />
         <SectionDivider fromBg="#F8F5F2" toBg="#F8F5F2" variant="curve" />
@@ -183,3 +183,4 @@ export default function HomePage() {
     </div>
   );
 }
+// force rebuild

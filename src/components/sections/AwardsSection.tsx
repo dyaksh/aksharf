@@ -153,10 +153,9 @@ export default function AwardsSection() {
               >
                 {/* Animated conic-gradient border on hover */}
                 <div
-                  className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="award-card-border absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{
-                    background: `conic-gradient(from var(--border-angle, 0deg), #4A2364, #D4AF37, #6B3F8E, #D4AF37, #4A2364)`,
-                    animation: 'border-spin 3s linear infinite',
+                    background: 'conic-gradient(from var(--border-angle, 0deg), #4A2364, #D4AF37, #6B3F8E, #D4AF37, #4A2364)',
                   }}
                 />
                 {/* Inner card content */}
@@ -233,19 +232,6 @@ export default function AwardsSection() {
         </motion.div>
       </div>
 
-      {/* CSS animation for rotating border */}
-      <style jsx global>{`
-        @property --border-angle {
-          syntax: '<angle>';
-          inherits: false;
-          initial-value: 0deg;
-        }
-        @keyframes border-spin {
-          to {
-            --border-angle: 360deg;
-          }
-        }
-      `}</style>
     </section>
   );
 }

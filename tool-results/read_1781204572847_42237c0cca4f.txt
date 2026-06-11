@@ -1,0 +1,234 @@
+   340→ GET / 200 in 239ms (compile: 4ms, render: 235ms)
+   341→⚠ Fast Refresh had to perform a full reload due to a runtime error.
+   342→ GET / 200 in 109ms (compile: 3ms, render: 106ms)
+   343→⚠ Fast Refresh had to perform a full reload due to a runtime error.
+   344→ GET / 200 in 206ms (compile: 4ms, render: 202ms)
+   345→ GET / 200 in 175ms (compile: 3ms, render: 172ms)
+   346→ GET / 200 in 177ms (compile: 3ms, render: 174ms)
+   347→ GET / 200 in 276ms (compile: 3ms, render: 273ms)
+   348→ GET / 200 in 108ms (compile: 2ms, render: 106ms)
+   349→ GET / 200 in 187ms (compile: 3ms, render: 185ms)
+   350→✓ Compiled in 167ms
+   351→✓ Compiled in 240ms
+   352→✓ Compiled in 317ms
+   353→✓ Compiled in 244ms
+   354→✓ Compiled in 156ms
+   355→✓ Compiled in 259ms
+   356→✓ Compiled in 191ms
+   357→✓ Compiled in 148ms
+   358→✓ Compiled in 221ms
+   359→✓ Compiled in 313ms
+   360→✓ Compiled in 238ms
+   361→⨯ Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   362→    at ignore-listed frames {
+   363→  digest: '4155224794',
+   364→  [cause]: SyntaxError: Invalid or unexpected token
+   365→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   366→}
+   367→Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   368→    at ignore-listed frames {
+   369→  digest: '4155224794',
+   370→  [cause]: SyntaxError: Invalid or unexpected token
+   371→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   372→}
+   373→⨯ unhandledRejection: Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   374→    at ignore-listed frames {
+   375→  digest: '4155224794',
+   376→  [cause]: SyntaxError: Invalid or unexpected token
+   377→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   378→}
+   379→⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   380→    at ignore-listed frames {
+   381→  digest: '4155224794',
+   382→  [cause]: SyntaxError: Invalid or unexpected token
+   383→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   384→}
+   385→⨯ Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   386→    at ignore-listed frames {
+   387→  digest: '4155224794',
+   388→  [cause]: SyntaxError: Invalid or unexpected token
+   389→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   390→}
+   391→Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   392→    at ignore-listed frames {
+   393→  digest: '4155224794',
+   394→  [cause]: SyntaxError: Invalid or unexpected token
+   395→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   396→}
+   397→⨯ unhandledRejection: Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   398→    at ignore-listed frames {
+   399→  digest: '4155224794',
+   400→  [cause]: SyntaxError: Invalid or unexpected token
+   401→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   402→}
+   403→⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   404→    at ignore-listed frames {
+   405→  digest: '4155224794',
+   406→  [cause]: SyntaxError: Invalid or unexpected token
+   407→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   408→}
+   409→ GET / 500 in 1374ms (compile: 3ms, render: 1371ms)
+   410→⨯ Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   411→    at ignore-listed frames {
+   412→  digest: '4155224794',
+   413→  [cause]: SyntaxError: Invalid or unexpected token
+   414→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   415→}
+   416→Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   417→    at ignore-listed frames {
+   418→  digest: '4155224794',
+   419→  [cause]: SyntaxError: Invalid or unexpected token
+   420→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   421→}
+   422→⨯ unhandledRejection: Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   423→    at ignore-listed frames {
+   424→  digest: '4155224794',
+   425→  [cause]: SyntaxError: Invalid or unexpected token
+   426→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   427→}
+   428→⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   429→    at ignore-listed frames {
+   430→  digest: '4155224794',
+   431→  [cause]: SyntaxError: Invalid or unexpected token
+   432→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   433→}
+   434→⨯ Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   435→    at ignore-listed frames {
+   436→  digest: '4155224794',
+   437→  [cause]: SyntaxError: Invalid or unexpected token
+   438→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   439→}
+   440→Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   441→    at ignore-listed frames {
+   442→  digest: '4155224794',
+   443→  [cause]: SyntaxError: Invalid or unexpected token
+   444→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   445→}
+   446→⨯ unhandledRejection: Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   447→    at ignore-listed frames {
+   448→  digest: '4155224794',
+   449→  [cause]: SyntaxError: Invalid or unexpected token
+   450→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   451→}
+   452→⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   453→    at ignore-listed frames {
+   454→  digest: '4155224794',
+   455→  [cause]: SyntaxError: Invalid or unexpected token
+   456→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2341)
+   457→}
+   458→ GET / 500 in 2.8s (compile: 3ms, render: 2.8s)
+   459→ GET / 500 in 1381ms (compile: 3ms, render: 1378ms)
+   460→✓ Compiled in 256ms
+   461→⨯ Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   462→    at ignore-listed frames {
+   463→  digest: '4155224794',
+   464→  [cause]: SyntaxError: Invalid or unexpected token
+   465→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   466→}
+   467→Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   468→    at ignore-listed frames {
+   469→  digest: '4155224794',
+   470→  [cause]: SyntaxError: Invalid or unexpected token
+   471→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   472→}
+   473→⨯ unhandledRejection: Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   474→    at ignore-listed frames {
+   475→  digest: '4155224794',
+   476→  [cause]: SyntaxError: Invalid or unexpected token
+   477→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   478→}
+   479→⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   480→    at ignore-listed frames {
+   481→  digest: '4155224794',
+   482→  [cause]: SyntaxError: Invalid or unexpected token
+   483→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   484→}
+   485→⨯ Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   486→    at ignore-listed frames {
+   487→  digest: '4155224794',
+   488→  [cause]: SyntaxError: Invalid or unexpected token
+   489→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   490→}
+   491→Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   492→    at ignore-listed frames {
+   493→  digest: '4155224794',
+   494→  [cause]: SyntaxError: Invalid or unexpected token
+   495→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   496→}
+   497→⨯ unhandledRejection: Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   498→    at ignore-listed frames {
+   499→  digest: '4155224794',
+   500→  [cause]: SyntaxError: Invalid or unexpected token
+   501→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   502→}
+   503→⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   504→    at ignore-listed frames {
+   505→  digest: '4155224794',
+   506→  [cause]: SyntaxError: Invalid or unexpected token
+   507→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   508→}
+   509→⨯ Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   510→    at ignore-listed frames {
+   511→  digest: '4155224794',
+   512→  [cause]: SyntaxError: Invalid or unexpected token
+   513→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   514→}
+   515→Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   516→    at ignore-listed frames {
+   517→  digest: '4155224794',
+   518→  [cause]: SyntaxError: Invalid or unexpected token
+   519→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   520→}
+   521→⨯ unhandledRejection: Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   522→    at ignore-listed frames {
+   523→  digest: '4155224794',
+   524→  [cause]: SyntaxError: Invalid or unexpected token
+   525→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   526→}
+   527→⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   528→    at ignore-listed frames {
+   529→  digest: '4155224794',
+   530→  [cause]: SyntaxError: Invalid or unexpected token
+   531→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   532→}
+   533→⨯ Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   534→    at ignore-listed frames {
+   535→  digest: '4155224794',
+   536→  [cause]: SyntaxError: Invalid or unexpected token
+   537→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   538→}
+   539→Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   540→    at ignore-listed frames {
+   541→  digest: '4155224794',
+   542→  [cause]: SyntaxError: Invalid or unexpected token
+   543→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   544→}
+   545→⨯ unhandledRejection: Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   546→    at ignore-listed frames {
+   547→  digest: '4155224794',
+   548→  [cause]: SyntaxError: Invalid or unexpected token
+   549→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   550→}
+   551→⨯ unhandledRejection:  Error [ChunkLoadError]: Failed to load chunk server/chunks/ssr/src_components_sections_97016df4._.js from module [project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/page { GLOBAL_ERROR_MODULE => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_0 => "[project]/src/app/layout.tsx [app-rsc] (ecmascript, Next.js Server Component)", MODULE_1 => "[project]/node_modules/next/dist/client/components/builtin/not-found.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_2 => "[project]/node_modules/next/dist/client/components/builtin/forbidden.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_3 => "[project]/node_modules/next/dist/client/components/builtin/unauthorized.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_4 => "[project]/node_modules/next/dist/client/components/builtin/global-error.js [app-rsc] (ecmascript, Next.js Server Component)", MODULE_5 => "[project]/src/app/page.tsx [app-rsc] (ecmascript, Next.js Server Component)" } [app-rsc] (ecmascript) <locals>
+   552→    at ignore-listed frames {
+   553→  digest: '4155224794',
+   554→  [cause]: SyntaxError: Invalid or unexpected token
+   555→      at <unknown> (.next/dev/server/chunks/ssr/src_components_sections_97016df4._.js:2340)
+   556→}
+   557→ GET / 500 in 4.2s (compile: 3ms, render: 4.2s)
+   558→ GET / 500 in 2.7s (compile: 2ms, render: 2.7s)
+   559→ GET / 500 in 1363ms (compile: 3ms, render: 1360ms)
+   560→✓ Compiled in 317ms
+   561→✓ Compiled in 139ms
+   562→ GET / 200 in 385ms (compile: 49ms, render: 336ms)
+   563→ GET / 200 in 184ms (compile: 4ms, render: 180ms)
+   564→ GET / 200 in 182ms (compile: 3ms, render: 179ms)
+   565→ GET / 200 in 167ms (compile: 3ms, render: 164ms)
+   566→ GET / 200 in 165ms (compile: 3ms, render: 163ms)
+   567→ GET / 200 in 173ms (compile: 3ms, render: 170ms)
+   568→ GET / 200 in 163ms (compile: 3ms, render: 160ms)
+   569→✓ Compiled in 231ms
+   570→ GET / 200 in 187ms (compile: 3ms, render: 184ms)
+   571→ GET / 200 in 176ms (compile: 3ms, render: 173ms)
+   572→ GET / 200 in 179ms (compile: 5ms, render: 174ms)
+   573→
