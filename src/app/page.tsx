@@ -18,13 +18,21 @@ import CTASection from '@/components/sections/CTASection';
 import ContactSection from '@/components/sections/ContactSection';
 import Footer from '@/components/sections/Footer';
 import ChatWidget from '@/components/sections/ChatWidget';
+import SectionDivider from '@/components/sections/SectionDivider';
+import CookieConsent from '@/components/sections/CookieConsent';
 
 // Page loading animation
 function PageLoader() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 1800);
+    // Skip loader entirely for users who prefer reduced motion (delay=0 dismisses immediately)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Use shorter delay on mobile screens for faster dismiss
+    const isMobile = window.innerWidth < 768;
+    const delay = prefersReducedMotion ? 0 : isMobile ? 800 : 1000;
+
+    const timer = setTimeout(() => setIsLoading(false), delay);
     return () => clearTimeout(timer);
   }, []);
 
@@ -34,7 +42,7 @@ function PageLoader() {
         <motion.div
           className="fixed inset-0 z-[100] bg-[#1A1A1A] flex flex-col items-center justify-center"
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.6, ease: 'easeInOut' }}
+          transition={{ duration: 0.4, ease: 'easeInOut' }}
         >
           {/* Logo pulse */}
           <motion.div
@@ -80,7 +88,7 @@ function PageLoader() {
               className="h-full bg-gradient-to-r from-[#4A2364] via-[#D4AF37] to-[#4A2364] rounded-full"
               initial={{ width: '0%' }}
               animate={{ width: '100%' }}
-              transition={{ delay: 0.6, duration: 1.1, ease: 'easeInOut' }}
+              transition={{ delay: 0.6, duration: 0.8, ease: 'easeInOut' }}
             />
           </motion.div>
         </motion.div>
@@ -130,21 +138,33 @@ export default function HomePage() {
       <Header />
       <main className="flex-1">
         <HeroSection />
+        <SectionDivider fromBg="#F8F5F2" toBg="#FFFFFF" variant="curve" />
         <BrandMarquee />
+        <SectionDivider fromBg="#FFFFFF" toBg="#F8F5F2" variant="curve" />
         <ProcessSection />
+        <SectionDivider fromBg="#F8F5F2" toBg="#FFFFFF" variant="curve" />
         <AboutSection />
+        <SectionDivider fromBg="#FFFFFF" toBg="#1A1A1A" variant="wave" />
         <PortfolioSection />
+        <SectionDivider fromBg="#1A1A1A" toBg="#F8F5F2" variant="angled" />
         <ServicesSection />
+        <SectionDivider fromBg="#F8F5F2" toBg="#FFFFFF" variant="curve" />
         <GlobalReachSection />
+        <SectionDivider fromBg="#FFFFFF" toBg="#FFFFFF" variant="curve" />
         <TestimonialsSection />
+        <SectionDivider fromBg="#FFFFFF" toBg="#FFFFFF" variant="curve" />
         <CatalogSection />
+        <SectionDivider fromBg="#FFFFFF" toBg="#F8F5F2" variant="curve" />
         <FAQSection />
+        <SectionDivider fromBg="#F8F5F2" toBg="#2D1B42" variant="wave" />
         <CTASection />
+        <SectionDivider fromBg="#2D1B42" toBg="#F8F5F2" variant="angled" />
         <ContactSection />
       </main>
       <Footer />
       <ScrollToTop />
       <ChatWidget />
+      <CookieConsent />
     </div>
   );
 }

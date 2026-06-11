@@ -3,6 +3,7 @@
 import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Sofa, Lamp, Bath, Package, ShieldCheck, Frame, ArrowRight } from 'lucide-react';
+import RevealOnScroll from '@/components/RevealOnScroll';
 
 const services = [
   {
@@ -48,7 +49,7 @@ export default function ServicesSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   return (
-    <section className="bg-[#F8F5F2] dark:bg-[#121212] py-20 lg:py-32 relative overflow-hidden" ref={sectionRef}>
+    <section className="bg-[#F8F5F2] dark:bg-[#121212] py-20 lg:py-32 relative overflow-hidden transition-colors duration-300" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
           {/* Left Column - Slides in from left */}
@@ -62,7 +63,7 @@ export default function ServicesSection() {
             {/* Decorative purple accent line on left side */}
             <div className="absolute -left-4 lg:-left-6 top-0 bottom-0 w-1 rounded-full bg-gradient-to-b from-[#4A2364] via-[#4A2364]/50 to-transparent" />
 
-            <p className="text-xs tracking-[0.3em] text-gray-400 mb-4 font-sans-body">
+            <p className="text-xs tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-4 font-sans-body">
               WHAT WE COVER
             </p>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-6">
@@ -113,45 +114,45 @@ export default function ServicesSection() {
               {services.map((service, index) => {
                 const Icon = service.icon;
                 return (
-                  <motion.div
+                  <RevealOnScroll
                     key={service.title}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: 0.1 * index }}
-                    className="relative bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-500 border border-gray-100 dark:border-gray-800 group overflow-hidden"
+                    direction="up"
+                    delay={index * 0.1}
+                    duration={0.5}
                   >
-                    {/* Gradient border effect on hover */}
-                    <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-[2px] bg-gradient-to-br from-[#4A2364] via-[#D4AF37] to-[#4A2364]">
-                      <div className="w-full h-full bg-white dark:bg-[#1E1E1E] rounded-[14px]" />
-                    </div>
+                    <div className="relative bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-500 border border-gray-100 dark:border-gray-800 group overflow-hidden h-full">
+                      {/* Gradient border effect on hover */}
+                      <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-[2px] bg-gradient-to-br from-[#4A2364] via-[#D4AF37] to-[#4A2364]">
+                        <div className="w-full h-full bg-white dark:bg-[#1E1E1E] rounded-[14px]" />
+                      </div>
 
-                    {/* Gold triangle corner accent - top right */}
-                    <div className="absolute top-0 right-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="w-8 h-8">
-                        <div className="absolute top-0 right-0 w-0 h-0 border-l-[32px] border-l-transparent border-t-[32px] border-t-[#D4AF37]" />
+                      {/* Gold triangle corner accent - top right */}
+                      <div className="absolute top-0 right-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="w-8 h-8">
+                          <div className="absolute top-0 right-0 w-0 h-0 border-l-[32px] border-l-transparent border-t-[32px] border-t-[#D4AF37]" />
+                        </div>
+                      </div>
+
+                      <div className="relative z-10">
+                        {/* Icon with gradient background */}
+                        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#4A2364]/10 to-[#D4AF37]/10 flex items-center justify-center mb-4 group-hover:from-[#4A2364]/20 group-hover:to-[#D4AF37]/20 transition-all duration-300">
+                          <Icon className="w-5 h-5 text-[#4A2364] group-hover:text-[#4A2364] transition-colors" />
+                        </div>
+                        <h3 className="text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-2">
+                          {service.title}
+                        </h3>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-3">
+                          {service.description}
+                        </p>
+
+                        {/* Learn more link - appears on hover */}
+                        <div className="flex items-center gap-1 text-[#4A2364] text-xs font-sans-body font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
+                          Learn more
+                          <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-300" />
+                        </div>
                       </div>
                     </div>
-
-                    <div className="relative z-10">
-                      {/* Icon with gradient background */}
-                      <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#4A2364]/10 to-[#D4AF37]/10 flex items-center justify-center mb-4 group-hover:from-[#4A2364]/20 group-hover:to-[#D4AF37]/20 transition-all duration-300">
-                        <Icon className="w-5 h-5 text-[#4A2364] group-hover:text-[#4A2364] transition-colors" />
-                      </div>
-                      <h3 className="text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-2">
-                        {service.title}
-                      </h3>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-3">
-                        {service.description}
-                      </p>
-
-                      {/* Learn more link - appears on hover */}
-                      <div className="flex items-center gap-1 text-[#4A2364] text-xs font-sans-body font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300">
-                        Learn more
-                        <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-300" />
-                      </div>
-                    </div>
-                  </motion.div>
+                  </RevealOnScroll>
                 );
               })}
             </div>

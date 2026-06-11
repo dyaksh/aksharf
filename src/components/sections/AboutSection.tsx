@@ -39,7 +39,7 @@ export default function AboutSection() {
   return (
     <section
       id="about-brand"
-      className="relative py-20 lg:py-32 overflow-hidden bg-white dark:bg-[#121212]"
+      className="relative py-20 lg:py-32 overflow-hidden bg-white dark:bg-[#121212] transition-colors duration-300"
       ref={sectionRef}
     >
       {/* Subtle dot grid texture overlay */}
@@ -65,14 +65,28 @@ export default function AboutSection() {
 
       {/* Decorative geometric shapes */}
       <div
-        className="absolute -top-32 -right-32 w-64 h-64 rounded-full pointer-events-none"
+        className="absolute -top-32 -right-32 w-64 h-64 rounded-full pointer-events-none hidden dark:block"
+        style={{
+          background:
+            'radial-gradient(circle, rgba(106,63,142,0.06) 0%, transparent 70%)',
+        }}
+      />
+      <div
+        className="absolute -top-32 -right-32 w-64 h-64 rounded-full pointer-events-none dark:hidden"
         style={{
           background:
             'radial-gradient(circle, rgba(74,35,100,0.04) 0%, transparent 70%)',
         }}
       />
       <div
-        className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full pointer-events-none"
+        className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full pointer-events-none hidden dark:block"
+        style={{
+          background:
+            'radial-gradient(circle, rgba(212,175,55,0.06) 0%, transparent 70%)',
+        }}
+      />
+      <div
+        className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full pointer-events-none dark:hidden"
         style={{
           background:
             'radial-gradient(circle, rgba(212,175,55,0.04) 0%, transparent 70%)',
@@ -208,8 +222,8 @@ export default function AboutSection() {
               </div>
 
               {/* Decorative floating shape */}
-              <div className="absolute -top-6 -right-6 w-24 h-24 border-2 border-[#D4AF37]/20 rounded-xl rotate-12 pointer-events-none" />
-              <div className="absolute -bottom-4 -left-4 w-16 h-16 border-2 border-[#4A2364]/15 rounded-lg -rotate-12 pointer-events-none" />
+              <div className="absolute -top-6 -right-6 w-24 h-24 border-2 border-[#D4AF37]/20 dark:border-[#D4AF37]/10 rounded-xl rotate-12 pointer-events-none" />
+              <div className="absolute -bottom-4 -left-4 w-16 h-16 border-2 border-[#4A2364]/15 dark:border-[#6B3F8E]/10 rounded-lg -rotate-12 pointer-events-none" />
             </div>
           </motion.div>
         </div>

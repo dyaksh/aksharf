@@ -5,6 +5,59 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronDown } from 'lucide-react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 
+// Floating rotating diamond decoration
+function FloatingDiamond() {
+  return (
+    <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+      <motion.div
+        className="w-20 h-20 border-2 border-[#D4AF37]/30 dark:border-[#D4AF37]/20 rounded-md"
+        animate={{ rotate: [0, 45, 90, 135, 180, 225, 270, 315, 360] }}
+        transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+        style={{ transformOrigin: 'center center' }}
+      >
+        {/* Inner smaller diamond */}
+        <motion.div
+          className="absolute inset-2 border border-[#D4AF37]/15 dark:border-[#D4AF37]/10 rounded-sm"
+          animate={{ rotate: [360, 315, 270, 225, 180, 135, 90, 45, 0] }}
+          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+          style={{ transformOrigin: 'center center' }}
+        />
+      </motion.div>
+    </div>
+  );
+}
+
+// Decorative corner bracket (L-shape)
+function CornerBracket() {
+  return (
+    <svg
+      className="absolute -top-2 -left-2 w-10 h-10 pointer-events-none z-10"
+      viewBox="0 0 40 40"
+      fill="none"
+      aria-hidden="true"
+    >
+      <motion.path
+        d="M 2 2 L 2 38"
+        stroke="#D4AF37"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+      />
+      <motion.path
+        d="M 2 2 L 38 2"
+        stroke="#D4AF37"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+      />
+    </svg>
+  );
+}
+
 // Count-up animation hook
 function useCountUp(target: number, duration: number = 2000, startOnView: boolean = true) {
   const [count, setCount] = useState(0);
@@ -68,7 +121,7 @@ export default function HeroSection() {
   const heroImageY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
 
   return (
-    <section id="home" className="relative bg-[#F8F5F2] dark:bg-[#1A1A1A] min-h-screen pt-20 lg:pt-0 overflow-x-hidden overflow-y-hidden" ref={heroRef}>
+    <section id="home" className="relative bg-[#F8F5F2] dark:bg-[#1A1A1A] min-h-screen pt-20 lg:pt-0 overflow-x-hidden overflow-y-hidden transition-colors duration-300" ref={heroRef}>
       {/* Gradient overlay - cream to very light purple tint */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -103,9 +156,15 @@ export default function HeroSection() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row items-center min-h-screen py-16 lg:py-0 gap-8 lg:gap-12">
+        <div className="flex flex-col lg:flex-row items-center min-h-screen py-16 lg:py-0 gap-8 lg:gap-12 relative">
+          {/* Floating diamond decoration between columns (desktop only) */}
+          <FloatingDiamond />
+
           {/* Left Content */}
-          <div className="w-full lg:flex-1 lg:max-w-xl pt-4 lg:pt-0">
+          <div className="w-full lg:flex-1 lg:max-w-xl pt-4 lg:pt-0 relative">
+            {/* Decorative corner bracket */}
+            <CornerBracket />
+
             {/* Purple divider */}
             <motion.div
               className="w-12 h-0.5 bg-[#4A2364] mb-6"
@@ -114,15 +173,23 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.2 }}
             />
 
-            {/* Subheading */}
-            <motion.p
-              className="text-xs tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-4 font-sans-body"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              HOSPITALITY FF&E &bull; EST. FOSHAN
-            </motion.p>
+            {/* Subheading with animated line */}
+            <div className="flex items-center gap-3 mb-4">
+              <motion.div
+                className="h-[1px] bg-gradient-to-r from-transparent to-[#D4AF37] shrink-0"
+                initial={{ width: 0 }}
+                animate={{ width: 32 }}
+                transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+              />
+              <motion.p
+                className="text-xs tracking-[0.3em] text-gray-400 dark:text-gray-500 font-sans-body"
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+              >
+                HOSPITALITY FF&E &bull; EST. FOSHAN
+              </motion.p>
+            </div>
 
             {/* Main headline */}
             <motion.h2
@@ -132,14 +199,8 @@ export default function HeroSection() {
               transition={{ duration: 0.8, delay: 0.6 }}
             >
               Furniture that{' '}
-              <span className="text-[#D4AF37] italic">tells the story</span>{' '}
+              <span className="text-[#D4AF37] italic underline decoration-[#D4AF37] decoration-2 underline-offset-4">tells the story</span>{' '}
               of a hotel.
-              <span
-                className="inline-block w-[3px] h-[0.85em] bg-[#D4AF37] ml-1 align-middle"
-                style={{
-                  animation: 'cursorBlink 1s step-end infinite',
-                }}
-              />
             </motion.h2>
 
             {/* Description */}
@@ -187,8 +248,18 @@ export default function HeroSection() {
             style={{ y: heroImageY }}
           >
             <div className="relative">
+              {/* Purple glow behind main image */}
+              <div
+                className="absolute -inset-8 rounded-full pointer-events-none z-0"
+                style={{
+                  background: 'radial-gradient(ellipse at center, rgba(74,35,100,0.25) 0%, rgba(74,35,100,0.08) 40%, transparent 70%)',
+                  filter: 'blur(40px)',
+                }}
+                aria-hidden="true"
+              />
+
               {/* Main image */}
-              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl z-[1]">
                 <img
                   src="/hero-hotel.png"
                   alt="Hilton Hotel - Akshar Foshan Project"
@@ -197,17 +268,9 @@ export default function HeroSection() {
                 {/* Enhanced badge with gold border-left accent */}
                 <motion.div
                   className="absolute bottom-4 left-4 bg-black/75 backdrop-blur-sm text-white px-5 py-3 rounded-lg border-l-[3px] border-[#D4AF37] shadow-lg"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: [0, -6, 0] }}
-                  transition={{
-                    opacity: { duration: 0.6, delay: 1.2 },
-                    y: {
-                      duration: 3,
-                      repeat: Infinity,
-                      ease: 'easeInOut',
-                      delay: 1.8,
-                    },
-                  }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.8, delay: 1.2 }}
                 >
                   <p className="text-xs tracking-widest font-sans-body">
                     NOW MANUFACTURING — <span className="font-bold text-[#D4AF37]">240 KEYS</span>
@@ -252,9 +315,9 @@ export default function HeroSection() {
         <div className="relative pb-12 lg:pb-20 pt-8">
           {/* Separator line above stats */}
           <motion.div
-            className="w-full h-[1px] mb-10"
+            className="w-full h-[2px] mb-10"
             style={{
-              background: 'linear-gradient(90deg, transparent, rgba(74,35,100,0.2) 20%, rgba(212,175,55,0.2) 80%, transparent)',
+              background: 'linear-gradient(90deg, transparent, rgba(74,35,100,0.35) 20%, rgba(212,175,55,0.35) 80%, transparent)',
             }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -262,7 +325,7 @@ export default function HeroSection() {
             transition={{ duration: 1.2, ease: 'easeOut' }}
           />
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 backdrop-blur-md bg-white/50 dark:bg-white/5 rounded-2xl p-6 lg:p-8 border border-white/20 dark:border-white/10">
             {stats.map((stat, index) => (
               <StatItem key={stat.label} stat={stat} index={index} />
             ))}
@@ -289,13 +352,7 @@ export default function HeroSection() {
           </motion.div>
         </div>
       </div>
-      {/* Cursor blink keyframes */}
-      <style jsx>{`
-        @keyframes cursorBlink {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0; }
-        }
-      `}</style>
+
     </section>
   );
 }

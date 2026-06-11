@@ -50,7 +50,7 @@ export default function TestimonialsSection() {
   }, [isPaused, nextSlide]);
 
   return (
-    <section className="relative bg-white dark:bg-[#121212] py-20 lg:py-28 overflow-hidden">
+    <section className="relative bg-white dark:bg-[#121212] py-20 lg:py-28 overflow-hidden transition-colors duration-300">
       {/* Subtle geometric decorations */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         {/* Top-right geometric shape */}
@@ -132,7 +132,7 @@ export default function TestimonialsSection() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -50 }}
                 transition={{ duration: 0.5, ease: 'easeInOut' }}
-                className="bg-[#F8F5F2]/70 dark:bg-[#1A1A1A] rounded-2xl p-8 sm:p-10 lg:p-12 border border-gray-100 dark:border-gray-800 shadow-sm"
+                className="bg-[#F8F5F2]/70 dark:bg-[#1A1A1A]/80 rounded-2xl p-8 sm:p-10 lg:p-12 border border-gray-100 dark:border-gray-800/50 shadow-sm"
               >
                 {/* Quote icon */}
                 <div className="mb-6">
@@ -232,7 +232,7 @@ export default function TestimonialsSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                className="flex items-center justify-center h-16 sm:h-20 px-6 sm:px-10 rounded-xl border border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-[#1A1A1A]/50 text-gray-400 dark:text-gray-500 font-sans-body font-semibold text-sm sm:text-base tracking-wider hover:text-[#4A2364] dark:hover:text-[#6B3F8E] hover:border-[#4A2364]/30 dark:hover:border-[#6B3F8E]/30 transition-all duration-300 cursor-default"
+                className="flex items-center justify-center h-16 sm:h-20 px-6 sm:px-10 rounded-xl border border-gray-200 dark:border-gray-700/50 bg-white/50 dark:bg-[#1E1E1E]/60 text-gray-400 dark:text-gray-500 font-sans-body font-semibold text-sm sm:text-base tracking-wider hover:text-[#4A2364] dark:hover:text-[#6B3F8E] hover:border-[#4A2364]/30 dark:hover:border-[#6B3F8E]/30 transition-all duration-300 cursor-default"
               >
                 {brand}
               </motion.div>

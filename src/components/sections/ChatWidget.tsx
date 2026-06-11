@@ -2,10 +2,11 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, CheckCircle } from 'lucide-react';
+import { MessageCircle, X, Send, CheckCircle, Smartphone } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
-interface FormData {
+interface ContactFormData {
   name: string;
   email: string;
   message: string;
@@ -16,7 +17,7 @@ export default function ChatWidget() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pulseCount, setPulseCount] = useState(0);
-  const [form, setForm] = useState<FormData>({
+  const [form, setForm] = useState<ContactFormData>({
     name: '',
     email: '',
     message: '',
@@ -69,14 +70,14 @@ export default function ChatWidget() {
           setIsOpen(false);
         }, 3000);
       }
-    } catch {
+    } catch (_err) {
       // Silently handle error
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleChange = (field: keyof FormData, value: string) => {
+  const handleChange = (field: keyof ContactFormData, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -203,19 +204,113 @@ export default function ChatWidget() {
         )}
       </AnimatePresence>
 
-      {/* Tooltip */}
+      {/* WeChat Button - Top position */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 1.2, type: 'spring', stiffness: 200, damping: 15 }}
+      >
+        <Popover>
+          <PopoverTrigger asChild>
+            <motion.button
+              className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#07C160] hover:bg-[#06AD56] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              aria-label="Add WeChat"
+              title="Add WeChat"
+            >
+              <Smartphone className="w-4 h-4 sm:w-5 sm:h-5" />
+
+              {/* Pulse rings */}
+              <motion.span
+                className="absolute inset-0 rounded-full border-2 border-[#07C160]"
+                animate={{
+                  scale: [1, 1.6],
+                  opacity: [0.5, 0],
+                }}
+                transition={{
+                  duration: 1.2,
+                  repeat: 2,
+                  repeatDelay: 1,
+                  delay: 1.4,
+                }}
+              />
+            </motion.button>
+          </PopoverTrigger>
+          <PopoverContent
+            side="left"
+            align="center"
+            className="w-auto bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-white/10 shadow-xl rounded-xl p-4"
+          >
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-10 h-10 rounded-full bg-[#07C160]/10 flex items-center justify-center">
+                <Smartphone className="w-5 h-5 text-[#07C160]" />
+              </div>
+              <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body">
+                Add WeChat
+              </p>
+              <p className="text-xs text-gray-500 dark:text-gray-400 font-sans-body font-mono bg-gray-50 dark:bg-white/5 px-3 py-1.5 rounded-md select-all">
+                18666422531
+              </p>
+              <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
+                Scan or search to add
+              </p>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </motion.div>
+
+      {/* WhatsApp Button - Middle position */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.4, delay: 1.0, type: 'spring', stiffness: 200, damping: 15 }}
+      >
+        <a
+          href="https://wa.me/8618666422531"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Chat on WhatsApp"
+          title="Chat on WhatsApp"
+        >
+          <motion.button
+            className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+
+            {/* Pulse rings */}
+            <motion.span
+              className="absolute inset-0 rounded-full border-2 border-[#25D366]"
+              animate={{
+                scale: [1, 1.6],
+                opacity: [0.5, 0],
+              }}
+              transition={{
+                duration: 1.2,
+                repeat: 2,
+                repeatDelay: 1,
+                delay: 1.2,
+              }}
+            />
+          </motion.button>
+        </a>
+      </motion.div>
+
+      {/* Tooltip for main chat button */}
       {!isOpen && (
         <motion.div
           initial={{ opacity: 0, x: 10 }}
           animate={{ opacity: 1, x: 0 }}
-          className="absolute right-16 top-1/2 -translate-y-1/2 bg-[#1A1A1A] dark:bg-white text-white dark:text-[#1A1A1A] px-3 py-1.5 rounded-lg text-xs font-sans-body font-medium shadow-lg whitespace-nowrap pointer-events-none"
+          className="absolute right-16 bottom-0 bg-[#1A1A1A] dark:bg-white text-white dark:text-[#1A1A1A] px-3 py-1.5 rounded-lg text-xs font-sans-body font-medium shadow-lg whitespace-nowrap pointer-events-none"
         >
           Chat with us
           <div className="absolute right-[-6px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[6px] border-l-[#1A1A1A] dark:border-l-white" />
         </motion.div>
       )}
 
-      {/* Floating Button */}
+      {/* Floating Main Chat Button - Bottom position */}
       <motion.button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}

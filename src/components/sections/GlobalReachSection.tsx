@@ -591,7 +591,7 @@ export default function GlobalReachSection() {
   return (
     <section
       id="global-reach"
-      className="relative py-20 lg:py-32 overflow-hidden bg-white dark:bg-[#121212]"
+      className="relative py-20 lg:py-32 overflow-hidden bg-white dark:bg-[#121212] transition-colors duration-300"
       ref={sectionRef}
     >
       {/* Decorative pattern overlay */}

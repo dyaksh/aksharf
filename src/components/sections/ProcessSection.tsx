@@ -3,6 +3,7 @@
 import { FileText, Hammer, Truck, ArrowRight } from 'lucide-react';
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
+import RevealOnScroll from '@/components/RevealOnScroll';
 
 const acts = [
   {
@@ -68,8 +69,10 @@ export default function ProcessSection() {
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
+  const cardDelays = [0, 0.15, 0.3];
+
   return (
-    <section id="about" className="relative py-20 lg:py-32 overflow-hidden dark:bg-[#121212]" ref={sectionRef}>
+    <section id="about" className="relative py-20 lg:py-32 overflow-hidden dark:bg-[#121212] transition-colors duration-300" ref={sectionRef}>
       {/* Subtle gradient background - cream to slightly different cream */}
       <div
         className="absolute inset-0 dark:hidden"
@@ -119,89 +122,81 @@ export default function ProcessSection() {
           {acts.map((act, index) => {
             const Icon = act.icon;
             return (
-              <div key={act.number} className="relative">
-                {/* Mobile timeline line connector */}
-                {index < acts.length - 1 && (
-                  <div className="md:hidden flex flex-col items-center absolute left-1/2 -translate-x-1/2 -bottom-3 translate-y-full z-10 h-6">
-                    <div className="flex-1 w-[2px] bg-gradient-to-b from-[#4A2364]/30 to-[#D4AF37]/30" />
-                    <ArrowRight className="w-3 h-3 text-[#D4AF37]/50 rotate-90 -mt-1" />
-                  </div>
-                )}
-                {/* Connecting arrow between cards on desktop */}
-                {index < acts.length - 1 && (
-                  <div className="hidden md:block absolute -right-4 lg:-right-5 top-1/2 -translate-y-1/2 z-10">
+              <RevealOnScroll key={act.number} direction="up" delay={cardDelays[index]} duration={0.6}>
+                <div className="relative">
+                  {/* Mobile timeline line connector */}
+                  {index < acts.length - 1 && (
+                    <div className="md:hidden flex flex-col items-center absolute left-1/2 -translate-x-1/2 -bottom-3 translate-y-full z-10 h-6">
+                      <div className="flex-1 w-[2px] bg-gradient-to-b from-[#4A2364]/30 to-[#D4AF37]/30" />
+                      <ArrowRight className="w-3 h-3 text-[#D4AF37]/50 rotate-90 -mt-1" />
+                    </div>
+                  )}
+                  {/* Connecting arrow between cards on desktop */}
+                  {index < acts.length - 1 && (
+                    <div className="hidden md:block absolute -right-4 lg:-right-5 top-1/2 -translate-y-1/2 z-10">
+                      <motion.div
+                        initial={{ opacity: 0, scaleX: 0 }}
+                        animate={isInView ? { opacity: 1, scaleX: 1 } : {}}
+                        transition={{ duration: 0.6, delay: 0.8 + index * 0.2 }}
+                        className="flex items-center"
+                      >
+                        <div className="w-6 lg:w-8 h-[2px] bg-gradient-to-r from-[#4A2364]/30 to-[#D4AF37]/30" />
+                        <ArrowRight className="w-4 h-4 text-[#D4AF37]/50 -ml-1" />
+                      </motion.div>
+                    </div>
+                  )}
+
+                  <div className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-8 lg:p-10 shadow-sm border border-gray-100 dark:border-gray-800 group relative overflow-hidden cursor-default transition-all duration-500 hover:shadow-xl hover:-translate-y-2 hover:border-l-[3px] hover:border-l-[#4A2364] dark:hover:border-l-[#6B3F8E]">
+                    {/* Shine sweep animation on view */}
                     <motion.div
-                      initial={{ opacity: 0, scaleX: 0 }}
-                      animate={isInView ? { opacity: 1, scaleX: 1 } : {}}
-                      transition={{ duration: 0.6, delay: 0.8 + index * 0.2 }}
-                      className="flex items-center"
-                    >
-                      <div className="w-6 lg:w-8 h-[2px] bg-gradient-to-r from-[#4A2364]/30 to-[#D4AF37]/30" />
-                      <ArrowRight className="w-4 h-4 text-[#D4AF37]/50 -ml-1" />
-                    </motion.div>
-                  </div>
-                )}
-
-                <motion.div
-                  className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-8 lg:p-10 shadow-sm border border-gray-100 dark:border-gray-800 group relative overflow-hidden cursor-default transition-all duration-500 hover:shadow-xl hover:-translate-y-2 hover:border-l-[3px] hover:border-l-[#4A2364] dark:hover:border-l-[#6B3F8E]"
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{
-                    duration: 0.7,
-                    delay: index * 0.2,
-                    ease: 'easeOut',
-                  }}
-                >
-                  {/* Shine sweep animation on view */}
-                  <motion.div
-                    className="absolute inset-0 pointer-events-none z-10"
-                    initial={{ x: '-100%' }}
-                    whileInView={{ x: '200%' }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 1.2, delay: 0.5 + index * 0.2, ease: 'easeInOut' }}
-                    style={{
-                      background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.08), transparent)',
-                      width: '50%',
-                    }}
-                  />
-                  {/* Hover gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#4A2364]/[0.02] to-[#D4AF37]/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                  <div className="relative flex items-start gap-4 mb-6">
-                    {/* Large number - outlined by default, filled purple on hover */}
-                    <span
-                      className="text-6xl lg:text-7xl font-bold font-serif-display leading-none select-none transition-all duration-500"
+                      className="absolute inset-0 pointer-events-none z-10"
+                      initial={{ x: '-100%' }}
+                      whileInView={{ x: '200%' }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1.2, delay: 0.5 + index * 0.2, ease: 'easeInOut' }}
                       style={{
-                        WebkitTextStroke: '1.5px rgba(74,35,100,0.15)',
-                        color: 'transparent',
+                        background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.08), transparent)',
+                        width: '50%',
                       }}
-                    >
+                    />
+                    {/* Hover gradient overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#4A2364]/[0.02] to-[#D4AF37]/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                    <div className="relative flex items-start gap-4 mb-6">
+                      {/* Large number - outlined by default, filled purple on hover */}
                       <span
-                        className="group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E]"
+                        className="text-6xl lg:text-7xl font-bold font-serif-display leading-none select-none transition-all duration-500"
                         style={{
-                          transition: 'all 0.5s ease',
+                          WebkitTextStroke: '1.5px rgba(74,35,100,0.15)',
+                          color: 'transparent',
                         }}
                       >
-                        <span className="group-hover:[-webkit-text-stroke-color:#4A2364] dark:group-hover:[-webkit-text-stroke-color:#6B3F8E]">
-                          {act.number}
+                        <span
+                          className="group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E]"
+                          style={{
+                            transition: 'all 0.5s ease',
+                          }}
+                        >
+                          <span className="group-hover:[-webkit-text-stroke-color:#4A2364] dark:group-hover:[-webkit-text-stroke-color:#6B3F8E]">
+                            {act.number}
+                          </span>
                         </span>
                       </span>
-                    </span>
-                    <div className="mt-2">
-                      <div className="w-10 h-10 rounded-lg bg-[#4A2364]/5 flex items-center justify-center mb-3 group-hover:bg-[#4A2364]/10 transition-colors duration-300">
-                        <Icon className="w-5 h-5 text-[#4A2364]" />
+                      <div className="mt-2">
+                        <div className="w-10 h-10 rounded-lg bg-[#4A2364]/5 flex items-center justify-center mb-3 group-hover:bg-[#4A2364]/10 transition-colors duration-300">
+                          <Icon className="w-5 h-5 text-[#4A2364]" />
+                        </div>
+                        <h3 className="text-lg font-bold text-[#1A1A1A] dark:text-white font-sans-body">
+                          {act.title}
+                        </h3>
                       </div>
-                      <h3 className="text-lg font-bold text-[#1A1A1A] dark:text-white font-sans-body">
-                        {act.title}
-                      </h3>
                     </div>
+                    <p className="relative text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body">
+                      {act.description}
+                    </p>
                   </div>
-                  <p className="relative text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body">
-                    {act.description}
-                  </p>
-                </motion.div>
-              </div>
+                </div>
+              </RevealOnScroll>
             );
           })}
         </div>

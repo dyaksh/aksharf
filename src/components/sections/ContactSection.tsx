@@ -85,7 +85,7 @@ export default function ContactSection() {
   ];
 
   return (
-    <section className="bg-[#F8F5F2] dark:bg-[#1A1A1A] py-20 lg:py-32 relative overflow-hidden" ref={sectionRef}>
+    <section className="bg-[#F8F5F2] dark:bg-[#1A1A1A] py-20 lg:py-32 relative overflow-hidden transition-colors duration-300" ref={sectionRef}>
       {/* Decorative elements */}
       <div
         className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none"
@@ -111,7 +111,7 @@ export default function ContactSection() {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.7, ease: 'easeOut' }}
           >
-            <p className="text-xs tracking-[0.3em] text-gray-400 mb-4 font-sans-body">
+            <p className="text-xs tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-4 font-sans-body">
               GET IN TOUCH
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-6">
@@ -142,7 +142,7 @@ export default function ContactSection() {
                       <Icon className="w-5 h-5 text-[#4A2364] group-hover:scale-110 transition-transform duration-300" />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-400 font-sans-body">
+                      <p className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">
                         {item.label}
                       </p>
                       <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">

@@ -204,7 +204,7 @@ export default function CatalogSection() {
   const thumbnailPages = catalogPages.slice(thumbnailStart, thumbnailEnd);
 
   return (
-    <section className="bg-white dark:bg-[#121212] py-20 lg:py-32 relative" ref={sectionRef}>
+    <section className="bg-white dark:bg-[#121212] py-20 lg:py-32 relative transition-colors duration-300" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -214,7 +214,7 @@ export default function CatalogSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-8"
         >
-          <p className="text-xs tracking-[0.3em] text-gray-400 mb-4 font-sans-body">
+          <p className="text-xs tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-4 font-sans-body">
             FULL CATALOG
           </p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-4">
@@ -281,7 +281,7 @@ export default function CatalogSection() {
                   <TooltipTrigger asChild>
                     <button
                       onClick={() => handleOpenPage(page.page)}
-                      className="group relative rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-[#4A2364]/40 shadow-sm hover:shadow-xl transition-all duration-500 bg-gray-50 dark:bg-gray-800 w-full"
+                      className="group relative rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700/50 hover:border-[#4A2364]/40 dark:hover:border-[#6B3F8E]/40 shadow-sm hover:shadow-xl transition-all duration-500 bg-gray-50 dark:bg-[#1E1E1E] w-full"
                     >
                       <div className="aspect-[3/4] relative">
                         <img
@@ -290,12 +290,12 @@ export default function CatalogSection() {
                           className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
                         />
                         {/* Hover overlay with purple glow */}
-                        <div className="absolute inset-0 bg-[#4A2364]/0 group-hover:bg-[#4A2364]/25 transition-all duration-500 group-hover:shadow-[inset_0_0_30px_rgba(74,35,100,0.3)]" />
+                        <div className="absolute inset-0 bg-[#4A2364]/0 group-hover:bg-[#4A2364]/25 dark:group-hover:bg-[#6B3F8E]/25 transition-all duration-500 group-hover:shadow-[inset_0_0_30px_rgba(74,35,100,0.3)] dark:group-hover:shadow-[inset_0_0_30px_rgba(107,63,142,0.3)]" />
                         {/* Click to view indicator */}
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                          <div className="flex items-center gap-1.5 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
-                            <MousePointerClick className="w-3.5 h-3.5 text-[#4A2364]" />
-                            <span className="text-[10px] font-bold text-[#4A2364] font-sans-body">Click to view</span>
+                          <div className="flex items-center gap-1.5 bg-white/90 dark:bg-[#2A2A2A]/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
+                            <MousePointerClick className="w-3.5 h-3.5 text-[#4A2364] dark:text-[#6B3F8E]" />
+                            <span className="text-[10px] font-bold text-[#4A2364] dark:text-[#6B3F8E] font-sans-body">Click to view</span>
                           </div>
                         </div>
                       </div>

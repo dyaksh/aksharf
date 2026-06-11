@@ -158,7 +158,7 @@ export default function FAQSection() {
 
   return (
     <section
-      className="bg-[#F8F5F2] dark:bg-[#121212] py-20 lg:py-32 relative overflow-hidden"
+      className="bg-[#F8F5F2] dark:bg-[#121212] py-20 lg:py-32 relative overflow-hidden transition-colors duration-300"
       ref={sectionRef}
     >
       {/* Subtle decorative background shapes */}

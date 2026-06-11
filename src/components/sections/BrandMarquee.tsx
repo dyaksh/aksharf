@@ -77,6 +77,7 @@ export default function BrandMarquee() {
         relative w-full py-16 sm:py-20 md:py-24
         bg-white dark:bg-[#121212]
         overflow-hidden
+        transition-colors duration-300
       "
     >
       {/* Subtle top/bottom border accents */}
