@@ -1,10 +1,17 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import {
   Send,
   CheckCircle,
@@ -17,10 +24,37 @@ import {
   Linkedin,
   Facebook,
   MessageCircle,
+  Building2,
 } from 'lucide-react';
 
 // Simple email regex for validation
 const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+// Confetti particle component
+function ConfettiParticle({ delay, x, color }: { delay: number; x: number; color: string }) {
+  return (
+    <motion.div
+      className="absolute w-2 h-2 rounded-full"
+      style={{
+        backgroundColor: color,
+        left: `${x}%`,
+        top: '50%',
+      }}
+      initial={{ opacity: 0, scale: 0, y: 0 }}
+      animate={{
+        opacity: [0, 1, 1, 0],
+        scale: [0, 1, 1, 0.5],
+        y: [0, -60, -120],
+        x: [0, (Math.random() - 0.5) * 80],
+      }}
+      transition={{
+        duration: 1.5,
+        delay: delay,
+        ease: 'easeOut',
+      }}
+    />
+  );
+}
 
 export default function ContactSection() {
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>(
@@ -30,17 +64,41 @@ export default function ContactSection() {
     name: '',
     email: '',
     company: '',
+    projectType: '',
     message: '',
   });
   const [touched, setTouched] = useState({
     name: false,
     email: false,
     company: false,
+    projectType: false,
     message: false,
   });
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
+
+  // Confetti colors
+  const confettiColors = ['#D4AF37', '#4A2364', '#6B3F8E', '#F0C040', '#8B5CF6', '#E5B830'];
+  const confettiParticles = Array.from({ length: 18 }, (_, i) => ({
+    id: i,
+    delay: 0.3 + i * 0.05,
+    x: 20 + Math.random() * 60,
+    color: confettiColors[i % confettiColors.length],
+  }));
+
+  // Auto-dismiss success overlay
+  const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
+  useEffect(() => {
+    if (formState === 'success') {
+      setShowSuccessOverlay(true);
+      const timer = setTimeout(() => {
+        setShowSuccessOverlay(false);
+        setFormState('idle');
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [formState]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,14 +112,16 @@ export default function ContactSection() {
       });
       if (res.ok) {
         setFormState('success');
-        setFormData({ name: '', email: '', company: '', message: '' });
-        setTouched({ name: false, email: false, company: false, message: false });
-        setTimeout(() => setFormState('idle'), 3000);
+        setFormData({ name: '', email: '', company: '', projectType: '', message: '' });
+        setTouched({ name: false, email: false, company: false, projectType: false, message: false });
       }
     } catch {
       setFormState('idle');
     }
   };
+
+  const charCount = formData.message.length;
+  const maxChars = 500;
 
   const contactItems = [
     {
@@ -251,10 +311,79 @@ export default function ContactSection() {
               {/* Top accent line */}
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4A2364] to-[#D4AF37]" />
 
+              {/* Success Overlay */}
+              <AnimatePresence>
+                {showSuccessOverlay && (
+                  <motion.div
+                    className="absolute inset-0 z-10 bg-white/95 dark:bg-[#1E1E1E]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-2xl"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    {/* Confetti particles */}
+                    {confettiParticles.map((particle) => (
+                      <ConfettiParticle
+                        key={particle.id}
+                        delay={particle.delay}
+                        x={particle.x}
+                        color={particle.color}
+                      />
+                    ))}
+
+                    {/* Green checkmark with spring animation */}
+                    <motion.div
+                      initial={{ scale: 0 }}
+                      animate={{ scale: 1 }}
+                      transition={{
+                        type: 'spring',
+                        stiffness: 260,
+                        damping: 20,
+                        delay: 0.1,
+                      }}
+                      className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-6"
+                    >
+                      <motion.div
+                        initial={{ scale: 0, rotate: -180 }}
+                        animate={{ scale: 1, rotate: 0 }}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 260,
+                          damping: 20,
+                          delay: 0.25,
+                        }}
+                      >
+                        <CheckCircle className="w-10 h-10 text-green-500" />
+                      </motion.div>
+                    </motion.div>
+
+                    {/* Thank you heading */}
+                    <motion.h3
+                      className="text-2xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-2"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4, duration: 0.4 }}
+                    >
+                      Thank you!
+                    </motion.h3>
+
+                    {/* Subtitle */}
+                    <motion.p
+                      className="text-sm text-gray-500 dark:text-gray-400 font-sans-body"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.55, duration: 0.4 }}
+                    >
+                      We&apos;ll get back to you within 24 hours
+                    </motion.p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                 {/* Name Field */}
-                <div className="relative">
-                  <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body">
+                <div className="relative group">
+                  <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
                     Your Name
                   </label>
                   <div className="relative">
@@ -270,6 +399,10 @@ export default function ContactSection() {
                       className="rounded-xl font-sans-body pr-8"
                       placeholder="John Smith"
                     />
+                    {/* Animated underline */}
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                    </div>
                     {touched.name && formData.name.trim() && (
                       <motion.div
                         className="absolute right-2 top-1/2 -translate-y-1/2"
@@ -284,8 +417,8 @@ export default function ContactSection() {
                 </div>
 
                 {/* Email Field */}
-                <div className="relative">
-                  <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body">
+                <div className="relative group">
+                  <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
                     Email
                   </label>
                   <div className="relative">
@@ -306,6 +439,10 @@ export default function ContactSection() {
                       }`}
                       placeholder="john@hotelbrand.com"
                     />
+                    {/* Animated underline */}
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                    </div>
                     {touched.email && isValidEmail(formData.email) && (
                       <motion.div
                         className="absolute right-2 top-1/2 -translate-y-1/2"
@@ -332,8 +469,8 @@ export default function ContactSection() {
               </div>
 
               {/* Company Field */}
-              <div className="mb-4">
-                <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body">
+              <div className="mb-4 relative group">
+                <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
                   Company / Property
                 </label>
                 <div className="relative">
@@ -348,6 +485,10 @@ export default function ContactSection() {
                     className="rounded-xl font-sans-body pr-8"
                     placeholder="Hilton, Marriott, IHG..."
                   />
+                  {/* Animated underline */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                  </div>
                   {touched.company && formData.company.trim() && (
                     <motion.div
                       className="absolute right-2 top-1/2 -translate-y-1/2"
@@ -361,9 +502,42 @@ export default function ContactSection() {
                 </div>
               </div>
 
+              {/* Project Type Dropdown */}
+              <div className="mb-4 relative group">
+                <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+                  Project Type
+                </label>
+                <div className="relative">
+                  <Select
+                    value={formData.projectType}
+                    onValueChange={(value) => {
+                      setFormData({ ...formData, projectType: value });
+                      setTouched({ ...touched, projectType: true });
+                    }}
+                  >
+                    <SelectTrigger className="w-full rounded-xl font-sans-body h-9">
+                      <div className="flex items-center gap-2">
+                        <Building2 className="w-4 h-4 text-gray-400 shrink-0" />
+                        <SelectValue placeholder="Select project type..." />
+                      </div>
+                    </SelectTrigger>
+                    <SelectContent className="rounded-xl">
+                      <SelectItem value="new-build">New Build</SelectItem>
+                      <SelectItem value="renovation">Renovation</SelectItem>
+                      <SelectItem value="brand-conversion">Brand Conversion</SelectItem>
+                      <SelectItem value="ffe-replacement">FF&amp;E Replacement</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {/* Animated underline */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                  </div>
+                </div>
+              </div>
+
               {/* Message Field */}
-              <div className="mb-6">
-                <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body">
+              <div className="mb-6 relative group">
+                <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
                   Message
                 </label>
                 <div className="relative">
@@ -376,9 +550,14 @@ export default function ContactSection() {
                     onBlur={() =>
                       setTouched({ ...touched, message: true })
                     }
+                    maxLength={maxChars}
                     className="rounded-xl min-h-[120px] font-sans-body pr-8"
                     placeholder="Tell us about your project — property type, number of keys, timeline..."
                   />
+                  {/* Animated underline */}
+                  <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                  </div>
                   {touched.message && formData.message.trim() && (
                     <motion.div
                       className="absolute right-2 top-3"
@@ -390,12 +569,26 @@ export default function ContactSection() {
                     </motion.div>
                   )}
                 </div>
+                {/* Character counter */}
+                <div className="flex justify-end mt-1.5">
+                  <span
+                    className={`text-[10px] font-sans-body transition-colors duration-200 ${
+                      charCount >= 450
+                        ? charCount >= maxChars
+                          ? 'text-red-500 font-medium'
+                          : 'text-orange-500'
+                        : 'text-gray-400'
+                    }`}
+                  >
+                    {charCount}/{maxChars} characters
+                  </span>
+                </div>
               </div>
 
               <Button
                 type="submit"
                 disabled={formState === 'loading'}
-                className="w-full bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-xl py-6 font-sans-body text-sm font-medium transition-all duration-300"
+                className="w-full btn-shimmer bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-xl py-6 font-sans-body text-sm font-medium transition-all duration-300"
               >
                 {formState === 'loading' ? (
                   <>

@@ -120,7 +120,7 @@ export default function ServicesSection() {
                     delay={index * 0.1}
                     duration={0.5}
                   >
-                    <div className="relative bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-500 border border-gray-100 dark:border-gray-800 group overflow-hidden h-full">
+                    <div className="relative bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 border border-gray-100 dark:border-gray-800 group overflow-hidden h-full">
                       {/* Gradient border effect on hover */}
                       <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-[2px] bg-gradient-to-br from-[#4A2364] via-[#D4AF37] to-[#4A2364]">
                         <div className="w-full h-full bg-white dark:bg-[#1E1E1E] rounded-[14px]" />
@@ -135,7 +135,7 @@ export default function ServicesSection() {
 
                       <div className="relative z-10">
                         {/* Icon with gradient background */}
-                        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#4A2364]/10 to-[#D4AF37]/10 flex items-center justify-center mb-4 group-hover:from-[#4A2364]/20 group-hover:to-[#D4AF37]/20 transition-all duration-300">
+                        <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#4A2364]/10 to-[#D4AF37]/10 flex items-center justify-center mb-4 group-hover:from-[#4A2364]/20 group-hover:to-[#D4AF37]/20 transition-all duration-300 group-hover:scale-110">
                           <Icon className="w-5 h-5 text-[#4A2364] group-hover:text-[#4A2364] transition-colors" />
                         </div>
                         <h3 className="text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-2">

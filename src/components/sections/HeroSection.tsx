@@ -61,6 +61,7 @@ function CornerBracket() {
 // Count-up animation hook
 function useCountUp(target: number, duration: number = 2000, startOnView: boolean = true) {
   const [count, setCount] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
   const hasStarted = useRef(false);
@@ -77,13 +78,15 @@ function useCountUp(target: number, duration: number = 2000, startOnView: boolea
         setCount(Math.round(eased * target));
         if (progress < 1) {
           requestAnimationFrame(animate);
+        } else {
+          setIsComplete(true);
         }
       };
       requestAnimationFrame(animate);
     }
   }, [isInView, target, duration, startOnView]);
 
-  return { count, ref };
+  return { count, ref, isComplete };
 }
 
 // Decorative SVG pattern component
@@ -193,7 +196,7 @@ export default function HeroSection() {
 
             {/* Main headline */}
             <motion.h2
-              className="text-3xl sm:text-4xl lg:text-6xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-6"
+              className="text-3xl sm:text-4xl lg:text-6xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-8"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
@@ -205,7 +208,7 @@ export default function HeroSection() {
 
             {/* Description */}
             <motion.p
-              className="text-base text-gray-500 dark:text-gray-400 leading-relaxed mb-8 font-sans-body max-w-lg"
+              className="text-base text-gray-500 dark:text-gray-400 leading-7 sm:leading-relaxed mb-8 font-sans-body max-w-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
@@ -224,7 +227,7 @@ export default function HeroSection() {
             >
               <Button
                 onClick={() => document.querySelector('#portfolio')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-full px-8 min-h-12 font-sans-body text-sm font-medium group shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="btn-shimmer bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-full px-8 min-h-12 font-sans-body text-sm font-medium group shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 Open the portfolio
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -359,7 +362,7 @@ export default function HeroSection() {
 
 // Stat item component with count-up animation
 function StatItem({ stat, index }: { stat: typeof stats[number]; index: number }) {
-  const { count, ref } = useCountUp(stat.value, 2000);
+  const { count, ref, isComplete } = useCountUp(stat.value, 2000);
 
   return (
     <motion.div
@@ -371,7 +374,7 @@ function StatItem({ stat, index }: { stat: typeof stats[number]; index: number }
       transition={{ duration: 0.6, delay: index * 0.15 }}
     >
       <p
-        className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display"
+        className={`text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display ${isComplete ? 'count-glow' : ''}`}
         style={{
           background: 'linear-gradient(135deg, #4A2364, #D4AF37)',
           WebkitBackgroundClip: 'text',

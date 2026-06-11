@@ -244,7 +244,7 @@ export default function CTASection() {
                   .querySelector('#contact')
                   ?.scrollIntoView({ behavior: 'smooth' })
               }
-              className="relative bg-white text-[#4A2364] hover:bg-white/90 rounded-full px-8 py-6 font-sans-body text-sm font-medium group/btn overflow-hidden"
+              className="relative btn-shimmer bg-white text-[#4A2364] hover:bg-white/90 rounded-full px-8 py-6 font-sans-body text-sm font-medium group/btn overflow-hidden"
             >
               {/* Shimmer sweep on hover */}
               <span className="absolute inset-0 overflow-hidden rounded-full">

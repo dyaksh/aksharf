@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, AnimatePresence } from 'framer-motion';
 import {
   Home,
   Mail,
@@ -12,6 +12,8 @@ import {
   MessageCircle,
   Check,
   Loader2,
+  ArrowUp,
+  CheckCircle,
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -67,12 +69,35 @@ export default function Footer() {
     }, 1000);
   };
 
+  const handleBackToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   return (
     <footer id="contact" className="bg-[#0D0D0D] relative" ref={footerRef}>
       {/* Decorative gold line at the very top */}
       <div className="h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
 
-      <div className="pt-16 lg:pt-20 pb-8">
+      {/* Geometric dot pattern background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.025 }}>
+          <defs>
+            <pattern
+              id="footer-dots"
+              x="0"
+              y="0"
+              width="32"
+              height="32"
+              patternUnits="userSpaceOnUse"
+            >
+              <circle cx="2" cy="2" r="1" fill="#D4AF37" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#footer-dots)" />
+        </svg>
+      </div>
+
+      <div className="pt-16 lg:pt-20 pb-8 relative z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Section */}
           <motion.div
@@ -169,7 +194,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <button
                       onClick={() => handleNavClick(link.href)}
-                      className="text-sm text-white/40 hover:text-white font-sans-body transition-colors relative group"
+                      className="text-sm text-white/40 hover:text-[#D4AF37] font-sans-body transition-colors relative group"
                     >
                       {link.label}
                       <span className="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-[#D4AF37] group-hover:w-full transition-all duration-300" />
@@ -193,7 +218,7 @@ export default function Footer() {
                   <li key={link.label}>
                     <button
                       onClick={() => handleNavClick(link.href)}
-                      className="text-sm text-white/40 hover:text-white font-sans-body transition-colors relative group"
+                      className="text-sm text-white/40 hover:text-[#D4AF37] font-sans-body transition-colors relative group"
                     >
                       {link.label}
                       <span className="absolute -bottom-0.5 left-0 w-0 h-[1px] bg-[#D4AF37] group-hover:w-full transition-all duration-300" />
@@ -209,9 +234,12 @@ export default function Footer() {
               animate={isInView ? { opacity: 1, x: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              <h4 className="text-xs tracking-[0.2em] text-white/80 font-sans-body font-bold mb-4">
-                NEWSLETTER
-              </h4>
+              <div className="flex items-center gap-2 mb-4">
+                <Mail className="w-3.5 h-3.5 text-[#D4AF37]" />
+                <h4 className="text-xs tracking-[0.2em] text-white/80 font-sans-body font-bold">
+                  NEWSLETTER
+                </h4>
+              </div>
               <p className="text-xs text-white/40 leading-relaxed font-sans-body mb-4">
                 Stay updated with our latest products and hospitality insights.
               </p>
@@ -223,28 +251,46 @@ export default function Footer() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="rounded-lg font-sans-body text-xs h-9 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-[#D4AF37]/30 focus-visible:border-[#D4AF37]/30"
+                    className="rounded-lg font-sans-body text-xs h-9 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/50"
                   />
                 </div>
-                <Button
-                  type="submit"
-                  disabled={newsletterState === 'loading'}
-                  className="w-full bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-lg h-9 font-sans-body text-xs font-medium transition-all duration-300"
-                >
-                  {newsletterState === 'loading' ? (
-                    <>
-                      <Loader2 className="w-3 h-3 mr-1 animate-spin" />
-                      Subscribing...
-                    </>
-                  ) : newsletterState === 'success' ? (
-                    <>
-                      <Check className="w-3 h-3 mr-1" />
+                <AnimatePresence mode="wait">
+                  {newsletterState === 'success' ? (
+                    <motion.div
+                      key="success"
+                      className="flex items-center justify-center h-9 gap-1.5 text-green-400 text-xs font-sans-body font-medium"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <CheckCircle className="w-3.5 h-3.5" />
                       Subscribed!
-                    </>
+                    </motion.div>
                   ) : (
-                    'Subscribe'
+                    <motion.div
+                      key="button"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                    >
+                      <Button
+                        type="submit"
+                        disabled={newsletterState === 'loading'}
+                        className="w-full bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-lg h-9 font-sans-body text-xs font-medium transition-all duration-300"
+                      >
+                        {newsletterState === 'loading' ? (
+                          <>
+                            <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                            Subscribing...
+                          </>
+                        ) : (
+                          'Subscribe'
+                        )}
+                      </Button>
+                    </motion.div>
                   )}
-                </Button>
+                </AnimatePresence>
               </form>
             </motion.div>
           </motion.div>
@@ -267,18 +313,30 @@ export default function Footer() {
               </p>
             </div>
             <div className="flex items-center gap-6">
-              <span className="text-xs text-white/30 font-sans-body hover:text-white/60 cursor-pointer transition-colors">
+              <span className="text-xs text-white/30 font-sans-body hover:text-[#D4AF37] cursor-pointer transition-colors">
                 Privacy Policy
               </span>
-              <span className="text-xs text-white/30 font-sans-body hover:text-white/60 cursor-pointer transition-colors">
+              <span className="text-xs text-white/30 font-sans-body hover:text-[#D4AF37] cursor-pointer transition-colors">
                 Terms of Service
               </span>
             </div>
           </motion.div>
+
+          {/* Back to top link */}
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={handleBackToTop}
+              className="group flex items-center gap-1.5 text-xs text-white/30 font-sans-body hover:text-[#D4AF37] transition-colors duration-300"
+            >
+              <ArrowUp className="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-1" />
+              Back to top
+            </button>
+          </div>
         </div>
       </div>
 
-
+      {/* Subtle gold gradient line at the very bottom */}
+      <div className="h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
     </footer>
   );
 }

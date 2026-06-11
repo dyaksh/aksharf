@@ -2,13 +2,15 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Home, Sun, Moon } from 'lucide-react';
+import { Menu, X, Home, Sun, Moon, Diamond, Phone, Mail, MessageCircle, Smartphone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 
 const navLinks = [
   { label: 'Home', href: '#home' },
+  { label: 'Services', href: '#services' },
   { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Catalog', href: '#catalog' },
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ];
@@ -31,18 +33,12 @@ function ThemeToggle() {
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [activeSection, setActiveSection] = useState('#home');
 
-  // Scroll progress and background change
+  // Scroll background change
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
-
-      // Calculate scroll progress
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
-      setScrollProgress(Math.min(progress, 100));
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -98,19 +94,10 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-white/95 dark:bg-[#1A1A1A]/95 backdrop-blur-md shadow-sm'
+          ? 'bg-white/80 dark:bg-[#1A1A1A]/80 backdrop-blur-xl shadow-sm'
           : 'bg-transparent'
       }`}
     >
-      {/* Scroll Progress Bar */}
-      <div className="absolute top-0 left-0 right-0 h-[3px] z-10">
-        <motion.div
-          className="h-full bg-gradient-to-r from-[#4A2364] via-[#6B3F8E] to-[#D4AF37]"
-          style={{ width: `${scrollProgress}%` }}
-          transition={{ duration: 0.1, ease: 'linear' }}
-        />
-      </div>
-
       {/* Subtle bottom border on scroll */}
       <div
         className={`absolute bottom-0 left-0 right-0 h-[1px] transition-opacity duration-500 ${
@@ -176,6 +163,13 @@ export default function Header() {
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeDot"
+                      className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#D4AF37]"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
                 </button>
               );
             })}
@@ -228,24 +222,28 @@ export default function Header() {
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
             >
               <div className="flex flex-col h-full pt-20 px-6">
-                <nav className="flex flex-col gap-1">
+                <nav className="flex flex-col">
                   {navLinks.map((link, index) => {
                     const isActive = activeSection === link.href;
                     return (
-                      <motion.button
-                        key={link.label}
-                        onClick={() => handleNavClick(link.href)}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1 + index * 0.08, duration: 0.3 }}
-                        className={`text-left text-lg font-medium py-3 px-4 rounded-lg transition-colors font-sans-body ${
-                          isActive
-                            ? 'text-[#4A2364] dark:text-[#6B3F8E] bg-[#4A2364]/8 dark:bg-[#6B3F8E]/8'
-                            : 'text-gray-700 dark:text-gray-300 hover:text-[#4A2364] dark:hover:text-[#6B3F8E] hover:bg-gray-50 dark:hover:bg-gray-800'
-                        }`}
-                      >
-                        {link.label}
-                      </motion.button>
+                      <div key={link.label}>
+                        {index > 0 && (
+                          <div className="h-[1px] bg-gradient-to-r from-[#D4AF37]/20 via-[#D4AF37]/40 to-[#D4AF37]/20 my-1" />
+                        )}
+                        <motion.button
+                          onClick={() => handleNavClick(link.href)}
+                          initial={{ opacity: 0, x: 20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.1 + index * 0.08, duration: 0.3 }}
+                          className={`text-left text-lg font-medium py-3 px-4 rounded-lg transition-colors font-sans-body ${
+                            isActive
+                              ? 'text-[#4A2364] dark:text-[#6B3F8E] bg-[#4A2364]/8 dark:bg-[#6B3F8E]/8'
+                              : 'text-gray-700 dark:text-gray-300 hover:text-[#4A2364] dark:hover:text-[#6B3F8E] hover:bg-gray-50 dark:hover:bg-gray-800'
+                          }`}
+                        >
+                          {link.label}
+                        </motion.button>
+                      </div>
                     );
                   })}
                 </nav>
@@ -257,12 +255,59 @@ export default function Header() {
                     Request Catalog
                   </Button>
                 </div>
-                {/* Decorative element at bottom */}
+
+                {/* Contact info and quick actions */}
                 <div className="mt-auto pb-8">
-                  <div className="w-16 h-0.5 bg-[#D4AF37] mb-3" />
-                  <p className="text-xs tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body">
-                    HOSPITALITY FF&E
-                  </p>
+                  {/* Gold separator */}
+                  <div className="w-16 h-0.5 bg-[#D4AF37] mb-4" />
+
+                  {/* Phone & Email */}
+                  <div className="space-y-2 mb-4">
+                    <a
+                      href="tel:+8618666422531"
+                      className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-[#4A2364] dark:hover:text-[#6B3F8E] transition-colors"
+                    >
+                      <Phone className="w-3.5 h-3.5 text-[#D4AF37]" />
+                      +86 186 6642 2531
+                    </a>
+                    <a
+                      href="mailto:info@aksharfoshan.com"
+                      className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-[#4A2364] dark:hover:text-[#6B3F8E] transition-colors"
+                    >
+                      <Mail className="w-3.5 h-3.5 text-[#D4AF37]" />
+                      info@aksharfoshan.com
+                    </a>
+                  </div>
+
+                  {/* WeChat & WhatsApp quick actions */}
+                  <div className="flex items-center gap-3 mb-4">
+                    <a
+                      href="https://wa.me/8618666422531"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 text-xs font-medium text-[#25D366] hover:text-[#128C7E] transition-colors px-3 py-2 rounded-full bg-[#25D366]/10 hover:bg-[#25D366]/20"
+                    >
+                      <MessageCircle className="w-3.5 h-3.5" />
+                      WhatsApp
+                    </a>
+                    <button
+                      className="flex items-center gap-1.5 text-xs font-medium text-[#07C160] hover:text-[#06AD56] transition-colors px-3 py-2 rounded-full bg-[#07C160]/10 hover:bg-[#07C160]/20"
+                      onClick={() => {
+                        navigator.clipboard.writeText('18666422531');
+                      }}
+                    >
+                      <Smartphone className="w-3.5 h-3.5" />
+                      WeChat
+                    </button>
+                  </div>
+
+                  {/* Decorative branding */}
+                  <div className="flex items-center gap-2">
+                    <Diamond className="w-3 h-3 text-[#D4AF37]" />
+                    <p className="text-xs tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body">
+                      HOSPITALITY FF&E
+                    </p>
+                  </div>
                 </div>
               </div>
             </motion.div>

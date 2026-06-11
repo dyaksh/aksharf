@@ -244,3 +244,125 @@ html {
     transform: translateX(0);
   }
 }
+
+/* Button shimmer effect for primary CTA buttons */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%);
+  background-size: 200% 100%;
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.btn-shimmer:hover::after {
+  transform: translateX(100%);
+}
+
+/* Count-up glow effect for numbers */
+@keyframes countGlow {
+  0% { text-shadow: 0 0 0 transparent; }
+  50% { text-shadow: 0 0 12px rgba(212,175,55,0.4); }
+  100% { text-shadow: 0 0 0 transparent; }
+}
+.count-glow {
+  animation: countGlow 1s ease-out forwards;
+}
+
+/* Dialog entrance animations */
+@keyframes dialogEnter {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+.dialog-animate-enter {
+  animation: dialogEnter 0.3s ease-out forwards;
+}
+
+/* Dialog overlay backdrop blur */
+@keyframes overlayBlurIn {
+  from {
+    backdrop-filter: blur(0px);
+    background-color: rgba(0, 0, 0, 0);
+  }
+  to {
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.6);
+  }
+}
+.dialog-overlay-blur {
+  animation: overlayBlurIn 0.3s ease-out forwards;
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, #4A2364, #D4AF37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gold underline animation */
+@keyframes goldUnderline {
+  from { width: 0; }
+  to { width: 100%; }
+}
+.gold-underline {
+  position: relative;
+  display: inline-block;
+}
+.gold-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #D4AF37, #4A2364);
+  width: 0;
+  transition: width 0.3s ease;
+}
+.gold-underline:hover::after {
+  width: 100%;
+}
+
+/* Subtle floating animation */
+@keyframes gentleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.animate-gentle-float {
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+
+/* Pulse ring animation for CTA buttons */
+@keyframes pulseRing {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+.animate-pulse-ring {
+  animation: pulseRing 2s ease-out infinite;
+}
+
+/* Smooth focus ring for inputs */
+input:focus, textarea:focus, select:focus {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+/* Custom selection color */
+::selection {
+  background: rgba(74, 35, 100, 0.2);
+  color: inherit;
+}
+.dark ::selection {
+  background: rgba(212, 175, 55, 0.3);
+  color: inherit;
+}

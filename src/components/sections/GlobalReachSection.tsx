@@ -7,6 +7,7 @@ import { Globe, Factory, MapPin, Clock, Truck } from 'lucide-react';
 // ─── Count-up animation hook ───────────────────────────────────────
 function useCountUp(target: number, duration: number = 2000) {
   const [count, setCount] = useState(0);
+  const [isComplete, setIsComplete] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true });
   const hasStarted = useRef(false);
@@ -22,13 +23,15 @@ function useCountUp(target: number, duration: number = 2000) {
         setCount(Math.round(eased * target));
         if (progress < 1) {
           requestAnimationFrame(animate);
+        } else {
+          setIsComplete(true);
         }
       };
       requestAnimationFrame(animate);
     }
   }, [isInView, target, duration]);
 
-  return { count, ref };
+  return { count, ref, isComplete };
 }
 
 // ─── Data ───────────────────────────────────────────────────────────
@@ -509,13 +512,13 @@ function MobileSupplyChainVisual() {
 
 // ─── Stat card component ────────────────────────────────────────────
 function StatCard({ stat, index }: { stat: typeof stats[number]; index: number }) {
-  const { count, ref } = useCountUp(stat.value, 2000);
+  const { count, ref, isComplete } = useCountUp(stat.value, 2000);
   const Icon = stat.icon;
 
   return (
     <motion.div
       ref={ref}
-      className="relative bg-white dark:bg-[#1E1E1E] rounded-xl p-5 lg:p-6 border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden group hover:shadow-lg hover:-translate-y-1 transition-all duration-300"
+      className="relative bg-white dark:bg-[#1E1E1E] rounded-xl p-5 lg:p-6 border border-gray-100 dark:border-gray-800 shadow-sm overflow-hidden group hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -535,7 +538,7 @@ function StatCard({ stat, index }: { stat: typeof stats[number]; index: number }
           <div className="h-[1px] flex-1 bg-gradient-to-r from-gray-100 to-transparent dark:from-gray-800" />
         </div>
 
-        <p className="text-3xl lg:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white">
+        <p className={`text-3xl lg:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white ${isComplete ? 'count-glow' : ''}`}>
           {count}
           <span className="text-[#D4AF37]">{stat.suffix}</span>
         </p>

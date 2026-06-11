@@ -1,0 +1,617 @@
+     1→     1→'use client';
+     2→     2→
+     3→     3→import { useState, useRef, useEffect } from 'react';
+     4→     4→import { motion, useInView, AnimatePresence } from 'framer-motion';
+     5→     5→import { Button } from '@/components/ui/button';
+     6→     6→import { Input } from '@/components/ui/input';
+     7→     7→import { Textarea } from '@/components/ui/textarea';
+     8→     8→import {
+     9→     9→  Select,
+    10→    10→  SelectContent,
+    11→    11→  SelectItem,
+    12→    12→  SelectTrigger,
+    13→    13→  SelectValue,
+    14→    14→} from '@/components/ui/select';
+    15→    15→import {
+    16→    16→  Send,
+    17→    17→  CheckCircle,
+    18→    18→  Loader2,
+    19→    19→  Phone,
+    20→    20→  Mail,
+    21→    21→  MapPin,
+    22→    22→  Check,
+    23→    23→  MapPinIcon,
+    24→    24→  Linkedin,
+    25→    25→  Facebook,
+    26→    26→  MessageCircle,
+    27→    27→  Building2,
+    28→    28→} from 'lucide-react';
+    29→    29→
+    30→    30→// Simple email regex for validation
+    31→    31→const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    32→    32→
+    33→    33→// Confetti particle component
+    34→    34→function ConfettiParticle({ delay, x, color }: { delay: number; x: number; color: string }) {
+    35→    35→  return (
+    36→    36→    <motion.div
+    37→    37→      className="absolute w-2 h-2 rounded-full"
+    38→    38→      style={{
+    39→    39→        backgroundColor: color,
+    40→    40→        left: `${x}%`,
+    41→    41→        top: '50%',
+    42→    42→      }}
+    43→    43→      initial={{ opacity: 0, scale: 0, y: 0 }}
+    44→    44→      animate={{
+    45→    45→        opacity: [0, 1, 1, 0],
+    46→    46→        scale: [0, 1, 1, 0.5],
+    47→    47→        y: [0, -60, -120],
+    48→    48→        x: [0, (Math.random() - 0.5) * 80],
+    49→    49→      }}
+    50→    50→      transition={{
+    51→    51→        duration: 1.5,
+    52→    52→        delay: delay,
+    53→    53→        ease: 'easeOut',
+    54→    54→      }}
+    55→    55→    />
+    56→    56→  );
+    57→    57→}
+    58→    58→
+    59→    59→export default function ContactSection() {
+    60→    60→  const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>(
+    61→    61→    'idle'
+    62→    62→  );
+    63→    63→  const [formData, setFormData] = useState({
+    64→    64→    name: '',
+    65→    65→    email: '',
+    66→    66→    company: '',
+    67→    67→    projectType: '',
+    68→    68→    message: '',
+    69→    69→  });
+    70→    70→  const [touched, setTouched] = useState({
+    71→    71→    name: false,
+    72→    72→    email: false,
+    73→    73→    company: false,
+    74→    74→    projectType: false,
+    75→    75→    message: false,
+    76→    76→  });
+    77→    77→
+    78→    78→  const sectionRef = useRef<HTMLDivElement>(null);
+    79→    79→  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
+    80→    80→
+    81→    81→  // Confetti colors
+    82→    82→  const confettiColors = ['#D4AF37', '#4A2364', '#6B3F8E', '#F0C040', '#8B5CF6', '#E5B830'];
+    83→    83→  const confettiParticles = Array.from({ length: 18 }, (_, i) => ({
+    84→    84→    id: i,
+    85→    85→    delay: 0.3 + i * 0.05,
+    86→    86→    x: 20 + Math.random() * 60,
+    87→    87→    color: confettiColors[i % confettiColors.length],
+    88→    88→  }));
+    89→    89→
+    90→    90→  // Auto-dismiss success overlay
+    91→    91→  const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
+    92→    92→  useEffect(() => {
+    93→    93→    if (formState === 'success') {
+    94→    94→      setShowSuccessOverlay(true);
+    95→    95→      const timer = setTimeout(() => {
+    96→    96→        setShowSuccessOverlay(false);
+    97→    97→        setFormState('idle');
+    98→    98→      }, 3000);
+    99→    99→      return () => clearTimeout(timer);
+   100→   100→    }
+   101→   101→  }, [formState]);
+   102→   102→
+   103→   103→  const handleSubmit = async (e: React.FormEvent) => {
+   104→   104→    e.preventDefault();
+   105→   105→    setFormState('loading');
+   106→   106→
+   107→   107→    try {
+   108→   108→      const res = await fetch('/api/contact', {
+   109→   109→        method: 'POST',
+   110→   110→        headers: { 'Content-Type': 'application/json' },
+   111→   111→        body: JSON.stringify(formData),
+   112→   112→      });
+   113→   113→      if (res.ok) {
+   114→   114→        setFormState('success');
+   115→   115→        setFormData({ name: '', email: '', company: '', projectType: '', message: '' });
+   116→   116→        setTouched({ name: false, email: false, company: false, projectType: false, message: false });
+   117→   117→      }
+   118→   118→    } catch {
+   119→   119→      setFormState('idle');
+   120→   120→    }
+   121→   121→  };
+   122→   122→
+   123→   123→  const charCount = formData.message.length;
+   124→   124→  const maxChars = 500;
+   125→   125→
+   126→   126→  const contactItems = [
+   127→   127→    {
+   128→   128→      icon: Phone,
+   129→   129→      label: 'Phone',
+   130→   130→      value: '18666422531',
+   131→   131→      href: 'tel:18666422531',
+   132→   132→    },
+   133→   133→    {
+   134→   134→      icon: Mail,
+   135→   135→      label: 'Email',
+   136→   136→      value: '250552975@qq.com',
+   137→   137→      href: 'mailto:250552975@qq.com',
+   138→   138→    },
+   139→   139→    {
+   140→   140→      icon: MapPin,
+   141→   141→      label: 'Address',
+   142→   142→      value: 'No. 29, Sanling Road, Gaoming, Foshan',
+   143→   143→      href: undefined,
+   144→   144→    },
+   145→   145→  ];
+   146→   146→
+   147→   147→  return (
+   148→   148→    <section className="bg-[#F8F5F2] dark:bg-[#1A1A1A] py-20 lg:py-32 relative overflow-hidden transition-colors duration-300" ref={sectionRef}>
+   149→   149→      {/* Decorative elements */}
+   150→   150→      <div
+   151→   151→        className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none"
+   152→   152→        style={{
+   153→   153→          background:
+   154→   154→            'radial-gradient(circle, rgba(74,35,100,0.03) 0%, transparent 70%)',
+   155→   155→        }}
+   156→   156→      />
+   157→   157→      <div
+   158→   158→        className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full pointer-events-none"
+   159→   159→        style={{
+   160→   160→          background:
+   161→   161→            'radial-gradient(circle, rgba(212,175,55,0.03) 0%, transparent 70%)',
+   162→   162→        }}
+   163→   163→      />
+   164→   164→
+   165→   165→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   166→   166→        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+   167→   167→          {/* Left - Contact Info */}
+   168→   168→          <motion.div
+   169→   169→            className="lg:w-5/12"
+   170→   170→            initial={{ opacity: 0, x: -50 }}
+   171→   171→            animate={isInView ? { opacity: 1, x: 0 } : {}}
+   172→   172→            transition={{ duration: 0.7, ease: 'easeOut' }}
+   173→   173→          >
+   174→   174→            <p className="text-xs tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-4 font-sans-body">
+   175→   175→              GET IN TOUCH
+   176→   176→            </p>
+   177→   177→            <h2 className="text-3xl sm:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-6">
+   178→   178→              Let&apos;s start a{' '}
+   179→   179→              <span className="text-[#4A2364] dark:text-[#6B3F8E]">conversation</span>.
+   180→   180→            </h2>
+   181→   181→            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-8">
+   182→   182→              Whether you have a project in mind or simply want to explore
+   183→   183→              possibilities, our team is ready to listen. Share your details and
+   184→   184→              we&apos;ll respond within one business day.
+   185→   185→            </p>
+   186→   186→
+   187→   187→            {/* Contact Info Cards with hover effects */}
+   188→   188→            <div className="space-y-4 mb-8">
+   189→   189→              {contactItems.map((item, index) => {
+   190→   190→                const Icon = item.icon;
+   191→   191→                return (
+   192→   192→                  <motion.a
+   193→   193→                    key={item.label}
+   194→   194→                    href={item.href || '#'}
+   195→   195→                    className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-[#4A2364]/20 dark:hover:border-[#6B3F8E]/20 transition-all duration-300 group cursor-pointer"
+   196→   196→                    initial={{ opacity: 0, x: -30 }}
+   197→   197→                    whileInView={{ opacity: 1, x: 0 }}
+   198→   198→                    viewport={{ once: true }}
+   199→   199→                    transition={{ duration: 0.5, delay: 0.1 * index }}
+   200→   200→                  >
+   201→   201→                    <div className="w-11 h-11 rounded-xl bg-[#4A2364]/5 flex items-center justify-center group-hover:bg-[#4A2364]/10 transition-colors duration-300 shrink-0">
+   202→   202→                      <Icon className="w-5 h-5 text-[#4A2364] group-hover:scale-110 transition-transform duration-300" />
+   203→   203→                    </div>
+   204→   204→                    <div>
+   205→   205→                      <p className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">
+   206→   206→                        {item.label}
+   207→   207→                      </p>
+   208→   208→                      <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">
+   209→   209→                        {item.value}
+   210→   210→                      </p>
+   211→   211→                    </div>
+   212→   212→                  </motion.a>
+   213→   213→                );
+   214→   214→              })}
+   215→   215→            </div>
+   216→   216→
+   217→   217→            {/* Map Placeholder */}
+   218→   218→            <motion.div
+   219→   219→              className="relative rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800 h-36 border border-gray-200 dark:border-gray-700"
+   220→   220→              initial={{ opacity: 0, y: 20 }}
+   221→   221→              whileInView={{ opacity: 1, y: 0 }}
+   222→   222→              viewport={{ once: true }}
+   223→   223→              transition={{ duration: 0.6, delay: 0.4 }}
+   224→   224→            >
+   225→   225→              {/* Grid pattern for map feel */}
+   226→   226→              <svg
+   227→   227→                className="absolute inset-0 w-full h-full pointer-events-none"
+   228→   228→                style={{ opacity: 0.1 }}
+   229→   229→                aria-hidden="true"
+   230→   230→              >
+   231→   231→                <defs>
+   232→   232→                  <pattern
+   233→   233→                    id="map-grid"
+   234→   234→                    x="0"
+   235→   235→                    y="0"
+   236→   236→                    width="40"
+   237→   237→                    height="40"
+   238→   238→                    patternUnits="userSpaceOnUse"
+   239→   239→                  >
+   240→   240→                    <path
+   241→   241→                      d="M 40 0 L 0 0 0 40"
+   242→   242→                      fill="none"
+   243→   243→                      stroke="#4A2364"
+   244→   244→                      strokeWidth="0.5"
+   245→   245→                    />
+   246→   246→                  </pattern>
+   247→   247→                </defs>
+   248→   248→                <rect width="100%" height="100%" fill="url(#map-grid)" />
+   249→   249→              </svg>
+   250→   250→              <div className="absolute inset-0 flex items-center justify-center">
+   251→   251→                <div className="text-center">
+   252→   252→                  <MapPinIcon className="w-8 h-8 text-[#4A2364]/60 mx-auto mb-2" />
+   253→   253→                  <p className="text-sm font-semibold text-[#4A2364] font-sans-body">
+   254→   254→                    Foshan, China
+   255→   255→                  </p>
+   256→   256→                  <p className="text-xs text-gray-400 font-sans-body">
+   257→   257→                    Gaoming District
+   258→   258→                  </p>
+   259→   259→                </div>
+   260→   260→              </div>
+   261→   261→              {/* Purple accent at bottom */}
+   262→   262→              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4A2364] to-[#D4AF37]" />
+   263→   263→            </motion.div>
+   264→   264→
+   265→   265→            {/* Social Media Icons */}
+   266→   266→            <motion.div
+   267→   267→              className="flex items-center gap-4 mt-6"
+   268→   268→              initial={{ opacity: 0 }}
+   269→   269→              whileInView={{ opacity: 1 }}
+   270→   270→              viewport={{ once: true }}
+   271→   271→              transition={{ duration: 0.5, delay: 0.5 }}
+   272→   272→            >
+   273→   273→              <span className="text-xs text-gray-400 font-sans-body mr-2">
+   274→   274→                Follow us
+   275→   275→              </span>
+   276→   276→              <a
+   277→   277→                href="#"
+   278→   278→                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#4A2364] hover:border-[#4A2364] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
+   279→   279→                aria-label="LinkedIn"
+   280→   280→              >
+   281→   281→                <Linkedin className="w-4 h-4" />
+   282→   282→              </a>
+   283→   283→              <a
+   284→   284→                href="#"
+   285→   285→                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#4A2364] hover:border-[#4A2364] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
+   286→   286→                aria-label="Facebook"
+   287→   287→              >
+   288→   288→                <Facebook className="w-4 h-4" />
+   289→   289→              </a>
+   290→   290→              <a
+   291→   291→                href="#"
+   292→   292→                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#4A2364] hover:border-[#4A2364] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
+   293→   293→                aria-label="WeChat"
+   294→   294→              >
+   295→   295→                <MessageCircle className="w-4 h-4" />
+   296→   296→              </a>
+   297→   297→            </motion.div>
+   298→   298→          </motion.div>
+   299→   299→
+   300→   300→          {/* Right - Form */}
+   301→   301→          <motion.div
+   302→   302→            className="lg:w-7/12"
+   303→   303→            initial={{ opacity: 0, x: 50 }}
+   304→   304→            animate={isInView ? { opacity: 1, x: 0 } : {}}
+   305→   305→            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
+   306→   306→          >
+   307→   307→            <form
+   308→   308→              onSubmit={handleSubmit}
+   309→   309→              className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100 dark:border-gray-800 transition-shadow duration-500 hover:shadow-xl relative overflow-hidden"
+   310→   310→            >
+   311→   311→              {/* Top accent line */}
+   312→   312→              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4A2364] to-[#D4AF37]" />
+   313→   313→
+   314→   314→              {/* Success Overlay */}
+   315→   315→              <AnimatePresence>
+   316→   316→                {showSuccessOverlay && (
+   317→   317→                  <motion.div
+   318→   318→                    className="absolute inset-0 z-10 bg-white/95 dark:bg-[#1E1E1E]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-2xl"
+   319→   319→                    initial={{ opacity: 0 }}
+   320→   320→                    animate={{ opacity: 1 }}
+   321→   321→                    exit={{ opacity: 0 }}
+   322→   322→                    transition={{ duration: 0.3 }}
+   323→   323→                  >
+   324→   324→                    {/* Confetti particles */}
+   325→   325→                    {confettiParticles.map((particle) => (
+   326→   326→                      <ConfettiParticle
+   327→   327→                        key={particle.id}
+   328→   328→                        delay={particle.delay}
+   329→   329→                        x={particle.x}
+   330→   330→                        color={particle.color}
+   331→   331→                      />
+   332→   332→                    ))}
+   333→   333→
+   334→   334→                    {/* Green checkmark with spring animation */}
+   335→   335→                    <motion.div
+   336→   336→                      initial={{ scale: 0 }}
+   337→   337→                      animate={{ scale: 1 }}
+   338→   338→                      transition={{
+   339→   339→                        type: 'spring',
+   340→   340→                        stiffness: 260,
+   341→   341→                        damping: 20,
+   342→   342→                        delay: 0.1,
+   343→   343→                      }}
+   344→   344→                      className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-6"
+   345→   345→                    >
+   346→   346→                      <motion.div
+   347→   347→                        initial={{ scale: 0, rotate: -180 }}
+   348→   348→                        animate={{ scale: 1, rotate: 0 }}
+   349→   349→                        transition={{
+   350→   350→                          type: 'spring',
+   351→   351→                          stiffness: 260,
+   352→   352→                          damping: 20,
+   353→   353→                          delay: 0.25,
+   354→   354→                        }}
+   355→   355→                      >
+   356→   356→                        <CheckCircle className="w-10 h-10 text-green-500" />
+   357→   357→                      </motion.div>
+   358→   358→                    </motion.div>
+   359→   359→
+   360→   360→                    {/* Thank you heading */}
+   361→   361→                    <motion.h3
+   362→   362→                      className="text-2xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-2"
+   363→   363→                      initial={{ opacity: 0, y: 10 }}
+   364→   364→                      animate={{ opacity: 1, y: 0 }}
+   365→   365→                      transition={{ delay: 0.4, duration: 0.4 }}
+   366→   366→                    >
+   367→   367→                      Thank you!
+   368→   368→                    </motion.h3>
+   369→   369→
+   370→   370→                    {/* Subtitle */}
+   371→   371→                    <motion.p
+   372→   372→                      className="text-sm text-gray-500 dark:text-gray-400 font-sans-body"
+   373→   373→                      initial={{ opacity: 0, y: 10 }}
+   374→   374→                      animate={{ opacity: 1, y: 0 }}
+   375→   375→                      transition={{ delay: 0.55, duration: 0.4 }}
+   376→   376→                    >
+   377→   377→                      We&apos;ll get back to you within 24 hours
+   378→   378→                    </motion.p>
+   379→   379→                  </motion.div>
+   380→   380→                )}
+   381→   381→              </AnimatePresence>
+   382→   382→
+   383→   383→              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+   384→   384→                {/* Name Field */}
+   385→   385→                <div className="relative group">
+   386→   386→                  <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   387→   387→                    Your Name
+   388→   388→                  </label>
+   389→   389→                  <div className="relative">
+   390→   390→                    <Input
+   391→   391→                      required
+   392→   392→                      value={formData.name}
+   393→   393→                      onChange={(e) =>
+   394→   394→                        setFormData({ ...formData, name: e.target.value })
+   395→   395→                      }
+   396→   396→                      onBlur={() =>
+   397→   397→                        setTouched({ ...touched, name: true })
+   398→   398→                      }
+   399→   399→                      className="rounded-xl font-sans-body pr-8"
+   400→   400→                      placeholder="John Smith"
+   401→   401→                    />
+   402→   402→                    {/* Animated underline */}
+   403→   403→                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+   404→   404→                      <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   405→   405→                    </div>
+   406→   406→                    {touched.name && formData.name.trim() && (
+   407→   407→                      <motion.div
+   408→   408→                        className="absolute right-2 top-1/2 -translate-y-1/2"
+   409→   409→                        initial={{ scale: 0 }}
+   410→   410→                        animate={{ scale: 1 }}
+   411→   411→                        transition={{ type: 'spring', stiffness: 300 }}
+   412→   412→                      >
+   413→   413→                        <Check className="w-4 h-4 text-green-500" />
+   414→   414→                      </motion.div>
+   415→   415→                    )}
+   416→   416→                  </div>
+   417→   417→                </div>
+   418→   418→
+   419→   419→                {/* Email Field */}
+   420→   420→                <div className="relative group">
+   421→   421→                  <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   422→   422→                    Email
+   423→   423→                  </label>
+   424→   424→                  <div className="relative">
+   425→   425→                    <Input
+   426→   426→                      required
+   427→   427→                      type="email"
+   428→   428→                      value={formData.email}
+   429→   429→                      onChange={(e) =>
+   430→   430→                        setFormData({ ...formData, email: e.target.value })
+   431→   431→                      }
+   432→   432→                      onBlur={() =>
+   433→   433→                        setTouched({ ...touched, email: true })
+   434→   434→                      }
+   435→   435→                      className={`rounded-xl font-sans-body pr-8 ${
+   436→   436→                        touched.email && formData.email && !isValidEmail(formData.email)
+   437→   437→                          ? 'border-red-300 focus-visible:ring-red-200'
+   438→   438→                          : ''
+   439→   439→                      }`}
+   440→   440→                      placeholder="john@hotelbrand.com"
+   441→   441→                    />
+   442→   442→                    {/* Animated underline */}
+   443→   443→                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+   444→   444→                      <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   445→   445→                    </div>
+   446→   446→                    {touched.email && isValidEmail(formData.email) && (
+   447→   447→                      <motion.div
+   448→   448→                        className="absolute right-2 top-1/2 -translate-y-1/2"
+   449→   449→                        initial={{ scale: 0 }}
+   450→   450→                        animate={{ scale: 1 }}
+   451→   451→                        transition={{ type: 'spring', stiffness: 300 }}
+   452→   452→                      >
+   453→   453→                        <Check className="w-4 h-4 text-green-500" />
+   454→   454→                      </motion.div>
+   455→   455→                    )}
+   456→   456→                    {touched.email &&
+   457→   457→                      formData.email &&
+   458→   458→                      !isValidEmail(formData.email) && (
+   459→   459→                        <motion.p
+   460→   460→                          className="text-[10px] text-red-400 mt-1 font-sans-body"
+   461→   461→                          initial={{ opacity: 0, y: -5 }}
+   462→   462→                          animate={{ opacity: 1, y: 0 }}
+   463→   463→                        >
+   464→   464→                          Please enter a valid email address
+   465→   465→                        </motion.p>
+   466→   466→                      )}
+   467→   467→                  </div>
+   468→   468→                </div>
+   469→   469→              </div>
+   470→   470→
+   471→   471→              {/* Company Field */}
+   472→   472→              <div className="mb-4 relative group">
+   473→   473→                <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   474→   474→                  Company / Property
+   475→   475→                </label>
+   476→   476→                <div className="relative">
+   477→   477→                  <Input
+   478→   478→                    value={formData.company}
+   479→   479→                    onChange={(e) =>
+   480→   480→                      setFormData({ ...formData, company: e.target.value })
+   481→   481→                    }
+   482→   482→                    onBlur={() =>
+   483→   483→                      setTouched({ ...touched, company: true })
+   484→   484→                    }
+   485→   485→                    className="rounded-xl font-sans-body pr-8"
+   486→   486→                    placeholder="Hilton, Marriott, IHG..."
+   487→   487→                  />
+   488→   488→                  {/* Animated underline */}
+   489→   489→                  <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+   490→   490→                    <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   491→   491→                  </div>
+   492→   492→                  {touched.company && formData.company.trim() && (
+   493→   493→                    <motion.div
+   494→   494→                      className="absolute right-2 top-1/2 -translate-y-1/2"
+   495→   495→                      initial={{ scale: 0 }}
+   496→   496→                      animate={{ scale: 1 }}
+   497→   497→                      transition={{ type: 'spring', stiffness: 300 }}
+   498→   498→                    >
+   499→   499→                      <Check className="w-4 h-4 text-green-500" />
+   500→   500→                    </motion.div>
+   501→   501→                  )}
+   502→   502→                </div>
+   503→   503→              </div>
+   504→   504→
+   505→   505→              {/* Project Type Dropdown */}
+   506→   506→              <div className="mb-4 relative group">
+   507→   507→                <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   508→   508→                  Project Type
+   509→   509→                </label>
+   510→   510→                <div className="relative">
+   511→   511→                  <Select
+   512→   512→                    value={formData.projectType}
+   513→   513→                    onValueChange={(value) => {
+   514→   514→                      setFormData({ ...formData, projectType: value });
+   515→   515→                      setTouched({ ...touched, projectType: true });
+   516→   516→                    }}
+   517→   517→                  >
+   518→   518→                    <SelectTrigger className="w-full rounded-xl font-sans-body h-9">
+   519→   519→                      <div className="flex items-center gap-2">
+   520→   520→                        <Building2 className="w-4 h-4 text-gray-400 shrink-0" />
+   521→   521→                        <SelectValue placeholder="Select project type..." />
+   522→   522→                      </div>
+   523→   523→                    </SelectTrigger>
+   524→   524→                    <SelectContent className="rounded-xl">
+   525→   525→                      <SelectItem value="new-build">New Build</SelectItem>
+   526→   526→                      <SelectItem value="renovation">Renovation</SelectItem>
+   527→   527→                      <SelectItem value="brand-conversion">Brand Conversion</SelectItem>
+   528→   528→                      <SelectItem value="ffe-replacement">FF&amp;E Replacement</SelectItem>
+   529→   529→                    </SelectContent>
+   530→   530→                  </Select>
+   531→   531→                  {/* Animated underline */}
+   532→   532→                  <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
+   533→   533→                    <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   534→   534→                  </div>
+   535→   535→                </div>
+   536→   536→              </div>
+   537→   537→
+   538→   538→              {/* Message Field */}
+   539→   539→              <div className="mb-6 relative group">
+   540→   540→                <label className="block text-xs font-medium text-gray-500 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   541→   541→                  Message
+   542→   542→                </label>
+   543→   543→                <div className="relative">
+   544→   544→                  <Textarea
+   545→   545→                    required
+   546→   546→                    value={formData.message}
+   547→   547→                    onChange={(e) =>
+   548→   548→                      setFormData({ ...formData, message: e.target.value })
+   549→   549→                    }
+   550→   550→                    onBlur={() =>
+   551→   551→                      setTouched({ ...touched, message: true })
+   552→   552→                    }
+   553→   553→                    maxLength={maxChars}
+   554→   554→                    className="rounded-xl min-h-[120px] font-sans-body pr-8"
+   555→   555→                    placeholder="Tell us about your project — property type, number of keys, timeline..."
+   556→   556→                  />
+   557→   557→                  {/* Animated underline */}
+   558→   558→                  <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
+   559→   559→                    <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   560→   560→                  </div>
+   561→   561→                  {touched.message && formData.message.trim() && (
+   562→   562→                    <motion.div
+   563→   563→                      className="absolute right-2 top-3"
+   564→   564→                      initial={{ scale: 0 }}
+   565→   565→                      animate={{ scale: 1 }}
+   566→   566→                      transition={{ type: 'spring', stiffness: 300 }}
+   567→   567→                    >
+   568→   568→                      <Check className="w-4 h-4 text-green-500" />
+   569→   569→                    </motion.div>
+   570→   570→                  )}
+   571→   571→                </div>
+   572→   572→                {/* Character counter */}
+   573→   573→                <div className="flex justify-end mt-1.5">
+   574→   574→                  <span
+   575→   575→                    className={`text-[10px] font-sans-body transition-colors duration-200 ${
+   576→   576→                      charCount >= 450
+   577→   577→                        ? charCount >= maxChars
+   578→   578→                          ? 'text-red-500 font-medium'
+   579→   579→                          : 'text-orange-500'
+   580→   580→                        : 'text-gray-400'
+   581→   581→                    }`}
+   582→   582→                  >
+   583→   583→                    {charCount}/{maxChars} characters
+   584→   584→                  </span>
+   585→   585→                </div>
+   586→   586→              </div>
+   587→   587→
+   588→   588→              <Button
+   589→   589→                type="submit"
+   590→   590→                disabled={formState === 'loading'}
+   591→   591→                className="w-full bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-xl py-6 font-sans-body text-sm font-medium transition-all duration-300"
+   592→   592→              >
+   593→   593→                {formState === 'loading' ? (
+   594→   594→                  <>
+   595→   595→                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+   596→   596→                    Sending...
+   597→   597→                  </>
+   598→   598→                ) : formState === 'success' ? (
+   599→   599→                  <>
+   600→   600→                    <CheckCircle className="w-4 h-4 mr-2" />
+   601→   601→                    Message Sent!
+   602→   602→                  </>
+   603→   603→                ) : (
+   604→   604→                  <>
+   605→   605→                    Send Message
+   606→   606→                    <Send className="w-4 h-4 ml-2" />
+   607→   607→                  </>
+   608→   608→                )}
+   609→   609→              </Button>
+   610→   610→            </form>
+   611→   611→          </motion.div>
+   612→   612→        </div>
+   613→   613→      </div>
+   614→   614→    </section>
+   615→   615→  );
+   616→   616→}
+   617→   617→

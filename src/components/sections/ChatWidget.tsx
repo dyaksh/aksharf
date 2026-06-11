@@ -213,13 +213,13 @@ export default function ChatWidget() {
         <Popover>
           <PopoverTrigger asChild>
             <motion.button
-              className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#07C160] hover:bg-[#06AD56] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group"
+              className="relative w-12 h-12 rounded-full bg-[#07C160] hover:bg-[#06AD56] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               aria-label="Add WeChat"
               title="Add WeChat"
             >
-              <Smartphone className="w-4 h-4 sm:w-5 sm:h-5" />
+              <Smartphone className="w-5 h-5" />
 
               {/* Pulse rings */}
               <motion.span
@@ -274,11 +274,11 @@ export default function ChatWidget() {
           title="Chat on WhatsApp"
         >
           <motion.button
-            className="relative w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
+            className="relative w-12 h-12 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
+            <MessageCircle className="w-5 h-5" />
 
             {/* Pulse rings */}
             <motion.span

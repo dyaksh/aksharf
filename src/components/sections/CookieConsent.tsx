@@ -40,7 +40,7 @@ export default function CookieConsent() {
     <AnimatePresence>
       {visible && (
         <motion.div
-          className="fixed inset-x-0 bottom-20 md:bottom-6 z-[90] flex justify-center p-4 md:p-6"
+          className="fixed inset-x-0 bottom-24 sm:bottom-6 z-[90] flex justify-center p-4 sm:p-6"
           initial={{ y: 100, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
@@ -71,13 +71,13 @@ export default function CookieConsent() {
               <div className="flex items-center gap-3 shrink-0 w-full sm:w-auto">
                 <button
                   onClick={handleDecline}
-                  className="flex-1 sm:flex-initial px-5 py-2.5 rounded-full border border-white/20 text-white/70 text-sm font-medium hover:bg-white/10 transition-colors"
+                  className="flex-1 sm:flex-initial px-5 py-2.5 min-h-12 rounded-full border border-white/20 text-white/70 text-sm font-medium hover:bg-white/10 transition-colors"
                 >
                   Decline
                 </button>
                 <button
                   onClick={handleAccept}
-                  className="flex-1 sm:flex-initial px-5 py-2.5 rounded-full bg-[#4A2364] hover:bg-[#6B3F8E] text-white text-sm font-medium transition-colors shadow-lg"
+                  className="flex-1 sm:flex-initial px-5 py-2.5 min-h-12 rounded-full bg-[#4A2364] hover:bg-[#6B3F8E] text-white text-sm font-medium transition-colors shadow-lg"
                 >
                   Accept All
                 </button>

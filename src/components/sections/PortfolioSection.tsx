@@ -327,7 +327,7 @@ export default function PortfolioSection() {
                       <img
                         src={brand.image}
                         alt={brand.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        className="w-full h-full object-cover group-hover:scale-105 group-hover:translate-x-[2%] group-hover:translate-y-[2%] transition-transform duration-[1.5s]"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
@@ -405,10 +405,10 @@ export default function PortfolioSection() {
 
                     {/* Content */}
                     <div className="p-5">
-                      <h3 className="text-lg font-bold text-white font-sans-body mb-2 group-hover:text-[#D4AF37] transition-colors duration-300">
+                      <h3 className="text-base sm:text-lg font-bold text-white font-sans-body mb-2 group-hover:text-[#D4AF37] transition-colors duration-300">
                         {brand.name}
                       </h3>
-                      <p className="text-xs text-white/50 mb-4 font-sans-body line-clamp-2">
+                      <p className="text-xs sm:text-xs text-white/50 mb-4 font-sans-body line-clamp-2">
                         {brand.description}
                       </p>
                       <div className="flex flex-wrap gap-1.5 mb-4">
@@ -427,15 +427,27 @@ export default function PortfolioSection() {
                         )}
                       </div>
 
-                      {/* View Catalog Page Link */}
-                      <button
-                        onClick={() => handleViewCatalogPage(brand.page)}
-                        className="inline-flex items-center gap-1.5 text-[11px] text-[#D4AF37]/70 hover:text-[#D4AF37] font-sans-body font-medium transition-colors duration-300 group/link"
-                      >
-                        <BookOpen className="w-3.5 h-3.5" />
-                        View Catalog Page
-                        <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform duration-300" />
-                      </button>
+                      <div className="flex items-center gap-3">
+                        {/* View Catalog Page Link */}
+                        <button
+                          onClick={() => handleViewCatalogPage(brand.page)}
+                          className="inline-flex items-center gap-1.5 text-xs text-[#D4AF37]/70 hover:text-[#D4AF37] font-sans-body font-medium transition-colors duration-300 group/link"
+                        >
+                          <BookOpen className="w-3.5 h-3.5" />
+                          View Catalog Page
+                          <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform duration-300" />
+                        </button>
+
+                        {/* Quick View Button */}
+                        <Button
+                          variant="ghost"
+                          onClick={() => setSelectedBrand(brand)}
+                          className="inline-flex items-center gap-1.5 text-xs text-white/40 hover:text-[#D4AF37] font-sans-body font-medium px-2 py-1 h-auto hover:bg-white/5 transition-colors duration-300"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                          Quick View
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -452,12 +464,26 @@ export default function PortfolioSection() {
           if (!open) setSelectedBrand(null);
         }}
       >
-        <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] bg-[#1A1A1A] border-white/10 p-0 overflow-hidden" showCloseButton={false}>
+        <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] bg-[#1A1A1A] border-white/10 p-0 overflow-hidden dialog-animate-enter" showCloseButton={false}>
           <DialogTitle className="sr-only">
             {selectedBrand?.name ?? 'Brand Details'}
           </DialogTitle>
           {selectedBrand && (
             <div className="relative flex flex-col h-full max-h-[90vh]">
+              {/* Gold Progress Bar - Page X of Y */}
+              <div className="relative h-1 bg-white/5">
+                <div
+                  className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] transition-all duration-500"
+                  style={{
+                    width: `${((brandCatalogPages[selectedBrand.name]?.[0] ?? 1) / 44) * 100}%`,
+                  }}
+                />
+                <div className="absolute top-1 right-0 px-2">
+                  <span className="text-[9px] text-[#D4AF37]/60 font-sans-body">
+                    Page {brandCatalogPages[selectedBrand.name]?.[0] ?? '-'} of 44
+                  </span>
+                </div>
+              </div>
               {/* Header */}
               <div className="flex items-center justify-between p-5 border-b border-white/10">
                 <div className="flex items-center gap-3">

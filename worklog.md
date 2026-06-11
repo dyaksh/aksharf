@@ -241,3 +241,181 @@ Stage Summary:
 - 12 section dividers with animated SVG transitions between all sections
 - Dark mode polished across all sections with smooth theme transitions
 - All lint checks pass, no runtime errors, VLM QA reports significant improvements
+
+---
+Task ID: 6-a
+Agent: Mobile UX Fix Agent
+Task: Fix mobile UX issues (cookie consent, touch targets, spacing, readability)
+
+Work Log:
+- Fixed CookieConsent banner overlap with chat widget on mobile: changed position from `bottom-20 md:bottom-6` to `bottom-24 sm:bottom-6` so banner sits above chat widget on mobile
+- Fixed CookieConsent button touch targets: added `min-h-12` to both Decline and Accept All buttons for 48px minimum touch target height
+- Fixed ChatWidget WhatsApp button touch target: changed from `w-10 h-10 sm:w-12 sm:h-12` to `w-12 h-12` (48x48px on all screens)
+- Fixed ChatWidget WeChat button touch target: changed from `w-10 h-10 sm:w-12 sm:h-12` to `w-12 h-12` (48x48px on all screens)
+- Updated ChatWidget icon sizes to match: Smartphone and MessageCircle icons changed from `w-4 h-4 sm:w-5 sm:h-5` to `w-5 h-5` consistently
+- Fixed HeroSection headline spacing: changed from `mb-6` to `mb-8` for better vertical rhythm on mobile
+- Fixed HeroSection paragraph line-height: changed from `leading-relaxed` to `leading-7 sm:leading-relaxed` for better mobile readability (leading-7 = 1.75 vs leading-relaxed = 1.625)
+- Fixed PortfolioSection "View Catalog Page" link text: changed from `text-[11px]` to `text-xs` (12px) for better readability on mobile
+- Ran `bun run lint` — passes cleanly with 0 errors
+
+Stage Summary:
+- Cookie consent banner no longer overlaps chat widget on mobile (bottom-24 on mobile, bottom-6 on sm+)
+- All floating action buttons now meet 44x44px minimum touch target accessibility requirement (48x48px used)
+- Cookie consent buttons have min-h-12 for better mobile touch targets
+- Hero section has improved vertical rhythm with mb-8 headline spacing
+- Hero paragraph has increased line-height on mobile (leading-7) for better readability
+- Portfolio "View Catalog Page" link text increased from 11px to 12px for mobile readability
+- All lint checks pass, dev server compiles successfully
+
+---
+Task ID: 6-b
+Agent: Scroll Progress Agent
+Task: Add scroll progress bar indicator at top of page
+
+Work Log:
+- Created `/home/z/my-project/src/components/sections/ScrollProgress.tsx` with 'use client' directive
+- Implemented progress bar using framer-motion `useScroll`, `useSpring`, and `useTransform`
+- Bar is fixed at top-0, left-0, right-0, z-[60] with 3px height
+- Gradient background: linear-gradient(90deg, #4A2364, #D4AF37) (purple to gold)
+- Subtle glow/shadow effect: box-shadow with purple and gold tints
+- Added opacity transform: hidden (opacity: 0) when scrollYProgress === 0, visible (opacity: 1) once scrolling begins (transition at 0–0.01)
+- Added subtle 2px background track behind the progress bar (bg-gray-200/40 dark:bg-gray-700/30)
+- Uses `useSpring` with stiffness: 100, damping: 30, restDelta: 0.001 for smooth scroll animation
+- Added ScrollProgress import to page.tsx
+- Placed ScrollProgress component after PageLoader and before Header in page.tsx
+- Ran `bun run lint` — passes cleanly with 0 errors
+- Dev server compiles successfully
+
+Stage Summary:
+- ScrollProgress component created at `/home/z/my-project/src/components/sections/ScrollProgress.tsx`
+- Features: purple-to-gold gradient, spring-animated width, glow shadow, opacity hidden at top, subtle background track
+- Integrated into page.tsx between PageLoader and Header
+- All lint checks pass, dev server compiles successfully
+
+---
+Task ID: 6-c
+Agent: Header Enhancement Agent
+Task: Enhance Header navigation, remove duplicate progress bar, improve mobile menu
+
+Work Log:
+- Removed duplicate scroll progress bar from Header.tsx (lines 105-112): the `scrollProgress` state variable and the motion.div progress bar element that was duplicating the dedicated ScrollProgress component already in page.tsx
+- Removed `scrollProgress` state variable and its calculation in the scroll event handler
+- Simplified scroll event handler to only track `isScrolled` state
+- Added two new navigation items to navLinks array: "Services" (href: #services) and "Catalog" (href: #catalog)
+- Reordered navLinks: Home, Services, Portfolio, Catalog, About, Contact
+- Added gold dot indicator below active nav item using `layoutId="activeDot"` for smooth spring animation between sections
+- Added glass morphism effect to scrolled header: changed from `bg-white/95` to `bg-white/80` (light) and `dark:bg-[#1A1A1A]/95` to `dark:bg-[#1A1A1A]/80` (dark), kept `backdrop-blur-xl` for premium glass effect
+- Enhanced mobile menu with gold separator lines between nav items (gradient from-[#D4AF37]/20 via-[#D4AF37]/40 to-[#D4AF37]/20)
+- Added phone number (+86 186 6642 2531) and email (info@aksharfoshan.com) to mobile menu bottom section
+- Added WhatsApp quick action button (links to wa.me/8618666422531) with green #25D366 styling
+- Added WeChat quick action button (copies WeChat ID to clipboard) with green #07C160 styling
+- Added Diamond icon next to "HOSPITALITY FF&E" text at bottom of mobile menu for decorative accent
+- Added new lucide-react icon imports: Diamond, Phone, Mail, MessageCircle, Smartphone
+- Ran `bun run lint` — passes cleanly with 0 errors
+- Dev server compiles successfully
+
+Stage Summary:
+- Duplicate scroll progress bar removed from Header; dedicated ScrollProgress component in page.tsx now handles this exclusively
+- Navigation expanded from 4 to 6 items (added Services, Catalog)
+- Active nav indicator enhanced with gold dot (layoutId="activeDot") below active item
+- Scrolled header uses glass morphism (bg-white/80, backdrop-blur-xl) for premium look
+- Mobile menu significantly enhanced: gold separators, contact info (phone/email), WhatsApp & WeChat buttons, decorative diamond icon
+- All lint checks pass, dev server compiles successfully
+
+---
+Task ID: 6-d
+Agent: Contact & Footer Enhancement Agent
+Task: Enhance contact form with character counter, success animation, project type dropdown; enhance footer with back-to-top, improved newsletter, decorative elements
+
+Work Log:
+- Enhanced ContactSection.tsx with character counter for message field: displays "X/500 characters" below textarea, orange at 450+, red at 500, added maxLength={500} to Textarea
+- Enhanced ContactSection.tsx with celebratory success animation: full form overlay with AnimatePresence, green checkmark with spring scale-in animation, "Thank you!" heading, confetti-like particles (18 particles in gold/purple colors with staggered delays), "We'll get back to you within 24 hours" subtitle, auto-dismiss after 3 seconds with fade-out
+- Enhanced ContactSection.tsx with purple-to-gold gradient underline animation on focus: each input/textarea/select field has a gradient bottom border (from-[#4A2364] to-[#D4AF37]) that scales from left to right (origin-left scale-x-0 → scale-x-100) on group-focus-within with 500ms ease-out transition
+- Enhanced ContactSection.tsx with label color transition on focus: labels transition from text-gray-500 to text-[#4A2364] when parent has focus-within
+- Added "Project Type" dropdown to ContactSection.tsx: uses shadcn Select component (Select, SelectTrigger, SelectContent, SelectValue, SelectItem) with Building2 icon, options: New Build, Renovation, Brand Conversion, FF&E Replacement
+- Added projectType field to formData and touched state objects
+- Added useEffect for success overlay auto-dismiss (3 second timer with cleanup)
+- Created ConfettiParticle component with animated vertical/horizontal movement and opacity/scale transitions
+- Enhanced Footer.tsx with animated back-to-top link: "Back to top" button with ArrowUp icon that moves up (-translate-y-1) on hover, smooth-scrolls to top on click, centered below copyright section
+- Enhanced Footer.tsx newsletter section: added Mail envelope icon next to "NEWSLETTER" heading in gold color, changed input focus ring from purple to gold (focus-visible:ring-[#D4AF37]/40, focus-visible:border-[#D4AF37]/50), replaced button-only success state with AnimatePresence inline success message showing green CheckCircle icon + "Subscribed!" text that scales in and out
+- Enhanced Footer.tsx with decorative geometric dot pattern: SVG pattern of 1px gold circles at 32px intervals at 0.025 opacity in footer background, z-0 behind content
+- Enhanced Footer.tsx with subtle gold gradient line at very bottom: h-[2px] gradient from-transparent via-[#D4AF37]/30 to-transparent below copyright
+- Changed Footer.tsx link hover colors from hover:text-white to hover:text-[#D4AF37] for explore and scope links
+- Changed Footer.tsx Privacy Policy and Terms of Service link hover colors from hover:text-white/60 to hover:text-[#D4AF37]
+- Ran `bun run lint` — passes cleanly with 0 errors
+- Dev server compiles successfully
+
+Stage Summary:
+- Contact form enhanced with 4 major improvements: character counter (orange/red warning), celebratory success overlay (spring checkmark + confetti particles), gradient underline focus animation, project type dropdown (shadcn Select)
+- Footer enhanced with 4 major improvements: animated back-to-top link, gold-themed newsletter with inline success animation, geometric dot pattern background, gold gradient line at bottom
+- Link hover colors changed to gold (#D4AF37) across explore/scope/legal links
+- All lint checks pass, dev server compiles successfully
+
+---
+Task ID: 6-e
+Agent: Portfolio & Micro-interactions Agent
+Task: Enhance portfolio cards with better hover effects, improve detail dialog, add micro-interactions across components
+
+Work Log:
+- Added CSS classes to globals.css: `.btn-shimmer` (button shimmer sweep), `.count-glow` (gold text-shadow pulse after count-up), `.dialog-animate-enter` (scale+opacity entrance), `.dialog-overlay-blur` (backdrop blur animation)
+- PortfolioSection: Changed image hover from simple scale-105 to Ken Burns effect (scale-105 + translate-x/y 2% with duration-[1.5s])
+- PortfolioSection: Added "Quick View" ghost button with Eye icon below "View Catalog Page" link
+- PortfolioSection: Added responsive text sizes for card title (text-base sm:text-lg) and description (text-xs sm:text-xs)
+- PortfolioSection: Added gold progress bar at top of detail dialog showing "Page X of 44" with purple-to-gold gradient fill
+- Dialog component: Added backdrop-blur-sm + dialog-overlay-blur class to DialogOverlay, increased animation duration to 300ms
+- PortfolioSection: Added dialog-animate-enter class to DialogContent for scale(0.95→1) entrance
+- HeroSection: Added btn-shimmer class to "Open the portfolio" CTA button
+- CTASection: Added btn-shimmer class to "Start a project" CTA button
+- ContactSection: Added btn-shimmer class to "Send Message" submit button
+- ServicesSection: Upgraded card hover from hover:shadow-lg to hover:shadow-xl hover:-translate-y-1
+- ServicesSection: Added group-hover:scale-110 to icon wrapper div for icon pulse effect on hover
+- TestimonialsSection: Added hover:-translate-y-0.5 hover:shadow-md to brand logo cards
+- HeroSection: Updated useCountUp hook to return isComplete state; applied count-glow class when count finishes
+- GlobalReachSection: Updated useCountUp hook to return isComplete state; applied count-glow class when count finishes; upgraded stat card hover to shadow-xl
+- All lint checks pass with no errors
+
+Stage Summary:
+- Portfolio cards now have cinematic Ken Burns pan effect on hover and a Quick View ghost button
+- Brand detail dialog has smooth entrance animation (scale+opacity), backdrop blur, and gold progress bar
+- All primary CTA buttons (Hero, CTA, Contact) have btn-shimmer effect with light sweep on hover
+- Service cards and testimonial logo cards have consistent lift/shadow effects on hover
+- Service card icons scale up on hover (group-hover:scale-110)
+- Count-up numbers get a gold text-shadow glow pulse (count-glow) when animation completes
+- Global Reach stat cards upgraded to shadow-xl on hover
+- Mobile portfolio layout uses text-base sm:text-lg for titles
+
+---
+Task ID: 6
+Agent: Main Agent (Cron Review Round 6)
+Task: Comprehensive QA, bug fixes, styling improvements, new features, and micro-interactions
+
+Work Log:
+- Reviewed worklog.md (Rounds 3-5 completed with 13+ sections, dark mode, chat widget, section dividers, etc.)
+- Performed comprehensive QA testing with agent-browser + VLM analysis across all sections (desktop + mobile)
+- QA scores: Desktop Hero 7/10, Mobile 6/10, Portfolio 6/10, CTA 6/10
+- Identified issues: cookie consent overlap on mobile, touch targets too small, text readability, card styling inconsistencies
+- Fixed cookie consent overlap: positioned at bottom-24 sm:bottom-6 to avoid chat widget on mobile
+- Increased touch targets: all chat widget buttons now 48x48px minimum (w-12 h-12) for accessibility
+- Fixed hero spacing: headline mb-6→mb-8, paragraph leading-7 on mobile for better readability
+- Fixed portfolio card text: "View Catalog Page" link text-[11px]→text-xs for mobile readability
+- Created ScrollProgress component: fixed top bar with purple-to-gold gradient, spring animation, glow effect, hides at top
+- Removed duplicate scroll progress bar from Header (now using dedicated component)
+- Enhanced Header: added Services + Catalog nav items (6 total), gold dot active indicator, glass morphism (bg-white/80 + backdrop-blur-xl), improved mobile menu with gold separators, phone/email, WhatsApp/WeChat buttons, diamond icon
+- Enhanced Contact form: character counter (X/500) with orange/red at 450+, maxLength=500, celebratory success animation with confetti particles, gradient underline focus effect, Project Type dropdown (New Build/Renovation/Brand Conversion/FF&E Replacement)
+- Enhanced Footer: animated back-to-top link, gold envelope icon in newsletter, gold focus ring on newsletter input, SVG dot pattern background, gold gradient bottom line, gold hover color on all links
+- Enhanced Portfolio cards: Ken Burns image hover (slow pan + zoom, 1.5s), Quick View ghost button, detail dialog with backdrop blur + scale animation + gold progress bar, responsive card text sizes
+- Added micro-interactions: btn-shimmer CSS class on primary CTA buttons, card lift effects (hover:-translate-y-1 + hover:shadow-xl), icon scale on hover for service cards, count-glow animation on stat numbers
+- Created StatsTicker component: infinite scrolling stats bar between About and Portfolio, 6 metrics with icons, dark background with gold accents, gradient edge fades
+- Added CSS utilities: gradient-text, gold-underline (animated hover), gentle-float, pulse-ring, custom selection colors, smooth focus transitions
+- Fixed build error: Keys icon doesn't exist in lucide-react → changed to KeyRound
+- Final VLM QA scores: Desktop 8/10 (up from 7), Mobile 8/10 (up from 6)
+- All lint checks pass, no runtime errors, dev server compiles cleanly
+
+Stage Summary:
+- QA scores improved: Desktop 7→8/10, Mobile 6→8/10
+- 5 bug fixes: cookie consent overlap, touch targets, hero spacing, card readability, Keys icon
+- 2 new components: ScrollProgress (scroll progress bar), StatsTicker (infinite stats ticker)
+- 7 enhanced components: Header, HeroSection, PortfolioSection, ContactSection, Footer, globals.css, page.tsx
+- New CSS utilities: btn-shimmer, gradient-text, gold-underline, gentle-float, pulse-ring, count-glow, custom selection
+- New features: scroll progress bar, 6-item navigation, glass morphism header, character counter, success animation, project type dropdown, stats ticker, back-to-top footer link
+- All lint checks pass, no runtime errors

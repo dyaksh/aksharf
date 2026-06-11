@@ -20,6 +20,8 @@ import Footer from '@/components/sections/Footer';
 import ChatWidget from '@/components/sections/ChatWidget';
 import SectionDivider from '@/components/sections/SectionDivider';
 import CookieConsent from '@/components/sections/CookieConsent';
+import ScrollProgress from '@/components/sections/ScrollProgress';
+import StatsTicker from '@/components/sections/StatsTicker';
 
 // Page loading animation
 function PageLoader() {
@@ -135,6 +137,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
       <PageLoader />
+      <ScrollProgress />
       <Header />
       <main className="flex-1">
         <HeroSection />
@@ -144,7 +147,8 @@ export default function HomePage() {
         <ProcessSection />
         <SectionDivider fromBg="#F8F5F2" toBg="#FFFFFF" variant="curve" />
         <AboutSection />
-        <SectionDivider fromBg="#FFFFFF" toBg="#1A1A1A" variant="wave" />
+        <StatsTicker />
+        <SectionDivider fromBg="#1A1A1A" toBg="#1A1A1A" variant="wave" />
         <PortfolioSection />
         <SectionDivider fromBg="#1A1A1A" toBg="#F8F5F2" variant="angled" />
         <ServicesSection />
