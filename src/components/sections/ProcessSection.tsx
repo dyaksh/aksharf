@@ -120,6 +120,13 @@ export default function ProcessSection() {
             const Icon = act.icon;
             return (
               <div key={act.number} className="relative">
+                {/* Mobile timeline line connector */}
+                {index < acts.length - 1 && (
+                  <div className="md:hidden flex flex-col items-center absolute left-1/2 -translate-x-1/2 -bottom-3 translate-y-full z-10 h-6">
+                    <div className="flex-1 w-[2px] bg-gradient-to-b from-[#4A2364]/30 to-[#D4AF37]/30" />
+                    <ArrowRight className="w-3 h-3 text-[#D4AF37]/50 rotate-90 -mt-1" />
+                  </div>
+                )}
                 {/* Connecting arrow between cards on desktop */}
                 {index < acts.length - 1 && (
                   <div className="hidden md:block absolute -right-4 lg:-right-5 top-1/2 -translate-y-1/2 z-10">
@@ -146,21 +153,39 @@ export default function ProcessSection() {
                     ease: 'easeOut',
                   }}
                 >
+                  {/* Shine sweep animation on view */}
+                  <motion.div
+                    className="absolute inset-0 pointer-events-none z-10"
+                    initial={{ x: '-100%' }}
+                    whileInView={{ x: '200%' }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.2, delay: 0.5 + index * 0.2, ease: 'easeInOut' }}
+                    style={{
+                      background: 'linear-gradient(90deg, transparent, rgba(212,175,55,0.08), transparent)',
+                      width: '50%',
+                    }}
+                  />
                   {/* Hover gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-[#4A2364]/[0.02] to-[#D4AF37]/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                   <div className="relative flex items-start gap-4 mb-6">
-                    {/* Large outlined number */}
+                    {/* Large number - outlined by default, filled purple on hover */}
                     <span
-                      className="text-6xl lg:text-7xl font-bold font-serif-display leading-none select-none"
+                      className="text-6xl lg:text-7xl font-bold font-serif-display leading-none select-none transition-all duration-500"
                       style={{
                         WebkitTextStroke: '1.5px rgba(74,35,100,0.15)',
                         color: 'transparent',
-                        transition: 'all 0.5s ease',
                       }}
                     >
-                      <span className="group-hover:[-webkit-text-stroke-color:rgba(74,35,100,0.3)]">
-                        {act.number}
+                      <span
+                        className="group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E]"
+                        style={{
+                          transition: 'all 0.5s ease',
+                        }}
+                      >
+                        <span className="group-hover:[-webkit-text-stroke-color:#4A2364] dark:group-hover:[-webkit-text-stroke-color:#6B3F8E]">
+                          {act.number}
+                        </span>
                       </span>
                     </span>
                     <div className="mt-2">

@@ -210,9 +210,22 @@ export default function PortfolioSection() {
           className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-12"
         >
           <div>
-            <p className="text-xs tracking-[0.3em] text-[#D4AF37] mb-4 font-sans-body">
-              SELECTED REEL
-            </p>
+            <div className="flex items-center gap-3 mb-4">
+              <p className="text-xs tracking-[0.3em] text-[#D4AF37] font-sans-body">
+                SELECTED REEL
+              </p>
+              {/* Total portfolio count badge */}
+              <motion.span
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#4A2364]/20 border border-[#4A2364]/40 text-[#D4AF37] text-[10px] font-bold font-sans-body"
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3, type: 'spring' }}
+              >
+                <Sparkles className="w-3 h-3" />
+                13+
+              </motion.span>
+            </div>
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-white max-w-2xl">
               A refined portfolio for{' '}
               <span className="text-[#D4AF37] italic">hospitality furniture</span>.
@@ -304,6 +317,7 @@ export default function PortfolioSection() {
                   },
                 }}
                 layout
+                className={index % 2 === 1 ? 'sm:mt-6 lg:mt-8' : ''}
               >
                 {/* Gradient border wrapper */}
                 <div className="p-[1px] rounded-2xl bg-transparent group/card hover:bg-gradient-to-r hover:from-[#4A2364] hover:via-[#D4AF37] hover:to-[#4A2364] transition-all duration-500 bg-[length:200%_100%] hover:bg-[length:100%_100%]">
@@ -334,22 +348,36 @@ export default function PortfolioSection() {
                       {/* Featured / New Badge for first 3 items */}
                       {index < 3 && (
                         <div className="absolute top-12 right-3">
-                          <span className={`px-2 py-1 text-[9px] font-bold rounded-full font-sans-body flex items-center gap-1 shadow-lg ${
+                          <span className={`px-2 py-1 text-[9px] font-bold rounded-full font-sans-body flex items-center gap-1 shadow-lg overflow-hidden relative ${
                             index === 0
                               ? 'bg-[#D4AF37] text-black'
                               : 'bg-white/20 text-white backdrop-blur-sm border border-white/20'
                           }`}>
-                            {index === 0 ? (
-                              <>
-                                <Star className="w-3 h-3" fill="currentColor" />
-                                Featured
-                              </>
-                            ) : (
-                              <>
-                                <Sparkles className="w-3 h-3" />
-                                New
-                              </>
+                            {/* Shimmer sweep on Featured badge */}
+                            {index === 0 && (
+                              <span className="absolute inset-0 overflow-hidden rounded-full">
+                                <span
+                                  className="absolute inset-0 animate-[featuredShimmer_3s_ease-in-out_infinite]"
+                                  style={{
+                                    background: 'linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)',
+                                    backgroundSize: '200% 100%',
+                                  }}
+                                />
+                              </span>
                             )}
+                            <span className="relative flex items-center gap-1">
+                              {index === 0 ? (
+                                <>
+                                  <Star className="w-3 h-3" fill="currentColor" />
+                                  Featured
+                                </>
+                              ) : (
+                                <>
+                                  <Sparkles className="w-3 h-3" />
+                                  New
+                                </>
+                              )}
+                            </span>
                           </span>
                         </div>
                       )}
@@ -518,6 +546,14 @@ export default function PortfolioSection() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Shimmer animation keyframes for Featured badge */}
+      <style jsx>{`
+        @keyframes featuredShimmer {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+      `}</style>
     </section>
   );
 }

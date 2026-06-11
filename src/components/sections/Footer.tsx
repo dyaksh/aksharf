@@ -10,7 +10,6 @@ import {
   Linkedin,
   Facebook,
   MessageCircle,
-  ArrowUp,
   Check,
   Loader2,
 } from 'lucide-react';
@@ -53,10 +52,6 @@ export default function Footer() {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
-  };
-
-  const handleScrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
@@ -283,17 +278,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Back to Top Button */}
-      <motion.button
-        onClick={handleScrollToTop}
-        className="fixed bottom-6 right-6 z-50 w-11 h-11 rounded-full bg-[#4A2364] text-white flex items-center justify-center shadow-lg hover:bg-[#6B3F8E] transition-all duration-300 hover:shadow-xl hover:scale-110"
-        initial={{ opacity: 0, scale: 0 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3, delay: 1 }}
-        aria-label="Back to top"
-      >
-        <ArrowUp className="w-5 h-5" />
-      </motion.button>
+
     </footer>
   );
 }

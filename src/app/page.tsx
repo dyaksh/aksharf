@@ -2,19 +2,92 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowUp } from 'lucide-react';
+import { ArrowUp, Home } from 'lucide-react';
 import Header from '@/components/sections/Header';
 import HeroSection from '@/components/sections/HeroSection';
+import BrandMarquee from '@/components/sections/BrandMarquee';
 import ProcessSection from '@/components/sections/ProcessSection';
 import AboutSection from '@/components/sections/AboutSection';
 import PortfolioSection from '@/components/sections/PortfolioSection';
 import ServicesSection from '@/components/sections/ServicesSection';
+import GlobalReachSection from '@/components/sections/GlobalReachSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import CatalogSection from '@/components/sections/CatalogSection';
+import FAQSection from '@/components/sections/FAQSection';
 import CTASection from '@/components/sections/CTASection';
 import ContactSection from '@/components/sections/ContactSection';
 import Footer from '@/components/sections/Footer';
 import ChatWidget from '@/components/sections/ChatWidget';
+
+// Page loading animation
+function PageLoader() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1800);
+    return () => clearTimeout(timer);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {isLoading && (
+        <motion.div
+          className="fixed inset-0 z-[100] bg-[#1A1A1A] flex flex-col items-center justify-center"
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6, ease: 'easeInOut' }}
+        >
+          {/* Logo pulse */}
+          <motion.div
+            className="w-16 h-16 rounded-full bg-[#4A2364] flex items-center justify-center mb-6 shadow-2xl"
+            initial={{ scale: 0, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.5, type: 'spring', stiffness: 200 }}
+          >
+            <motion.div
+              animate={{ scale: [1, 1.15, 1] }}
+              transition={{ duration: 1.2, repeat: Infinity, ease: 'easeInOut' }}
+            >
+              <Home className="w-7 h-7 text-white" />
+            </motion.div>
+          </motion.div>
+
+          {/* Brand name */}
+          <motion.h1
+            className="text-xl font-bold text-white font-sans-body tracking-wide mb-1"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
+          >
+            Akshar Foshan
+          </motion.h1>
+          <motion.p
+            className="text-[10px] tracking-[0.3em] text-white/40 font-sans-body"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.5, duration: 0.5 }}
+          >
+            HOSPITALITY FF&amp;E
+          </motion.p>
+
+          {/* Loading bar */}
+          <motion.div
+            className="mt-8 w-48 h-[2px] bg-white/10 rounded-full overflow-hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6, duration: 0.3 }}
+          >
+            <motion.div
+              className="h-full bg-gradient-to-r from-[#4A2364] via-[#D4AF37] to-[#4A2364] rounded-full"
+              initial={{ width: '0%' }}
+              animate={{ width: '100%' }}
+              transition={{ delay: 0.6, duration: 1.1, ease: 'easeInOut' }}
+            />
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
 
 function ScrollToTop() {
   const [visible, setVisible] = useState(false);
@@ -50,18 +123,22 @@ function ScrollToTop() {
   );
 }
 
-export default function Home() {
+export default function HomePage() {
   return (
     <div className="min-h-screen flex flex-col">
+      <PageLoader />
       <Header />
       <main className="flex-1">
         <HeroSection />
+        <BrandMarquee />
         <ProcessSection />
         <AboutSection />
         <PortfolioSection />
         <ServicesSection />
+        <GlobalReachSection />
         <TestimonialsSection />
         <CatalogSection />
+        <FAQSection />
         <CTASection />
         <ContactSection />
       </main>

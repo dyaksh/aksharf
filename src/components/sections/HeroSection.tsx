@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ChevronDown } from 'lucide-react';
-import { motion, useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 
 // Count-up animation hook
 function useCountUp(target: number, duration: number = 2000, startOnView: boolean = true) {
@@ -60,8 +60,15 @@ const stats = [
 ];
 
 export default function HeroSection() {
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ['start start', 'end start'],
+  });
+  const heroImageY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+
   return (
-    <section id="home" className="relative bg-[#F8F5F2] dark:bg-[#1A1A1A] min-h-screen pt-20 lg:pt-0 overflow-x-hidden overflow-y-hidden">
+    <section id="home" className="relative bg-[#F8F5F2] dark:bg-[#1A1A1A] min-h-screen pt-20 lg:pt-0 overflow-x-hidden overflow-y-hidden" ref={heroRef}>
       {/* Gradient overlay - cream to very light purple tint */}
       <div
         className="absolute inset-0 pointer-events-none"
@@ -79,6 +86,21 @@ export default function HeroSection() {
 
       {/* Decorative SVG pattern behind hero text */}
       <DecorativePattern />
+
+      {/* Grain texture overlay for visual depth */}
+      <div
+        className="absolute inset-0 pointer-events-none z-[1]"
+        style={{ opacity: 0.03 }}
+        aria-hidden="true"
+      >
+        <svg width="100%" height="100%">
+          <filter id="grain-filter">
+            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#grain-filter)" />
+        </svg>
+      </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row items-center min-h-screen py-16 lg:py-0 gap-8 lg:gap-12">
@@ -112,6 +134,12 @@ export default function HeroSection() {
               Furniture that{' '}
               <span className="text-[#D4AF37] italic">tells the story</span>{' '}
               of a hotel.
+              <span
+                className="inline-block w-[3px] h-[0.85em] bg-[#D4AF37] ml-1 align-middle"
+                style={{
+                  animation: 'cursorBlink 1s step-end infinite',
+                }}
+              />
             </motion.h2>
 
             {/* Description */}
@@ -156,6 +184,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: 60 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
+            style={{ y: heroImageY }}
           >
             <div className="relative">
               {/* Main image */}
@@ -169,8 +198,16 @@ export default function HeroSection() {
                 <motion.div
                   className="absolute bottom-4 left-4 bg-black/75 backdrop-blur-sm text-white px-5 py-3 rounded-lg border-l-[3px] border-[#D4AF37] shadow-lg"
                   initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 1.2 }}
+                  animate={{ opacity: 1, y: [0, -6, 0] }}
+                  transition={{
+                    opacity: { duration: 0.6, delay: 1.2 },
+                    y: {
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                      delay: 1.8,
+                    },
+                  }}
                 >
                   <p className="text-xs tracking-widest font-sans-body">
                     NOW MANUFACTURING — <span className="font-bold text-[#D4AF37]">240 KEYS</span>
@@ -252,6 +289,13 @@ export default function HeroSection() {
           </motion.div>
         </div>
       </div>
+      {/* Cursor blink keyframes */}
+      <style jsx>{`
+        @keyframes cursorBlink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0; }
+        }
+      `}</style>
     </section>
   );
 }
@@ -269,7 +313,15 @@ function StatItem({ stat, index }: { stat: typeof stats[number]; index: number }
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.15 }}
     >
-      <p className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white">
+      <p
+        className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display"
+        style={{
+          background: 'linear-gradient(135deg, #4A2364, #D4AF37)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        }}
+      >
         {stat.isSpecial ? (
           <>
             <span>{count}</span>
