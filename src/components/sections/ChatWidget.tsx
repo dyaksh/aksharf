@@ -127,7 +127,7 @@ export default function ChatWidget() {
             className="w-80 sm:w-96 bg-white dark:bg-[#1A1A1A] rounded-2xl shadow-2xl border border-gray-200 dark:border-white/10 overflow-hidden"
           >
             {/* Header */}
-            <div className="bg-[#4A2364] px-5 py-4 flex items-center justify-between">
+            <div className="bg-[#5d2c86] px-5 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
                   <MessageCircle className="w-4 h-4 text-white" />
@@ -140,16 +140,15 @@ export default function ChatWidget() {
               <div className="flex items-center gap-1.5">
                 {/* WhatsApp quick-action button in header */}
                 <a
-                  href="https://wa.me/8618666422531"
+                  href="https://wa.me/17606170800"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Chat on WhatsApp"
                   title="Chat on WhatsApp"
-                  className="w-7 h-7 rounded-full bg-[#25D366]/20 hover:bg-[#25D366]/30 flex items-center justify-center transition-colors relative"
+                  className="w-7 h-7 rounded-full bg-[#5d2c86]/20 hover:bg-[#5d2c86]/30 flex items-center justify-center transition-colors relative"
                 >
                   <WhatsAppIcon className="w-3.5 h-3.5 text-white" />
-                  {/* Small green dot indicator */}
-                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#25D366] border border-[#4A2364]" />
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#D4AF37] border border-[#5d2c86]" />
                 </a>
 
                 {/* WeChat quick-action button in header */}
@@ -158,11 +157,10 @@ export default function ChatWidget() {
                     <button
                       aria-label="Add WeChat"
                       title="Add WeChat"
-                      className="w-7 h-7 rounded-full bg-[#07C160]/20 hover:bg-[#07C160]/30 flex items-center justify-center transition-colors relative"
+                      className="w-7 h-7 rounded-full bg-[#5d2c86]/20 hover:bg-[#5d2c86]/30 flex items-center justify-center transition-colors relative"
                     >
                       <WeChatIcon className="w-3.5 h-3.5 text-white" />
-                      {/* Small green dot indicator */}
-                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#07C160] border border-[#4A2364]" />
+                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#D4AF37] border border-[#5d2c86]" />
                     </button>
                   </PopoverTrigger>
                   <PopoverContent
@@ -171,8 +169,8 @@ export default function ChatWidget() {
                     className="w-auto bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-white/10 shadow-xl rounded-xl p-4"
                   >
                     <div className="flex flex-col items-center gap-2">
-                      <div className="w-10 h-10 rounded-full bg-[#07C160]/10 flex items-center justify-center">
-                        <Smartphone className="w-5 h-5 text-[#07C160]" />
+                      <div className="w-10 h-10 rounded-full bg-[#5d2c86]/10 flex items-center justify-center">
+                        <Smartphone className="w-5 h-5 text-[#5d2c86]" />
                       </div>
                       <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body">
                         Add WeChat
@@ -209,8 +207,8 @@ export default function ChatWidget() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center py-8 text-center"
                 >
-                  <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-4">
-                    <CheckCircle className="w-7 h-7 text-emerald-600 dark:text-emerald-400" />
+                  <div className="w-14 h-14 rounded-full bg-[#5d2c86]/10 dark:bg-[#D4AF37]/15 flex items-center justify-center mb-4">
+                    <CheckCircle className="w-7 h-7 text-[#5d2c86] dark:text-[#D4AF37]" />
                   </div>
                   <h4 className="text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-1">
                     Message Sent!
@@ -232,7 +230,7 @@ export default function ChatWidget() {
                       onChange={(e) => handleChange('name', e.target.value)}
                       placeholder="Your name"
                       required
-                      className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-[#1A1A1A] dark:text-white placeholder-gray-400 dark:placeholder-white/30 font-sans-body focus:outline-none focus:ring-2 focus:ring-[#4A2364]/40 focus:border-[#4A2364] transition-colors"
+                      className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-[#1A1A1A] dark:text-white placeholder-gray-400 dark:placeholder-white/30 font-sans-body focus:outline-none focus:ring-2 focus:ring-[#5d2c86]/40 focus:border-[#5d2c86] transition-colors"
                     />
                   </div>
                   <div>
@@ -246,7 +244,7 @@ export default function ChatWidget() {
                       onChange={(e) => handleChange('email', e.target.value)}
                       placeholder="your@email.com"
                       required
-                      className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-[#1A1A1A] dark:text-white placeholder-gray-400 dark:placeholder-white/30 font-sans-body focus:outline-none focus:ring-2 focus:ring-[#4A2364]/40 focus:border-[#4A2364] transition-colors"
+                      className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-[#1A1A1A] dark:text-white placeholder-gray-400 dark:placeholder-white/30 font-sans-body focus:outline-none focus:ring-2 focus:ring-[#5d2c86]/40 focus:border-[#5d2c86] transition-colors"
                     />
                   </div>
                   <div>
@@ -260,13 +258,13 @@ export default function ChatWidget() {
                       placeholder="How can we help you?"
                       required
                       rows={3}
-                      className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-[#1A1A1A] dark:text-white placeholder-gray-400 dark:placeholder-white/30 font-sans-body focus:outline-none focus:ring-2 focus:ring-[#4A2364]/40 focus:border-[#4A2364] transition-colors resize-none"
+                      className="w-full px-3 py-2 text-sm bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 rounded-lg text-[#1A1A1A] dark:text-white placeholder-gray-400 dark:placeholder-white/30 font-sans-body focus:outline-none focus:ring-2 focus:ring-[#5d2c86]/40 focus:border-[#5d2c86] transition-colors resize-none"
                     />
                   </div>
                   <Button
                     type="submit"
                     disabled={isSubmitting || !form.name || !form.email || !form.message}
-                    className="w-full bg-[#4A2364] hover:bg-[#6B3F8E] text-white font-sans-body text-sm font-medium rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-[#5d2c86] hover:bg-[#7d44a8] text-white font-sans-body text-sm font-medium rounded-lg transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isSubmitting ? (
                       <span className="flex items-center gap-2">
@@ -292,10 +290,10 @@ export default function ChatWidget() {
                     </p>
                     <div className="flex items-center justify-center gap-4">
                       <a
-                        href="https://wa.me/8618666422531"
+                        href="https://wa.me/17606170800"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-[11px] text-[#25D366] hover:text-[#20BD5A] font-sans-body font-medium transition-colors"
+                        className="flex items-center gap-1.5 text-[11px] text-[#5d2c86] hover:text-[#20BD5A] font-sans-body font-medium transition-colors"
                       >
                         <WhatsAppIcon className="w-3.5 h-3.5" />
                         WhatsApp
@@ -303,7 +301,7 @@ export default function ChatWidget() {
                       <Popover>
                         <PopoverTrigger asChild>
                           <button
-                            className="flex items-center gap-1.5 text-[11px] text-[#07C160] hover:text-[#06AD56] font-sans-body font-medium transition-colors"
+                            className="flex items-center gap-1.5 text-[11px] text-[#5d2c86] hover:text-[#7d44a8] font-sans-body font-medium transition-colors"
                           >
                             <WeChatIcon className="w-3.5 h-3.5" />
                             WeChat
@@ -315,8 +313,8 @@ export default function ChatWidget() {
                           className="w-auto bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-white/10 shadow-xl rounded-xl p-4"
                         >
                           <div className="flex flex-col items-center gap-2">
-                            <div className="w-10 h-10 rounded-full bg-[#07C160]/10 flex items-center justify-center">
-                              <Smartphone className="w-5 h-5 text-[#07C160]" />
+                            <div className="w-10 h-10 rounded-full bg-[#5d2c86]/10 flex items-center justify-center">
+                              <Smartphone className="w-5 h-5 text-[#5d2c86]" />
                             </div>
                             <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body">
                               Add WeChat
@@ -347,7 +345,7 @@ export default function ChatWidget() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 10 }}
             transition={{ duration: 0.3 }}
-            className="absolute right-16 bottom-3 bg-[#4A2364] text-white px-3 py-1.5 rounded-lg text-xs font-sans-body font-medium shadow-lg whitespace-nowrap pointer-events-none"
+            className="absolute right-16 bottom-3 bg-[#5d2c86] text-white px-3 py-1.5 rounded-lg text-xs font-sans-body font-medium shadow-lg whitespace-nowrap pointer-events-none"
           >
             Chat with us
             {/* Gold arrow pointing right */}
@@ -360,7 +358,7 @@ export default function ChatWidget() {
       <motion.button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="relative w-14 h-14 rounded-full bg-[#4A2364] hover:bg-[#6B3F8E] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
+        className="relative w-14 h-14 rounded-full bg-[#5d2c86] hover:bg-[#7d44a8] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         aria-label={isOpen ? 'Close chat' : 'Open chat'}
@@ -393,7 +391,7 @@ export default function ChatWidget() {
         {!isOpen && pulseCount < 3 && (
           <>
             <motion.span
-              className="absolute inset-0 rounded-full border-2 border-[#4A2364]"
+              className="absolute inset-0 rounded-full border-2 border-[#5d2c86]"
               animate={{
                 scale: [1, 1.8],
                 opacity: [0.6, 0],

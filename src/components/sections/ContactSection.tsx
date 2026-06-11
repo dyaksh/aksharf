@@ -13,7 +13,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
-  Send,
   CheckCircle,
   Loader2,
   Phone,
@@ -69,7 +68,7 @@ function GoldConfettiParticle({ delay, x, color, size, rotation }: { delay: numb
 // Stylized World Map SVG Component with highlighted China/Foshan
 function WorldMapGraphic() {
   return (
-    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-[#4A2364]/5 via-[#F8F5F2] to-[#D4AF37]/5 dark:from-[#4A2364]/10 dark:via-[#1E1E1E] dark:to-[#D4AF37]/5 border border-gray-200 dark:border-gray-700">
+    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-[#5d2c86]/5 via-[#f8f3ed] to-[#D4AF37]/5 dark:from-[#5d2c86]/10 dark:via-[#1E1E1E] dark:to-[#D4AF37]/5 border border-gray-200 dark:border-gray-700">
       {/* Background grid */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none"
@@ -85,7 +84,7 @@ function WorldMapGraphic() {
             height="30"
             patternUnits="userSpaceOnUse"
           >
-            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#4A2364" strokeWidth="0.5" />
+            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#5d2c86" strokeWidth="0.5" />
           </pattern>
         </defs>
         <rect width="100%" height="100%" fill="url(#contact-map-grid)" />
@@ -101,59 +100,59 @@ function WorldMapGraphic() {
         {/* North America */}
         <path
           d="M 80 60 Q 100 40 140 45 Q 170 48 180 70 Q 185 90 175 110 Q 165 130 140 140 Q 120 145 100 135 Q 80 125 70 105 Q 60 85 80 60Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.08"
           className="dark:opacity-[0.12]"
         />
         {/* South America */}
         <path
           d="M 140 170 Q 155 160 165 175 Q 170 200 165 230 Q 160 255 145 270 Q 130 280 120 265 Q 115 240 120 210 Q 125 185 140 170Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.08"
           className="dark:opacity-[0.12]"
         />
         {/* Europe */}
         <path
           d="M 280 55 Q 300 45 320 50 Q 335 55 340 70 Q 338 85 325 90 Q 310 92 295 85 Q 280 78 275 65 Q 275 55 280 55Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.08"
           className="dark:opacity-[0.12]"
         />
         {/* Africa */}
         <path
           d="M 290 105 Q 310 95 330 100 Q 345 110 350 135 Q 348 165 335 190 Q 320 210 305 215 Q 290 210 280 190 Q 275 165 278 140 Q 280 120 290 105Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.08"
           className="dark:opacity-[0.12]"
         />
         {/* Asia - HIGHLIGHTED */}
         <path
           d="M 340 40 Q 370 30 410 35 Q 450 40 480 55 Q 510 70 520 95 Q 525 120 510 140 Q 490 155 460 160 Q 430 158 400 148 Q 375 138 355 120 Q 340 105 335 85 Q 332 65 340 40Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.15"
           className="dark:opacity-[0.25]"
-          stroke="#4A2364"
+          stroke="#5d2c86"
           strokeWidth="1"
           strokeOpacity="0.2"
         />
         {/* India subcontinent */}
         <path
           d="M 400 130 Q 415 125 420 140 Q 418 160 408 175 Q 398 185 390 178 Q 385 165 388 148 Q 392 135 400 130Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.12"
           className="dark:opacity-[0.2]"
         />
         {/* Southeast Asia */}
         <path
           d="M 460 150 Q 475 145 485 155 Q 490 170 483 182 Q 475 188 465 183 Q 458 172 460 150Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.1"
           className="dark:opacity-[0.16]"
         />
         {/* Australia */}
         <path
           d="M 480 220 Q 510 210 535 220 Q 548 235 540 255 Q 525 268 505 265 Q 485 260 478 245 Q 475 230 480 220Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.06"
           className="dark:opacity-[0.1]"
         />
@@ -199,15 +198,15 @@ function WorldMapGraphic() {
         </line>
 
         {/* Small dots at connection endpoints */}
-        <circle cx="130" cy="90" r="2" fill="#4A2364" opacity="0.3" />
-        <circle cx="310" cy="65" r="2" fill="#4A2364" opacity="0.3" />
-        <circle cx="510" cy="240" r="2" fill="#4A2364" opacity="0.2" />
+        <circle cx="130" cy="90" r="2" fill="#5d2c86" opacity="0.3" />
+        <circle cx="310" cy="65" r="2" fill="#5d2c86" opacity="0.3" />
+        <circle cx="510" cy="240" r="2" fill="#5d2c86" opacity="0.2" />
       </svg>
 
       {/* Overlay text */}
       <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
         <div>
-          <p className="text-xs font-semibold text-[#4A2364] dark:text-[#6B3F8E] font-sans-body flex items-center gap-1">
+          <p className="text-xs font-semibold text-[#5d2c86] dark:text-[#7d44a8] font-sans-body flex items-center gap-1">
             <Globe className="w-3 h-3" />
             Global Reach
           </p>
@@ -222,7 +221,7 @@ function WorldMapGraphic() {
       </div>
 
       {/* Purple-gold gradient accent at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4A2364] to-[#D4AF37]" />
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37]" />
     </div>
   );
 }
@@ -238,7 +237,7 @@ function ValidationIndicator({ valid, touched, isEmpty }: { valid: boolean; touc
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
     >
       {valid ? (
-        <Check className="w-4 h-4 text-green-500" />
+        <Check className="w-4 h-4 text-[#5d2c86]" />
       ) : (
         <X className="w-4 h-4 text-red-400" />
       )}
@@ -254,6 +253,9 @@ export default function ContactSection() {
     name: '',
     email: '',
     company: '',
+    location: '',
+    product: '',
+    quantity: '',
     projectType: '',
     contactTime: '',
     message: '',
@@ -262,6 +264,9 @@ export default function ContactSection() {
     name: false,
     email: false,
     company: false,
+    location: false,
+    product: false,
+    quantity: false,
     projectType: false,
     contactTime: false,
     message: false,
@@ -279,7 +284,7 @@ export default function ContactSection() {
   const parallaxY2 = useTransform(scrollYProgress, [0, 1], [20, -20]);
 
   // Gold confetti colors - more celebratory with gold dominance
-  const confettiColors = ['#D4AF37', '#F0C040', '#E5B830', '#4A2364', '#6B3F8E', '#8B5CF6', '#D4AF37', '#F5D060'];
+  const confettiColors = ['#D4AF37', '#F0C040', '#E5B830', '#5d2c86', '#7d44a8', '#8B5CF6', '#D4AF37', '#F5D060'];
   const confettiParticles = useMemo(() => Array.from({ length: 28 }, (_, i) => ({
     id: i,
     delay: 0.2 + i * 0.04,
@@ -325,8 +330,8 @@ export default function ContactSection() {
       });
       if (res.ok) {
         setFormState('success');
-        setFormData({ name: '', email: '', company: '', projectType: '', contactTime: '', message: '' });
-        setTouched({ name: false, email: false, company: false, projectType: false, contactTime: false, message: false });
+        setFormData({ name: '', email: '', company: '', location: '', product: '', quantity: '', projectType: '', contactTime: '', message: '' });
+        setTouched({ name: false, email: false, company: false, location: false, product: false, quantity: false, projectType: false, contactTime: false, message: false });
       }
     } catch {
       setFormState('idle');
@@ -340,14 +345,14 @@ export default function ContactSection() {
     {
       icon: Phone,
       label: 'Phone',
-      value: '18666422531',
-      href: 'tel:18666422531',
+      value: '+1 (760) 617-0800',
+      href: 'tel:+17606170800',
     },
     {
       icon: Mail,
       label: 'Email',
-      value: '250552975@qq.com',
-      href: 'mailto:250552975@qq.com',
+      value: 'yogin@aksharfoshan.com',
+      href: 'mailto:yogin@aksharfoshan.com',
     },
     {
       icon: MapPin,
@@ -362,49 +367,40 @@ export default function ContactSection() {
     {
       icon: Phone,
       label: 'Call Us',
-      value: '18666422531',
-      href: 'tel:18666422531',
+      value: '+1 (760) 617-0800',
+      href: 'tel:+17606170800',
       description: 'Available 24/7',
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-50 dark:bg-green-900/20',
+      color: 'text-[#5d2c86] dark:text-[#7d44a8]',
+      bgColor: 'bg-[#5d2c86]/5 dark:bg-[#7d44a8]/10',
     },
     {
       icon: Mail,
       label: 'Email',
-      value: '250552975@qq.com',
-      href: 'mailto:250552975@qq.com',
+      value: 'yogin@aksharfoshan.com',
+      href: 'mailto:yogin@aksharfoshan.com',
       description: 'Response within 24h',
-      color: 'text-[#4A2364] dark:text-[#6B3F8E]',
-      bgColor: 'bg-[#4A2364]/5 dark:bg-[#6B3F8E]/10',
+      color: 'text-[#5d2c86] dark:text-[#7d44a8]',
+      bgColor: 'bg-[#5d2c86]/5 dark:bg-[#7d44a8]/10',
     },
     {
       icon: MessageCircle,
-      label: 'WeChat',
-      value: 'AksharFoshan',
-      href: '#',
-      description: 'Quick response',
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-50 dark:bg-green-900/20',
-    },
-    {
-      icon: MessageSquare,
       label: 'WhatsApp',
-      value: '+86 18666422531',
-      href: 'https://wa.me/8618666422531',
-      description: 'International',
-      color: 'text-emerald-600 dark:text-emerald-400',
-      bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
+      value: '+1 (760) 617-0800',
+      href: 'https://wa.me/17606170800',
+      description: 'Chat with us',
+      color: 'text-[#5d2c86] dark:text-[#7d44a8]',
+      bgColor: 'bg-[#5d2c86]/5 dark:bg-[#7d44a8]/10',
     },
   ];
 
   return (
-    <section className="bg-[#F8F5F2] dark:bg-[#1A1A1A] py-20 lg:py-32 relative overflow-hidden transition-colors duration-300" ref={sectionRef}>
+    <section id="contact" className="bg-[#f8f3ed] dark:bg-[#1A1A1A] py-20 lg:py-32 relative overflow-hidden transition-colors duration-300" ref={sectionRef}>
       {/* Decorative elements with parallax */}
       <motion.div
         className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none"
         style={{
           background:
-            'radial-gradient(circle, rgba(74,35,100,0.03) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(93,44,134,0.03) 0%, transparent 70%)',
           y: parallaxY1,
         }}
       />
@@ -431,7 +427,7 @@ export default function ContactSection() {
             </p>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-6">
               Let&apos;s start a{' '}
-              <span className="text-[#4A2364] dark:text-[#6B3F8E]">conversation</span>.
+              <span className="text-[#5d2c86] dark:text-[#7d44a8]">conversation</span>.
             </h2>
             <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-8">
               Whether you have a project in mind or simply want to explore
@@ -457,7 +453,7 @@ export default function ContactSection() {
                   <motion.a
                     key={item.label}
                     href={item.href || '#'}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md border-l-[3px] border-l-[#D4AF37] hover:border-l-[#4A2364] dark:border-l-[#D4AF37] dark:hover:border-l-[#6B3F8E] transition-all duration-300 group cursor-pointer"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md border-l-[3px] border-l-[#D4AF37] hover:border-l-[#5d2c86] dark:border-l-[#D4AF37] dark:hover:border-l-[#7d44a8] transition-all duration-300 group cursor-pointer"
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -470,7 +466,7 @@ export default function ContactSection() {
                       <p className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">
                         {item.label}
                       </p>
-                      <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">
+                      <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body group-hover:text-[#5d2c86] dark:group-hover:text-[#7d44a8] transition-colors duration-300">
                         {item.value}
                       </p>
                     </div>
@@ -481,15 +477,15 @@ export default function ContactSection() {
 
             {/* Business Hours */}
             <motion.div
-              className="mt-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 border-l-[3px] border-l-[#4A2364] dark:border-l-[#6B3F8E]"
+              className="mt-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 border-l-[3px] border-l-[#5d2c86] dark:border-l-[#7d44a8]"
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
               <div className="flex items-center gap-3">
-                <div className="w-11 h-11 rounded-xl bg-[#4A2364]/5 dark:bg-[#6B3F8E]/10 flex items-center justify-center shrink-0">
-                  <Clock className="w-5 h-5 text-[#4A2364] dark:text-[#6B3F8E]" />
+                <div className="w-11 h-11 rounded-xl bg-[#5d2c86]/5 dark:bg-[#7d44a8]/10 flex items-center justify-center shrink-0">
+                  <Clock className="w-5 h-5 text-[#5d2c86] dark:text-[#7d44a8]" />
                 </div>
                 <div>
                   <p className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">Business Hours</p>
@@ -513,24 +509,17 @@ export default function ContactSection() {
               </span>
               <a
                 href="#"
-                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#0A66C2] hover:border-[#0A66C2] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
+                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#5d2c86] hover:border-[#5d2c86] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-4 h-4" />
               </a>
               <a
                 href="#"
-                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#1877F2] hover:border-[#1877F2] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
+                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#5d2c86] hover:border-[#5d2c86] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
                 aria-label="Facebook"
               >
                 <Facebook className="w-4 h-4" />
-              </a>
-              <a
-                href="#"
-                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#07C160] hover:border-[#07C160] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
-                aria-label="WeChat"
-              >
-                <MessageCircle className="w-4 h-4" />
               </a>
             </motion.div>
           </motion.div>
@@ -549,7 +538,7 @@ export default function ContactSection() {
                 className="flex-1 bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100 dark:border-gray-800 transition-shadow duration-500 hover:shadow-xl relative overflow-hidden"
               >
                 {/* Top accent line */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4A2364] to-[#D4AF37]" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37]" />
 
                 {/* Form Progress Indicator */}
                 <div className="mb-6">
@@ -567,7 +556,7 @@ export default function ContactSection() {
                       style={{
                         background: formProgress.percentage === 100
                           ? 'linear-gradient(to right, #22c55e, #16a34a)'
-                          : 'linear-gradient(to right, #4A2364, #D4AF37)',
+                          : 'linear-gradient(to right, #5d2c86, #D4AF37)',
                       }}
                       initial={{ width: 0 }}
                       animate={{ width: `${formProgress.percentage}%` }}
@@ -639,7 +628,7 @@ export default function ContactSection() {
                           animate={{ scale: 1, opacity: 1 }}
                           transition={{ delay: 0.6, duration: 0.3 }}
                         >
-                          <Sparkles className="w-3 h-3 text-[#4A2364]" />
+                          <Sparkles className="w-3 h-3 text-[#5d2c86]" />
                         </motion.div>
                       </motion.div>
 
@@ -669,7 +658,7 @@ export default function ContactSection() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   {/* Name Field */}
                   <div className="relative group">
-                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#5d2c86] dark:group-focus-within:text-[#7d44a8]">
                       Your Name <span className="text-red-400">*</span>
                     </label>
                     <div className="relative">
@@ -687,7 +676,7 @@ export default function ContactSection() {
                       />
                       {/* Animated underline */}
                       <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                       </div>
                       <ValidationIndicator
                         valid={formData.name.trim().length > 0}
@@ -699,7 +688,7 @@ export default function ContactSection() {
 
                   {/* Email Field */}
                   <div className="relative group">
-                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#5d2c86] dark:group-focus-within:text-[#7d44a8]">
                       Email <span className="text-red-400">*</span>
                     </label>
                     <div className="relative">
@@ -722,7 +711,7 @@ export default function ContactSection() {
                       />
                       {/* Animated underline */}
                       <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                       </div>
                       <ValidationIndicator
                         valid={isValidEmail(formData.email)}
@@ -746,8 +735,8 @@ export default function ContactSection() {
 
                 {/* Company Field */}
                 <div className="mb-4 relative group">
-                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
-                    Company / Property
+                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#5d2c86] dark:group-focus-within:text-[#7d44a8]">
+                    Company or Hotel Name
                   </label>
                   <div className="relative">
                     <Input
@@ -763,7 +752,7 @@ export default function ContactSection() {
                     />
                     {/* Animated underline */}
                     <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                     </div>
                     <ValidationIndicator
                       valid={formData.company.trim().length > 0}
@@ -773,10 +762,100 @@ export default function ContactSection() {
                   </div>
                 </div>
 
+                {/* Project Location + Product Requirement */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                  {/* Project Location Field */}
+                  <div className="relative group">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#5d2c86] dark:group-focus-within:text-[#7d44a8]">
+                      Project Location
+                    </label>
+                    <div className="relative">
+                      <Input
+                        value={formData.location}
+                        onChange={(e) =>
+                          setFormData({ ...formData, location: e.target.value })
+                        }
+                        onBlur={() =>
+                          setTouched({ ...touched, location: true })
+                        }
+                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+                        placeholder="City, Country"
+                      />
+                      {/* Animated underline */}
+                      <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                      </div>
+                      <ValidationIndicator
+                        valid={formData.location.trim().length > 0}
+                        touched={touched.location}
+                        isEmpty={!formData.location.trim()}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Product Requirement Field */}
+                  <div className="relative group">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#5d2c86] dark:group-focus-within:text-[#7d44a8]">
+                      Product Requirement
+                    </label>
+                    <div className="relative">
+                      <Input
+                        value={formData.product}
+                        onChange={(e) =>
+                          setFormData({ ...formData, product: e.target.value })
+                        }
+                        onBlur={() =>
+                          setTouched({ ...touched, product: true })
+                        }
+                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+                        placeholder="e.g. Furniture, Lighting, Decor"
+                      />
+                      {/* Animated underline */}
+                      <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                      </div>
+                      <ValidationIndicator
+                        valid={formData.product.trim().length > 0}
+                        touched={touched.product}
+                        isEmpty={!formData.product.trim()}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Approximate Quantity or Scope Field */}
+                <div className="mb-4 relative group">
+                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#5d2c86] dark:group-focus-within:text-[#7d44a8]">
+                    Approximate Quantity or Scope
+                  </label>
+                  <div className="relative">
+                    <Input
+                      value={formData.quantity}
+                      onChange={(e) =>
+                        setFormData({ ...formData, quantity: e.target.value })
+                      }
+                      onBlur={() =>
+                        setTouched({ ...touched, quantity: true })
+                      }
+                      className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+                      placeholder="e.g. 200 rooms, 50 suites, Full hotel FF&E"
+                    />
+                    {/* Animated underline */}
+                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                    </div>
+                    <ValidationIndicator
+                      valid={formData.quantity.trim().length > 0}
+                      touched={touched.quantity}
+                      isEmpty={!formData.quantity.trim()}
+                    />
+                  </div>
+                </div>
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                   {/* Project Type Dropdown */}
                   <div className="relative group">
-                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#5d2c86] dark:group-focus-within:text-[#7d44a8]">
                       Project Type <span className="text-red-400">*</span>
                     </label>
                     <div className="relative">
@@ -802,14 +881,14 @@ export default function ContactSection() {
                       </Select>
                       {/* Animated underline */}
                       <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                       </div>
                     </div>
                   </div>
 
                   {/* Preferred Contact Time Dropdown */}
                   <div className="relative group">
-                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#5d2c86] dark:group-focus-within:text-[#7d44a8]">
                       Preferred Contact Time
                     </label>
                     <div className="relative">
@@ -835,7 +914,7 @@ export default function ContactSection() {
                       </Select>
                       {/* Animated underline */}
                       <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                       </div>
                     </div>
                   </div>
@@ -843,8 +922,8 @@ export default function ContactSection() {
 
                 {/* Message Field */}
                 <div className="mb-6 relative group">
-                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
-                    Message <span className="text-red-400">*</span>
+                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#5d2c86] dark:group-focus-within:text-[#7d44a8]">
+                    Project Requirement <span className="text-red-400">*</span>
                   </label>
                   <div className="relative">
                     <Textarea
@@ -862,7 +941,7 @@ export default function ContactSection() {
                     />
                     {/* Animated underline */}
                     <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                     </div>
                     <ValidationIndicator
                       valid={formData.message.trim().length > 0}
@@ -890,7 +969,7 @@ export default function ContactSection() {
                   <Button
                     type="submit"
                     disabled={formState === 'loading'}
-                    className="w-full btn-shimmer bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-xl py-6 font-sans-body text-sm font-medium transition-all duration-300"
+                    className="w-full btn-shimmer bg-[#5d2c86] hover:bg-[#7d44a8] text-white rounded-xl py-6 font-sans-body text-sm font-medium transition-all duration-300"
                   >
                     {formState === 'loading' ? (
                       <>
@@ -904,8 +983,7 @@ export default function ContactSection() {
                       </>
                     ) : (
                       <>
-                        Send Message
-                        <Send className="w-4 h-4 ml-2" />
+                        Send Inquiry →
                       </>
                     )}
                   </Button>
@@ -961,7 +1039,7 @@ export default function ContactSection() {
                           <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
                             {item.label}
                           </p>
-                          <p className="text-xs font-medium text-[#1A1A1A] dark:text-white font-sans-body truncate group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">
+                          <p className="text-xs font-medium text-[#1A1A1A] dark:text-white font-sans-body truncate group-hover:text-[#5d2c86] dark:group-hover:text-[#7d44a8] transition-colors duration-300">
                             {item.value}
                           </p>
                           <p className="text-[9px] text-gray-300 dark:text-gray-600 font-sans-body mt-0.5">
@@ -975,14 +1053,14 @@ export default function ContactSection() {
 
                 {/* Business hours card in sidebar */}
                 <motion.div
-                  className="p-3 rounded-xl bg-gradient-to-br from-[#4A2364]/5 to-[#D4AF37]/5 dark:from-[#4A2364]/10 dark:to-[#D4AF37]/5 border border-gray-100 dark:border-gray-800 mt-1"
+                  className="p-3 rounded-xl bg-gradient-to-br from-[#5d2c86]/5 to-[#D4AF37]/5 dark:from-[#5d2c86]/10 dark:to-[#D4AF37]/5 border border-gray-100 dark:border-gray-800 mt-1"
                   initial={{ opacity: 0, y: 15 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.9 }}
                 >
                   <div className="flex items-center gap-2 mb-2">
-                    <Clock className="w-3.5 h-3.5 text-[#4A2364] dark:text-[#6B3F8E]" />
-                    <p className="text-[10px] font-bold text-[#4A2364] dark:text-[#6B3F8E] font-sans-body tracking-wider">
+                    <Clock className="w-3.5 h-3.5 text-[#5d2c86] dark:text-[#7d44a8]" />
+                    <p className="text-[10px] font-bold text-[#5d2c86] dark:text-[#7d44a8] font-sans-body tracking-wider">
                       HOURS
                     </p>
                   </div>
@@ -1033,7 +1111,7 @@ export default function ContactSection() {
                     <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
                       {item.label}
                     </p>
-                    <p className="text-xs font-medium text-[#1A1A1A] dark:text-white font-sans-body truncate group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">
+                    <p className="text-xs font-medium text-[#1A1A1A] dark:text-white font-sans-body truncate group-hover:text-[#5d2c86] dark:group-hover:text-[#7d44a8] transition-colors duration-300">
                       {item.value}
                     </p>
                   </motion.a>

@@ -83,7 +83,7 @@ export default function CTASection() {
 
   return (
     <section
-      className="relative bg-gradient-to-r from-[#1A1A1A] via-[#2D1B42] to-[#4A2364] py-20 lg:py-32 overflow-hidden"
+      className="relative bg-gradient-to-r from-[#1A1A1A] via-[#2D1B42] to-[#5d2c86] py-20 lg:py-32 overflow-hidden"
       ref={sectionRef}
       onMouseMove={handleMouseMove}
     >
@@ -105,13 +105,13 @@ export default function CTASection() {
         <motion.div
           className="absolute inset-3 sm:inset-5 lg:inset-8 rounded-2xl"
           style={{
-            background: 'conic-gradient(from 0deg, transparent, rgba(212,175,55,0.15), transparent, rgba(74,35,100,0.15), transparent)',
+            background: 'conic-gradient(from 0deg, transparent, rgba(212,175,55,0.15), transparent, rgba(93,44,134,0.15), transparent)',
           }}
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
         />
         <div
-          className="absolute sm:left-[22px] sm:right-[22px] sm:top-[22px] sm:bottom-[22px] left-[14px] right-[14px] top-[14px] bottom-[14px] lg:left-[34px] lg:right-[34px] lg:top-[34px] lg:bottom-[34px] rounded-2xl bg-gradient-to-r from-[#1A1A1A] via-[#2D1B42] to-[#4A2364]"
+          className="absolute sm:left-[22px] sm:right-[22px] sm:top-[22px] sm:bottom-[22px] left-[14px] right-[14px] top-[14px] bottom-[14px] lg:left-[34px] lg:right-[34px] lg:top-[34px] lg:bottom-[34px] rounded-2xl bg-gradient-to-r from-[#1A1A1A] via-[#2D1B42] to-[#5d2c86]"
         />
       </div>
 
@@ -138,7 +138,7 @@ export default function CTASection() {
 
       {/* Gradient blurred background blobs with parallax */}
       <motion.div
-        className="absolute top-0 left-0 w-64 h-64 bg-[#4A2364]/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"
+        className="absolute top-0 left-0 w-64 h-64 bg-[#5d2c86]/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"
         style={{ y: backgroundY }}
       />
       <motion.div
@@ -239,12 +239,10 @@ export default function CTASection() {
             {/* Glow effect behind button */}
             <div className="absolute -inset-1 bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/20 rounded-full blur-md transition-all duration-500" />
             <Button
-              onClick={() =>
-                document
-                  .querySelector('#contact')
-                  ?.scrollIntoView({ behavior: 'smooth' })
-              }
-              className="relative btn-shimmer bg-white text-[#4A2364] hover:bg-white/90 rounded-full px-8 py-6 font-sans-body text-sm font-medium group/btn overflow-hidden"
+              onClick={() => {
+                window.location.hash = 'contact';
+              }}
+              className="relative btn-shimmer bg-white text-[#5d2c86] hover:bg-white/90 rounded-full px-8 py-6 font-sans-body text-sm font-medium group/btn overflow-hidden"
             >
               {/* Shimmer sweep on hover */}
               <span className="absolute inset-0 overflow-hidden rounded-full">
@@ -267,7 +265,7 @@ export default function CTASection() {
               <span className="absolute inset-0 overflow-hidden rounded-full">
                 <span className="absolute inset-0 -translate-x-full group-hover/btn:animate-[shimmer_1.5s_ease-in-out] bg-gradient-to-r from-transparent via-white/20 to-transparent" />
               </span>
-              <span className="relative">Request Catalog</span>
+              <span className="relative">Get a Quote</span>
             </Button>
           </div>
         </motion.div>

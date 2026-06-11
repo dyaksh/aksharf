@@ -88,7 +88,7 @@ export default function AwardsSection() {
               cx={(i % 6) * 24}
               cy={Math.floor(i / 6) * 24}
               r="2"
-              fill="#4A2364"
+              fill="#5d2c86"
             />
           ))}
         </svg>
@@ -104,13 +104,13 @@ export default function AwardsSection() {
               cx={(i % 6) * 24}
               cy={Math.floor(i / 6) * 24}
               r="2"
-              fill="#4A2364"
+              fill="#5d2c86"
             />
           ))}
         </svg>
 
         {/* Gradient orbs */}
-        <div className="absolute top-16 right-16 w-72 h-72 rounded-full bg-[#4A2364]/[0.03] dark:bg-[#4A2364]/[0.08] blur-3xl" />
+        <div className="absolute top-16 right-16 w-72 h-72 rounded-full bg-[#5d2c86]/[0.03] dark:bg-[#5d2c86]/[0.08] blur-3xl" />
         <div className="absolute bottom-16 left-16 w-56 h-56 rounded-full bg-[#D4AF37]/[0.04] dark:bg-[#D4AF37]/[0.06] blur-3xl" />
       </div>
 
@@ -155,17 +155,17 @@ export default function AwardsSection() {
                 <div
                   className="award-card-border absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{
-                    background: 'conic-gradient(from var(--border-angle, 0deg), #4A2364, #D4AF37, #6B3F8E, #D4AF37, #4A2364)',
+                    background: 'conic-gradient(from var(--border-angle, 0deg), #5d2c86, #D4AF37, #7d44a8, #D4AF37, #5d2c86)',
                   }}
                 />
                 {/* Inner card content */}
-                <div className="relative bg-[#F8F5F2]/60 dark:bg-[#1A1A1A]/80 rounded-2xl p-6 h-full border border-gray-100 dark:border-gray-800/50 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
+                <div className="relative bg-[#f8f3ed]/60 dark:bg-[#1A1A1A]/80 rounded-2xl p-6 h-full border border-gray-100 dark:border-gray-800/50 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
                   {/* Gold top border accent on hover */}
                   <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#D4AF37] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-t-2xl" />
 
                   {/* Number badge in top-left corner */}
-                  <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-[#4A2364]/10 dark:bg-[#4A2364]/20 flex items-center justify-center">
-                    <span className="text-[10px] font-bold font-sans-body text-[#4A2364] dark:text-[#6B3F8E]">
+                  <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-[#5d2c86]/10 dark:bg-[#5d2c86]/20 flex items-center justify-center">
+                    <span className="text-[10px] font-bold font-sans-body text-[#5d2c86] dark:text-[#7d44a8]">
                       {String(index + 1).padStart(2, '0')}
                     </span>
                   </div>
@@ -188,8 +188,8 @@ export default function AwardsSection() {
                   </div>
 
                   {/* Icon with floating effect on hover */}
-                  <div className="w-14 h-14 rounded-xl bg-[#4A2364]/10 dark:bg-[#4A2364]/20 flex items-center justify-center mb-5 group-hover:bg-[#4A2364]/20 dark:group-hover:bg-[#4A2364]/30 transition-all duration-300 group-hover:-translate-y-0.5">
-                    <IconComponent className="w-7 h-7 text-[#4A2364] dark:text-[#6B3F8E]" />
+                  <div className="w-14 h-14 rounded-xl bg-[#5d2c86]/10 dark:bg-[#5d2c86]/20 flex items-center justify-center mb-5 group-hover:bg-[#5d2c86]/20 dark:group-hover:bg-[#5d2c86]/30 transition-all duration-300 group-hover:-translate-y-0.5">
+                    <IconComponent className="w-7 h-7 text-[#5d2c86] dark:text-[#7d44a8]" />
                   </div>
 
                   {/* Title */}
@@ -223,9 +223,9 @@ export default function AwardsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.6 }}
         >
-          <div className="inline-flex items-center gap-3 bg-[#4A2364]/[0.06] dark:bg-[#4A2364]/[0.12] rounded-full px-6 py-3">
-            <Shield className="w-5 h-5 text-[#4A2364] dark:text-[#6B3F8E]" />
-            <p className="text-sm font-medium font-sans-body text-[#4A2364] dark:text-[#6B3F8E]">
+          <div className="inline-flex items-center gap-3 bg-[#5d2c86]/[0.06] dark:bg-[#5d2c86]/[0.12] rounded-full px-6 py-3">
+            <Shield className="w-5 h-5 text-[#5d2c86] dark:text-[#7d44a8]" />
+            <p className="text-sm font-medium font-sans-body text-[#5d2c86] dark:text-[#7d44a8]">
               All products undergo rigorous third-party testing and certification
             </p>
           </div>

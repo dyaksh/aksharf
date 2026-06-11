@@ -109,7 +109,7 @@ function DecorativeDots() {
           height="28"
           patternUnits="userSpaceOnUse"
         >
-          <circle cx="2" cy="2" r="1.5" fill="#4A2364" />
+          <circle cx="2" cy="2" r="1.5" fill="#5d2c86" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#timeline-dots)" />
@@ -158,7 +158,7 @@ function StepCircle({
       <div
         className={`
           relative w-14 h-14 rounded-full flex items-center justify-center
-          border-2 border-[#D4AF37] bg-[#4A2364]
+          border-2 border-[#D4AF37] bg-[#5d2c86]
           transition-all duration-300
           ${isHovered ? 'shadow-[0_0_24px_rgba(212,175,55,0.35)] scale-110' : 'shadow-lg'}
         `}
@@ -229,13 +229,13 @@ function DesktopStepCard({
           <div
             className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{
-              background: 'linear-gradient(90deg, #4A2364, #D4AF37, #4A2364)',
+              background: 'linear-gradient(90deg, #5d2c86, #D4AF37, #5d2c86)',
             }}
           />
 
           {/* Icon */}
-          <div className="w-9 h-9 rounded-lg bg-[#4A2364]/8 dark:bg-[#4A2364]/15 flex items-center justify-center mb-3 group-hover:bg-[#4A2364]/15 dark:group-hover:bg-[#4A2364]/25 group-hover:scale-110 transition-all duration-300">
-            <Icon className="w-4.5 h-4.5 text-[#4A2364] dark:text-[#6B3F8E]" />
+          <div className="w-9 h-9 rounded-lg bg-[#5d2c86]/8 dark:bg-[#5d2c86]/15 flex items-center justify-center mb-3 group-hover:bg-[#5d2c86]/15 dark:group-hover:bg-[#5d2c86]/25 group-hover:scale-110 transition-all duration-300">
+            <Icon className="w-4.5 h-4.5 text-[#5d2c86] dark:text-[#7d44a8]" />
           </div>
 
           {/* Duration badge */}
@@ -325,7 +325,7 @@ function MobileStepCard({
               <motion.div
                 className="absolute inset-x-0 top-0 bottom-0 rounded-full origin-top"
                 style={{
-                  background: 'linear-gradient(180deg, #4A2364, #D4AF37)',
+                  background: 'linear-gradient(180deg, #5d2c86, #D4AF37)',
                 }}
                 initial={{ scaleY: 0 }}
                 animate={isInView ? { scaleY: 1 } : {}}
@@ -360,13 +360,13 @@ function MobileStepCard({
           <div
             className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{
-              background: 'linear-gradient(90deg, #4A2364, #D4AF37, #4A2364)',
+              background: 'linear-gradient(90deg, #5d2c86, #D4AF37, #5d2c86)',
             }}
           />
 
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-8 h-8 rounded-lg bg-[#4A2364]/8 dark:bg-[#4A2364]/15 flex items-center justify-center group-hover:bg-[#4A2364]/15 dark:group-hover:bg-[#4A2364]/25 transition-all duration-300">
-              <Icon className="w-4 h-4 text-[#4A2364] dark:text-[#6B3F8E]" />
+            <div className="w-8 h-8 rounded-lg bg-[#5d2c86]/8 dark:bg-[#5d2c86]/15 flex items-center justify-center group-hover:bg-[#5d2c86]/15 dark:group-hover:bg-[#5d2c86]/25 transition-all duration-300">
+              <Icon className="w-4 h-4 text-[#5d2c86] dark:text-[#7d44a8]" />
             </div>
 
             {/* Duration badge */}
@@ -421,7 +421,7 @@ export default function ProjectTimeline() {
   return (
     <section
       id="timeline"
-      className="relative py-20 lg:py-32 overflow-hidden bg-[#F8F5F2] dark:bg-[#121212] transition-colors duration-300"
+      className="relative py-20 lg:py-32 overflow-hidden bg-[#f8f3ed] dark:bg-[#121212] transition-colors duration-300"
       ref={sectionRef}
     >
       {/* Decorative dots overlay */}
@@ -432,7 +432,7 @@ export default function ProjectTimeline() {
         className="absolute -top-20 -left-20 w-96 h-96 rounded-full pointer-events-none"
         style={{
           background:
-            'radial-gradient(circle, rgba(74,35,100,0.04) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(93,44,134,0.04) 0%, transparent 70%)',
         }}
       />
       <div
@@ -504,7 +504,7 @@ export default function ProjectTimeline() {
                 className="absolute inset-y-0 left-0 right-0 rounded-full origin-left"
                 style={{
                   background:
-                    'linear-gradient(90deg, #4A2364, #D4AF37 50%, #4A2364)',
+                    'linear-gradient(90deg, #5d2c86, #D4AF37 50%, #5d2c86)',
                 }}
                 initial={{ scaleX: 0 }}
                 animate={isInView ? { scaleX: 1 } : {}}
@@ -538,7 +538,7 @@ export default function ProjectTimeline() {
                 className="absolute inset-y-0 left-0 right-0 rounded-full origin-left"
                 style={{
                   background:
-                    'linear-gradient(90deg, #4A2364, #D4AF37 50%, #4A2364)',
+                    'linear-gradient(90deg, #5d2c86, #D4AF37 50%, #5d2c86)',
                 }}
                 initial={{ scaleX: 0 }}
                 animate={isInView ? { scaleX: 1 } : {}}

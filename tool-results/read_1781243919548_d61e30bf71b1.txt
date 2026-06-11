@@ -1,0 +1,719 @@
+     1→'use client';
+     2→
+     3→import { useEffect, useRef, useState } from 'react';
+     4→import { Button } from '@/components/ui/button';
+     5→import { ArrowRight, ChevronDown } from 'lucide-react';
+     6→import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+     7→
+     8→// Hook to detect prefers-reduced-motion
+     9→function usePrefersReducedMotion() {
+    10→  const [prefersReduced, setPrefersReduced] = useState(
+    11→    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    12→  );
+    13→  useEffect(() => {
+    14→    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    15→    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
+    16→    mql.addEventListener('change', handler);
+    17→    return () => mql.removeEventListener('change', handler);
+    18→  }, []);
+    19→  return prefersReduced;
+    20→}
+    21→
+    22→// Floating rotating diamond decoration
+    23→function FloatingDiamond() {
+    24→  return (
+    25→    <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+    26→      <motion.div
+    27→        className="w-20 h-20 border-2 border-[#D4AF37]/30 dark:border-[#D4AF37]/20 rounded-md"
+    28→        animate={{ rotate: [0, 45, 90, 135, 180, 225, 270, 315, 360] }}
+    29→        transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+    30→        style={{ transformOrigin: 'center center' }}
+    31→      >
+    32→        {/* Inner smaller diamond */}
+    33→        <motion.div
+    34→          className="absolute inset-2 border border-[#D4AF37]/15 dark:border-[#D4AF37]/10 rounded-sm"
+    35→          animate={{ rotate: [360, 315, 270, 225, 180, 135, 90, 45, 0] }}
+    36→          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+    37→          style={{ transformOrigin: 'center center' }}
+    38→        />
+    39→      </motion.div>
+    40→    </div>
+    41→  );
+    42→}
+    43→
+    44→// Decorative corner bracket (L-shape)
+    45→function CornerBracket() {
+    46→  return (
+    47→    <svg
+    48→      className="absolute -top-2 -left-2 w-10 h-10 pointer-events-none z-10"
+    49→      viewBox="0 0 40 40"
+    50→      fill="none"
+    51→      aria-hidden="true"
+    52→    >
+    53→      <motion.path
+    54→        d="M 2 2 L 2 38"
+    55→        stroke="#D4AF37"
+    56→        strokeWidth="1.5"
+    57→        strokeLinecap="round"
+    58→        initial={{ pathLength: 0 }}
+    59→        animate={{ pathLength: 1 }}
+    60→        transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+    61→      />
+    62→      <motion.path
+    63→        d="M 2 2 L 38 2"
+    64→        stroke="#D4AF37"
+    65→        strokeWidth="1.5"
+    66→        strokeLinecap="round"
+    67→        initial={{ pathLength: 0 }}
+    68→        animate={{ pathLength: 1 }}
+    69→        transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+    70→      />
+    71→    </svg>
+    72→  );
+    73→}
+    74→
+    75→// Decorative floating particle
+    76→function DecorativeParticle({
+    77→  x,
+    78→  y,
+    79→  size,
+    80→  delay,
+    81→  duration,
+    82→  shape,
+    83→}: {
+    84→  x: string;
+    85→  y: string;
+    86→  size: number;
+    87→  delay: number;
+    88→  duration: number;
+    89→  shape: 'circle' | 'diamond';
+    90→}) {
+    91→  const prefersReduced = usePrefersReducedMotion();
+    92→
+    93→  if (prefersReduced) return null;
+    94→
+    95→  return (
+    96→    <div
+    97→      className="absolute pointer-events-none z-[2]"
+    98→      style={{ left: x, top: y }}
+    99→      aria-hidden="true"
+   100→    >
+   101→      <motion.div
+   102→        className={shape === 'circle' ? 'rounded-full' : 'rounded-sm rotate-45'}
+   103→        style={{
+   104→          width: size,
+   105→          height: size,
+   106→          background: 'radial-gradient(circle, #D4AF37 0%, rgba(212,175,55,0.5) 100%)',
+   107→        }}
+   108→        animate={{
+   109→          y: [0, -14, -6, -18, 0],
+   110→          x: [0, 4, -3, 5, 0],
+   111→          opacity: [0.2, 0.3, 0.2, 0.28, 0.2],
+   112→        }}
+   113→        transition={{
+   114→          duration,
+   115→          delay,
+   116→          repeat: Infinity,
+   117→          ease: 'easeInOut',
+   118→        }}
+   119→      />
+   120→    </div>
+   121→  );
+   122→}
+   123→
+   124→// Count-up animation hook
+   125→function useCountUp(target: number, duration: number = 2000, startOnView: boolean = true) {
+   126→  const [count, setCount] = useState(0);
+   127→  const [isComplete, setIsComplete] = useState(false);
+   128→  const ref = useRef<HTMLDivElement>(null);
+   129→  const isInView = useInView(ref, { once: true });
+   130→  const hasStarted = useRef(false);
+   131→
+   132→  useEffect(() => {
+   133→    if (!startOnView || (isInView && !hasStarted.current)) {
+   134→      hasStarted.current = true;
+   135→      const startTime = Date.now();
+   136→      const animate = () => {
+   137→        const elapsed = Date.now() - startTime;
+   138→        const progress = Math.min(elapsed / duration, 1);
+   139→        // Ease out cubic
+   140→        const eased = 1 - Math.pow(1 - progress, 3);
+   141→        setCount(Math.round(eased * target));
+   142→        if (progress < 1) {
+   143→          requestAnimationFrame(animate);
+   144→        } else {
+   145→          setIsComplete(true);
+   146→        }
+   147→      };
+   148→      requestAnimationFrame(animate);
+   149→    }
+   150→  }, [isInView, target, duration, startOnView]);
+   151→
+   152→  return { count, ref, isComplete };
+   153→}
+   154→
+   155→// Decorative SVG pattern component
+   156→function DecorativePattern() {
+   157→  return (
+   158→    <svg
+   159→      className="absolute inset-0 w-full h-full pointer-events-none"
+   160→      style={{ opacity: 0.05 }}
+   161→      aria-hidden="true"
+   162→    >
+   163→      <defs>
+   164→        <pattern id="hero-pattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+   165→          <circle cx="30" cy="30" r="1.5" fill="#5d2c86" />
+   166→          <path d="M0 30h60M30 0v60" stroke="#5d2c86" strokeWidth="0.5" />
+   167→        </pattern>
+   168→      </defs>
+   169→      <rect width="100%" height="100%" fill="url(#hero-pattern)" />
+   170→    </svg>
+   171→  );
+   172→}
+   173→
+   174→// Canvas-based floating particle effect
+   175→function HeroCanvas() {
+   176→  const canvasRef = useRef<HTMLCanvasElement>(null);
+   177→  const prefersReduced = usePrefersReducedMotion();
+   178→
+   179→  useEffect(() => {
+   180→    const canvas = canvasRef.current;
+   181→    if (!canvas) return;
+   182→
+   183→    const ctx = canvas.getContext('2d');
+   184→    if (!ctx) return;
+   185→
+   186→    const colors = ['#D4AF37', '#5d2c86'];
+   187→    const particleCount = 35;
+   188→
+   189→    interface Particle {
+   190→      x: number;
+   191→      y: number;
+   192→      size: number;
+   193→      speed: number;
+   194→      opacity: number;
+   195→      color: string;
+   196→      drift: number;
+   197→    }
+   198→
+   199→    let particles: Particle[] = [];
+   200→    let animationId: number;
+   201→
+   202→    const resize = () => {
+   203→      const parent = canvas.parentElement;
+   204→      if (parent) {
+   205→        canvas.width = parent.offsetWidth;
+   206→        canvas.height = parent.offsetHeight;
+   207→      }
+   208→    };
+   209→
+   210→    const createParticle = (atTop = false): Particle => ({
+   211→      x: Math.random() * canvas.width,
+   212→      y: atTop ? canvas.height + 10 : Math.random() * canvas.height,
+   213→      size: 1 + Math.random() * 2,
+   214→      speed: 0.15 + Math.random() * 0.35,
+   215→      opacity: 0.15 + Math.random() * 0.15,
+   216→      color: colors[Math.floor(Math.random() * colors.length)],
+   217→      drift: (Math.random() - 0.5) * 0.3,
+   218→    });
+   219→
+   220→    const initParticles = () => {
+   221→      particles = Array.from({ length: particleCount }, () => createParticle(false));
+   222→    };
+   223→
+   224→    const drawStatic = () => {
+   225→      ctx.clearRect(0, 0, canvas.width, canvas.height);
+   226→      particles.forEach((p) => {
+   227→        ctx.beginPath();
+   228→        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+   229→        ctx.fillStyle = p.color;
+   230→        ctx.globalAlpha = p.opacity;
+   231→        ctx.fill();
+   232→      });
+   233→      ctx.globalAlpha = 1;
+   234→    };
+   235→
+   236→    const animate = () => {
+   237→      ctx.clearRect(0, 0, canvas.width, canvas.height);
+   238→
+   239→      particles.forEach((p) => {
+   240→        // Move upward
+   241→        p.y -= p.speed;
+   242→        p.x += p.drift;
+   243→
+   244→        // Fade out near top
+   245→        const fadeStart = canvas.height * 0.15;
+   246→        const currentOpacity = p.y < fadeStart
+   247→          ? p.opacity * (p.y / fadeStart)
+   248→          : p.opacity;
+   249→
+   250→        // Draw particle
+   251→        ctx.beginPath();
+   252→        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+   253→        ctx.fillStyle = p.color;
+   254→        ctx.globalAlpha = currentOpacity;
+   255→        ctx.fill();
+   256→
+   257→        // Respawn at bottom if off-screen
+   258→        if (p.y < -10) {
+   259→          Object.assign(p, createParticle(true));
+   260→        }
+   261→      });
+   262→
+   263→      ctx.globalAlpha = 1;
+   264→      animationId = requestAnimationFrame(animate);
+   265→    };
+   266→
+   267→    resize();
+   268→    initParticles();
+   269→
+   270→    if (prefersReduced) {
+   271→      drawStatic();
+   272→    } else {
+   273→      animate();
+   274→    }
+   275→
+   276→    const handleResize = () => {
+   277→      resize();
+   278→      if (prefersReduced) drawStatic();
+   279→    };
+   280→
+   281→    window.addEventListener('resize', handleResize);
+   282→
+   283→    return () => {
+   284→      window.removeEventListener('resize', handleResize);
+   285→      cancelAnimationFrame(animationId);
+   286→    };
+   287→  }, [prefersReduced]);
+   288→
+   289→  return (
+   290→    <canvas
+   291→      ref={canvasRef}
+   292→      className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
+   293→      aria-hidden="true"
+   294→    />
+   295→  );
+   296→}
+   297→
+   298→// Word-by-word reveal for the headline
+   299→function TypewriterHeadline() {
+   300→  const prefersReduced = usePrefersReducedMotion();
+   301→  const [visibleWords, setVisibleWords] = useState<number[]>([]);
+   302→
+   303→  // "Furniture that" | "tells the story" | "of a hotel."
+   304→  const segments = [
+   305→    { text: 'Furniture that ', type: 'normal' as const },
+   306→    { text: 'tells the story', type: 'highlight' as const, words: ['tells', 'the', 'story'] },
+   307→    { text: ' of a hotel.', type: 'normal' as const },
+   308→  ];
+   309→
+   310→  useEffect(() => {
+   311→    if (prefersReduced) {
+   312→      // Show everything immediately for reduced motion
+   313→      // Using queueMicrotask to avoid synchronous setState in effect
+   314→      queueMicrotask(() => setVisibleWords([0, 1, 2]));
+   315→      return;
+   316→    }
+   317→
+   318→    // Word-by-word reveal for "tells the story" with staggered timing
+   319→    const timers: ReturnType<typeof setTimeout>[] = [];
+   320→    const baseDelay = 1400; // after "Furniture that" fades in (0.6s delay + 0.8s duration)
+   321→
+   322→    // Show "tells" first
+   323→    timers.push(setTimeout(() => setVisibleWords(prev => [...prev, 0]), baseDelay));
+   324→    // Show "the" next
+   325→    timers.push(setTimeout(() => setVisibleWords(prev => [...prev, 1]), baseDelay + 350));
+   326→    // Show "story" last
+   327→    timers.push(setTimeout(() => setVisibleWords(prev => [...prev, 2]), baseDelay + 700));
+   328→
+   329→    return () => timers.forEach(clearTimeout);
+   330→  }, [prefersReduced]);
+   331→
+   332→  return (
+   333→    <motion.h2
+   334→      className="text-3xl sm:text-4xl lg:text-6xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-8"
+   335→      initial={{ opacity: 0, y: 30 }}
+   336→      animate={{ opacity: 1, y: 0 }}
+   337→      transition={{ duration: 0.8, delay: 0.6 }}
+   338→    >
+   339→      {/* "Furniture that" - fades in normally with the h2 */}
+   340→      <span>Furniture that</span>{' '}
+   341→      {/* "tells the story" - word-by-word reveal */}
+   342→      <span className="text-[#D4AF37] italic">
+   343→        <span className="inline-block relative">
+   344→          <span
+   345→            className={`transition-all duration-500 ${visibleWords.includes(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+   346→          >
+   347→            tells
+   348→          </span>
+   349→        </span>{' '}
+   350→        <span className="inline-block relative">
+   351→          <span
+   352→            className={`transition-all duration-500 ${visibleWords.includes(1) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+   353→          >
+   354→            the
+   355→          </span>
+   356→        </span>{' '}
+   357→        <span className="inline-block relative">
+   358→          <span
+   359→            className={`transition-all duration-500 ${visibleWords.includes(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+   360→          >
+   361→            story
+   362→          </span>
+   363→          {/* Underline decoration that draws in after word reveal */}
+   364→          <motion.span
+   365→            className="absolute -bottom-1 left-0 h-[2px] bg-[#D4AF37]"
+   366→            initial={{ width: 0 }}
+   367→            animate={{ width: visibleWords.includes(2) ? '100%' : 0 }}
+   368→            transition={{ duration: 0.6, delay: 0.2 }}
+   369→          />
+   370→        </span>
+   371→      </span>{' '}
+   372→      {/* "of a hotel." - fades in slightly after main headline */}
+   373→      <motion.span
+   374→        initial={{ opacity: 0 }}
+   375→        animate={{ opacity: 1 }}
+   376→        transition={{ duration: 0.6, delay: 1.8 }}
+   377→      >
+   378→        of a hotel.
+   379→      </motion.span>
+   380→    </motion.h2>
+   381→  );
+   382→}
+   383→
+   384→const stats = [
+   385→  { value: 13, suffix: '+', label: 'COOPERATING FACILITIES', mobileLabel: 'FACILITIES' },
+   386→  { value: 5, suffix: '+', label: 'YEARS HOSPITALITY EXPERIENCE', mobileLabel: 'YEARS EXPERIENCE' },
+   387→  { value: 240, suffix: '', label: 'KEYS DELIVERED IN 21 DAYS', mobileLabel: 'KEYS IN 21 DAYS' },
+   388→  { value: 360, suffix: '°', label: 'FULL FF&E COVERAGE', mobileLabel: 'FF&E COVERAGE', isSpecial: true },
+   389→];
+   390→
+   391→export default function HeroSection() {
+   392→  const heroRef = useRef<HTMLElement>(null);
+   393→  const prefersReduced = usePrefersReducedMotion();
+   394→  const { scrollYProgress } = useScroll({
+   395→    target: heroRef,
+   396→    offset: ['start start', 'end start'],
+   397→  });
+   398→
+   399→  // Main image parallax (existing - moves down as you scroll)
+   400→  const heroImageY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+   401→  // Floating images parallax - SLOWER than main image
+   402→  const floatingImageY1 = useTransform(scrollYProgress, [0, 1], ['0%', '8%']);
+   403→  const floatingImageY2 = useTransform(scrollYProgress, [0, 1], ['0%', '5%']);
+   404→  // Text content parallax - moves in OPPOSITE direction slightly
+   405→  const textContentY = useTransform(scrollYProgress, [0, 1], ['0%', '-5%']);
+   406→
+   407→  return (
+   408→    <section id="home" className="relative bg-[#f8f3ed] dark:bg-[#1A1A1A] min-h-screen pt-20 lg:pt-0 overflow-x-hidden overflow-y-hidden transition-colors duration-300" ref={heroRef}>
+   409→      {/* Gradient overlay - cream to very light purple tint */}
+   410→      <div
+   411→        className="absolute inset-0 pointer-events-none"
+   412→        style={{
+   413→          background: 'linear-gradient(160deg, #f8f3ed 0%, #f8f3ed 40%, #F3EFF8 70%, #EDE7F3 100%)',
+   414→        }}
+   415→      />
+   416→      {/* Dark mode gradient */}
+   417→      <div
+   418→        className="absolute inset-0 pointer-events-none hidden dark:block"
+   419→        style={{
+   420→          background: 'linear-gradient(160deg, #1A1A1A 0%, #1A1A1A 40%, #1E1525 70%, #231830 100%)',
+   421→        }}
+   422→      />
+   423→
+   424→      {/* Decorative floating particles */}
+   425→      <DecorativeParticle x="8%" y="18%" size={6} delay={0} duration={6} shape="circle" />
+   426→      <DecorativeParticle x="85%" y="25%" size={5} delay={1.5} duration={7} shape="diamond" />
+   427→      <DecorativeParticle x="15%" y="65%" size={4} delay={3} duration={5.5} shape="circle" />
+   428→      <DecorativeParticle x="75%" y="70%" size={5} delay={2} duration={6.5} shape="diamond" />
+   429→      <DecorativeParticle x="45%" y="12%" size={3} delay={4} duration={5} shape="circle" />
+   430→
+   431→      {/* Decorative SVG pattern behind hero text */}
+   432→      <DecorativePattern />
+   433→
+   434→      {/* Animated canvas particles */}
+   435→      <HeroCanvas />
+   436→
+   437→      {/* Grain texture overlay for visual depth */}
+   438→      <div
+   439→        className="absolute inset-0 pointer-events-none z-[1]"
+   440→        style={{ opacity: 0.03 }}
+   441→        aria-hidden="true"
+   442→      >
+   443→        <svg width="100%" height="100%">
+   444→          <filter id="grain-filter">
+   445→            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+   446→            <feColorMatrix type="saturate" values="0" />
+   447→          </filter>
+   448→          <rect width="100%" height="100%" filter="url(#grain-filter)" />
+   449→        </svg>
+   450→      </div>
+   451→
+   452→      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   453→        <div className="flex flex-col lg:flex-row items-center min-h-screen py-16 lg:py-0 gap-8 lg:gap-12 relative">
+   454→          {/* Floating diamond decoration between columns (desktop only) */}
+   455→          <FloatingDiamond />
+   456→
+   457→          {/* Left Content - with subtle reverse parallax */}
+   458→          <motion.div
+   459→            className="w-full lg:flex-1 lg:max-w-xl pt-4 lg:pt-0 relative"
+   460→            style={prefersReduced ? {} : { y: textContentY }}
+   461→          >
+   462→            {/* Decorative corner bracket */}
+   463→            <CornerBracket />
+   464→
+   465→            {/* Purple divider */}
+   466→            <motion.div
+   467→              className="w-12 h-0.5 bg-[#5d2c86] mb-6"
+   468→              initial={{ width: 0, opacity: 0 }}
+   469→              animate={{ width: 48, opacity: 1 }}
+   470→              transition={{ duration: 0.8, delay: 0.2 }}
+   471→            />
+   472→
+   473→            {/* Subheading with animated line */}
+   474→            <div className="flex items-center gap-3 mb-4">
+   475→              <motion.div
+   476→                className="h-[1px] bg-gradient-to-r from-transparent to-[#D4AF37] shrink-0"
+   477→                initial={{ width: 0 }}
+   478→                animate={{ width: 32 }}
+   479→                transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+   480→              />
+   481→              <motion.p
+   482→                className="text-xs tracking-[0.3em] text-gray-500 dark:text-gray-400 font-sans-body"
+   483→                initial={{ opacity: 0, x: -10 }}
+   484→                animate={{ opacity: 1, x: 0 }}
+   485→                transition={{ duration: 0.6, delay: 0.5 }}
+   486→              >
+   487→                HOSPITALITY FF&E &bull; EST. FOSHAN
+   488→              </motion.p>
+   489→            </div>
+   490→
+   491→            {/* Main headline - with typewriter effect */}
+   492→            <TypewriterHeadline />
+   493→
+   494→            {/* Description */}
+   495→            <motion.p
+   496→              className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-7 sm:leading-relaxed mb-8 font-sans-body max-w-lg"
+   497→              initial={{ opacity: 0, y: 20 }}
+   498→              animate={{ opacity: 1, y: 0 }}
+   499→              transition={{ duration: 0.6, delay: 0.8 }}
+   500→            >
+   501→              Akshar Foshan crafts complete hotel furniture solutions — casegoods,
+   502→              upholstery, lighting, mirrors, bathroom accessories — and orchestrates
+   503→              sourcing, QC and logistics for hospitality brands worldwide.
+   504→            </motion.p>
+   505→
+   506→            {/* CTA Buttons - min 48px touch target */}
+   507→            <motion.div
+   508→              className="flex flex-col sm:flex-row gap-4"
+   509→              initial={{ opacity: 0, y: 20 }}
+   510→              animate={{ opacity: 1, y: 0 }}
+   511→              transition={{ duration: 0.6, delay: 1.0 }}
+   512→            >
+   513→              {/* Primary button with pulsing glow */}
+   514→              <div className="relative">
+   515→                {/* Pulse glow effect behind button */}
+   516→                <div className="absolute inset-0 rounded-full cta-pulse-glow bg-[#5d2c86] pointer-events-none" aria-hidden="true" />
+   517→                <Button
+   518→                  onClick={() => { window.location.hash = 'portfolio'; }}
+   519→                  className="btn-shimmer relative bg-[#5d2c86] hover:bg-[#7d44a8] text-white rounded-full px-8 min-h-12 font-sans-body text-sm font-medium group shadow-lg hover:shadow-xl transition-shadow duration-300"
+   520→                >
+   521→                  Open the portfolio
+   522→                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+   523→                </Button>
+   524→              </div>
+   525→
+   526→              {/* Secondary button with gold underline draw on hover */}
+   527→              <div className="relative group/btn">
+   528→                <Button
+   529→                  variant="outline"
+   530→                  onClick={() => { window.location.hash = 'contact'; }}
+   531→                  className="border-[#5d2c86] text-[#5d2c86] dark:border-[#7d44a8] dark:text-[#7d44a8] hover:bg-[#5d2c86]/5 rounded-full px-8 min-h-12 font-sans-body text-sm font-medium relative overflow-hidden whitespace-nowrap"
+   532→                >
+   533→                  Start a Project
+   534→                  {/* Gold underline that draws on hover */}
+   535→                  <motion.span
+   536→                    className="absolute bottom-3 left-1/2 -translate-x-1/2 h-[2px] bg-[#D4AF37]"
+   537→                    initial={{ width: 0 }}
+   538→                    whileHover={{ width: '60%' }}
+   539→                    transition={{ duration: 0.3, ease: 'easeOut' }}
+   540→                    style={{ borderRadius: 1 }}
+   541→                  />
+   542→                </Button>
+   543→              </div>
+   544→            </motion.div>
+   545→          </motion.div>
+   546→
+   547→          {/* Right Visual Area */}
+   548→          <motion.div
+   549→            className="w-full lg:flex-1 relative lg:max-w-2xl"
+   550→            initial={{ opacity: 0, x: 60 }}
+   551→            animate={{ opacity: 1, x: 0 }}
+   552→            transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
+   553→            style={prefersReduced ? {} : { y: heroImageY }}
+   554→          >
+   555→            <div className="relative">
+   556→              {/* Purple glow behind main image */}
+   557→              <div
+   558→                className="absolute -inset-8 rounded-full pointer-events-none z-0"
+   559→                style={{
+   560→                  background: 'radial-gradient(ellipse at center, rgba(93,44,134,0.25) 0%, rgba(93,44,134,0.08) 40%, transparent 70%)',
+   561→                  filter: 'blur(40px)',
+   562→                }}
+   563→                aria-hidden="true"
+   564→              />
+   565→
+   566→              {/* Main image with animated conic gradient border */}
+   567→              <div className="relative z-[1] p-[3px] rounded-2xl">
+   568→                {/* Animated gradient border layer */}
+   569→                <div
+   570→                  className="absolute inset-0 rounded-2xl hero-gradient-border dark:hero-gradient-border-dark"
+   571→                  aria-hidden="true"
+   572→                />
+   573→                {/* Inner content with cream/dark background to create border effect */}
+   574→                <div className="relative rounded-[14px] overflow-hidden shadow-2xl bg-[#f8f3ed] dark:bg-[#1A1A1A]">
+   575→                  <img
+   576→                    src="/hero-hotel.png"
+   577→                    alt="Hilton Hotel - Akshar Foshan Project"
+   578→                    className="w-full h-[220px] sm:h-[350px] lg:h-[480px] object-cover"
+   579→                  />
+   580→                  {/* Enhanced badge with gold border-left accent */}
+   581→                  <motion.div
+   582→                    className="absolute bottom-4 left-4 bg-black/75 backdrop-blur-sm text-white px-5 py-3 rounded-lg border-l-[3px] border-[#D4AF37] shadow-lg"
+   583→                    initial={{ opacity: 0 }}
+   584→                    animate={{ opacity: 1 }}
+   585→                    transition={{ duration: 0.8, delay: 1.2 }}
+   586→                  >
+   587→                    <p className="text-xs tracking-widest font-sans-body">
+   588→                      NOW MANUFACTURING — <span className="font-bold text-[#D4AF37]">240 KEYS</span>
+   589→                    </p>
+   590→                  </motion.div>
+   591→                </div>
+   592→              </div>
+   593→
+   594→              {/* Floating small image - top right with SLOWER parallax - only on desktop */}
+   595→              <motion.div
+   596→                className="absolute -top-4 -right-2 lg:-right-8 w-28 h-24 lg:w-40 lg:h-32 rounded-xl overflow-hidden shadow-xl hidden md:block"
+   597→                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+   598→                animate={{ opacity: 1, scale: 1, y: 0 }}
+   599→                transition={{ duration: 0.7, delay: 1.0 }}
+   600→                style={{ border: '3px solid #5d2c86', y: prefersReduced ? undefined : floatingImageY1 }}
+   601→              >
+   602→                <img
+   603→                  src="/hero-hotel2.png"
+   604→                  alt="Modern hotel building"
+   605→                  className="w-full h-full object-cover"
+   606→                />
+   607→              </motion.div>
+   608→
+   609→              {/* Floating small image - bottom right with SLOWEST parallax - only on desktop */}
+   610→              <motion.div
+   611→                className="absolute -bottom-6 right-8 lg:right-16 w-24 h-20 lg:w-36 lg:h-28 rounded-xl overflow-hidden shadow-xl hidden md:block"
+   612→                initial={{ opacity: 0, scale: 0.8, y: -20 }}
+   613→                animate={{ opacity: 1, scale: 1, y: 0 }}
+   614→                transition={{ duration: 0.7, delay: 1.2 }}
+   615→                style={{ border: '3px solid #D4AF37', y: prefersReduced ? undefined : floatingImageY2 }}
+   616→              >
+   617→                <img
+   618→                  src="/catalog-pages/page_7.png"
+   619→                  alt="Hotel project"
+   620→                  className="w-full h-full object-cover"
+   621→                />
+   622→              </motion.div>
+   623→            </div>
+   624→          </motion.div>
+   625→        </div>
+   626→
+   627→        {/* Stats Section */}
+   628→        <div className="relative pb-12 lg:pb-20 pt-8">
+   629→          {/* Separator line above stats with traveling gold dot */}
+   630→          <div className="relative w-full mb-10">
+   631→            <motion.div
+   632→              className="w-full h-[2px]"
+   633→              style={{
+   634→                background: 'linear-gradient(90deg, transparent, rgba(93,44,134,0.35) 20%, rgba(212,175,55,0.35) 80%, transparent)',
+   635→              }}
+   636→              initial={{ scaleX: 0 }}
+   637→              whileInView={{ scaleX: 1 }}
+   638→              viewport={{ once: true }}
+   639→              transition={{ duration: 1.2, ease: 'easeOut' }}
+   640→            />
+   641→            {/* Traveling gold dot */}
+   642→            <div className="traveling-dot" aria-hidden="true" />
+   643→          </div>
+   644→
+   645→          <div className="stats-shimmer grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 backdrop-blur-md bg-white/50 dark:bg-white/5 rounded-2xl p-6 lg:p-8 border border-white/20 dark:border-white/10 shadow-lg shadow-black/[0.03] dark:shadow-black/20">
+   646→            {stats.map((stat, index) => (
+   647→              <StatItem key={stat.label} stat={stat} index={index} />
+   648→            ))}
+   649→          </div>
+   650→
+   651→          {/* Scroll-down indicator - part of stats section */}
+   652→          <motion.div
+   653→            className="flex flex-col items-center gap-1 mt-10"
+   654→            initial={{ opacity: 0 }}
+   655→            animate={{ opacity: 1 }}
+   656→            transition={{ delay: 2, duration: 1 }}
+   657→          >
+   658→            <span className="text-[10px] tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body">SCROLL</span>
+   659→            <motion.div
+   660→              animate={{ y: [0, 6, 0] }}
+   661→              transition={{
+   662→                duration: 1.8,
+   663→                repeat: Infinity,
+   664→                ease: 'easeInOut',
+   665→              }}
+   666→            >
+   667→              <ChevronDown className="w-4 h-4 text-[#5d2c86]/50 dark:text-[#7d44a8]/50" />
+   668→            </motion.div>
+   669→          </motion.div>
+   670→        </div>
+   671→      </div>
+   672→
+   673→    </section>
+   674→  );
+   675→}
+   676→
+   677→// Stat item component with count-up animation
+   678→function StatItem({ stat, index }: { stat: typeof stats[number]; index: number }) {
+   679→  const { count, ref, isComplete } = useCountUp(stat.value, 2000);
+   680→
+   681→  return (
+   682→    <motion.div
+   683→      ref={ref}
+   684→      className="text-center lg:text-left"
+   685→      initial={{ opacity: 0, y: 20 }}
+   686→      whileInView={{ opacity: 1, y: 0 }}
+   687→      viewport={{ once: true }}
+   688→      transition={{ duration: 0.6, delay: index * 0.15 }}
+   689→    >
+   690→      <p
+   691→        className={`text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display ${isComplete ? 'count-glow' : ''}`}
+   692→        style={{
+   693→          background: 'linear-gradient(135deg, #5d2c86, #D4AF37)',
+   694→          WebkitBackgroundClip: 'text',
+   695→          WebkitTextFillColor: 'transparent',
+   696→          backgroundClip: 'text',
+   697→        }}
+   698→      >
+   699→        {stat.isSpecial ? (
+   700→          <>
+   701→            <span>{count}</span>
+   702→            <span>{stat.suffix}</span>
+   703→          </>
+   704→        ) : (
+   705→          <>
+   706→            {count}
+   707→            {stat.suffix}
+   708→          </>
+   709→        )}
+   710→      </p>
+   711→      <p className="text-xs tracking-widest text-gray-400 dark:text-gray-500 mt-2 font-sans-body">
+   712→        {/* Shorter labels on mobile */}
+   713→        <span className="md:hidden">{stat.mobileLabel}</span>
+   714→        <span className="hidden md:inline">{stat.label}</span>
+   715→      </p>
+   716→    </motion.div>
+   717→  );
+   718→}
+   719→

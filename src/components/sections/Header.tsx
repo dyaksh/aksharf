@@ -1,17 +1,17 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Home, Sun, Moon, Diamond, Phone, Mail, MessageCircle, Smartphone } from 'lucide-react';
+import { Menu, X, Sun, Moon, Diamond, Phone, Mail, MessageCircle, Download } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from 'next-themes';
 
 const navLinks = [
   { label: 'Home', href: '#home' },
-  { label: 'Services', href: '#services' },
-  { label: 'Portfolio', href: '#portfolio' },
-  { label: 'Catalog', href: '#catalog' },
   { label: 'About', href: '#about' },
+  { label: 'Portfolio', href: '#portfolio' },
+  { label: 'Services', href: '#services' },
   { label: 'Contact', href: '#contact' },
 ];
 
@@ -21,7 +21,7 @@ function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-      className="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-[#4A2364] dark:text-gray-400 dark:hover:text-[#6B3F8E] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+      className="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-[#5d2c86] dark:text-gray-400 dark:hover:text-[#7d44a8] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
       aria-label={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       <Sun className="w-5 h-5 block dark:hidden" />
@@ -33,7 +33,22 @@ function ThemeToggle() {
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('#home');
+  const [activeHash, setActiveHash] = useState('#home');
+
+  // Track active section based on URL hash
+  useEffect(() => {
+    const updateHash = () => {
+      const hash = window.location.hash || '#home';
+      setActiveHash(hash);
+    };
+
+    // Set initial hash
+    updateHash();
+
+    // Listen for hash changes
+    window.addEventListener('hashchange', updateHash);
+    return () => window.removeEventListener('hashchange', updateHash);
+  }, []);
 
   // Scroll background change
   useEffect(() => {
@@ -42,32 +57,6 @@ export default function Header() {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  // Scroll spy using IntersectionObserver
-  useEffect(() => {
-    const sectionIds = navLinks.map((link) => link.href.substring(1));
-    const observers: IntersectionObserver[] = [];
-
-    sectionIds.forEach((id) => {
-      const element = document.getElementById(id);
-      if (!element) return;
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setActiveSection(`#${id}`);
-            }
-          });
-        },
-        { rootMargin: '-40% 0px -50% 0px', threshold: 0 }
-      );
-      observer.observe(element);
-      observers.push(observer);
-    });
-
-    return () => observers.forEach((obs) => obs.disconnect());
   }, []);
 
   // Lock body scroll when mobile menu is open
@@ -84,10 +73,7 @@ export default function Header() {
 
   const handleNavClick = useCallback((href: string) => {
     setIsMobileMenuOpen(false);
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.location.hash = href.replace('#', '');
   }, []);
 
   return (
@@ -104,62 +90,65 @@ export default function Header() {
           isScrolled ? 'opacity-100' : 'opacity-0'
         }`}
         style={{
-          background: 'linear-gradient(90deg, transparent, rgba(74,35,100,0.2) 30%, rgba(212,175,55,0.2) 70%, transparent)',
+          background: 'linear-gradient(90deg, transparent, rgba(93,44,134,0.2) 30%, rgba(212,175,55,0.2) 70%, transparent)',
         }}
       />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
-          <div className="flex items-center gap-3">
+          <a
+            href="#home"
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavClick('#home');
+            }}
+            className="flex items-center gap-3"
+          >
             <motion.div
-              className="w-11 h-11 rounded-full bg-[#4A2364] flex items-center justify-center shadow-md"
+              className="relative flex-shrink-0"
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6, ease: 'easeOut' }}
             >
-              <motion.div
-                animate={{
-                  scale: [1, 1.08, 1],
-                }}
-                transition={{
-                  duration: 2.5,
-                  repeat: 1,
-                  ease: 'easeInOut',
-                }}
-              >
-                <Home className="w-5 h-5 text-white" />
-              </motion.div>
+              <Image
+                src="/images/logo.png"
+                alt="Akshar Foshan logo"
+                width={44}
+                height={44}
+                className="h-10 w-auto sm:h-11 lg:h-12 object-contain"
+                priority
+              />
             </motion.div>
             <div>
               <h1 className="text-lg font-bold text-[#1A1A1A] dark:text-white leading-tight font-sans-body">
                 Akshar Foshan
               </h1>
               <p className="text-[10px] tracking-[0.2em] text-gray-400 dark:text-gray-400 font-sans-body">
-                HOSPITALITY FF&E
+                HOSPITALITY FF&amp;E
               </p>
             </div>
-          </div>
+          </a>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
-              const isActive = activeSection === link.href;
+              const isActive = activeHash === link.href;
               return (
                 <button
                   key={link.label}
                   onClick={() => handleNavClick(link.href)}
                   className={`relative text-sm font-medium transition-all duration-300 font-sans-body px-4 py-2 rounded-full ${
                     isActive
-                      ? 'text-[#4A2364] dark:text-[#6B3F8E]'
-                      : 'text-gray-500 dark:text-gray-400 hover:text-[#4A2364] dark:hover:text-[#6B3F8E]'
+                      ? 'text-[#5d2c86] dark:text-[#7d44a8]'
+                      : 'text-gray-500 dark:text-gray-400 hover:text-[#5d2c86] dark:hover:text-[#7d44a8]'
                   }`}
                 >
                   {link.label}
                   {isActive && (
                     <motion.div
                       layoutId="activeNav"
-                      className="absolute inset-0 bg-[#4A2364]/8 dark:bg-[#6B3F8E]/8 rounded-full -z-10"
+                      className="absolute inset-0 bg-[#5d2c86]/8 dark:bg-[#7d44a8]/8 rounded-full -z-10"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -179,10 +168,18 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-2">
             <ThemeToggle />
             <Button
-              onClick={() => handleNavClick('#contact')}
-              className="bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-full px-6 font-sans-body text-sm shadow-md hover:shadow-lg transition-shadow duration-300"
+              variant="outline"
+              onClick={() => window.open('/brochure.pdf', '_blank')}
+              className="border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37]/10 rounded-full px-4 font-sans-body text-sm transition-colors duration-300 hidden lg:inline-flex"
             >
-              Request Catalog
+              <Download className="w-3.5 h-3.5 mr-1.5" />
+              Brochure
+            </Button>
+            <Button
+              onClick={() => handleNavClick('#contact')}
+              className="bg-[#5d2c86] hover:bg-[#7d44a8] text-white rounded-full px-6 font-sans-body text-sm shadow-md hover:shadow-lg transition-shadow duration-300"
+            >
+              Get a Quote
             </Button>
           </div>
 
@@ -224,7 +221,7 @@ export default function Header() {
               <div className="flex flex-col h-full pt-20 px-6">
                 <nav className="flex flex-col">
                   {navLinks.map((link, index) => {
-                    const isActive = activeSection === link.href;
+                    const isActive = activeHash === link.href;
                     return (
                       <div key={link.label}>
                         {index > 0 && (
@@ -237,8 +234,8 @@ export default function Header() {
                           transition={{ delay: 0.1 + index * 0.08, duration: 0.3 }}
                           className={`text-left text-lg font-medium py-3 px-4 rounded-lg transition-colors font-sans-body ${
                             isActive
-                              ? 'text-[#4A2364] dark:text-[#6B3F8E] bg-[#4A2364]/8 dark:bg-[#6B3F8E]/8'
-                              : 'text-gray-700 dark:text-gray-300 hover:text-[#4A2364] dark:hover:text-[#6B3F8E] hover:bg-gray-50 dark:hover:bg-gray-800'
+                              ? 'text-[#5d2c86] dark:text-[#7d44a8] bg-[#5d2c86]/8 dark:bg-[#7d44a8]/8'
+                              : 'text-gray-700 dark:text-gray-300 hover:text-[#5d2c86] dark:hover:text-[#7d44a8] hover:bg-gray-50 dark:hover:bg-gray-800'
                           }`}
                         >
                           {link.label}
@@ -247,16 +244,24 @@ export default function Header() {
                     );
                   })}
                 </nav>
-                <div className="mt-6">
+                <div className="mt-6 space-y-3">
                   <Button
                     onClick={() => handleNavClick('#contact')}
-                    className="w-full bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-full py-3 font-sans-body shadow-md"
+                    className="w-full bg-[#5d2c86] hover:bg-[#7d44a8] text-white rounded-full py-3 font-sans-body shadow-md"
                   >
-                    Request Catalog
+                    Get a Quote
+                  </Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => window.open('/brochure.pdf', '_blank')}
+                    className="w-full border-[#D4AF37]/40 text-[#D4AF37] hover:bg-[#D4AF37]/10 rounded-full py-3 font-sans-body"
+                  >
+                    <Download className="w-4 h-4 mr-2" />
+                    Download Brochure
                   </Button>
                 </div>
 
-                {/* Contact info and quick actions */}
+                {/* Contact info - neutral colored */}
                 <div className="mt-auto pb-8">
                   {/* Gold separator */}
                   <div className="w-16 h-0.5 bg-[#D4AF37] mb-4" />
@@ -264,48 +269,46 @@ export default function Header() {
                   {/* Phone & Email */}
                   <div className="space-y-2 mb-4">
                     <a
-                      href="tel:+8618666422531"
-                      className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-[#4A2364] dark:hover:text-[#6B3F8E] transition-colors"
+                      href="tel:+17606170800"
+                      className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-[#5d2c86] dark:hover:text-[#7d44a8] transition-colors"
                     >
                       <Phone className="w-3.5 h-3.5 text-[#D4AF37]" />
-                      +86 186 6642 2531
+                      +1 (760) 617-0800
                     </a>
                     <a
-                      href="mailto:info@aksharfoshan.com"
-                      className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-[#4A2364] dark:hover:text-[#6B3F8E] transition-colors"
+                      href="mailto:yogin@aksharfoshan.com"
+                      className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-[#5d2c86] dark:hover:text-[#7d44a8] transition-colors"
                     >
                       <Mail className="w-3.5 h-3.5 text-[#D4AF37]" />
-                      info@aksharfoshan.com
+                      yogin@aksharfoshan.com
                     </a>
                   </div>
 
-                  {/* WeChat & WhatsApp quick actions */}
+                  {/* Neutral contact options (replacing green WhatsApp/WeChat) */}
                   <div className="flex items-center gap-3 mb-4">
                     <a
-                      href="https://wa.me/8618666422531"
+                      href="https://wa.me/17606170800"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-xs font-medium text-[#25D366] hover:text-[#128C7E] transition-colors px-3 py-2 rounded-full bg-[#25D366]/10 hover:bg-[#25D366]/20"
+                      className="flex items-center gap-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-[#5d2c86] dark:hover:text-[#7d44a8] transition-colors px-3 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
                     >
                       <MessageCircle className="w-3.5 h-3.5" />
                       WhatsApp
                     </a>
-                    <button
-                      className="flex items-center gap-1.5 text-xs font-medium text-[#07C160] hover:text-[#06AD56] transition-colors px-3 py-2 rounded-full bg-[#07C160]/10 hover:bg-[#07C160]/20"
-                      onClick={() => {
-                        navigator.clipboard.writeText('18666422531');
-                      }}
+                    <a
+                      href="mailto:yogin@aksharfoshan.com"
+                      className="flex items-center gap-1.5 text-xs font-medium text-gray-600 dark:text-gray-300 hover:text-[#5d2c86] dark:hover:text-[#7d44a8] transition-colors px-3 py-2 rounded-full bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700"
                     >
-                      <Smartphone className="w-3.5 h-3.5" />
-                      WeChat
-                    </button>
+                      <Mail className="w-3.5 h-3.5" />
+                      Email Us
+                    </a>
                   </div>
 
                   {/* Decorative branding */}
                   <div className="flex items-center gap-2">
                     <Diamond className="w-3 h-3 text-[#D4AF37]" />
                     <p className="text-xs tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body">
-                      HOSPITALITY FF&E
+                      HOSPITALITY FF&amp;E
                     </p>
                   </div>
                 </div>

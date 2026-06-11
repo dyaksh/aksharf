@@ -77,8 +77,8 @@ function FAQAccordionItem({
           border transition-all duration-500 relative
           ${
             isOpen
-              ? 'border-[#4A2364]/20 dark:border-[#6B3F8E]/30 shadow-lg shadow-[#4A2364]/5 dark:shadow-[#6B3F8E]/10'
-              : 'border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-[#4A2364]/10 dark:hover:border-[#6B3F8E]/20'
+              ? 'border-[#5d2c86]/20 dark:border-[#7d44a8]/30 shadow-lg shadow-[#5d2c86]/5 dark:shadow-[#7d44a8]/10'
+              : 'border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-[#5d2c86]/10 dark:hover:border-[#7d44a8]/20'
           }
         `}
       >
@@ -86,7 +86,7 @@ function FAQAccordionItem({
         <div
           className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl transition-all duration-500 ${
             isOpen
-              ? 'bg-gradient-to-b from-[#4A2364] via-[#D4AF37] to-[#4A2364] dark:from-[#6B3F8E] dark:via-[#D4AF37] dark:to-[#6B3F8E]'
+              ? 'bg-gradient-to-b from-[#5d2c86] via-[#D4AF37] to-[#5d2c86] dark:from-[#7d44a8] dark:via-[#D4AF37] dark:to-[#7d44a8]'
               : 'bg-gray-200 dark:bg-gray-700 group-hover:bg-[#D4AF37]/50 dark:group-hover:bg-[#D4AF37]/30'
           }`}
         />
@@ -95,15 +95,15 @@ function FAQAccordionItem({
         <button
           onClick={onToggle}
           className="w-full flex items-center justify-between gap-4 px-6 py-5 pl-7 text-left cursor-pointer
-                     focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4A2364]/40 dark:focus-visible:ring-[#6B3F8E]/40 focus-visible:rounded-xl
+                     focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5d2c86]/40 dark:focus-visible:ring-[#7d44a8]/40 focus-visible:rounded-xl
                      transition-colors duration-300"
           aria-expanded={isOpen}
         >
           <span
             className={`text-[15px] sm:text-base font-semibold font-sans-body leading-snug transition-colors duration-300 ${
               isOpen
-                ? 'text-[#4A2364] dark:text-[#D4AF37]'
-                : 'text-[#1A1A1A] dark:text-gray-200 group-hover:text-[#4A2364] dark:group-hover:text-[#D4AF37]'
+                ? 'text-[#5d2c86] dark:text-[#D4AF37]'
+                : 'text-[#1A1A1A] dark:text-gray-200 group-hover:text-[#5d2c86] dark:group-hover:text-[#D4AF37]'
             }`}
           >
             {item.question}
@@ -116,8 +116,8 @@ function FAQAccordionItem({
               w-8 h-8 rounded-full transition-all duration-300
               ${
                 isOpen
-                  ? 'bg-[#4A2364] dark:bg-[#6B3F8E] text-white shadow-md shadow-[#4A2364]/20 dark:shadow-[#6B3F8E]/20'
-                  : 'bg-[#4A2364]/10 dark:bg-[#6B3F8E]/15 text-[#4A2364] dark:text-[#6B3F8E] group-hover:bg-[#4A2364]/20 dark:group-hover:bg-[#6B3F8E]/25'
+                  ? 'bg-[#5d2c86] dark:bg-[#7d44a8] text-white shadow-md shadow-[#5d2c86]/20 dark:shadow-[#7d44a8]/20'
+                  : 'bg-[#5d2c86]/10 dark:bg-[#7d44a8]/15 text-[#5d2c86] dark:text-[#7d44a8] group-hover:bg-[#5d2c86]/20 dark:group-hover:bg-[#7d44a8]/25'
               }
             `}
           >
@@ -152,9 +152,9 @@ function FAQAccordionItem({
               transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
               className="overflow-hidden"
             >
-              <div className="px-6 pb-5 pl-7 flex gap-4 bg-gradient-to-r from-[#4A2364]/[0.03] via-transparent to-transparent dark:from-[#4A2364]/[0.06] dark:via-transparent dark:to-transparent rounded-b-xl">
+              <div className="px-6 pb-5 pl-7 flex gap-4 bg-gradient-to-r from-[#5d2c86]/[0.03] via-transparent to-transparent dark:from-[#5d2c86]/[0.06] dark:via-transparent dark:to-transparent rounded-b-xl">
                 {/* Decorative gradient line on the left of the answer */}
-                <div className="flex-shrink-0 w-[3px] rounded-full bg-gradient-to-b from-[#4A2364] via-[#4A2364]/60 to-[#D4AF37]/40 dark:from-[#6B3F8E] dark:via-[#6B3F8E]/60 dark:to-[#D4AF37]/40" />
+                <div className="flex-shrink-0 w-[3px] rounded-full bg-gradient-to-b from-[#5d2c86] via-[#5d2c86]/60 to-[#D4AF37]/40 dark:from-[#7d44a8] dark:via-[#7d44a8]/60 dark:to-[#D4AF37]/40" />
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-sans-body pt-0.5">
                   {item.answer}
                 </p>
@@ -213,7 +213,7 @@ export default function FAQSection() {
 
   return (
     <section
-      className="bg-[#F8F5F2] dark:bg-[#121212] py-20 lg:py-32 relative overflow-hidden transition-colors duration-300"
+      className="bg-[#f8f3ed] dark:bg-[#121212] py-20 lg:py-32 relative overflow-hidden transition-colors duration-300"
       ref={sectionRef}
     >
       {/* Subtle decorative background shapes */}
@@ -221,7 +221,7 @@ export default function FAQSection() {
         className="absolute -top-32 -right-32 w-96 h-96 rounded-full pointer-events-none"
         style={{
           background:
-            'radial-gradient(circle, rgba(74,35,100,0.04) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(93,44,134,0.04) 0%, transparent 70%)',
         }}
       />
       <div
@@ -253,7 +253,7 @@ export default function FAQSection() {
             transition={{ duration: 0.8, delay: 0.15 }}
           >
             Frequently Asked{' '}
-            <span className="text-[#4A2364] dark:text-[#6B3F8E]">Questions</span>
+            <span className="text-[#5d2c86] dark:text-[#7d44a8]">Questions</span>
           </motion.h2>
 
           <motion.p
@@ -269,7 +269,7 @@ export default function FAQSection() {
 
           {/* Gold accent line */}
           <motion.div
-            className="mx-auto mt-6 h-[2px] w-16 rounded-full bg-gradient-to-r from-[#4A2364] via-[#D4AF37] to-[#4A2364]"
+            className="mx-auto mt-6 h-[2px] w-16 rounded-full bg-gradient-to-r from-[#5d2c86] via-[#D4AF37] to-[#5d2c86]"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
@@ -294,7 +294,7 @@ export default function FAQSection() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search questions..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 text-sm font-sans-body text-[#1A1A1A] dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4A2364]/30 dark:focus:ring-[#6B3F8E]/30 focus:border-[#4A2364]/50 dark:focus:border-[#6B3F8E]/50 transition-all duration-300"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 text-sm font-sans-body text-[#1A1A1A] dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#5d2c86]/30 dark:focus:ring-[#7d44a8]/30 focus:border-[#5d2c86]/50 dark:focus:border-[#7d44a8]/50 transition-all duration-300"
               />
             </div>
 
@@ -302,7 +302,7 @@ export default function FAQSection() {
             {hasResults && (
               <button
                 onClick={handleExpandAll}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 text-xs font-medium font-sans-body text-gray-500 dark:text-gray-400 hover:text-[#4A2364] dark:hover:text-[#6B3F8E] hover:border-[#4A2364]/20 dark:hover:border-[#6B3F8E]/20 transition-all duration-300 whitespace-nowrap cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 text-xs font-medium font-sans-body text-gray-500 dark:text-gray-400 hover:text-[#5d2c86] dark:hover:text-[#7d44a8] hover:border-[#5d2c86]/20 dark:hover:border-[#7d44a8]/20 transition-all duration-300 whitespace-nowrap cursor-pointer"
               >
                 {isAllExpanded ? (
                   <>
@@ -335,7 +335,7 @@ export default function FAQSection() {
             {searchQuery.trim() && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="text-xs text-[#4A2364] dark:text-[#6B3F8E] font-medium font-sans-body hover:underline underline-offset-2 transition-colors cursor-pointer"
+                className="text-xs text-[#5d2c86] dark:text-[#7d44a8] font-medium font-sans-body hover:underline underline-offset-2 transition-colors cursor-pointer"
               >
                 Clear search
               </button>
@@ -375,7 +375,7 @@ export default function FAQSection() {
             </p>
             <a
               href="#contact"
-              className="text-sm text-[#4A2364] dark:text-[#D4AF37] font-semibold font-sans-body hover:underline underline-offset-2 transition-colors"
+              className="text-sm text-[#5d2c86] dark:text-[#D4AF37] font-semibold font-sans-body hover:underline underline-offset-2 transition-colors"
             >
               Contact us for help.
             </a>
@@ -394,7 +394,7 @@ export default function FAQSection() {
             Still have questions?{' '}
             <a
               href="#contact"
-              className="text-[#4A2364] dark:text-[#D4AF37] font-semibold hover:underline underline-offset-2 transition-colors"
+              className="text-[#5d2c86] dark:text-[#D4AF37] font-semibold hover:underline underline-offset-2 transition-colors"
             >
               Get in touch with our team
             </a>

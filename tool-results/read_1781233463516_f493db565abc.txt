@@ -1,0 +1,1049 @@
+     1→'use client';
+     2→
+     3→import { useState, useRef, useEffect, useMemo } from 'react';
+     4→import { motion, useInView, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+     5→import { Button } from '@/components/ui/button';
+     6→import { Input } from '@/components/ui/input';
+     7→import { Textarea } from '@/components/ui/textarea';
+     8→import {
+     9→  Select,
+    10→  SelectContent,
+    11→  SelectItem,
+    12→  SelectTrigger,
+    13→  SelectValue,
+    14→} from '@/components/ui/select';
+    15→import {
+    16→  Send,
+    17→  CheckCircle,
+    18→  Loader2,
+    19→  Phone,
+    20→  Mail,
+    21→  MapPin,
+    22→  Check,
+    23→  X,
+    24→  Linkedin,
+    25→  Facebook,
+    26→  MessageCircle,
+    27→  Building2,
+    28→  Clock,
+    29→  Shield,
+    30→  Globe,
+    31→  MessageSquare,
+    32→  Sparkles,
+    33→} from 'lucide-react';
+    34→
+    35→// Simple email regex for validation
+    36→const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    37→
+    38→// Gold confetti particle component - more celebratory
+    39→function GoldConfettiParticle({ delay, x, color, size, rotation }: { delay: number; x: number; color: string; size: number; rotation: number }) {
+    40→  const shapes = ['rounded-full', 'rounded-sm', 'rounded-none'];
+    41→  const shape = shapes[Math.floor(rotation) % 3];
+    42→  return (
+    43→    <motion.div
+    44→      className={`absolute ${shape}`}
+    45→      style={{
+    46→        backgroundColor: color,
+    47→        left: `${x}%`,
+    48→        top: '40%',
+    49→        width: `${size}px`,
+    50→        height: `${size}px`,
+    51→      }}
+    52→      initial={{ opacity: 0, scale: 0, y: 0, rotate: 0 }}
+    53→      animate={{
+    54→        opacity: [0, 1, 1, 0],
+    55→        scale: [0, 1.2, 1, 0.3],
+    56→        y: [0, -80, -180],
+    57→        x: [0, (Math.random() - 0.5) * 120],
+    58→        rotate: [0, rotation * 180],
+    59→      }}
+    60→      transition={{
+    61→        duration: 2,
+    62→        delay: delay,
+    63→        ease: 'easeOut',
+    64→      }}
+    65→    />
+    66→  );
+    67→}
+    68→
+    69→// Stylized World Map SVG Component with highlighted China/Foshan
+    70→function WorldMapGraphic() {
+    71→  return (
+    72→    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-[#4A2364]/5 via-[#F8F5F2] to-[#D4AF37]/5 dark:from-[#4A2364]/10 dark:via-[#1E1E1E] dark:to-[#D4AF37]/5 border border-gray-200 dark:border-gray-700">
+    73→      {/* Background grid */}
+    74→      <svg
+    75→        className="absolute inset-0 w-full h-full pointer-events-none"
+    76→        style={{ opacity: 0.06 }}
+    77→        aria-hidden="true"
+    78→      >
+    79→        <defs>
+    80→          <pattern
+    81→            id="contact-map-grid"
+    82→            x="0"
+    83→            y="0"
+    84→            width="30"
+    85→            height="30"
+    86→            patternUnits="userSpaceOnUse"
+    87→          >
+    88→            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#4A2364" strokeWidth="0.5" />
+    89→          </pattern>
+    90→        </defs>
+    91→        <rect width="100%" height="100%" fill="url(#contact-map-grid)" />
+    92→      </svg>
+    93→
+    94→      {/* Stylized World Map */}
+    95→      <svg
+    96→        viewBox="0 0 600 350"
+    97→        className="absolute inset-0 w-full h-full"
+    98→        aria-hidden="true"
+    99→      >
+   100→        {/* Continent shapes - simplified abstract representations */}
+   101→        {/* North America */}
+   102→        <path
+   103→          d="M 80 60 Q 100 40 140 45 Q 170 48 180 70 Q 185 90 175 110 Q 165 130 140 140 Q 120 145 100 135 Q 80 125 70 105 Q 60 85 80 60Z"
+   104→          fill="#4A2364"
+   105→          opacity="0.08"
+   106→          className="dark:opacity-[0.12]"
+   107→        />
+   108→        {/* South America */}
+   109→        <path
+   110→          d="M 140 170 Q 155 160 165 175 Q 170 200 165 230 Q 160 255 145 270 Q 130 280 120 265 Q 115 240 120 210 Q 125 185 140 170Z"
+   111→          fill="#4A2364"
+   112→          opacity="0.08"
+   113→          className="dark:opacity-[0.12]"
+   114→        />
+   115→        {/* Europe */}
+   116→        <path
+   117→          d="M 280 55 Q 300 45 320 50 Q 335 55 340 70 Q 338 85 325 90 Q 310 92 295 85 Q 280 78 275 65 Q 275 55 280 55Z"
+   118→          fill="#4A2364"
+   119→          opacity="0.08"
+   120→          className="dark:opacity-[0.12]"
+   121→        />
+   122→        {/* Africa */}
+   123→        <path
+   124→          d="M 290 105 Q 310 95 330 100 Q 345 110 350 135 Q 348 165 335 190 Q 320 210 305 215 Q 290 210 280 190 Q 275 165 278 140 Q 280 120 290 105Z"
+   125→          fill="#4A2364"
+   126→          opacity="0.08"
+   127→          className="dark:opacity-[0.12]"
+   128→        />
+   129→        {/* Asia - HIGHLIGHTED */}
+   130→        <path
+   131→          d="M 340 40 Q 370 30 410 35 Q 450 40 480 55 Q 510 70 520 95 Q 525 120 510 140 Q 490 155 460 160 Q 430 158 400 148 Q 375 138 355 120 Q 340 105 335 85 Q 332 65 340 40Z"
+   132→          fill="#4A2364"
+   133→          opacity="0.15"
+   134→          className="dark:opacity-[0.25]"
+   135→          stroke="#4A2364"
+   136→          strokeWidth="1"
+   137→          strokeOpacity="0.2"
+   138→        />
+   139→        {/* India subcontinent */}
+   140→        <path
+   141→          d="M 400 130 Q 415 125 420 140 Q 418 160 408 175 Q 398 185 390 178 Q 385 165 388 148 Q 392 135 400 130Z"
+   142→          fill="#4A2364"
+   143→          opacity="0.12"
+   144→          className="dark:opacity-[0.2]"
+   145→        />
+   146→        {/* Southeast Asia */}
+   147→        <path
+   148→          d="M 460 150 Q 475 145 485 155 Q 490 170 483 182 Q 475 188 465 183 Q 458 172 460 150Z"
+   149→          fill="#4A2364"
+   150→          opacity="0.1"
+   151→          className="dark:opacity-[0.16]"
+   152→        />
+   153→        {/* Australia */}
+   154→        <path
+   155→          d="M 480 220 Q 510 210 535 220 Q 548 235 540 255 Q 525 268 505 265 Q 485 260 478 245 Q 475 230 480 220Z"
+   156→          fill="#4A2364"
+   157→          opacity="0.06"
+   158→          className="dark:opacity-[0.1]"
+   159→        />
+   160→
+   161→        {/* China/Foshan highlighted area - pulsing glow */}
+   162→        <circle cx="445" cy="95" r="35" fill="#D4AF37" opacity="0.06" />
+   163→        <circle cx="445" cy="95" r="20" fill="#D4AF37" opacity="0.12" />
+   164→        <circle cx="445" cy="95" r="8" fill="#D4AF37" opacity="0.4">
+   165→          <animate
+   166→            attributeName="r"
+   167→            values="8;12;8"
+   168→            dur="2s"
+   169→            repeatCount="indefinite"
+   170→          />
+   171→          <animate
+   172→            attributeName="opacity"
+   173→            values="0.4;0.2;0.4"
+   174→            dur="2s"
+   175→            repeatCount="indefinite"
+   176→          />
+   177→        </circle>
+   178→
+   179→        {/* Foshan pin */}
+   180→        <g transform="translate(445, 85)">
+   181→          {/* Pin drop */}
+   182→          <path
+   183→            d="M 0 -12 C -5 -12 -8 -8 -8 -4 C -8 2 0 12 0 12 C 0 12 8 2 8 -4 C 8 -8 5 -12 0 -12Z"
+   184→            fill="#D4AF37"
+   185→            opacity="0.9"
+   186→          />
+   187→          <circle cx="0" cy="-4" r="3" fill="white" opacity="0.9" />
+   188→        </g>
+   189→
+   190→        {/* Connection lines from Foshan to other regions */}
+   191→        <line x1="445" y1="85" x2="130" y2="90" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.2">
+   192→          <animate attributeName="stroke-dashoffset" values="0;8" dur="3s" repeatCount="indefinite" />
+   193→        </line>
+   194→        <line x1="445" y1="85" x2="310" y2="65" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.2">
+   195→          <animate attributeName="stroke-dashoffset" values="0;8" dur="3s" repeatCount="indefinite" />
+   196→        </line>
+   197→        <line x1="445" y1="85" x2="510" y2="240" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.15">
+   198→          <animate attributeName="stroke-dashoffset" values="0;8" dur="3s" repeatCount="indefinite" />
+   199→        </line>
+   200→
+   201→        {/* Small dots at connection endpoints */}
+   202→        <circle cx="130" cy="90" r="2" fill="#4A2364" opacity="0.3" />
+   203→        <circle cx="310" cy="65" r="2" fill="#4A2364" opacity="0.3" />
+   204→        <circle cx="510" cy="240" r="2" fill="#4A2364" opacity="0.2" />
+   205→      </svg>
+   206→
+   207→      {/* Overlay text */}
+   208→      <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+   209→        <div>
+   210→          <p className="text-xs font-semibold text-[#4A2364] dark:text-[#6B3F8E] font-sans-body flex items-center gap-1">
+   211→            <Globe className="w-3 h-3" />
+   212→            Global Reach
+   213→          </p>
+   214→          <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
+   215→            Shipping from Foshan to 30+ countries
+   216→          </p>
+   217→        </div>
+   218→        <div className="text-right">
+   219→          <p className="text-[10px] font-medium text-[#D4AF37] font-sans-body">Foshan HQ</p>
+   220→          <p className="text-[9px] text-gray-400 dark:text-gray-500 font-sans-body">23.02°N, 113.12°E</p>
+   221→        </div>
+   222→      </div>
+   223→
+   224→      {/* Purple-gold gradient accent at bottom */}
+   225→      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4A2364] to-[#D4AF37]" />
+   226→    </div>
+   227→  );
+   228→}
+   229→
+   230→// Validation indicator component
+   231→function ValidationIndicator({ valid, touched, isEmpty }: { valid: boolean; touched: boolean; isEmpty: boolean }) {
+   232→  if (!touched || isEmpty) return null;
+   233→  return (
+   234→    <motion.div
+   235→      className="absolute right-2 top-1/2 -translate-y-1/2"
+   236→      initial={{ scale: 0, opacity: 0 }}
+   237→      animate={{ scale: 1, opacity: 1 }}
+   238→      transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+   239→    >
+   240→      {valid ? (
+   241→        <Check className="w-4 h-4 text-green-500" />
+   242→      ) : (
+   243→        <X className="w-4 h-4 text-red-400" />
+   244→      )}
+   245→    </motion.div>
+   246→  );
+   247→}
+   248→
+   249→export default function ContactSection() {
+   250→  const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>(
+   251→    'idle'
+   252→  );
+   253→  const [formData, setFormData] = useState({
+   254→    name: '',
+   255→    email: '',
+   256→    company: '',
+   257→    projectType: '',
+   258→    contactTime: '',
+   259→    message: '',
+   260→  });
+   261→  const [touched, setTouched] = useState({
+   262→    name: false,
+   263→    email: false,
+   264→    company: false,
+   265→    projectType: false,
+   266→    contactTime: false,
+   267→    message: false,
+   268→  });
+   269→
+   270→  const sectionRef = useRef<HTMLDivElement>(null);
+   271→  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
+   272→
+   273→  // Parallax effect for decorative elements
+   274→  const { scrollYProgress } = useScroll({
+   275→    target: sectionRef,
+   276→    offset: ['start end', 'end start'],
+   277→  });
+   278→  const parallaxY1 = useTransform(scrollYProgress, [0, 1], [-30, 30]);
+   279→  const parallaxY2 = useTransform(scrollYProgress, [0, 1], [20, -20]);
+   280→
+   281→  // Gold confetti colors - more celebratory with gold dominance
+   282→  const confettiColors = ['#D4AF37', '#F0C040', '#E5B830', '#4A2364', '#6B3F8E', '#8B5CF6', '#D4AF37', '#F5D060'];
+   283→  const confettiParticles = useMemo(() => Array.from({ length: 28 }, (_, i) => ({
+   284→    id: i,
+   285→    delay: 0.2 + i * 0.04,
+   286→    x: 10 + Math.random() * 80,
+   287→    color: confettiColors[i % confettiColors.length],
+   288→    size: 4 + Math.random() * 6,
+   289→    rotation: Math.random() * 4,
+   290→  })), []);
+   291→
+   292→  // Form progress calculation
+   293→  const formProgress = useMemo(() => {
+   294→    let filled = 0;
+   295→    const total = 4; // name, email, projectType, message (required fields)
+   296→    if (formData.name.trim()) filled++;
+   297→    if (formData.email.trim() && isValidEmail(formData.email)) filled++;
+   298→    if (formData.projectType) filled++;
+   299→    if (formData.message.trim()) filled++;
+   300→    return { filled, total, percentage: (filled / total) * 100 };
+   301→  }, [formData]);
+   302→
+   303→  // Auto-dismiss success overlay
+   304→  const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
+   305→  useEffect(() => {
+   306→    if (formState === 'success') {
+   307→      setShowSuccessOverlay(true);
+   308→      const timer = setTimeout(() => {
+   309→        setShowSuccessOverlay(false);
+   310→        setFormState('idle');
+   311→      }, 3500);
+   312→      return () => clearTimeout(timer);
+   313→    }
+   314→  }, [formState]);
+   315→
+   316→  const handleSubmit = async (e: React.FormEvent) => {
+   317→    e.preventDefault();
+   318→    setFormState('loading');
+   319→
+   320→    try {
+   321→      const res = await fetch('/api/contact', {
+   322→        method: 'POST',
+   323→        headers: { 'Content-Type': 'application/json' },
+   324→        body: JSON.stringify(formData),
+   325→      });
+   326→      if (res.ok) {
+   327→        setFormState('success');
+   328→        setFormData({ name: '', email: '', company: '', projectType: '', contactTime: '', message: '' });
+   329→        setTouched({ name: false, email: false, company: false, projectType: false, contactTime: false, message: false });
+   330→      }
+   331→    } catch {
+   332→      setFormState('idle');
+   333→    }
+   334→  };
+   335→
+   336→  const charCount = formData.message.length;
+   337→  const maxChars = 500;
+   338→
+   339→  const contactItems = [
+   340→    {
+   341→      icon: Phone,
+   342→      label: 'Phone',
+   343→      value: '18666422531',
+   344→      href: 'tel:18666422531',
+   345→    },
+   346→    {
+   347→      icon: Mail,
+   348→      label: 'Email',
+   349→      value: '250552975@qq.com',
+   350→      href: 'mailto:250552975@qq.com',
+   351→    },
+   352→    {
+   353→      icon: MapPin,
+   354→      label: 'Address',
+   355→      value: 'No. 29, Sanling Road, Gaoming, Foshan',
+   356→      href: undefined,
+   357→    },
+   358→  ];
+   359→
+   360→  // Quick contact sidebar items
+   361→  const quickContactItems = [
+   362→    {
+   363→      icon: Phone,
+   364→      label: 'Call Us',
+   365→      value: '18666422531',
+   366→      href: 'tel:18666422531',
+   367→      description: 'Available 24/7',
+   368→      color: 'text-green-600 dark:text-green-400',
+   369→      bgColor: 'bg-green-50 dark:bg-green-900/20',
+   370→    },
+   371→    {
+   372→      icon: Mail,
+   373→      label: 'Email',
+   374→      value: '250552975@qq.com',
+   375→      href: 'mailto:250552975@qq.com',
+   376→      description: 'Response within 24h',
+   377→      color: 'text-[#4A2364] dark:text-[#6B3F8E]',
+   378→      bgColor: 'bg-[#4A2364]/5 dark:bg-[#6B3F8E]/10',
+   379→    },
+   380→    {
+   381→      icon: MessageCircle,
+   382→      label: 'WeChat',
+   383→      value: 'AksharFoshan',
+   384→      href: '#',
+   385→      description: 'Quick response',
+   386→      color: 'text-green-600 dark:text-green-400',
+   387→      bgColor: 'bg-green-50 dark:bg-green-900/20',
+   388→    },
+   389→    {
+   390→      icon: MessageSquare,
+   391→      label: 'WhatsApp',
+   392→      value: '+86 18666422531',
+   393→      href: 'https://wa.me/8618666422531',
+   394→      description: 'International',
+   395→      color: 'text-emerald-600 dark:text-emerald-400',
+   396→      bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
+   397→    },
+   398→  ];
+   399→
+   400→  return (
+   401→    <section className="bg-[#F8F5F2] dark:bg-[#1A1A1A] py-20 lg:py-32 relative overflow-hidden transition-colors duration-300" ref={sectionRef}>
+   402→      {/* Decorative elements with parallax */}
+   403→      <motion.div
+   404→        className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none"
+   405→        style={{
+   406→          background:
+   407→            'radial-gradient(circle, rgba(74,35,100,0.03) 0%, transparent 70%)',
+   408→          y: parallaxY1,
+   409→        }}
+   410→      />
+   411→      <motion.div
+   412→        className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full pointer-events-none"
+   413→        style={{
+   414→          background:
+   415→            'radial-gradient(circle, rgba(212,175,55,0.03) 0%, transparent 70%)',
+   416→          y: parallaxY2,
+   417→        }}
+   418→      />
+   419→
+   420→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   421→        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+   422→          {/* Left - Map & Contact Info */}
+   423→          <motion.div
+   424→            className="lg:w-5/12"
+   425→            initial={{ opacity: 0, x: -50 }}
+   426→            animate={isInView ? { opacity: 1, x: 0 } : {}}
+   427→            transition={{ duration: 0.7, ease: 'easeOut' }}
+   428→          >
+   429→            <p className="text-xs tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-4 font-sans-body">
+   430→              GET IN TOUCH
+   431→            </p>
+   432→            <h2 className="text-3xl sm:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-6">
+   433→              Let&apos;s start a{' '}
+   434→              <span className="text-[#4A2364] dark:text-[#6B3F8E]">conversation</span>.
+   435→            </h2>
+   436→            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-8">
+   437→              Whether you have a project in mind or simply want to explore
+   438→              possibilities, our team is ready to listen. Share your details and
+   439→              we&apos;ll respond within one business day.
+   440→            </p>
+   441→
+   442→            {/* Stylized World Map */}
+   443→            <motion.div
+   444→              initial={{ opacity: 0, y: 20 }}
+   445→              whileInView={{ opacity: 1, y: 0 }}
+   446→              viewport={{ once: true }}
+   447→              transition={{ duration: 0.6, delay: 0.1 }}
+   448→            >
+   449→              <WorldMapGraphic />
+   450→            </motion.div>
+   451→
+   452→            {/* Contact Info Cards with gold left border */}
+   453→            <div className="space-y-3 mt-6">
+   454→              {contactItems.map((item, index) => {
+   455→                const Icon = item.icon;
+   456→                return (
+   457→                  <motion.a
+   458→                    key={item.label}
+   459→                    href={item.href || '#'}
+   460→                    className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md border-l-[3px] border-l-[#D4AF37] hover:border-l-[#4A2364] dark:border-l-[#D4AF37] dark:hover:border-l-[#6B3F8E] transition-all duration-300 group cursor-pointer"
+   461→                    initial={{ opacity: 0, x: -30 }}
+   462→                    whileInView={{ opacity: 1, x: 0 }}
+   463→                    viewport={{ once: true }}
+   464→                    transition={{ duration: 0.5, delay: 0.1 * index }}
+   465→                  >
+   466→                    <div className="w-11 h-11 rounded-xl bg-[#D4AF37]/5 dark:bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/10 dark:group-hover:bg-[#D4AF37]/20 transition-colors duration-300 shrink-0">
+   467→                      <Icon className="w-5 h-5 text-[#D4AF37] group-hover:scale-110 transition-transform duration-300" />
+   468→                    </div>
+   469→                    <div>
+   470→                      <p className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">
+   471→                        {item.label}
+   472→                      </p>
+   473→                      <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">
+   474→                        {item.value}
+   475→                      </p>
+   476→                    </div>
+   477→                  </motion.a>
+   478→                );
+   479→              })}
+   480→            </div>
+   481→
+   482→            {/* Business Hours */}
+   483→            <motion.div
+   484→              className="mt-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 border-l-[3px] border-l-[#4A2364] dark:border-l-[#6B3F8E]"
+   485→              initial={{ opacity: 0, x: -30 }}
+   486→              whileInView={{ opacity: 1, x: 0 }}
+   487→              viewport={{ once: true }}
+   488→              transition={{ duration: 0.5, delay: 0.4 }}
+   489→            >
+   490→              <div className="flex items-center gap-3">
+   491→                <div className="w-11 h-11 rounded-xl bg-[#4A2364]/5 dark:bg-[#6B3F8E]/10 flex items-center justify-center shrink-0">
+   492→                  <Clock className="w-5 h-5 text-[#4A2364] dark:text-[#6B3F8E]" />
+   493→                </div>
+   494→                <div>
+   495→                  <p className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">Business Hours</p>
+   496→                  <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body">
+   497→                    Mon–Sat: 9:00 AM – 6:00 PM (CST)
+   498→                  </p>
+   499→                </div>
+   500→              </div>
+   501→            </motion.div>
+   502→
+   503→            {/* Social Media Icons */}
+   504→            <motion.div
+   505→              className="flex items-center gap-4 mt-6"
+   506→              initial={{ opacity: 0 }}
+   507→              whileInView={{ opacity: 1 }}
+   508→              viewport={{ once: true }}
+   509→              transition={{ duration: 0.5, delay: 0.5 }}
+   510→            >
+   511→              <span className="text-xs text-gray-400 font-sans-body mr-2">
+   512→                Follow us
+   513→              </span>
+   514→              <a
+   515→                href="#"
+   516→                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#0A66C2] hover:border-[#0A66C2] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
+   517→                aria-label="LinkedIn"
+   518→              >
+   519→                <Linkedin className="w-4 h-4" />
+   520→              </a>
+   521→              <a
+   522→                href="#"
+   523→                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#1877F2] hover:border-[#1877F2] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
+   524→                aria-label="Facebook"
+   525→              >
+   526→                <Facebook className="w-4 h-4" />
+   527→              </a>
+   528→              <a
+   529→                href="#"
+   530→                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#07C160] hover:border-[#07C160] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
+   531→                aria-label="WeChat"
+   532→              >
+   533→                <MessageCircle className="w-4 h-4" />
+   534→              </a>
+   535→            </motion.div>
+   536→          </motion.div>
+   537→
+   538→          {/* Right - Form + Quick Contact Sidebar */}
+   539→          <motion.div
+   540→            className="lg:w-7/12"
+   541→            initial={{ opacity: 0, x: 50 }}
+   542→            animate={isInView ? { opacity: 1, x: 0 } : {}}
+   543→            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
+   544→          >
+   545→            <div className="flex flex-col xl:flex-row gap-6">
+   546→              {/* Contact Form */}
+   547→              <form
+   548→                onSubmit={handleSubmit}
+   549→                className="flex-1 bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100 dark:border-gray-800 transition-shadow duration-500 hover:shadow-xl relative overflow-hidden"
+   550→              >
+   551→                {/* Top accent line */}
+   552→                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4A2364] to-[#D4AF37]" />
+   553→
+   554→                {/* Form Progress Indicator */}
+   555→                <div className="mb-6">
+   556→                  <div className="flex items-center justify-between mb-2">
+   557→                    <span className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">
+   558→                      Form Progress
+   559→                    </span>
+   560→                    <span className="text-xs font-medium font-sans-body" style={{ color: formProgress.percentage === 100 ? '#22c55e' : formProgress.percentage >= 50 ? '#D4AF37' : '#9ca3af' }}>
+   561→                      {formProgress.filled}/{formProgress.total} fields
+   562→                    </span>
+   563→                  </div>
+   564→                  <div className="h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+   565→                    <motion.div
+   566→                      className="h-full rounded-full"
+   567→                      style={{
+   568→                        background: formProgress.percentage === 100
+   569→                          ? 'linear-gradient(to right, #22c55e, #16a34a)'
+   570→                          : 'linear-gradient(to right, #4A2364, #D4AF37)',
+   571→                      }}
+   572→                      initial={{ width: 0 }}
+   573→                      animate={{ width: `${formProgress.percentage}%` }}
+   574→                      transition={{ duration: 0.4, ease: 'easeOut' }}
+   575→                    />
+   576→                  </div>
+   577→                </div>
+   578→
+   579→                {/* Success Overlay */}
+   580→                <AnimatePresence>
+   581→                  {showSuccessOverlay && (
+   582→                    <motion.div
+   583→                      className="absolute inset-0 z-10 bg-white/95 dark:bg-[#1E1E1E]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-2xl"
+   584→                      initial={{ opacity: 0 }}
+   585→                      animate={{ opacity: 1 }}
+   586→                      exit={{ opacity: 0 }}
+   587→                      transition={{ duration: 0.3 }}
+   588→                    >
+   589→                      {/* Gold confetti particles */}
+   590→                      {confettiParticles.map((particle) => (
+   591→                        <GoldConfettiParticle
+   592→                          key={particle.id}
+   593→                          delay={particle.delay}
+   594→                          x={particle.x}
+   595→                          color={particle.color}
+   596→                          size={particle.size}
+   597→                          rotation={particle.rotation}
+   598→                        />
+   599→                      ))}
+   600→
+   601→                      {/* Gold sparkle ring */}
+   602→                      <motion.div
+   603→                        initial={{ scale: 0, rotate: -180 }}
+   604→                        animate={{ scale: 1, rotate: 0 }}
+   605→                        transition={{
+   606→                          type: 'spring',
+   607→                          stiffness: 200,
+   608→                          damping: 15,
+   609→                          delay: 0.1,
+   610→                        }}
+   611→                        className="relative mb-6"
+   612→                      >
+   613→                        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#D4AF37]/20 to-[#F0C040]/10 flex items-center justify-center ring-2 ring-[#D4AF37]/30">
+   614→                          <motion.div
+   615→                            initial={{ scale: 0, rotate: -180 }}
+   616→                            animate={{ scale: 1, rotate: 0 }}
+   617→                            transition={{
+   618→                              type: 'spring',
+   619→                              stiffness: 260,
+   620→                              damping: 20,
+   621→                              delay: 0.25,
+   622→                            }}
+   623→                          >
+   624→                            <CheckCircle className="w-12 h-12 text-[#D4AF37]" />
+   625→                          </motion.div>
+   626→                        </div>
+   627→                        {/* Sparkle decorations */}
+   628→                        <motion.div
+   629→                          className="absolute -top-1 -right-1"
+   630→                          initial={{ scale: 0, opacity: 0 }}
+   631→                          animate={{ scale: 1, opacity: 1 }}
+   632→                          transition={{ delay: 0.5, duration: 0.3 }}
+   633→                        >
+   634→                          <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+   635→                        </motion.div>
+   636→                        <motion.div
+   637→                          className="absolute -bottom-1 -left-1"
+   638→                          initial={{ scale: 0, opacity: 0 }}
+   639→                          animate={{ scale: 1, opacity: 1 }}
+   640→                          transition={{ delay: 0.6, duration: 0.3 }}
+   641→                        >
+   642→                          <Sparkles className="w-3 h-3 text-[#4A2364]" />
+   643→                        </motion.div>
+   644→                      </motion.div>
+   645→
+   646→                      {/* Thank you heading */}
+   647→                      <motion.h3
+   648→                        className="text-2xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-2"
+   649→                        initial={{ opacity: 0, y: 10 }}
+   650→                        animate={{ opacity: 1, y: 0 }}
+   651→                        transition={{ delay: 0.4, duration: 0.4 }}
+   652→                      >
+   653→                        Thank you!
+   654→                      </motion.h3>
+   655→
+   656→                      {/* Subtitle */}
+   657→                      <motion.p
+   658→                        className="text-sm text-gray-500 dark:text-gray-400 font-sans-body"
+   659→                        initial={{ opacity: 0, y: 10 }}
+   660→                        animate={{ opacity: 1, y: 0 }}
+   661→                        transition={{ delay: 0.55, duration: 0.4 }}
+   662→                      >
+   663→                        We&apos;ll get back to you within 24 hours
+   664→                      </motion.p>
+   665→                    </motion.div>
+   666→                  )}
+   667→                </AnimatePresence>
+   668→
+   669→                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+   670→                  {/* Name Field */}
+   671→                  <div className="relative group">
+   672→                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   673→                      Your Name <span className="text-red-400">*</span>
+   674→                    </label>
+   675→                    <div className="relative">
+   676→                      <Input
+   677→                        required
+   678→                        value={formData.name}
+   679→                        onChange={(e) =>
+   680→                          setFormData({ ...formData, name: e.target.value })
+   681→                        }
+   682→                        onBlur={() =>
+   683→                          setTouched({ ...touched, name: true })
+   684→                        }
+   685→                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+   686→                        placeholder="John Smith"
+   687→                      />
+   688→                      {/* Animated underline */}
+   689→                      <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+   690→                        <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   691→                      </div>
+   692→                      <ValidationIndicator
+   693→                        valid={formData.name.trim().length > 0}
+   694→                        touched={touched.name}
+   695→                        isEmpty={!formData.name.trim()}
+   696→                      />
+   697→                    </div>
+   698→                  </div>
+   699→
+   700→                  {/* Email Field */}
+   701→                  <div className="relative group">
+   702→                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   703→                      Email <span className="text-red-400">*</span>
+   704→                    </label>
+   705→                    <div className="relative">
+   706→                      <Input
+   707→                        required
+   708→                        type="email"
+   709→                        value={formData.email}
+   710→                        onChange={(e) =>
+   711→                          setFormData({ ...formData, email: e.target.value })
+   712→                        }
+   713→                        onBlur={() =>
+   714→                          setTouched({ ...touched, email: true })
+   715→                        }
+   716→                        className={`rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)] ${
+   717→                          touched.email && formData.email && !isValidEmail(formData.email)
+   718→                            ? 'border-red-300 dark:border-red-500/50 focus-visible:ring-red-200 focus-visible:shadow-[0_0_0_3px_rgba(239,68,68,0.1)]'
+   719→                            : ''
+   720→                        }`}
+   721→                        placeholder="john@hotelbrand.com"
+   722→                      />
+   723→                      {/* Animated underline */}
+   724→                      <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+   725→                        <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   726→                      </div>
+   727→                      <ValidationIndicator
+   728→                        valid={isValidEmail(formData.email)}
+   729→                        touched={touched.email}
+   730→                        isEmpty={!formData.email.trim()}
+   731→                      />
+   732→                      {touched.email &&
+   733→                        formData.email &&
+   734→                        !isValidEmail(formData.email) && (
+   735→                          <motion.p
+   736→                            className="text-[10px] text-red-400 mt-1 font-sans-body"
+   737→                            initial={{ opacity: 0, y: -5 }}
+   738→                            animate={{ opacity: 1, y: 0 }}
+   739→                          >
+   740→                            Please enter a valid email address
+   741→                          </motion.p>
+   742→                        )}
+   743→                    </div>
+   744→                  </div>
+   745→                </div>
+   746→
+   747→                {/* Company Field */}
+   748→                <div className="mb-4 relative group">
+   749→                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   750→                    Company / Property
+   751→                  </label>
+   752→                  <div className="relative">
+   753→                    <Input
+   754→                      value={formData.company}
+   755→                      onChange={(e) =>
+   756→                        setFormData({ ...formData, company: e.target.value })
+   757→                      }
+   758→                      onBlur={() =>
+   759→                        setTouched({ ...touched, company: true })
+   760→                      }
+   761→                      className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+   762→                      placeholder="Hilton, Marriott, IHG..."
+   763→                    />
+   764→                    {/* Animated underline */}
+   765→                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+   766→                      <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   767→                    </div>
+   768→                    <ValidationIndicator
+   769→                      valid={formData.company.trim().length > 0}
+   770→                      touched={touched.company}
+   771→                      isEmpty={!formData.company.trim()}
+   772→                    />
+   773→                  </div>
+   774→                </div>
+   775→
+   776→                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+   777→                  {/* Project Type Dropdown */}
+   778→                  <div className="relative group">
+   779→                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   780→                      Project Type <span className="text-red-400">*</span>
+   781→                    </label>
+   782→                    <div className="relative">
+   783→                      <Select
+   784→                        value={formData.projectType}
+   785→                        onValueChange={(value) => {
+   786→                          setFormData({ ...formData, projectType: value });
+   787→                          setTouched({ ...touched, projectType: true });
+   788→                        }}
+   789→                      >
+   790→                        <SelectTrigger className="w-full rounded-xl font-sans-body h-10 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus:ring-[#D4AF37]/40 focus:border-[#D4AF37]/60 dark:focus:ring-[#D4AF37]/30 dark:focus:border-[#D4AF37]/50 transition-all duration-300">
+   791→                          <div className="flex items-center gap-2">
+   792→                            <Building2 className="w-4 h-4 text-gray-400 dark:text-gray-500 shrink-0" />
+   793→                            <SelectValue placeholder="Select project type..." />
+   794→                          </div>
+   795→                        </SelectTrigger>
+   796→                        <SelectContent className="rounded-xl">
+   797→                          <SelectItem value="new-build">New Build</SelectItem>
+   798→                          <SelectItem value="renovation">Renovation</SelectItem>
+   799→                          <SelectItem value="brand-conversion">Brand Conversion</SelectItem>
+   800→                          <SelectItem value="ffe-replacement">FF&amp;E Replacement</SelectItem>
+   801→                        </SelectContent>
+   802→                      </Select>
+   803→                      {/* Animated underline */}
+   804→                      <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
+   805→                        <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   806→                      </div>
+   807→                    </div>
+   808→                  </div>
+   809→
+   810→                  {/* Preferred Contact Time Dropdown */}
+   811→                  <div className="relative group">
+   812→                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   813→                      Preferred Contact Time
+   814→                    </label>
+   815→                    <div className="relative">
+   816→                      <Select
+   817→                        value={formData.contactTime}
+   818→                        onValueChange={(value) => {
+   819→                          setFormData({ ...formData, contactTime: value });
+   820→                          setTouched({ ...touched, contactTime: true });
+   821→                        }}
+   822→                      >
+   823→                        <SelectTrigger className="w-full rounded-xl font-sans-body h-10 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus:ring-[#D4AF37]/40 focus:border-[#D4AF37]/60 dark:focus:ring-[#D4AF37]/30 dark:focus:border-[#D4AF37]/50 transition-all duration-300">
+   824→                          <div className="flex items-center gap-2">
+   825→                            <Clock className="w-4 h-4 text-gray-400 dark:text-gray-500 shrink-0" />
+   826→                            <SelectValue placeholder="Select time..." />
+   827→                          </div>
+   828→                        </SelectTrigger>
+   829→                        <SelectContent className="rounded-xl">
+   830→                          <SelectItem value="morning">Morning</SelectItem>
+   831→                          <SelectItem value="afternoon">Afternoon</SelectItem>
+   832→                          <SelectItem value="evening">Evening</SelectItem>
+   833→                          <SelectItem value="anytime">Anytime</SelectItem>
+   834→                        </SelectContent>
+   835→                      </Select>
+   836→                      {/* Animated underline */}
+   837→                      <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
+   838→                        <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   839→                      </div>
+   840→                    </div>
+   841→                  </div>
+   842→                </div>
+   843→
+   844→                {/* Message Field */}
+   845→                <div className="mb-6 relative group">
+   846→                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   847→                    Message <span className="text-red-400">*</span>
+   848→                  </label>
+   849→                  <div className="relative">
+   850→                    <Textarea
+   851→                      required
+   852→                      value={formData.message}
+   853→                      onChange={(e) =>
+   854→                        setFormData({ ...formData, message: e.target.value })
+   855→                      }
+   856→                      onBlur={() =>
+   857→                        setTouched({ ...touched, message: true })
+   858→                      }
+   859→                      maxLength={maxChars}
+   860→                      className="rounded-xl min-h-[120px] font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+   861→                      placeholder="Tell us about your project — property type, number of keys, timeline..."
+   862→                    />
+   863→                    {/* Animated underline */}
+   864→                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
+   865→                      <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   866→                    </div>
+   867→                    <ValidationIndicator
+   868→                      valid={formData.message.trim().length > 0}
+   869→                      touched={touched.message}
+   870→                      isEmpty={!formData.message.trim()}
+   871→                    />
+   872→                  </div>
+   873→                  {/* Character counter */}
+   874→                  <div className="flex justify-end mt-1.5">
+   875→                    <span
+   876→                      className={`text-[10px] font-sans-body transition-colors duration-200 ${
+   877→                        charCount >= 450
+   878→                          ? charCount >= maxChars
+   879→                            ? 'text-red-500 font-medium'
+   880→                            : 'text-orange-500'
+   881→                          : 'text-gray-400'
+   882→                      }`}
+   883→                    >
+   884→                      {charCount}/{maxChars} characters
+   885→                    </span>
+   886→                  </div>
+   887→                </div>
+   888→
+   889→                <div className="space-y-3">
+   890→                  <Button
+   891→                    type="submit"
+   892→                    disabled={formState === 'loading'}
+   893→                    className="w-full btn-shimmer bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-xl py-6 font-sans-body text-sm font-medium transition-all duration-300"
+   894→                  >
+   895→                    {formState === 'loading' ? (
+   896→                      <>
+   897→                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+   898→                        Sending...
+   899→                      </>
+   900→                    ) : formState === 'success' ? (
+   901→                      <>
+   902→                        <CheckCircle className="w-4 h-4 mr-2" />
+   903→                        Message Sent!
+   904→                      </>
+   905→                    ) : (
+   906→                      <>
+   907→                        Send Message
+   908→                        <Send className="w-4 h-4 ml-2" />
+   909→                      </>
+   910→                    )}
+   911→                  </Button>
+   912→
+   913→                  {/* Response time badge */}
+   914→                  <div className="flex items-center justify-center gap-2">
+   915→                    <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/10 dark:bg-[#D4AF37]/15 px-3 py-1.5 rounded-full">
+   916→                      <Clock className="w-3 h-3 text-[#D4AF37]" />
+   917→                      <span className="text-[10px] font-medium text-[#D4AF37] font-sans-body">
+   918→                        Typical response time: Within 24 hours
+   919→                      </span>
+   920→                    </div>
+   921→                  </div>
+   922→
+   923→                  {/* Privacy Note */}
+   924→                  <div className="flex items-center justify-center gap-1.5">
+   925→                    <Shield className="w-3 h-3 text-gray-400 dark:text-gray-500 shrink-0" />
+   926→                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body text-center">
+   927→                      Your information is secure and will never be shared.
+   928→                    </p>
+   929→                  </div>
+   930→                </div>
+   931→              </form>
+   932→
+   933→              {/* Quick Contact Sidebar - visible on xl screens */}
+   934→              <motion.div
+   935→                className="hidden xl:flex flex-col gap-3 w-52 shrink-0"
+   936→                initial={{ opacity: 0, x: 30 }}
+   937→                animate={isInView ? { opacity: 1, x: 0 } : {}}
+   938→                transition={{ duration: 0.6, delay: 0.4 }}
+   939→              >
+   940→                <p className="text-xs tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body font-bold mb-1">
+   941→                  QUICK CONTACT
+   942→                </p>
+   943→                {quickContactItems.map((item, index) => {
+   944→                  const Icon = item.icon;
+   945→                  return (
+   946→                    <motion.a
+   947→                      key={item.label}
+   948→                      href={item.href}
+   949→                      target={item.href.startsWith('http') ? '_blank' : undefined}
+   950→                      rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+   951→                      className="group p-3 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+   952→                      initial={{ opacity: 0, y: 15 }}
+   953→                      animate={isInView ? { opacity: 1, y: 0 } : {}}
+   954→                      transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
+   955→                    >
+   956→                      <div className="flex items-start gap-3">
+   957→                        <div className={`w-9 h-9 rounded-lg ${item.bgColor} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+   958→                          <Icon className={`w-4 h-4 ${item.color}`} />
+   959→                        </div>
+   960→                        <div className="min-w-0">
+   961→                          <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
+   962→                            {item.label}
+   963→                          </p>
+   964→                          <p className="text-xs font-medium text-[#1A1A1A] dark:text-white font-sans-body truncate group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">
+   965→                            {item.value}
+   966→                          </p>
+   967→                          <p className="text-[9px] text-gray-300 dark:text-gray-600 font-sans-body mt-0.5">
+   968→                            {item.description}
+   969→                          </p>
+   970→                        </div>
+   971→                      </div>
+   972→                    </motion.a>
+   973→                  );
+   974→                })}
+   975→
+   976→                {/* Business hours card in sidebar */}
+   977→                <motion.div
+   978→                  className="p-3 rounded-xl bg-gradient-to-br from-[#4A2364]/5 to-[#D4AF37]/5 dark:from-[#4A2364]/10 dark:to-[#D4AF37]/5 border border-gray-100 dark:border-gray-800 mt-1"
+   979→                  initial={{ opacity: 0, y: 15 }}
+   980→                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+   981→                  transition={{ duration: 0.4, delay: 0.9 }}
+   982→                >
+   983→                  <div className="flex items-center gap-2 mb-2">
+   984→                    <Clock className="w-3.5 h-3.5 text-[#4A2364] dark:text-[#6B3F8E]" />
+   985→                    <p className="text-[10px] font-bold text-[#4A2364] dark:text-[#6B3F8E] font-sans-body tracking-wider">
+   986→                      HOURS
+   987→                    </p>
+   988→                  </div>
+   989→                  <div className="space-y-1">
+   990→                    <div className="flex justify-between">
+   991→                      <span className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">Mon–Fri</span>
+   992→                      <span className="text-[10px] font-medium text-[#1A1A1A] dark:text-gray-300 font-sans-body">9AM–6PM</span>
+   993→                    </div>
+   994→                    <div className="flex justify-between">
+   995→                      <span className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">Saturday</span>
+   996→                      <span className="text-[10px] font-medium text-[#1A1A1A] dark:text-gray-300 font-sans-body">9AM–1PM</span>
+   997→                    </div>
+   998→                    <div className="flex justify-between">
+   999→                      <span className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">Sunday</span>
+  1000→                      <span className="text-[10px] font-medium text-gray-400 dark:text-gray-500 font-sans-body">Closed</span>
+  1001→                    </div>
+  1002→                  </div>
+  1003→                  <p className="text-[9px] text-gray-300 dark:text-gray-600 font-sans-body mt-2">
+  1004→                    China Standard Time (UTC+8)
+  1005→                  </p>
+  1006→                </motion.div>
+  1007→              </motion.div>
+  1008→            </div>
+  1009→
+  1010→            {/* Quick Contact Mobile - visible below xl screens */}
+  1011→            <motion.div
+  1012→              className="xl:hidden grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6"
+  1013→              initial={{ opacity: 0, y: 20 }}
+  1014→              animate={isInView ? { opacity: 1, y: 0 } : {}}
+  1015→              transition={{ duration: 0.5, delay: 0.4 }}
+  1016→            >
+  1017→              {quickContactItems.map((item, index) => {
+  1018→                const Icon = item.icon;
+  1019→                return (
+  1020→                  <motion.a
+  1021→                    key={item.label}
+  1022→                    href={item.href}
+  1023→                    target={item.href.startsWith('http') ? '_blank' : undefined}
+  1024→                    rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+  1025→                    className="group p-3 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer text-center"
+  1026→                    initial={{ opacity: 0, y: 15 }}
+  1027→                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+  1028→                    transition={{ duration: 0.4, delay: 0.5 + index * 0.08 }}
+  1029→                  >
+  1030→                    <div className={`w-10 h-10 rounded-lg ${item.bgColor} flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-300`}>
+  1031→                      <Icon className={`w-5 h-5 ${item.color}`} />
+  1032→                    </div>
+  1033→                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
+  1034→                      {item.label}
+  1035→                    </p>
+  1036→                    <p className="text-xs font-medium text-[#1A1A1A] dark:text-white font-sans-body truncate group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">
+  1037→                      {item.value}
+  1038→                    </p>
+  1039→                  </motion.a>
+  1040→                );
+  1041→              })}
+  1042→            </motion.div>
+  1043→          </motion.div>
+  1044→        </div>
+  1045→      </div>
+  1046→    </section>
+  1047→  );
+  1048→}
+  1049→

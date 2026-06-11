@@ -39,7 +39,7 @@ function DecorativeDots() {
     >
       <defs>
         <pattern id="process-dots" x="0" y="0" width="24" height="24" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="1.5" fill="#4A2364" />
+          <circle cx="2" cy="2" r="1.5" fill="#5d2c86" />
         </pattern>
       </defs>
       <rect width="400" height="400" fill="url(#process-dots)" />
@@ -65,7 +65,7 @@ function GoldConnector({ isInView, delay }: { isInView: boolean; delay: number }
           <motion.div
             className="absolute inset-y-0 left-0 right-0 rounded-full"
             style={{
-              background: 'linear-gradient(90deg, #4A2364, #D4AF37)',
+              background: 'linear-gradient(90deg, #5d2c86, #D4AF37)',
             }}
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : {}}
@@ -103,7 +103,7 @@ function MobileGoldConnector({ isInView, delay }: { isInView: boolean; delay: nu
         <motion.div
           className="absolute inset-x-0 top-0 bottom-0 rounded-full"
           style={{
-            background: 'linear-gradient(180deg, #4A2364, #D4AF37)',
+            background: 'linear-gradient(180deg, #5d2c86, #D4AF37)',
           }}
           initial={{ scaleY: 0 }}
           animate={isInView ? { scaleY: 1 } : {}}
@@ -140,7 +140,7 @@ function StepDot({ step, total, isActive, isInView }: { step: number; total: num
           className="w-8 h-[2px] rounded-full mx-1"
           style={{
             background: isActive
-              ? 'linear-gradient(90deg, #D4AF37, #4A2364/30)'
+              ? 'linear-gradient(90deg, #D4AF37, #5d2c86/30)'
               : 'linear-gradient(90deg, #e5e7eb, #e5e7eb)',
           }}
           initial={{ scaleX: 0 }}
@@ -164,7 +164,7 @@ export default function ProcessSection() {
       <div
         className="absolute inset-0 dark:hidden"
         style={{
-          background: 'linear-gradient(180deg, #F8F5F2 0%, #F5F1ED 50%, #F8F5F2 100%)',
+          background: 'linear-gradient(180deg, #f8f3ed 0%, #F5F1ED 50%, #f8f3ed 100%)',
         }}
       />
 
@@ -175,7 +175,7 @@ export default function ProcessSection() {
       <div
         className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(74,35,100,0.03) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(93,44,134,0.03) 0%, transparent 70%)',
         }}
       />
 
@@ -207,7 +207,7 @@ export default function ProcessSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             Three acts.{' '}
-            <span className="text-[#4A2364] dark:text-[#6B3F8E]">One accountable team.</span>{' '}
+            <span className="text-[#5d2c86] dark:text-[#7d44a8]">One accountable team.</span>{' '}
             From brief to install.
           </motion.h2>
 
@@ -257,7 +257,7 @@ export default function ProcessSection() {
 
                     <div className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-8 lg:p-10 shadow-sm border border-gray-100 dark:border-gray-800 group relative overflow-hidden cursor-default transition-all duration-500 hover:shadow-xl hover:-translate-y-2">
                       {/* Top gold accent line */}
-                      <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(90deg, #4A2364, #D4AF37, #4A2364)' }} />
+                      <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37, #5d2c86)' }} />
 
                       {/* Left border accent on hover */}
                       <div className="absolute left-0 top-4 bottom-4 w-[3px] rounded-r-full bg-[#D4AF37] opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:top-2 group-hover:bottom-2" />
@@ -275,31 +275,31 @@ export default function ProcessSection() {
                         }}
                       />
                       {/* Hover gradient overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#4A2364]/[0.02] to-[#D4AF37]/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-[#5d2c86]/[0.02] to-[#D4AF37]/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
                       <div className="relative flex items-start gap-4 mb-6">
                         {/* Large number */}
                         <span
                           className="text-6xl lg:text-7xl font-bold font-serif-display leading-none select-none transition-all duration-500"
                           style={{
-                            WebkitTextStroke: '1.5px rgba(74,35,100,0.15)',
+                            WebkitTextStroke: '1.5px rgba(93,44,134,0.15)',
                             color: 'transparent',
                           }}
                         >
                           <span
-                            className="group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E]"
+                            className="group-hover:text-[#5d2c86] dark:group-hover:text-[#7d44a8]"
                             style={{
                               transition: 'all 0.5s ease',
                             }}
                           >
-                            <span className="group-hover:[-webkit-text-stroke-color:#4A2364] dark:group-hover:[-webkit-text-stroke-color:#6B3F8E]">
+                            <span className="group-hover:[-webkit-text-stroke-color:#5d2c86] dark:group-hover:[-webkit-text-stroke-color:#7d44a8]">
                               {act.number}
                             </span>
                           </span>
                         </span>
                         <div className="mt-2">
-                          <div className="w-10 h-10 rounded-lg bg-[#4A2364]/5 dark:bg-[#4A2364]/10 flex items-center justify-center mb-3 group-hover:bg-[#4A2364]/15 dark:group-hover:bg-[#4A2364]/20 group-hover:scale-110 transition-all duration-300">
-                            <Icon className="w-5 h-5 text-[#4A2364] dark:text-[#6B3F8E]" />
+                          <div className="w-10 h-10 rounded-lg bg-[#5d2c86]/5 dark:bg-[#5d2c86]/10 flex items-center justify-center mb-3 group-hover:bg-[#5d2c86]/15 dark:group-hover:bg-[#5d2c86]/20 group-hover:scale-110 transition-all duration-300">
+                            <Icon className="w-5 h-5 text-[#5d2c86] dark:text-[#7d44a8]" />
                           </div>
                           <h3 className="text-lg font-bold text-[#1A1A1A] dark:text-white font-sans-body">
                             {act.title}
@@ -314,7 +314,7 @@ export default function ProcessSection() {
                       <div className="mt-6 h-[2px] rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
                         <motion.div
                           className="h-full rounded-full"
-                          style={{ background: 'linear-gradient(90deg, #4A2364, #D4AF37)' }}
+                          style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37)' }}
                           initial={{ width: '0%' }}
                           whileInView={{ width: '40%' }}
                           viewport={{ once: true }}
@@ -322,7 +322,7 @@ export default function ProcessSection() {
                         />
                         <div
                           className="h-full rounded-full -mt-[2px] transition-all duration-700 ease-out w-0 group-hover:w-full"
-                          style={{ background: 'linear-gradient(90deg, #4A2364, #D4AF37)' }}
+                          style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37)' }}
                         />
                       </div>
                     </div>
@@ -341,7 +341,7 @@ export default function ProcessSection() {
                   <div className="w-full">
                     <div className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 shadow-sm border border-gray-100 dark:border-gray-800 group relative overflow-hidden cursor-default transition-all duration-500 active:scale-[0.98]">
                       {/* Top gold accent line */}
-                      <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(90deg, #4A2364, #D4AF37, #4A2364)' }} />
+                      <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37, #5d2c86)' }} />
 
                       {/* Shine sweep animation on view */}
                       <motion.div
@@ -361,15 +361,15 @@ export default function ProcessSection() {
                         <span
                           className="text-5xl font-bold font-serif-display leading-none select-none"
                           style={{
-                            WebkitTextStroke: '1.5px rgba(74,35,100,0.15)',
+                            WebkitTextStroke: '1.5px rgba(93,44,134,0.15)',
                             color: 'transparent',
                           }}
                         >
-                          <span className="text-[#4A2364]/30 dark:text-[#6B3F8E]/30">{act.number}</span>
+                          <span className="text-[#5d2c86]/30 dark:text-[#7d44a8]/30">{act.number}</span>
                         </span>
                         <div className="mt-1">
-                          <div className="w-9 h-9 rounded-lg bg-[#4A2364]/5 dark:bg-[#4A2364]/10 flex items-center justify-center mb-2">
-                            <Icon className="w-4 h-4 text-[#4A2364] dark:text-[#6B3F8E]" />
+                          <div className="w-9 h-9 rounded-lg bg-[#5d2c86]/5 dark:bg-[#5d2c86]/10 flex items-center justify-center mb-2">
+                            <Icon className="w-4 h-4 text-[#5d2c86] dark:text-[#7d44a8]" />
                           </div>
                           <h3 className="text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body">
                             {act.title}
@@ -384,7 +384,7 @@ export default function ProcessSection() {
                       <div className="mt-4 h-[2px] rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
                         <motion.div
                           className="h-full rounded-full"
-                          style={{ background: 'linear-gradient(90deg, #4A2364, #D4AF37)' }}
+                          style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37)' }}
                           initial={{ width: '0%' }}
                           whileInView={{ width: '50%' }}
                           viewport={{ once: true }}

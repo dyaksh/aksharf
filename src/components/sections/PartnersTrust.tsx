@@ -3,11 +3,50 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Factory, KeyRound, Globe, ShieldCheck } from 'lucide-react';
+import Image from 'next/image';
 
+/* ── Brand Logo Data ─────────────────────────────────────────── */
 const partners = [
-  'IHG', 'Hilton', 'Marriott', 'Choice Hotels',
-  'Wyndham', 'Hyatt', 'Best Western', 'Radisson',
-  'Accor', 'InterContinental', 'Crowne Plaza', 'Holiday Inn',
+  {
+    name: 'IHG',
+    logo: '/images/brands/brand-logo-3.png',
+    alt: 'IHG Hotels and Resorts logo',
+  },
+  {
+    name: 'Hilton',
+    logo: '/images/brands/brand-logo-4.png',
+    alt: 'Hilton Hotels and Resorts logo',
+  },
+  {
+    name: 'Marriott',
+    logo: '/images/brands/brand-logo-5.png',
+    alt: 'Marriott International logo',
+  },
+  {
+    name: 'Choice Hotels',
+    logo: '/images/brands/brand-logo-6.png',
+    alt: 'Choice Hotels logo',
+  },
+  {
+    name: 'Wyndham',
+    logo: '/images/brands/brand-logo-7.png',
+    alt: 'Wyndham Hotels and Resorts logo',
+  },
+  {
+    name: 'Hyatt',
+    logo: '/images/brands/brand-logo-8.png',
+    alt: 'Hyatt Hotels logo',
+  },
+  {
+    name: 'Best Western',
+    logo: '/images/brands/brand-logo-9.png',
+    alt: 'Best Western Hotels logo',
+  },
+  {
+    name: 'Radisson',
+    logo: '/images/brands/brand-logo-10.png',
+    alt: 'Radisson Hotels logo',
+  },
 ];
 
 const stats = [
@@ -17,7 +56,7 @@ const stats = [
   { value: 100, suffix: '%', label: 'Inspection Pass Rate', icon: ShieldCheck },
 ];
 
-/* ── Count-up hook ────────────────────────────────────────── */
+/* ── Count-up hook ──────────────────────────────────────────── */
 function useCountUp(target: number, inView: boolean, duration = 2000) {
   const [count, setCount] = useState(0);
   useEffect(() => {
@@ -38,7 +77,7 @@ function useCountUp(target: number, inView: boolean, duration = 2000) {
   return count;
 }
 
-/* ── Single stat counter ──────────────────────────────────── */
+/* ── Single stat counter ────────────────────────────────────── */
 function StatCounter({
   value,
   suffix,
@@ -61,19 +100,19 @@ function StatCounter({
       transition={{ duration: 0.5 }}
       className="flex flex-col items-center text-center"
     >
-      <div className="w-14 h-14 rounded-2xl bg-[#4A2364]/10 dark:bg-[#D4AF37]/10 flex items-center justify-center mb-3">
-        <Icon className="w-6 h-6 text-[#4A2364] dark:text-[#D4AF37]" />
+      <div className="w-14 h-14 rounded-2xl bg-[#5d2c86]/10 dark:bg-[#D4AF37]/10 flex items-center justify-center mb-3">
+        <Icon className="w-6 h-6 text-[#5d2c86] dark:text-[#D4AF37]" />
       </div>
-      <span className="text-3xl sm:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white">
-        {count}
-        <span className="text-[#D4AF37]">{suffix}</span>
+      <span className="text-3xl sm:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white" aria-label={`${value}${suffix}`}>
+        <span aria-hidden="true">{count}<span className="text-[#D4AF37]">{suffix}</span></span>
+        <span className="sr-only">{value}{suffix}</span>
       </span>
       <span className="text-sm text-gray-500 dark:text-gray-400 font-sans-body mt-1">{label}</span>
     </motion.div>
   );
 }
 
-/* ── Shimmer overlay ──────────────────────────────────────── */
+/* ── Shimmer overlay ────────────────────────────────────────── */
 function ShimmerOverlay() {
   return (
     <div
@@ -91,7 +130,7 @@ function ShimmerOverlay() {
   );
 }
 
-/* ── Main section ─────────────────────────────────────────── */
+/* ── Main section ───────────────────────────────────────────── */
 export default function PartnersTrust() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
@@ -100,14 +139,14 @@ export default function PartnersTrust() {
     <section
       id="partners"
       ref={sectionRef}
-      className="relative w-full py-20 lg:py-28 bg-white dark:bg-[#121212] overflow-hidden transition-colors duration-300"
+      className="relative w-full py-20 lg:py-28 bg-[#f8f3ed] dark:bg-[#121212] overflow-hidden transition-colors duration-300"
     >
       {/* Dot pattern overlay */}
       <div
         className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none"
         style={{
           backgroundImage:
-            'radial-gradient(circle, #4A2364 1px, transparent 1px)',
+            'radial-gradient(circle, #5d2c86 1px, transparent 1px)',
           backgroundSize: '24px 24px',
         }}
         aria-hidden
@@ -133,11 +172,11 @@ export default function PartnersTrust() {
           </h2>
         </motion.div>
 
-        {/* ── Logo wall ──────────────────────────────────── */}
-        <div className="grid grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 max-w-4xl mx-auto mb-16 lg:mb-24">
-          {partners.map((name, i) => (
+        {/* ── Logo wall with real brand images ─────────────── */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 max-w-5xl mx-auto mb-16 lg:mb-24">
+          {partners.map((partner, i) => (
             <motion.div
-              key={name}
+              key={partner.name}
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={
                 isInView
@@ -146,15 +185,15 @@ export default function PartnersTrust() {
               }
               transition={{
                 duration: 0.45,
-                delay: i * 0.06,
+                delay: i * 0.07,
                 ease: 'easeOut',
               }}
               className="group"
             >
               <div
                 className="
-                  relative flex items-center justify-center
-                  bg-[#F8F5F2]/50 dark:bg-[#1E1E1E]
+                  relative flex flex-col items-center justify-center
+                  bg-white/50 dark:bg-[#1E1E1E]
                   rounded-xl border border-gray-200/60 dark:border-gray-700/40
                   hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/50
                   hover:shadow-lg hover:shadow-[#D4AF37]/10
@@ -162,6 +201,7 @@ export default function PartnersTrust() {
                   transition-all duration-300 ease-out
                   py-6 sm:py-8 px-4
                   cursor-default select-none
+                  min-h-[100px] sm:min-h-[110px]
                 "
               >
                 {/* Glow on hover */}
@@ -173,18 +213,16 @@ export default function PartnersTrust() {
                   }}
                   aria-hidden
                 />
-                <span
-                  className="
-                    font-sans-body text-sm sm:text-base font-semibold
-                    tracking-wide uppercase text-center
-                    text-[#4A2364]/80 dark:text-white/70
-                    group-hover:text-[#4A2364] dark:group-hover:text-[#D4AF37]
-                    group-hover:scale-105
-                    transition-all duration-300
-                  "
-                >
-                  {name}
-                </span>
+                {/* Real Brand Logo Image */}
+                <div className="relative w-28 sm:w-32 h-10 sm:h-12">
+                  <Image
+                    src={partner.logo}
+                    alt={partner.alt}
+                    fill
+                    className="object-contain transition-all duration-300 group-hover:scale-105"
+                    sizes="(max-width: 640px) 112px, 128px"
+                  />
+                </div>
               </div>
             </motion.div>
           ))}

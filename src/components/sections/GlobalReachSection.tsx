@@ -92,8 +92,8 @@ function DecorativePattern() {
           height="40"
           patternUnits="userSpaceOnUse"
         >
-          <circle cx="20" cy="20" r="1" fill="#4A2364" />
-          <path d="M0 20h40M20 0v40" stroke="#4A2364" strokeWidth="0.3" />
+          <circle cx="20" cy="20" r="1" fill="#5d2c86" />
+          <path d="M0 20h40M20 0v40" stroke="#5d2c86" strokeWidth="0.3" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#global-reach-pattern)" />
@@ -206,7 +206,7 @@ function SupplyChainVisual() {
           </radialGradient>
           {/* Purple gradient for route lines */}
           <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#4A2364" />
+            <stop offset="0%" stopColor="#5d2c86" />
             <stop offset="100%" stopColor="#D4AF37" />
           </linearGradient>
           {/* Glow filter for origin */}
@@ -229,7 +229,7 @@ function SupplyChainVisual() {
             <path
               d="M 50 0 L 0 0 0 50"
               fill="none"
-              stroke="#4A2364"
+              stroke="#5d2c86"
               strokeWidth="0.3"
               opacity="0.08"
             />
@@ -243,37 +243,37 @@ function SupplyChainVisual() {
         {/* North America suggestion */}
         <path
           d="M 80 100 Q 100 60 140 55 Q 170 50 160 80 Q 155 120 130 140 Q 100 160 90 130 Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.04"
         />
         {/* Europe suggestion */}
         <path
           d="M 130 250 Q 150 230 175 240 Q 190 250 185 280 Q 170 310 145 300 Q 120 280 130 250 Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.04"
         />
         {/* Middle East suggestion */}
         <path
           d="M 310 420 Q 340 400 370 410 Q 380 430 365 460 Q 340 475 315 455 Q 300 440 310 420 Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.04"
         />
         {/* Southeast Asia suggestion */}
         <path
           d="M 570 380 Q 600 360 640 380 Q 660 400 640 430 Q 610 450 580 430 Q 560 410 570 380 Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.04"
         />
         {/* Australia suggestion */}
         <path
           d="M 640 490 Q 680 470 720 490 Q 740 520 710 550 Q 670 560 645 535 Q 630 510 640 490 Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.04"
         />
         {/* China/Foshan area */}
         <path
           d="M 360 250 Q 400 230 440 250 Q 460 280 440 310 Q 400 330 370 310 Q 345 285 360 250 Z"
-          fill="#4A2364"
+          fill="#5d2c86"
           opacity="0.06"
         />
 
@@ -287,7 +287,7 @@ function SupplyChainVisual() {
             y2={dest.y}
             controlOffset={dest.controlOffset}
             delay={dest.delay}
-            color="#4A2364"
+            color="#5d2c86"
           />
         ))}
 
@@ -298,7 +298,7 @@ function SupplyChainVisual() {
               cx={dest.x}
               cy={dest.y}
               r="5"
-              fill="#4A2364"
+              fill="#5d2c86"
               opacity="0.6"
               initial={{ scale: 0, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 0.6 }}
@@ -422,7 +422,7 @@ function SupplyChainVisual() {
             width="70"
             height="18"
             rx="4"
-            fill="#4A2364"
+            fill="#5d2c86"
           />
           <text
             x={centerX}
@@ -453,9 +453,9 @@ function MobileSupplyChainVisual() {
       {/* Central Foshan point */}
       <div className="flex flex-col items-center">
         <div className="relative">
-          <div className="w-16 h-16 rounded-full bg-[#4A2364]/10 flex items-center justify-center border-2 border-[#D4AF37]">
+          <div className="w-16 h-16 rounded-full bg-[#5d2c86]/10 flex items-center justify-center border-2 border-[#D4AF37]">
             <div className="w-8 h-8 rounded-full bg-[#D4AF37] flex items-center justify-center">
-              <span className="text-[8px] font-bold text-[#4A2364] font-sans-body tracking-wider">FSH</span>
+              <span className="text-[8px] font-bold text-[#5d2c86] font-sans-body tracking-wider">FSH</span>
             </div>
           </div>
           {/* Pulsing ring */}
@@ -465,7 +465,7 @@ function MobileSupplyChainVisual() {
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           />
         </div>
-        <span className="mt-2 text-xs font-bold tracking-widest text-[#4A2364] dark:text-[#6B3F8E] font-sans-body">
+        <span className="mt-2 text-xs font-bold tracking-widest text-[#5d2c86] dark:text-[#7d44a8] font-sans-body">
           FOSHAN, CHINA
         </span>
       </div>
@@ -485,14 +485,14 @@ function MobileSupplyChainVisual() {
             <div className="flex items-center gap-2 flex-shrink-0">
               <div className="w-3 h-3 rounded-full bg-[#D4AF37]" />
               <motion.div
-                className="h-[2px] bg-gradient-to-r from-[#D4AF37] to-[#4A2364]/30 w-12"
+                className="h-[2px] bg-gradient-to-r from-[#D4AF37] to-[#5d2c86]/30 w-12"
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.5 + i * 0.1 }}
                 style={{ transformOrigin: 'left' }}
               />
-              <Truck className="w-3.5 h-3.5 text-[#4A2364]/40 dark:text-[#6B3F8E]/40" />
+              <Truck className="w-3.5 h-3.5 text-[#5d2c86]/40 dark:text-[#7d44a8]/40" />
             </div>
             {/* Destination info */}
             <div className="flex-1 flex items-center justify-between bg-white/60 dark:bg-[#1E1E1E]/60 rounded-lg px-3 py-2 border border-gray-100 dark:border-gray-800">
@@ -525,15 +525,15 @@ function StatCard({ stat, index }: { stat: typeof stats[number]; index: number }
       transition={{ duration: 0.6, delay: index * 0.12, ease: 'easeOut' }}
     >
       {/* Top accent line */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#4A2364] to-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       {/* Hover overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#4A2364]/[0.02] to-[#D4AF37]/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#5d2c86]/[0.02] to-[#D4AF37]/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
       <div className="relative">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-9 h-9 rounded-lg bg-[#4A2364]/8 dark:bg-[#4A2364]/15 flex items-center justify-center">
-            <Icon className="w-4 h-4 text-[#4A2364] dark:text-[#6B3F8E]" />
+          <div className="w-9 h-9 rounded-lg bg-[#5d2c86]/8 dark:bg-[#5d2c86]/15 flex items-center justify-center">
+            <Icon className="w-4 h-4 text-[#5d2c86] dark:text-[#7d44a8]" />
           </div>
           <div className="h-[1px] flex-1 bg-gradient-to-r from-gray-100 to-transparent dark:from-gray-800" />
         </div>
@@ -579,7 +579,7 @@ function DestinationCard({
       </div>
       <div className="flex items-center gap-1 flex-shrink-0">
         <Clock className="w-3 h-3 text-[#D4AF37]" />
-        <span className="text-xs font-bold text-[#4A2364] dark:text-[#6B3F8E] font-sans-body">
+        <span className="text-xs font-bold text-[#5d2c86] dark:text-[#7d44a8] font-sans-body">
           {destination.deliveryTime}
         </span>
       </div>
@@ -604,7 +604,7 @@ export default function GlobalReachSection() {
       <div
         className="absolute -top-40 -right-40 w-96 h-96 rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(74,35,100,0.04) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(93,44,134,0.04) 0%, transparent 70%)',
         }}
       />
       <div
@@ -695,7 +695,7 @@ export default function GlobalReachSection() {
         >
           {/* Section mini-header */}
           <div className="text-center mb-6">
-            <p className="text-xs tracking-[0.2em] text-[#4A2364] dark:text-[#6B3F8E] font-sans-body font-semibold uppercase">
+            <p className="text-xs tracking-[0.2em] text-[#5d2c86] dark:text-[#7d44a8] font-sans-body font-semibold uppercase">
               Delivery Destinations
             </p>
           </div>
@@ -711,7 +711,7 @@ export default function GlobalReachSection() {
         <motion.div
           className="mt-12 lg:mt-16 mx-auto w-full max-w-2xl h-[1px]"
           style={{
-            background: 'linear-gradient(90deg, transparent, rgba(74,35,100,0.15) 20%, rgba(212,175,55,0.15) 80%, transparent)',
+            background: 'linear-gradient(90deg, transparent, rgba(93,44,134,0.15) 20%, rgba(212,175,55,0.15) 80%, transparent)',
           }}
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}

@@ -1,0 +1,719 @@
+     1→'use client';
+     2→
+     3→import { useEffect, useRef, useState } from 'react';
+     4→import { Button } from '@/components/ui/button';
+     5→import { ArrowRight, ChevronDown } from 'lucide-react';
+     6→import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+     7→
+     8→/* ─────────────── Reduced-motion hook ─────────────── */
+     9→
+    10→function usePrefersReducedMotion() {
+    11→  const [prefersReduced, setPrefersReduced] = useState(
+    12→    () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    13→  );
+    14→  useEffect(() => {
+    15→    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    16→    const handler = (e: MediaQueryListEvent) => setPrefersReduced(e.matches);
+    17→    mql.addEventListener('change', handler);
+    18→    return () => mql.removeEventListener('change', handler);
+    19→  }, []);
+    20→  return prefersReduced;
+    21→}
+    22→
+    23→/* ─────────────── Floating rotating diamond decoration ─────────────── */
+    24→
+    25→function FloatingDiamond() {
+    26→  return (
+    27→    <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+    28→      <motion.div
+    29→        className="w-20 h-20 border-2 border-[#D4AF37]/30 dark:border-[#D4AF37]/20 rounded-md"
+    30→        animate={{ rotate: [0, 45, 90, 135, 180, 225, 270, 315, 360] }}
+    31→        transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+    32→        style={{ transformOrigin: 'center center' }}
+    33→      >
+    34→        {/* Inner smaller diamond */}
+    35→        <motion.div
+    36→          className="absolute inset-2 border border-[#D4AF37]/15 dark:border-[#D4AF37]/10 rounded-sm"
+    37→          animate={{ rotate: [360, 315, 270, 225, 180, 135, 90, 45, 0] }}
+    38→          transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
+    39→          style={{ transformOrigin: 'center center' }}
+    40→        />
+    41→      </motion.div>
+    42→    </div>
+    43→  );
+    44→}
+    45→
+    46→/* ─────────────── Decorative corner bracket ─────────────── */
+    47→
+    48→function CornerBracket() {
+    49→  return (
+    50→    <svg
+    51→      className="absolute -top-2 -left-2 w-10 h-10 pointer-events-none z-10"
+    52→      viewBox="0 0 40 40"
+    53→      fill="none"
+    54→      aria-hidden="true"
+    55→    >
+    56→      <motion.path
+    57→        d="M 2 2 L 2 38"
+    58→        stroke="#D4AF37"
+    59→        strokeWidth="1.5"
+    60→        strokeLinecap="round"
+    61→        initial={{ pathLength: 0 }}
+    62→        animate={{ pathLength: 1 }}
+    63→        transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+    64→      />
+    65→      <motion.path
+    66→        d="M 2 2 L 38 2"
+    67→        stroke="#D4AF37"
+    68→        strokeWidth="1.5"
+    69→        strokeLinecap="round"
+    70→        initial={{ pathLength: 0 }}
+    71→        animate={{ pathLength: 1 }}
+    72→        transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+    73→      />
+    74→    </svg>
+    75→  );
+    76→}
+    77→
+    78→/* ─────────────── Decorative floating particle ─────────────── */
+    79→
+    80→function DecorativeParticle({
+    81→  x,
+    82→  y,
+    83→  size,
+    84→  delay,
+    85→  duration,
+    86→  shape,
+    87→}: {
+    88→  x: string;
+    89→  y: string;
+    90→  size: number;
+    91→  delay: number;
+    92→  duration: number;
+    93→  shape: 'circle' | 'diamond';
+    94→}) {
+    95→  const prefersReduced = usePrefersReducedMotion();
+    96→
+    97→  if (prefersReduced) return null;
+    98→
+    99→  return (
+   100→    <div
+   101→      className="absolute pointer-events-none z-[2]"
+   102→      style={{ left: x, top: y }}
+   103→      aria-hidden="true"
+   104→    >
+   105→      <motion.div
+   106→        className={shape === 'circle' ? 'rounded-full' : 'rounded-sm rotate-45'}
+   107→        style={{
+   108→          width: size,
+   109→          height: size,
+   110→          background: 'radial-gradient(circle, #D4AF37 0%, rgba(212,175,55,0.5) 100%)',
+   111→        }}
+   112→        animate={{
+   113→          y: [0, -14, -6, -18, 0],
+   114→          x: [0, 4, -3, 5, 0],
+   115→          opacity: [0.2, 0.3, 0.2, 0.28, 0.2],
+   116→        }}
+   117→        transition={{
+   118→          duration,
+   119→          delay,
+   120→          repeat: Infinity,
+   121→          ease: 'easeInOut',
+   122→        }}
+   123→      />
+   124→    </div>
+   125→  );
+   126→}
+   127→
+   128→/* ─────────────── Count-up animation hook ─────────────── */
+   129→
+   130→function useCountUp(target: number, duration: number = 2000, startOnView: boolean = true) {
+   131→  const [count, setCount] = useState(0);
+   132→  const [isComplete, setIsComplete] = useState(false);
+   133→  const ref = useRef<HTMLDivElement>(null);
+   134→  const isInView = useInView(ref, { once: true });
+   135→  const hasStarted = useRef(false);
+   136→
+   137→  useEffect(() => {
+   138→    if (!startOnView || (isInView && !hasStarted.current)) {
+   139→      hasStarted.current = true;
+   140→      const startTime = Date.now();
+   141→      const animate = () => {
+   142→        const elapsed = Date.now() - startTime;
+   143→        const progress = Math.min(elapsed / duration, 1);
+   144→        // Ease out cubic
+   145→        const eased = 1 - Math.pow(1 - progress, 3);
+   146→        setCount(Math.round(eased * target));
+   147→        if (progress < 1) {
+   148→          requestAnimationFrame(animate);
+   149→        } else {
+   150→          setIsComplete(true);
+   151→        }
+   152→      };
+   153→      requestAnimationFrame(animate);
+   154→    }
+   155→  }, [isInView, target, duration, startOnView]);
+   156→
+   157→  return { count, ref, isComplete };
+   158→}
+   159→
+   160→/* ─────────────── Decorative SVG pattern ─────────────── */
+   161→
+   162→function DecorativePattern() {
+   163→  return (
+   164→    <svg
+   165→      className="absolute inset-0 w-full h-full pointer-events-none"
+   166→      style={{ opacity: 0.05 }}
+   167→      aria-hidden="true"
+   168→    >
+   169→      <defs>
+   170→        <pattern id="hero-pattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+   171→          <circle cx="30" cy="30" r="1.5" fill="#5d2c86" />
+   172→          <path d="M0 30h60M30 0v60" stroke="#5d2c86" strokeWidth="0.5" />
+   173→        </pattern>
+   174→      </defs>
+   175→      <rect width="100%" height="100%" fill="url(#hero-pattern)" />
+   176→    </svg>
+   177→  );
+   178→}
+   179→
+   180→/* ─────────────── Canvas-based floating particle effect ─────────────── */
+   181→
+   182→function HeroCanvas() {
+   183→  const canvasRef = useRef<HTMLCanvasElement>(null);
+   184→  const prefersReduced = usePrefersReducedMotion();
+   185→
+   186→  useEffect(() => {
+   187→    const canvas = canvasRef.current;
+   188→    if (!canvas) return;
+   189→
+   190→    const ctx = canvas.getContext('2d');
+   191→    if (!ctx) return;
+   192→
+   193→    const colors = ['#D4AF37', '#5d2c86'];
+   194→    const particleCount = 35;
+   195→
+   196→    interface Particle {
+   197→      x: number;
+   198→      y: number;
+   199→      size: number;
+   200→      speed: number;
+   201→      opacity: number;
+   202→      color: string;
+   203→      drift: number;
+   204→    }
+   205→
+   206→    let particles: Particle[] = [];
+   207→    let animationId: number;
+   208→
+   209→    const resize = () => {
+   210→      const parent = canvas.parentElement;
+   211→      if (parent) {
+   212→        canvas.width = parent.offsetWidth;
+   213→        canvas.height = parent.offsetHeight;
+   214→      }
+   215→    };
+   216→
+   217→    const createParticle = (atTop = false): Particle => ({
+   218→      x: Math.random() * canvas.width,
+   219→      y: atTop ? canvas.height + 10 : Math.random() * canvas.height,
+   220→      size: 1 + Math.random() * 2,
+   221→      speed: 0.15 + Math.random() * 0.35,
+   222→      opacity: 0.15 + Math.random() * 0.15,
+   223→      color: colors[Math.floor(Math.random() * colors.length)],
+   224→      drift: (Math.random() - 0.5) * 0.3,
+   225→    });
+   226→
+   227→    const initParticles = () => {
+   228→      particles = Array.from({ length: particleCount }, () => createParticle(false));
+   229→    };
+   230→
+   231→    const drawStatic = () => {
+   232→      ctx.clearRect(0, 0, canvas.width, canvas.height);
+   233→      particles.forEach((p) => {
+   234→        ctx.beginPath();
+   235→        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+   236→        ctx.fillStyle = p.color;
+   237→        ctx.globalAlpha = p.opacity;
+   238→        ctx.fill();
+   239→      });
+   240→      ctx.globalAlpha = 1;
+   241→    };
+   242→
+   243→    const animate = () => {
+   244→      ctx.clearRect(0, 0, canvas.width, canvas.height);
+   245→
+   246→      particles.forEach((p) => {
+   247→        // Move upward
+   248→        p.y -= p.speed;
+   249→        p.x += p.drift;
+   250→
+   251→        // Fade out near top
+   252→        const fadeStart = canvas.height * 0.15;
+   253→        const currentOpacity = p.y < fadeStart
+   254→          ? p.opacity * (p.y / fadeStart)
+   255→          : p.opacity;
+   256→
+   257→        // Draw particle
+   258→        ctx.beginPath();
+   259→        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+   260→        ctx.fillStyle = p.color;
+   261→        ctx.globalAlpha = currentOpacity;
+   262→        ctx.fill();
+   263→
+   264→        // Respawn at bottom if off-screen
+   265→        if (p.y < -10) {
+   266→          Object.assign(p, createParticle(true));
+   267→        }
+   268→      });
+   269→
+   270→      ctx.globalAlpha = 1;
+   271→      animationId = requestAnimationFrame(animate);
+   272→    };
+   273→
+   274→    resize();
+   275→    initParticles();
+   276→
+   277→    if (prefersReduced) {
+   278→      drawStatic();
+   279→    } else {
+   280→      animate();
+   281→    }
+   282→
+   283→    const handleResize = () => {
+   284→      resize();
+   285→      if (prefersReduced) drawStatic();
+   286→    };
+   287→
+   288→    window.addEventListener('resize', handleResize);
+   289→
+   290→    return () => {
+   291→      window.removeEventListener('resize', handleResize);
+   292→      cancelAnimationFrame(animationId);
+   293→    };
+   294→  }, [prefersReduced]);
+   295→
+   296→  return (
+   297→    <canvas
+   298→      ref={canvasRef}
+   299→      className="absolute inset-0 w-full h-full pointer-events-none z-[1]"
+   300→      aria-hidden="true"
+   301→    />
+   302→  );
+   303→}
+   304→
+   305→/* ─────────────── Typewriter Headline ─────────────── */
+   306→
+   307→function TypewriterHeadline() {
+   308→  const prefersReduced = usePrefersReducedMotion();
+   309→  const [visibleWords, setVisibleWords] = useState<number[]>([]);
+   310→
+   311→  // "Furniture that" | "tells the story" | "of a hotel."
+   312→  useEffect(() => {
+   313→    if (prefersReduced) {
+   314→      queueMicrotask(() => setVisibleWords([0, 1, 2]));
+   315→      return;
+   316→    }
+   317→
+   318→    const timers: ReturnType<typeof setTimeout>[] = [];
+   319→    const baseDelay = 1400;
+   320→
+   321→    timers.push(setTimeout(() => setVisibleWords(prev => [...prev, 0]), baseDelay));
+   322→    timers.push(setTimeout(() => setVisibleWords(prev => [...prev, 1]), baseDelay + 350));
+   323→    timers.push(setTimeout(() => setVisibleWords(prev => [...prev, 2]), baseDelay + 700));
+   324→
+   325→    return () => timers.forEach(clearTimeout);
+   326→  }, [prefersReduced]);
+   327→
+   328→  return (
+   329→    <motion.h2
+   330→      className="text-3xl sm:text-4xl lg:text-6xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-8"
+   331→      initial={{ opacity: 0, y: 30 }}
+   332→      animate={{ opacity: 1, y: 0 }}
+   333→      transition={{ duration: 0.8, delay: 0.6 }}
+   334→    >
+   335→      <span>Furniture that</span>{' '}
+   336→      <span className="text-[#D4AF37] italic">
+   337→        <span className="inline-block relative">
+   338→          <span
+   339→            className={`transition-all duration-500 ${visibleWords.includes(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+   340→          >
+   341→            tells
+   342→          </span>
+   343→        </span>{' '}
+   344→        <span className="inline-block relative">
+   345→          <span
+   346→            className={`transition-all duration-500 ${visibleWords.includes(1) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+   347→          >
+   348→            the
+   349→          </span>
+   350→        </span>{' '}
+   351→        <span className="inline-block relative">
+   352→          <span
+   353→            className={`transition-all duration-500 ${visibleWords.includes(2) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
+   354→          >
+   355→            story
+   356→          </span>
+   357→          {/* Underline decoration that draws in after word reveal */}
+   358→          <motion.span
+   359→            className="absolute -bottom-1 left-0 h-[2px] bg-[#D4AF37]"
+   360→            initial={{ width: 0 }}
+   361→            animate={{ width: visibleWords.includes(2) ? '100%' : 0 }}
+   362→            transition={{ duration: 0.6, delay: 0.2 }}
+   363→          />
+   364→        </span>
+   365→      </span>{' '}
+   366→      <motion.span
+   367→        initial={{ opacity: 0 }}
+   368→        animate={{ opacity: 1 }}
+   369→        transition={{ duration: 0.6, delay: 1.8 }}
+   370→      >
+   371→        of a hotel.
+   372→      </motion.span>
+   373→    </motion.h2>
+   374→  );
+   375→}
+   376→
+   377→/* ─────────────── Stats Data ─────────────── */
+   378→
+   379→const stats = [
+   380→  { value: 13, suffix: '+', label: 'COOPERATING FACILITIES', mobileLabel: 'FACILITIES' },
+   381→  { value: 5, suffix: '+', label: 'YEARS HOSPITALITY EXPERIENCE', mobileLabel: 'YEARS EXPERIENCE' },
+   382→  { value: 240, suffix: '+', label: 'KEYS DELIVERED IN 21 DAYS', mobileLabel: 'KEYS IN 21 DAYS' },
+   383→  { value: 360, suffix: '°', label: 'FULL FF&E COVERAGE', mobileLabel: 'FF&E COVERAGE', isSpecial: true },
+   384→];
+   385→
+   386→/* ─────────────── Stat Item Component ─────────────── */
+   387→
+   388→function StatItem({ stat, index }: { stat: (typeof stats)[number]; index: number }) {
+   389→  const { count, ref, isComplete } = useCountUp(stat.value, 2000);
+   390→
+   391→  return (
+   392→    <motion.div
+   393→      ref={ref}
+   394→      className="text-center lg:text-left"
+   395→      initial={{ opacity: 0, y: 20 }}
+   396→      whileInView={{ opacity: 1, y: 0 }}
+   397→      viewport={{ once: true }}
+   398→      transition={{ duration: 0.6, delay: index * 0.15 }}
+   399→    >
+   400→      <p
+   401→        className={`text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display ${isComplete ? 'count-glow' : ''}`}
+   402→        style={{
+   403→          background: 'linear-gradient(135deg, #5d2c86, #D4AF37)',
+   404→          WebkitBackgroundClip: 'text',
+   405→          WebkitTextFillColor: 'transparent',
+   406→          backgroundClip: 'text',
+   407→        }}
+   408→        aria-label={`${stat.value}${stat.suffix}`}
+   409→      >
+   410→        <span aria-hidden="true">
+   411→          {stat.isSpecial ? (
+   412→            <>
+   413→              <span>{count}</span>
+   414→              <span>{stat.suffix}</span>
+   415→            </>
+   416→          ) : (
+   417→            <>
+   418→              {count}
+   419→              {stat.suffix}
+   420→            </>
+   421→          )}
+   422→        </span>
+   423→        <span className="sr-only">
+   424→          {stat.value}
+   425→          {stat.suffix}
+   426→        </span>
+   427→      </p>
+   428→      <p className="text-xs tracking-widest text-gray-400 dark:text-gray-500 mt-2 font-sans-body">
+   429→        <span className="md:hidden">{stat.mobileLabel}</span>
+   430→        <span className="hidden md:inline">{stat.label}</span>
+   431→      </p>
+   432→    </motion.div>
+   433→  );
+   434→}
+   435→
+   436→/* ═══════════════════════════════════════════════════════
+   437→   ═══════  HERO SECTION — Version 10 Layout  ══════════
+   438→   ═══════════════════════════════════════════════════════ */
+   439→
+   440→export default function HeroSection() {
+   441→  const heroRef = useRef<HTMLElement>(null);
+   442→  const prefersReduced = usePrefersReducedMotion();
+   443→
+   444→  const { scrollYProgress } = useScroll({
+   445→    target: heroRef,
+   446→    offset: ['start start', 'end start'],
+   447→  });
+   448→
+   449→  // Main image parallax (moves down as you scroll)
+   450→  const heroImageY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
+   451→  // Floating images parallax — SLOWER than main image
+   452→  const floatingImageY1 = useTransform(scrollYProgress, [0, 1], ['0%', '8%']);
+   453→  const floatingImageY2 = useTransform(scrollYProgress, [0, 1], ['0%', '5%']);
+   454→  // Text content parallax — moves in OPPOSITE direction slightly
+   455→  const textContentY = useTransform(scrollYProgress, [0, 1], ['0%', '-5%']);
+   456→
+   457→  return (
+   458→    <section
+   459→      id="home"
+   460→      className="relative bg-[#f8f3ed] dark:bg-[#1A1A1A] min-h-screen pt-20 lg:pt-0 overflow-x-hidden overflow-y-hidden transition-colors duration-300"
+   461→      ref={heroRef}
+   462→    >
+   463→      {/* Gradient overlay — cream to very light purple tint */}
+   464→      <div
+   465→        className="absolute inset-0 pointer-events-none"
+   466→        style={{
+   467→          background: 'linear-gradient(160deg, #f8f3ed 0%, #f8f3ed 40%, #F3EFF8 70%, #EDE7F3 100%)',
+   468→        }}
+   469→      />
+   470→      {/* Dark mode gradient */}
+   471→      <div
+   472→        className="absolute inset-0 pointer-events-none hidden dark:block"
+   473→        style={{
+   474→          background: 'linear-gradient(160deg, #1A1A1A 0%, #1A1A1A 40%, #1E1525 70%, #231830 100%)',
+   475→        }}
+   476→      />
+   477→
+   478→      {/* Decorative floating particles */}
+   479→      <DecorativeParticle x="8%" y="18%" size={6} delay={0} duration={6} shape="circle" />
+   480→      <DecorativeParticle x="85%" y="25%" size={5} delay={1.5} duration={7} shape="diamond" />
+   481→      <DecorativeParticle x="15%" y="65%" size={4} delay={3} duration={5.5} shape="circle" />
+   482→      <DecorativeParticle x="75%" y="70%" size={5} delay={2} duration={6.5} shape="diamond" />
+   483→      <DecorativeParticle x="45%" y="12%" size={3} delay={4} duration={5} shape="circle" />
+   484→
+   485→      {/* Decorative SVG pattern behind hero text */}
+   486→      <DecorativePattern />
+   487→
+   488→      {/* Animated canvas particles */}
+   489→      <HeroCanvas />
+   490→
+   491→      {/* Grain texture overlay for visual depth */}
+   492→      <div
+   493→        className="absolute inset-0 pointer-events-none z-[1]"
+   494→        style={{ opacity: 0.03 }}
+   495→        aria-hidden="true"
+   496→      >
+   497→        <svg width="100%" height="100%">
+   498→          <filter id="hero-grain-v10">
+   499→            <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
+   500→            <feColorMatrix type="saturate" values="0" />
+   501→          </filter>
+   502→          <rect width="100%" height="100%" filter="url(#hero-grain-v10)" />
+   503→        </svg>
+   504→      </div>
+   505→
+   506→      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   507→        <div className="flex flex-col lg:flex-row items-center min-h-screen py-16 lg:py-0 gap-8 lg:gap-12 relative">
+   508→          {/* Floating diamond decoration between columns (desktop only) */}
+   509→          <FloatingDiamond />
+   510→
+   511→          {/* Left Content — with subtle reverse parallax */}
+   512→          <motion.div
+   513→            className="w-full lg:flex-1 lg:max-w-xl pt-4 lg:pt-0 relative"
+   514→            style={prefersReduced ? {} : { y: textContentY }}
+   515→          >
+   516→            {/* Decorative corner bracket */}
+   517→            <CornerBracket />
+   518→
+   519→            {/* Purple divider */}
+   520→            <motion.div
+   521→              className="w-12 h-0.5 bg-[#5d2c86] mb-6"
+   522→              initial={{ width: 0, opacity: 0 }}
+   523→              animate={{ width: 48, opacity: 1 }}
+   524→              transition={{ duration: 0.8, delay: 0.2 }}
+   525→            />
+   526→
+   527→            {/* Subheading with animated line */}
+   528→            <div className="flex items-center gap-3 mb-4">
+   529→              <motion.div
+   530→                className="h-[1px] bg-gradient-to-r from-transparent to-[#D4AF37] shrink-0"
+   531→                initial={{ width: 0 }}
+   532→                animate={{ width: 32 }}
+   533→                transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+   534→              />
+   535→              <motion.p
+   536→                className="text-xs tracking-[0.3em] text-gray-500 dark:text-gray-400 font-sans-body"
+   537→                initial={{ opacity: 0, x: -10 }}
+   538→                animate={{ opacity: 1, x: 0 }}
+   539→                transition={{ duration: 0.6, delay: 0.5 }}
+   540→              >
+   541→                HOSPITALITY FF&E &bull; EST. FOSHAN
+   542→              </motion.p>
+   543→            </div>
+   544→
+   545→            {/* Main headline — with typewriter effect */}
+   546→            <TypewriterHeadline />
+   547→
+   548→            {/* Description */}
+   549→            <motion.p
+   550→              className="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-7 sm:leading-relaxed mb-8 font-sans-body max-w-lg"
+   551→              initial={{ opacity: 0, y: 20 }}
+   552→              animate={{ opacity: 1, y: 0 }}
+   553→              transition={{ duration: 0.6, delay: 0.8 }}
+   554→            >
+   555→              Akshar Foshan crafts complete hotel furniture solutions — casegoods,
+   556→              upholstery, lighting, mirrors, bathroom accessories — and orchestrates
+   557→              sourcing, QC and logistics for hospitality brands worldwide.
+   558→            </motion.p>
+   559→
+   560→            {/* CTA Buttons — min 48px touch target */}
+   561→            <motion.div
+   562→              className="flex flex-col sm:flex-row gap-4"
+   563→              initial={{ opacity: 0, y: 20 }}
+   564→              animate={{ opacity: 1, y: 0 }}
+   565→              transition={{ duration: 0.6, delay: 1.0 }}
+   566→            >
+   567→              {/* Primary button with pulsing glow */}
+   568→              <div className="relative">
+   569→                <div className="absolute inset-0 rounded-full cta-pulse-glow bg-[#5d2c86] pointer-events-none" aria-hidden="true" />
+   570→                <Button
+   571→                  onClick={() => { window.location.hash = 'portfolio'; }}
+   572→                  className="btn-shimmer relative bg-[#5d2c86] hover:bg-[#7d44a8] text-white rounded-full px-8 min-h-12 font-sans-body text-sm font-medium group shadow-lg hover:shadow-xl transition-shadow duration-300"
+   573→                >
+   574→                  Open the portfolio
+   575→                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+   576→                </Button>
+   577→              </div>
+   578→
+   579→              {/* Secondary button with gold underline on hover */}
+   580→              <div className="relative group/btn">
+   581→                <Button
+   582→                  variant="outline"
+   583→                  onClick={() => { window.location.hash = 'contact'; }}
+   584→                  className="border-[#5d2c86] text-[#5d2c86] dark:border-[#7d44a8] dark:text-[#7d44a8] hover:bg-[#5d2c86]/5 rounded-full px-8 min-h-12 font-sans-body text-sm font-medium relative overflow-hidden whitespace-nowrap"
+   585→                >
+   586→                  Start a Project
+   587→                </Button>
+   588→              </div>
+   589→            </motion.div>
+   590→          </motion.div>
+   591→
+   592→          {/* Right Visual Area */}
+   593→          <motion.div
+   594→            className="w-full lg:flex-1 relative lg:max-w-2xl"
+   595→            initial={{ opacity: 0, x: 60 }}
+   596→            animate={{ opacity: 1, x: 0 }}
+   597→            transition={{ duration: 1, delay: 0.5, ease: 'easeOut' }}
+   598→            style={prefersReduced ? {} : { y: heroImageY }}
+   599→          >
+   600→            <div className="relative">
+   601→              {/* Purple glow behind main image */}
+   602→              <div
+   603→                className="absolute -inset-8 rounded-full pointer-events-none z-0"
+   604→                style={{
+   605→                  background: 'radial-gradient(ellipse at center, rgba(93,44,134,0.25) 0%, rgba(93,44,134,0.08) 40%, transparent 70%)',
+   606→                  filter: 'blur(40px)',
+   607→                }}
+   608→                aria-hidden="true"
+   609→              />
+   610→
+   611→              {/* Main image with animated conic gradient border */}
+   612→              <div className="relative z-[1] p-[3px] rounded-2xl">
+   613→                {/* Animated gradient border layer */}
+   614→                <div
+   615→                  className="absolute inset-0 rounded-2xl hero-gradient-border"
+   616→                  aria-hidden="true"
+   617→                />
+   618→                {/* Inner content with cream/dark background to create border effect */}
+   619→                <div className="relative rounded-[14px] overflow-hidden shadow-2xl bg-[#f8f3ed] dark:bg-[#1A1A1A]">
+   620→                  <img
+   621→                    src="/images/hero/hero-hotel.jpeg"
+   622→                    alt="Akshar Foshan — Premium Hospitality FF&E"
+   623→                    className="w-full h-[220px] sm:h-[350px] lg:h-[480px] object-cover"
+   624→                    fetchPriority="high"
+   625→                  />
+   626→                  {/* Enhanced badge with gold border-left accent */}
+   627→                  <motion.div
+   628→                    className="absolute bottom-4 left-4 bg-black/75 backdrop-blur-sm text-white px-5 py-3 rounded-lg border-l-[3px] border-[#D4AF37] shadow-lg"
+   629→                    initial={{ opacity: 0 }}
+   630→                    animate={{ opacity: 1 }}
+   631→                    transition={{ duration: 0.8, delay: 1.2 }}
+   632→                  >
+   633→                    <p className="text-xs tracking-widest font-sans-body">
+   634→                      NOW MANUFACTURING — <span className="font-bold text-[#D4AF37]">240 KEYS</span>
+   635→                    </p>
+   636→                  </motion.div>
+   637→                </div>
+   638→              </div>
+   639→
+   640→              {/* Floating small image — top right with SLOWER parallax — desktop only */}
+   641→              <motion.div
+   642→                className="absolute -top-4 -right-2 lg:-right-8 w-28 h-24 lg:w-40 lg:h-32 rounded-xl overflow-hidden shadow-xl hidden md:block"
+   643→                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+   644→                animate={{ opacity: 1, scale: 1, y: 0 }}
+   645→                transition={{ duration: 0.7, delay: 1.0 }}
+   646→                style={{ border: '3px solid #5d2c86', y: prefersReduced ? undefined : floatingImageY1 }}
+   647→              >
+   648→                <img
+   649→                  src="/images/about/about-8.jpeg"
+   650→                  alt="Akshar Foshan luxury hotel project"
+   651→                  className="w-full h-full object-cover"
+   652→                />
+   653→              </motion.div>
+   654→
+   655→              {/* Floating small image — bottom right with SLOWEST parallax — desktop only */}
+   656→              <motion.div
+   657→                className="absolute -bottom-6 right-8 lg:right-16 w-24 h-20 lg:w-36 lg:h-28 rounded-xl overflow-hidden shadow-xl hidden md:block"
+   658→                initial={{ opacity: 0, scale: 0.8, y: -20 }}
+   659→                animate={{ opacity: 1, scale: 1, y: 0 }}
+   660→                transition={{ duration: 0.7, delay: 1.2 }}
+   661→                style={{ border: '3px solid #D4AF37', y: prefersReduced ? undefined : floatingImageY2 }}
+   662→              >
+   663→                <img
+   664→                  src="/catalog-pages/page_7.png"
+   665→                  alt="Hotel project detail"
+   666→                  className="w-full h-full object-cover"
+   667→                />
+   668→              </motion.div>
+   669→            </div>
+   670→          </motion.div>
+   671→        </div>
+   672→
+   673→        {/* Stats Section */}
+   674→        <div className="relative pb-12 lg:pb-20 pt-8">
+   675→          {/* Separator line above stats with traveling gold dot */}
+   676→          <div className="relative w-full mb-10">
+   677→            <motion.div
+   678→              className="w-full h-[2px]"
+   679→              style={{
+   680→                background: 'linear-gradient(90deg, transparent, rgba(93,44,134,0.35) 20%, rgba(212,175,55,0.35) 80%, transparent)',
+   681→              }}
+   682→              initial={{ scaleX: 0 }}
+   683→              whileInView={{ scaleX: 1 }}
+   684→              viewport={{ once: true }}
+   685→              transition={{ duration: 1.2, ease: 'easeOut' }}
+   686→            />
+   687→          </div>
+   688→
+   689→          <div className="stats-shimmer grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 backdrop-blur-md bg-white/50 dark:bg-white/5 rounded-2xl p-6 lg:p-8 border border-white/20 dark:border-white/10 shadow-lg shadow-black/[0.03] dark:shadow-black/20">
+   690→            {stats.map((stat, index) => (
+   691→              <StatItem key={stat.label} stat={stat} index={index} />
+   692→            ))}
+   693→          </div>
+   694→
+   695→          {/* Scroll-down indicator */}
+   696→          <motion.div
+   697→            className="flex flex-col items-center gap-1 mt-10"
+   698→            initial={{ opacity: 0 }}
+   699→            animate={{ opacity: 1 }}
+   700→            transition={{ delay: 2, duration: 1 }}
+   701→          >
+   702→            <span className="text-[10px] tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body">SCROLL</span>
+   703→            <motion.div
+   704→              animate={{ y: [0, 6, 0] }}
+   705→              transition={{
+   706→                duration: 1.8,
+   707→                repeat: Infinity,
+   708→                ease: 'easeInOut',
+   709→              }}
+   710→            >
+   711→              <ChevronDown className="w-4 h-4 text-[#5d2c86]/50 dark:text-[#7d44a8]/50" />
+   712→            </motion.div>
+   713→          </motion.div>
+   714→        </div>
+   715→      </div>
+   716→    </section>
+   717→  );
+   718→}
+   719→

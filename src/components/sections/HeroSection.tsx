@@ -2,10 +2,11 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, ChevronDown } from 'lucide-react';
+import { ArrowRight, ChevronDown, Download } from 'lucide-react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 
-// Hook to detect prefers-reduced-motion
+/* ─────────────── Reduced-motion hook ─────────────── */
+
 function usePrefersReducedMotion() {
   const [prefersReduced, setPrefersReduced] = useState(
     () => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -19,7 +20,8 @@ function usePrefersReducedMotion() {
   return prefersReduced;
 }
 
-// Floating rotating diamond decoration
+/* ─────────────── Floating rotating diamond decoration ─────────────── */
+
 function FloatingDiamond() {
   return (
     <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
@@ -41,7 +43,8 @@ function FloatingDiamond() {
   );
 }
 
-// Decorative corner bracket (L-shape)
+/* ─────────────── Decorative corner bracket ─────────────── */
+
 function CornerBracket() {
   return (
     <svg
@@ -72,7 +75,8 @@ function CornerBracket() {
   );
 }
 
-// Decorative floating particle
+/* ─────────────── Decorative floating particle ─────────────── */
+
 function DecorativeParticle({
   x,
   y,
@@ -121,7 +125,8 @@ function DecorativeParticle({
   );
 }
 
-// Count-up animation hook
+/* ─────────────── Count-up animation hook ─────────────── */
+
 function useCountUp(target: number, duration: number = 2000, startOnView: boolean = true) {
   const [count, setCount] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
@@ -152,7 +157,8 @@ function useCountUp(target: number, duration: number = 2000, startOnView: boolea
   return { count, ref, isComplete };
 }
 
-// Decorative SVG pattern component
+/* ─────────────── Decorative SVG pattern ─────────────── */
+
 function DecorativePattern() {
   return (
     <svg
@@ -162,8 +168,8 @@ function DecorativePattern() {
     >
       <defs>
         <pattern id="hero-pattern" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
-          <circle cx="30" cy="30" r="1.5" fill="#4A2364" />
-          <path d="M0 30h60M30 0v60" stroke="#4A2364" strokeWidth="0.5" />
+          <circle cx="30" cy="30" r="1.5" fill="#5d2c86" />
+          <path d="M0 30h60M30 0v60" stroke="#5d2c86" strokeWidth="0.5" />
         </pattern>
       </defs>
       <rect width="100%" height="100%" fill="url(#hero-pattern)" />
@@ -171,7 +177,8 @@ function DecorativePattern() {
   );
 }
 
-// Canvas-based floating particle effect
+/* ─────────────── Canvas-based floating particle effect ─────────────── */
+
 function HeroCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const prefersReduced = usePrefersReducedMotion();
@@ -183,7 +190,7 @@ function HeroCanvas() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const colors = ['#D4AF37', '#4A2364'];
+    const colors = ['#D4AF37', '#5d2c86'];
     const particleCount = 35;
 
     interface Particle {
@@ -295,35 +302,24 @@ function HeroCanvas() {
   );
 }
 
-// Word-by-word reveal for the headline
+/* ─────────────── Typewriter Headline ─────────────── */
+
 function TypewriterHeadline() {
   const prefersReduced = usePrefersReducedMotion();
   const [visibleWords, setVisibleWords] = useState<number[]>([]);
 
   // "Furniture that" | "tells the story" | "of a hotel."
-  const segments = [
-    { text: 'Furniture that ', type: 'normal' as const },
-    { text: 'tells the story', type: 'highlight' as const, words: ['tells', 'the', 'story'] },
-    { text: ' of a hotel.', type: 'normal' as const },
-  ];
-
   useEffect(() => {
     if (prefersReduced) {
-      // Show everything immediately for reduced motion
-      // Using queueMicrotask to avoid synchronous setState in effect
       queueMicrotask(() => setVisibleWords([0, 1, 2]));
       return;
     }
 
-    // Word-by-word reveal for "tells the story" with staggered timing
     const timers: ReturnType<typeof setTimeout>[] = [];
-    const baseDelay = 1400; // after "Furniture that" fades in (0.6s delay + 0.8s duration)
+    const baseDelay = 1400;
 
-    // Show "tells" first
     timers.push(setTimeout(() => setVisibleWords(prev => [...prev, 0]), baseDelay));
-    // Show "the" next
     timers.push(setTimeout(() => setVisibleWords(prev => [...prev, 1]), baseDelay + 350));
-    // Show "story" last
     timers.push(setTimeout(() => setVisibleWords(prev => [...prev, 2]), baseDelay + 700));
 
     return () => timers.forEach(clearTimeout);
@@ -336,9 +332,7 @@ function TypewriterHeadline() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, delay: 0.6 }}
     >
-      {/* "Furniture that" - fades in normally with the h2 */}
       <span>Furniture that</span>{' '}
-      {/* "tells the story" - word-by-word reveal */}
       <span className="text-[#D4AF37] italic">
         <span className="inline-block relative">
           <span
@@ -369,7 +363,6 @@ function TypewriterHeadline() {
           />
         </span>
       </span>{' '}
-      {/* "of a hotel." - fades in slightly after main headline */}
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -381,36 +374,97 @@ function TypewriterHeadline() {
   );
 }
 
+/* ─────────────── Stats Data ─────────────── */
+
 const stats = [
   { value: 13, suffix: '+', label: 'COOPERATING FACILITIES', mobileLabel: 'FACILITIES' },
   { value: 5, suffix: '+', label: 'YEARS HOSPITALITY EXPERIENCE', mobileLabel: 'YEARS EXPERIENCE' },
-  { value: 240, suffix: '', label: 'KEYS DELIVERED IN 21 DAYS', mobileLabel: 'KEYS IN 21 DAYS' },
+  { value: 240, suffix: '+', label: 'KEYS DELIVERED IN 21 DAYS', mobileLabel: 'KEYS IN 21 DAYS' },
   { value: 360, suffix: '°', label: 'FULL FF&E COVERAGE', mobileLabel: 'FF&E COVERAGE', isSpecial: true },
 ];
+
+/* ─────────────── Stat Item Component ─────────────── */
+
+function StatItem({ stat, index }: { stat: (typeof stats)[number]; index: number }) {
+  const { count, ref, isComplete } = useCountUp(stat.value, 2000);
+
+  return (
+    <motion.div
+      ref={ref}
+      className="text-center lg:text-left"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6, delay: index * 0.15 }}
+    >
+      <p
+        className={`text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display ${isComplete ? 'count-glow' : ''}`}
+        style={{
+          background: 'linear-gradient(135deg, #5d2c86, #D4AF37)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+        }}
+        aria-label={`${stat.value}${stat.suffix}`}
+      >
+        <span aria-hidden="true">
+          {stat.isSpecial ? (
+            <>
+              <span>{count}</span>
+              <span>{stat.suffix}</span>
+            </>
+          ) : (
+            <>
+              {count}
+              {stat.suffix}
+            </>
+          )}
+        </span>
+        <span className="sr-only">
+          {stat.value}
+          {stat.suffix}
+        </span>
+      </p>
+      <p className="text-xs tracking-widest text-gray-400 dark:text-gray-500 mt-2 font-sans-body">
+        <span className="md:hidden">{stat.mobileLabel}</span>
+        <span className="hidden md:inline">{stat.label}</span>
+      </p>
+    </motion.div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   ═══════  HERO SECTION — Version 10 Layout  ══════════
+   ═══════════════════════════════════════════════════════ */
 
 export default function HeroSection() {
   const heroRef = useRef<HTMLElement>(null);
   const prefersReduced = usePrefersReducedMotion();
+
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
   });
 
-  // Main image parallax (existing - moves down as you scroll)
+  // Main image parallax (moves down as you scroll)
   const heroImageY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
-  // Floating images parallax - SLOWER than main image
+  // Floating images parallax — SLOWER than main image
   const floatingImageY1 = useTransform(scrollYProgress, [0, 1], ['0%', '8%']);
   const floatingImageY2 = useTransform(scrollYProgress, [0, 1], ['0%', '5%']);
-  // Text content parallax - moves in OPPOSITE direction slightly
+  // Text content parallax — moves in OPPOSITE direction slightly
   const textContentY = useTransform(scrollYProgress, [0, 1], ['0%', '-5%']);
 
   return (
-    <section id="home" className="relative bg-[#F8F5F2] dark:bg-[#1A1A1A] min-h-screen pt-20 lg:pt-0 overflow-x-hidden overflow-y-hidden transition-colors duration-300" ref={heroRef}>
-      {/* Gradient overlay - cream to very light purple tint */}
+    <section
+      id="home"
+      className="relative bg-[#f8f3ed] dark:bg-[#1A1A1A] min-h-screen pt-20 lg:pt-0 overflow-x-hidden overflow-y-hidden transition-colors duration-300"
+      ref={heroRef}
+    >
+      {/* Gradient overlay — cream to very light purple tint */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          background: 'linear-gradient(160deg, #F8F5F2 0%, #F8F5F2 40%, #F3EFF8 70%, #EDE7F3 100%)',
+          background: 'linear-gradient(160deg, #f8f3ed 0%, #f8f3ed 40%, #F3EFF8 70%, #EDE7F3 100%)',
         }}
       />
       {/* Dark mode gradient */}
@@ -441,11 +495,11 @@ export default function HeroSection() {
         aria-hidden="true"
       >
         <svg width="100%" height="100%">
-          <filter id="grain-filter">
+          <filter id="hero-grain-v10">
             <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch" />
             <feColorMatrix type="saturate" values="0" />
           </filter>
-          <rect width="100%" height="100%" filter="url(#grain-filter)" />
+          <rect width="100%" height="100%" filter="url(#hero-grain-v10)" />
         </svg>
       </div>
 
@@ -454,7 +508,7 @@ export default function HeroSection() {
           {/* Floating diamond decoration between columns (desktop only) */}
           <FloatingDiamond />
 
-          {/* Left Content - with subtle reverse parallax */}
+          {/* Left Content — with subtle reverse parallax */}
           <motion.div
             className="w-full lg:flex-1 lg:max-w-xl pt-4 lg:pt-0 relative"
             style={prefersReduced ? {} : { y: textContentY }}
@@ -464,7 +518,7 @@ export default function HeroSection() {
 
             {/* Purple divider */}
             <motion.div
-              className="w-12 h-0.5 bg-[#4A2364] mb-6"
+              className="w-12 h-0.5 bg-[#5d2c86] mb-6"
               initial={{ width: 0, opacity: 0 }}
               animate={{ width: 48, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
@@ -488,7 +542,7 @@ export default function HeroSection() {
               </motion.p>
             </div>
 
-            {/* Main headline - with typewriter effect */}
+            {/* Main headline — with typewriter effect */}
             <TypewriterHeadline />
 
             {/* Description */}
@@ -503,7 +557,7 @@ export default function HeroSection() {
               sourcing, QC and logistics for hospitality brands worldwide.
             </motion.p>
 
-            {/* CTA Buttons - min 48px touch target */}
+            {/* CTA Buttons — min 48px touch target */}
             <motion.div
               className="flex flex-col sm:flex-row gap-4"
               initial={{ opacity: 0, y: 20 }}
@@ -512,33 +566,36 @@ export default function HeroSection() {
             >
               {/* Primary button with pulsing glow */}
               <div className="relative">
-                {/* Pulse glow effect behind button */}
-                <div className="absolute inset-0 rounded-full cta-pulse-glow bg-[#4A2364] pointer-events-none" aria-hidden="true" />
+                <div className="absolute inset-0 rounded-full cta-pulse-glow bg-[#5d2c86] pointer-events-none" aria-hidden="true" />
                 <Button
-                  onClick={() => document.querySelector('#portfolio')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="btn-shimmer relative bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-full px-8 min-h-12 font-sans-body text-sm font-medium group shadow-lg hover:shadow-xl transition-shadow duration-300"
+                  onClick={() => { window.location.hash = 'portfolio'; }}
+                  className="btn-shimmer relative bg-[#5d2c86] hover:bg-[#7d44a8] text-white rounded-full px-8 min-h-12 font-sans-body text-sm font-medium group shadow-lg hover:shadow-xl transition-shadow duration-300"
                 >
                   Open the portfolio
                   <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </div>
 
-              {/* Secondary button with gold underline draw on hover */}
+              {/* Secondary button with gold underline on hover */}
               <div className="relative group/btn">
                 <Button
                   variant="outline"
-                  onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
-                  className="border-[#4A2364] text-[#4A2364] dark:border-[#6B3F8E] dark:text-[#6B3F8E] hover:bg-[#4A2364]/5 rounded-full px-8 min-h-12 font-sans-body text-sm font-medium relative overflow-hidden whitespace-nowrap"
+                  onClick={() => { window.location.hash = 'contact'; }}
+                  className="border-[#5d2c86] text-[#5d2c86] dark:border-[#7d44a8] dark:text-[#7d44a8] hover:bg-[#5d2c86]/5 rounded-full px-8 min-h-12 font-sans-body text-sm font-medium relative overflow-hidden whitespace-nowrap"
                 >
                   Start a Project
-                  {/* Gold underline that draws on hover */}
-                  <motion.span
-                    className="absolute bottom-3 left-1/2 -translate-x-1/2 h-[2px] bg-[#D4AF37]"
-                    initial={{ width: 0 }}
-                    whileHover={{ width: '60%' }}
-                    transition={{ duration: 0.3, ease: 'easeOut' }}
-                    style={{ borderRadius: 1 }}
-                  />
+                </Button>
+              </div>
+
+              {/* Download Brochure button — gold accent */}
+              <div className="relative">
+                <Button
+                  variant="outline"
+                  onClick={() => window.open('/brochure.pdf', '_blank')}
+                  className="border-[#D4AF37]/50 text-[#D4AF37] hover:bg-[#D4AF37]/10 rounded-full px-6 min-h-12 font-sans-body text-sm font-medium whitespace-nowrap transition-colors duration-300"
+                >
+                  <Download className="w-4 h-4 mr-2" />
+                  Brochure
                 </Button>
               </div>
             </motion.div>
@@ -557,7 +614,7 @@ export default function HeroSection() {
               <div
                 className="absolute -inset-8 rounded-full pointer-events-none z-0"
                 style={{
-                  background: 'radial-gradient(ellipse at center, rgba(74,35,100,0.25) 0%, rgba(74,35,100,0.08) 40%, transparent 70%)',
+                  background: 'radial-gradient(ellipse at center, rgba(93,44,134,0.25) 0%, rgba(93,44,134,0.08) 40%, transparent 70%)',
                   filter: 'blur(40px)',
                 }}
                 aria-hidden="true"
@@ -567,15 +624,16 @@ export default function HeroSection() {
               <div className="relative z-[1] p-[3px] rounded-2xl">
                 {/* Animated gradient border layer */}
                 <div
-                  className="absolute inset-0 rounded-2xl hero-gradient-border dark:hero-gradient-border-dark"
+                  className="absolute inset-0 rounded-2xl hero-gradient-border"
                   aria-hidden="true"
                 />
                 {/* Inner content with cream/dark background to create border effect */}
-                <div className="relative rounded-[14px] overflow-hidden shadow-2xl bg-[#F8F5F2] dark:bg-[#1A1A1A]">
+                <div className="relative rounded-[14px] overflow-hidden shadow-2xl bg-[#f8f3ed] dark:bg-[#1A1A1A]">
                   <img
-                    src="/hero-hotel.png"
-                    alt="Hilton Hotel - Akshar Foshan Project"
+                    src="/images/hero/hero-hotel.jpeg"
+                    alt="Akshar Foshan — Premium Hospitality FF&E"
                     className="w-full h-[220px] sm:h-[350px] lg:h-[480px] object-cover"
+                    fetchPriority="high"
                   />
                   {/* Enhanced badge with gold border-left accent */}
                   <motion.div
@@ -591,22 +649,22 @@ export default function HeroSection() {
                 </div>
               </div>
 
-              {/* Floating small image - top right with SLOWER parallax - only on desktop */}
+              {/* Floating small image — top right with SLOWER parallax — desktop only */}
               <motion.div
                 className="absolute -top-4 -right-2 lg:-right-8 w-28 h-24 lg:w-40 lg:h-32 rounded-xl overflow-hidden shadow-xl hidden md:block"
                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 1.0 }}
-                style={{ border: '3px solid #4A2364', y: prefersReduced ? undefined : floatingImageY1 }}
+                style={{ border: '3px solid #5d2c86', y: prefersReduced ? undefined : floatingImageY1 }}
               >
                 <img
-                  src="/hero-hotel2.png"
-                  alt="Modern hotel building"
+                  src="/images/about/about-8.jpeg"
+                  alt="Akshar Foshan luxury hotel project"
                   className="w-full h-full object-cover"
                 />
               </motion.div>
 
-              {/* Floating small image - bottom right with SLOWEST parallax - only on desktop */}
+              {/* Floating small image — bottom right with SLOWEST parallax — desktop only */}
               <motion.div
                 className="absolute -bottom-6 right-8 lg:right-16 w-24 h-20 lg:w-36 lg:h-28 rounded-xl overflow-hidden shadow-xl hidden md:block"
                 initial={{ opacity: 0, scale: 0.8, y: -20 }}
@@ -616,7 +674,7 @@ export default function HeroSection() {
               >
                 <img
                   src="/catalog-pages/page_7.png"
-                  alt="Hotel project"
+                  alt="Hotel project detail"
                   className="w-full h-full object-cover"
                 />
               </motion.div>
@@ -631,15 +689,13 @@ export default function HeroSection() {
             <motion.div
               className="w-full h-[2px]"
               style={{
-                background: 'linear-gradient(90deg, transparent, rgba(74,35,100,0.35) 20%, rgba(212,175,55,0.35) 80%, transparent)',
+                background: 'linear-gradient(90deg, transparent, rgba(93,44,134,0.35) 20%, rgba(212,175,55,0.35) 80%, transparent)',
               }}
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 1.2, ease: 'easeOut' }}
             />
-            {/* Traveling gold dot */}
-            <div className="traveling-dot" aria-hidden="true" />
           </div>
 
           <div className="stats-shimmer grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 backdrop-blur-md bg-white/50 dark:bg-white/5 rounded-2xl p-6 lg:p-8 border border-white/20 dark:border-white/10 shadow-lg shadow-black/[0.03] dark:shadow-black/20">
@@ -648,7 +704,7 @@ export default function HeroSection() {
             ))}
           </div>
 
-          {/* Scroll-down indicator - part of stats section */}
+          {/* Scroll-down indicator */}
           <motion.div
             className="flex flex-col items-center gap-1 mt-10"
             initial={{ opacity: 0 }}
@@ -664,55 +720,11 @@ export default function HeroSection() {
                 ease: 'easeInOut',
               }}
             >
-              <ChevronDown className="w-4 h-4 text-[#4A2364]/50 dark:text-[#6B3F8E]/50" />
+              <ChevronDown className="w-4 h-4 text-[#5d2c86]/50 dark:text-[#7d44a8]/50" />
             </motion.div>
           </motion.div>
         </div>
       </div>
-
     </section>
-  );
-}
-
-// Stat item component with count-up animation
-function StatItem({ stat, index }: { stat: typeof stats[number]; index: number }) {
-  const { count, ref, isComplete } = useCountUp(stat.value, 2000);
-
-  return (
-    <motion.div
-      ref={ref}
-      className="text-center lg:text-left"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6, delay: index * 0.15 }}
-    >
-      <p
-        className={`text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display ${isComplete ? 'count-glow' : ''}`}
-        style={{
-          background: 'linear-gradient(135deg, #4A2364, #D4AF37)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-        }}
-      >
-        {stat.isSpecial ? (
-          <>
-            <span>{count}</span>
-            <span>{stat.suffix}</span>
-          </>
-        ) : (
-          <>
-            {count}
-            {stat.suffix}
-          </>
-        )}
-      </p>
-      <p className="text-xs tracking-widest text-gray-400 dark:text-gray-500 mt-2 font-sans-body">
-        {/* Shorter labels on mobile */}
-        <span className="md:hidden">{stat.mobileLabel}</span>
-        <span className="hidden md:inline">{stat.label}</span>
-      </p>
-    </motion.div>
   );
 }

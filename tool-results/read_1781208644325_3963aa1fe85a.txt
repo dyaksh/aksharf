@@ -1,0 +1,1137 @@
+     1→✓ Done
+     2→- heading "Akshar Foshan" [level=1, ref=e1]
+     3→- paragraph
+     4→  - StaticText "HOSPITALITY FF&E"
+     5→- banner
+     6→  - heading "Akshar Foshan" [level=1, ref=e5]
+     7→  - paragraph
+     8→    - StaticText "HOSPITALITY FF&E"
+     9→  - navigation
+    10→    - button "Home" [ref=e11]
+    11→      - StaticText "Home"
+    12→    - button "Services" [ref=e12]
+    13→    - button "Portfolio" [ref=e13]
+    14→    - button "Catalog" [ref=e14]
+    15→    - button "About" [ref=e15]
+    16→    - button "Contact" [ref=e16]
+    17→  - generic
+    18→    - button "Switch to dark mode" [ref=e17]
+    19→    - button "Request Catalog" [ref=e18]
+    20→  - generic
+    21→    - button "Switch to dark mode" [ref=e19]
+    22→    - button "Open menu" [ref=e20]
+    23→- main
+    24→  - generic
+    25→    - paragraph
+    26→      - StaticText "HOSPITALITY FF&E • EST. FOSHAN"
+    27→    - heading "Furniture that tells the story of a hotel." [level=2, ref=e21]
+    28→      - StaticText "Furniture that tells the story of a hotel."
+    29→    - paragraph
+    30→      - StaticText "Akshar Foshan crafts complete hotel furniture solutions — casegoods, upholstery, lighting, mirrors, bathroom accessories — and orchestrates sourcing, QC and logistics for hospitality brands worldwide."
+    31→    - button "Open the portfolio" [ref=e22]
+    32→    - button "Start a Project" [ref=e118]
+    33→    - image "Hilton Hotel - Akshar Foshan Project"
+    34→    - paragraph
+    35→      - StaticText "NOW MANUFACTURING — 240 KEYS"
+    36→    - image "Modern hotel building"
+    37→    - image "Hotel project"
+    38→    - paragraph
+    39→      - StaticText "0+"
+    40→    - paragraph
+    41→      - StaticText "FACILITIESCOOPERATING FACILITIES"
+    42→    - paragraph
+    43→      - StaticText "0+"
+    44→    - paragraph
+    45→      - StaticText "YEARS EXPERIENCEYEARS HOSPITALITY EXPERIENCE"
+    46→    - paragraph
+    47→      - StaticText "0"
+    48→    - paragraph
+    49→      - StaticText "KEYS IN 21 DAYSKEYS DELIVERED IN 21 DAYS"
+    50→    - paragraph
+    51→      - StaticText "0°"
+    52→    - paragraph
+    53→      - StaticText "FF&E COVERAGEFULL FF&E COVERAGE"
+    54→    - StaticText "SCROLL"
+    55→  - paragraph
+    56→    - StaticText "TRUSTED BY HOSPITALITY LEADERS"
+    57→  - heading "Partnered with the world'sfinest brands" [level=2, ref=e23]
+    58→    - StaticText "Partnered with the world'sfinest brands"
+    59→  - StaticText "IHG"
+    60→  - StaticText "Hilton"
+    61→  - StaticText "Marriott"
+    62→  - StaticText "Choice Hotels"
+    63→  - StaticText "Wyndham"
+    64→  - StaticText "Hyatt"
+    65→  - StaticText "Best Western"
+    66→  - StaticText "Radisson"
+    67→  - StaticText "Accor"
+    68→  - StaticText "InterContinental"
+    69→  - StaticText "Crowne Plaza"
+    70→  - StaticText "Holiday Inn"
+    71→  - StaticText "0"
+    72→  - StaticText "+"
+    73→  - StaticText "Manufacturing Facilities"
+    74→  - StaticText "0"
+    75→  - StaticText "+"
+    76→  - StaticText "Hotel Keys Delivered"
+    77→  - StaticText "0"
+    78→  - StaticText "+"
+    79→  - StaticText "Continents Served"
+    80→  - StaticText "0"
+    81→  - StaticText "%"
+    82→  - StaticText "Inspection Pass Rate"
+    83→  - generic
+    84→    - paragraph
+    85→      - StaticText "HOW A PROJECT UNFOLDS"
+    86→    - heading "Three acts.One accountable team.From brief to install." [level=2, ref=e24]
+    87→      - StaticText "Three acts.One accountable team.From brief to install."
+    88→    - StaticText "01"
+    89→    - heading "ACT I: Brief" [level=3, ref=e25]
+    90→    - paragraph
+    91→      - StaticText "We translate brand standards, brief decks and floor plans into FF&E reality — across casegoods, upholstery, lighting and bath."
+    92→    - StaticText "02"
+    93→    - heading "ACT II: Craft" [level=3, ref=e26]
+    94→    - paragraph
+    95→      - StaticText "Our Foshan workshops mill, upholster, finish and inspect every piece against the property's specification book."
+    96→    - StaticText "03"
+    97→    - heading "ACT III: Deliver" [level=3, ref=e27]
+    98→    - paragraph
+    99→      - StaticText "FOB or DDP, we orchestrate consolidation, documentation and on-site install with one accountable team."
+   100→    - StaticText "01"
+   101→    - heading "ACT I: Brief" [level=3, ref=e28]
+   102→    - paragraph
+   103→      - StaticText "We translate brand standards, brief decks and floor plans into FF&E reality — across casegoods, upholstery, lighting and bath."
+   104→    - StaticText "02"
+   105→    - heading "ACT II: Craft" [level=3, ref=e29]
+   106→    - paragraph
+   107→      - StaticText "Our Foshan workshops mill, upholster, finish and inspect every piece against the property's specification book."
+   108→    - StaticText "03"
+   109→    - heading "ACT III: Deliver" [level=3, ref=e30]
+   110→    - paragraph
+   111→      - StaticText "FOB or DDP, we orchestrate consolidation, documentation and on-site install with one accountable team."
+   112→  - generic
+   113→    - paragraph
+   114→      - StaticText "OUR PROCESS"
+   115→    - heading "From concept tocompletion" [level=2, ref=e31]
+   116→      - StaticText "From concept tocompletion"
+   117→    - paragraph
+   118→      - StaticText "A structured, transparent journey from initial briefing through final delivery — every milestone visible, every detail accounted for."
+   119→    - StaticText "1"
+   120→    - StaticText "Week 1-2"
+   121→    - heading "Discovery & Briefing" [level=3, ref=e32]
+   122→    - paragraph
+   123→      - StaticText "Understanding your brand standards, room counts, and project timeline."
+   124→    - StaticText "2"
+   125→    - StaticText "Week 2-4"
+   126→    - heading "Design & Specification" [level=3, ref=e33]
+   127→    - paragraph
+   128→      - StaticText "Translating brand requirements into detailed FF&E specifications and drawings."
+   129→    - StaticText "3"
+   130→    - StaticText "Week 4-6"
+   131→    - heading "Sampling & Approval" [level=3, ref=e34]
+   132→    - paragraph
+   133→      - StaticText "Producing physical samples for your review and approval before production."
+   134→    - StaticText "4"
+   135→    - StaticText "Week 6-14"
+   136→    - heading "Manufacturing" [level=3, ref=e35]
+   137→    - paragraph
+   138→      - StaticText "Full-scale production across our cooperating facilities with daily QC checks."
+   139→    - StaticText "5"
+   140→    - StaticText "Week 14-16"
+   141→    - heading "Quality Inspection" [level=3, ref=e36]
+   142→    - paragraph
+   143→      - StaticText "Comprehensive inspection of every piece before packaging and shipment."
+   144→    - StaticText "6"
+   145→    - StaticText "Week 16-20"
+   146→    - heading "Logistics & Delivery" [level=3, ref=e37]
+   147→    - paragraph
+   148→      - StaticText "Coordinated shipping, customs clearance, and on-time delivery to your property."
+   149→    - StaticText "1"
+   150→    - StaticText "Week 1-2"
+   151→    - heading "Discovery & Briefing" [level=3, ref=e38]
+   152→    - paragraph
+   153→      - StaticText "Understanding your brand standards, room counts, and project timeline."
+   154→    - StaticText "2"
+   155→    - StaticText "Week 2-4"
+   156→    - heading "Design & Specification" [level=3, ref=e39]
+   157→    - paragraph
+   158→      - StaticText "Translating brand requirements into detailed FF&E specifications and drawings."
+   159→    - StaticText "3"
+   160→    - StaticText "Week 4-6"
+   161→    - heading "Sampling & Approval" [level=3, ref=e40]
+   162→    - paragraph
+   163→      - StaticText "Producing physical samples for your review and approval before production."
+   164→    - StaticText "4"
+   165→    - StaticText "Week 6-14"
+   166→    - heading "Manufacturing" [level=3, ref=e41]
+   167→    - paragraph
+   168→      - StaticText "Full-scale production across our cooperating facilities with daily QC checks."
+   169→    - StaticText "5"
+   170→    - StaticText "Week 14-16"
+   171→    - heading "Quality Inspection" [level=3, ref=e42]
+   172→    - paragraph
+   173→      - StaticText "Comprehensive inspection of every piece before packaging and shipment."
+   174→    - StaticText "6"
+   175→    - StaticText "Week 16-20"
+   176→    - heading "Logistics & Delivery" [level=3, ref=e43]
+   177→    - paragraph
+   178→      - StaticText "Coordinated shipping, customs clearance, and on-time delivery to your property."
+   179→    - StaticText "1"
+   180→    - StaticText "Week 1-2"
+   181→    - heading "Discovery & Briefing" [level=3, ref=e44]
+   182→    - paragraph
+   183→      - StaticText "Understanding your brand standards, room counts, and project timeline."
+   184→    - StaticText "2"
+   185→    - StaticText "Week 2-4"
+   186→    - heading "Design & Specification" [level=3, ref=e45]
+   187→    - paragraph
+   188→      - StaticText "Translating brand requirements into detailed FF&E specifications and drawings."
+   189→    - StaticText "3"
+   190→    - StaticText "Week 4-6"
+   191→    - heading "Sampling & Approval" [level=3, ref=e46]
+   192→    - paragraph
+   193→      - StaticText "Producing physical samples for your review and approval before production."
+   194→    - StaticText "4"
+   195→    - StaticText "Week 6-14"
+   196→    - heading "Manufacturing" [level=3, ref=e47]
+   197→    - paragraph
+   198→      - StaticText "Full-scale production across our cooperating facilities with daily QC checks."
+   199→    - StaticText "5"
+   200→    - StaticText "Week 14-16"
+   201→    - heading "Quality Inspection" [level=3, ref=e48]
+   202→    - paragraph
+   203→      - StaticText "Comprehensive inspection of every piece before packaging and shipment."
+   204→    - StaticText "6"
+   205→    - StaticText "Week 16-20"
+   206→    - heading "Logistics & Delivery" [level=3, ref=e49]
+   207→    - paragraph
+   208→      - StaticText "Coordinated shipping, customs clearance, and on-time delivery to your property."
+   209→    - generic
+   210→      - StaticText "21 days average lead time"
+   211→  - generic
+   212→    - paragraph
+   213→      - StaticText "OUR STORY"
+   214→    - heading "Built on trust, defined byexcellence." [level=2, ref=e50]
+   215→      - StaticText "Built on trust, defined byexcellence."
+   216→    - paragraph
+   217→      - StaticText "Akshar Hospitality serves as the exclusive international sales and project management arm for our strategic hospitality furniture manufacturing partner based in Foshan, China and there are more than 13 cooperated facilities located in China mainland."
+   218→    - paragraph
+   219→      - StaticText "BRAND DEFINITION"
+   220→    - paragraph
+   221→      - StaticText "“Akshar”combines stability and high quality of hotel furniture and fixtures — a name that reflects our unwavering commitment to precision craftsmanship and lasting durability."
+   222→    - paragraph
+   223→      - StaticText "MISSION & VALUES"
+   224→    - paragraph
+   225→      - StaticText "Our mission is to optimize hospitality supply chains by providing reliable, well-crafted furniture and exceptional, client-centric service."
+   226→    - image "Akshar Hospitality - Manufacturing Excellence"
+   227→    - image "Akshar Hospitality - Product Range"
+   228→    - paragraph
+   229→      - StaticText "CLIENT-CENTRIC VALUES"
+   230→    - heading "What drives every decision we make." [level=3, ref=e51]
+   231→    - heading "Quality" [level=4, ref=e52]
+   232→    - paragraph
+   233→      - StaticText "Every piece is crafted to the highest hospitality standards, rigorously inspected before it leaves our facilities."
+   234→    - heading "Reliability" [level=4, ref=e53]
+   235→    - paragraph
+   236→      - StaticText "On-time delivery and consistent quality — we understand that project timelines in hospitality are non-negotiable."
+   237→    - heading "Service" [level=4, ref=e54]
+   238→    - paragraph
+   239→      - StaticText "Client-centric approach from first contact to final install. One dedicated team, one accountable partner."
+   240→    - heading "Innovation" [level=4, ref=e55]
+   241→    - paragraph
+   242→      - StaticText "Continuously refining materials, processes, and designs to exceed evolving brand standards and guest expectations."
+   243→  - generic
+   244→    - paragraph
+   245→      - StaticText "13+"
+   246→    - paragraph
+   247→      - StaticText "Cooperating Facilities"
+   248→    - paragraph
+   249→      - StaticText "5+"
+   250→    - paragraph
+   251→      - StaticText "Countries Served"
+   252→    - paragraph
+   253→      - StaticText "240+"
+   254→    - paragraph
+   255→      - StaticText "Keys Delivered"
+   256→    - paragraph
+   257→      - StaticText "21 days"
+   258→    - paragraph
+   259→      - StaticText "Average Lead Time"
+   260→    - paragraph
+   261→      - StaticText "100%"
+   262→    - paragraph
+   263→      - StaticText "Inspection Rate"
+   264→    - paragraph
+   265→      - StaticText "360°"
+   266→    - paragraph
+   267→      - StaticText "FF&E Coverage"
+   268→    - paragraph
+   269→      - StaticText "13+"
+   270→    - paragraph
+   271→      - StaticText "Cooperating Facilities"
+   272→    - paragraph
+   273→      - StaticText "5+"
+   274→    - paragraph
+   275→      - StaticText "Countries Served"
+   276→    - paragraph
+   277→      - StaticText "240+"
+   278→    - paragraph
+   279→      - StaticText "Keys Delivered"
+   280→    - paragraph
+   281→      - StaticText "21 days"
+   282→    - paragraph
+   283→      - StaticText "Average Lead Time"
+   284→    - paragraph
+   285→      - StaticText "100%"
+   286→    - paragraph
+   287→      - StaticText "Inspection Rate"
+   288→    - paragraph
+   289→      - StaticText "360°"
+   290→    - paragraph
+   291→      - StaticText "FF&E Coverage"
+   292→    - paragraph
+   293→      - StaticText "13+"
+   294→    - paragraph
+   295→      - StaticText "Cooperating Facilities"
+   296→    - paragraph
+   297→      - StaticText "5+"
+   298→    - paragraph
+   299→      - StaticText "Countries Served"
+   300→    - paragraph
+   301→      - StaticText "240+"
+   302→    - paragraph
+   303→      - StaticText "Keys Delivered"
+   304→    - paragraph
+   305→      - StaticText "21 days"
+   306→    - paragraph
+   307→      - StaticText "Average Lead Time"
+   308→    - paragraph
+   309→      - StaticText "100%"
+   310→    - paragraph
+   311→      - StaticText "Inspection Rate"
+   312→    - paragraph
+   313→      - StaticText "360°"
+   314→    - paragraph
+   315→      - StaticText "FF&E Coverage"
+   316→    - paragraph
+   317→      - StaticText "13+"
+   318→    - paragraph
+   319→      - StaticText "Cooperating Facilities"
+   320→    - paragraph
+   321→      - StaticText "5+"
+   322→    - paragraph
+   323→      - StaticText "Countries Served"
+   324→    - paragraph
+   325→      - StaticText "240+"
+   326→    - paragraph
+   327→      - StaticText "Keys Delivered"
+   328→    - paragraph
+   329→      - StaticText "21 days"
+   330→    - paragraph
+   331→      - StaticText "Average Lead Time"
+   332→    - paragraph
+   333→      - StaticText "100%"
+   334→    - paragraph
+   335→      - StaticText "Inspection Rate"
+   336→    - paragraph
+   337→      - StaticText "360°"
+   338→    - paragraph
+   339→      - StaticText "FF&E Coverage"
+   340→  - paragraph
+   341→    - StaticText "SELECTED REEL"
+   342→  - StaticText "13+"
+   343→  - heading "A refined portfolio forhospitality furniture." [level=2, ref=e56]
+   344→    - StaticText "A refined portfolio forhospitality furniture."
+   345→  - generic
+   346→    - StaticText "Showing 6 of 13 brands"
+   347→    - button "View all 13 frames" [ref=e119]
+   348→  - button "All" [ref=e57]
+   349→  - button "IHG" [ref=e58]
+   350→  - button "Marriott" [ref=e59]
+   351→  - button "Hilton" [ref=e60]
+   352→  - button "Choice" [ref=e61]
+   353→  - button "Wyndham" [ref=e62]
+   354→  - image "Holiday Inn Suites"
+   355→  - StaticText "IHG"
+   356→  - generic
+   357→    - StaticText "180 Keys"
+   358→  - StaticText "Featured"
+   359→  - button "View Details" [ref=e120]
+   360→  - heading "Holiday Inn Suites" [level=3, ref=e63]
+   361→  - paragraph
+   362→    - StaticText "Comfortable, affordable stays for families, business travelers, and friends."
+   363→  - generic
+   364→    - StaticText "King HeadboardQueen HeadboardDeskC-Table+2"
+   365→  - generic
+   366→    - button "View Catalog Page" [ref=e121]
+   367→    - button "Quick View" [ref=e122]
+   368→  - image "Holiday Inn Express"
+   369→  - StaticText "IHG"
+   370→  - generic
+   371→    - StaticText "120 Keys"
+   372→  - StaticText "New"
+   373→  - button "View Details" [ref=e123]
+   374→  - heading "Holiday Inn Express" [level=3, ref=e64]
+   375→  - paragraph
+   376→    - StaticText "Simple and smart travel experience with clean, comfortable rooms."
+   377→  - generic
+   378→    - StaticText "King HeadboardSmartShelf & Hook PanelFunctional RackMetal Bed Platform"
+   379→  - generic
+   380→    - button "View Catalog Page" [ref=e124]
+   381→    - button "Quick View" [ref=e125]
+   382→  - image "Candlewood Suites"
+   383→  - StaticText "IHG"
+   384→  - generic
+   385→    - StaticText "95 Keys"
+   386→  - StaticText "New"
+   387→  - button "View Details" [ref=e126]
+   388→  - heading "Candlewood Suites" [level=3, ref=e65]
+   389→  - paragraph
+   390→    - StaticText "A \"home away from home\" experience with apartment-like suites."
+   391→  - generic
+   392→    - StaticText "King HeadboardTV PanelDresserLounge Chair+1"
+   393→  - generic
+   394→    - button "View Catalog Page" [ref=e127]
+   395→    - button "Quick View" [ref=e128]
+   396→  - image "Fairfield Inn"
+   397→  - StaticText "Marriott"
+   398→  - generic
+   399→    - StaticText "150 Keys"
+   400→  - button "View Details" [ref=e129]
+   401→  - heading "Fairfield Inn" [level=3, ref=e66]
+   402→  - paragraph
+   403→    - StaticText "Warm hospitality with a \"Beauty of Simplicity\" philosophy."
+   404→  - generic
+   405→    - StaticText "King HeadboardOttoman BenchSleeper SofaNightstand+1"
+   406→  - generic
+   407→    - button "View Catalog Page" [ref=e130]
+   408→    - button "Quick View" [ref=e131]
+   409→  - image "SpringHill Suites"
+   410→  - StaticText "Marriott"
+   411→  - generic
+   412→    - StaticText "140 Keys"
+   413→  - button "View Details" [ref=e132]
+   414→  - heading "SpringHill Suites" [level=3, ref=e67]
+   415→  - paragraph
+   416→    - StaticText "Separate areas for relaxing and working in all-suite hotels."
+   417→  - generic
+   418→    - StaticText "King HeadboardTV StandDesk ChairBench+1"
+   419→  - generic
+   420→    - button "View Catalog Page" [ref=e133]
+   421→    - button "Quick View" [ref=e134]
+   422→  - image "TownePlace Suites"
+   423→  - StaticText "Marriott"
+   424→  - generic
+   425→    - StaticText "110 Keys"
+   426→  - button "View Details" [ref=e135]
+   427→  - heading "TownePlace Suites" [level=3, ref=e68]
+   428→  - paragraph
+   429→    - StaticText "Extended-stay hotel designed for travelers who want comfortable flexibility."
+   430→  - generic
+   431→    - StaticText "King HeadboardLounge ChairFunctional SofaDresser+1"
+   432→  - generic
+   433→    - button "View Catalog Page" [ref=e136]
+   434→    - button "Quick View" [ref=e137]
+   435→  - paragraph
+   436→    - StaticText "WHAT WE COVER"
+   437→  - heading "360° FF&E support, under one roof." [level=2, ref=e69]
+   438→    - StaticText "360° FF&E support, under one roof."
+   439→  - paragraph
+   440→    - StaticText "From concept sketches to on-site install, every FF&E need is handled by our integrated team — no gaps, no finger-pointing, just one accountable partner."
+   441→  - image "Akshar Foshan Workshop"
+   442→  - heading "Casegoods & Upholstery" [level=3, ref=e70]
+   443→  - paragraph
+   444→    - StaticText "Full range of hotel casegoods, headboards, desks, and upholstered seating crafted to brand specifications."
+   445→  - StaticText "Learn more"
+   446→  - heading "Lighting & Mirrors" [level=3, ref=e71]
+   447→  - paragraph
+   448→    - StaticText "Custom lighting solutions and mirrors designed to complement each property's unique aesthetic."
+   449→  - StaticText "Learn more"
+   450→  - heading "Bathroom Accessories" [level=3, ref=e72]
+   451→  - paragraph
+   452→    - StaticText "Complete bathroom FF&E packages including vanities, accessories, and hardware."
+   453→  - StaticText "Learn more"
+   454→  - heading "Sourcing & Logistics" [level=3, ref=e73]
+   455→  - paragraph
+   456→    - StaticText "End-to-end supply chain management from raw materials to on-site delivery and installation."
+   457→  - StaticText "Learn more"
+   458→  - heading "Quality Control" [level=3, ref=e74]
+   459→  - paragraph
+   460→    - StaticText "Rigorous inspection at every stage — from raw material through production to final packaging."
+   461→  - StaticText "Learn more"
+   462→  - heading "Art & Decor" [level=3, ref=e75]
+   463→  - paragraph
+   464→    - StaticText "Curated art programs and decorative accessories that bring each hotel's brand story to life."
+   465→  - StaticText "Learn more"
+   466→  - generic
+   467→    - paragraph
+   468→      - StaticText "GLOBAL SUPPLY CHAIN"
+   469→    - heading "From Foshanto the World" [level=2, ref=e76]
+   470→      - StaticText "From Foshanto the World"
+   471→    - paragraph
+   472→      - StaticText "Strategically located in China's furniture capital, our supply chain reaches hospitality projects across five continents with precision and reliability."
+   473→    - image "Supply chain routes from Foshan, China to global destinations"
+   474→      - StaticText "North America"
+   475→      - StaticText "25–30 days"
+   476→      - StaticText "Europe"
+   477→      - StaticText "28–35 days"
+   478→      - StaticText "Middle East"
+   479→      - StaticText "18–22 days"
+   480→      - StaticText "Southeast Asia"
+   481→      - StaticText "7–10 days"
+   482→      - StaticText "Australia"
+   483→      - StaticText "15–20 days"
+   484→      - StaticText "FOSHAN"
+   485→    - StaticText "FSH"
+   486→    - StaticText "FOSHAN, CHINA"
+   487→    - generic
+   488→      - StaticText "North America25–30 days"
+   489→    - generic
+   490→      - StaticText "Europe28–35 days"
+   491→    - generic
+   492→      - StaticText "Middle East18–22 days"
+   493→    - generic
+   494→      - StaticText "Southeast Asia7–10 days"
+   495→    - generic
+   496→      - StaticText "Australia15–20 days"
+   497→    - paragraph
+   498→      - StaticText "0+"
+   499→    - paragraph
+   500→      - StaticText "FacilitiesManufacturing Facilities"
+   501→    - paragraph
+   502→      - StaticText "0+"
+   503→    - paragraph
+   504→      - StaticText "CountriesCountries Served"
+   505→    - paragraph
+   506→      - StaticText "0+"
+   507→    - paragraph
+   508→      - StaticText "Keys DeliveredKeys Delivered"
+   509→    - paragraph
+   510→      - StaticText "0"
+   511→    - paragraph
+   512→      - StaticText "Avg Lead TimeDays Avg Lead Time"
+   513→    - paragraph
+   514→      - StaticText "Delivery Destinations"
+   515→    - paragraph
+   516→      - StaticText "North America"
+   517→    - paragraph
+   518→      - StaticText "Full DDP & FOB shipping"
+   519→    - StaticText "25–30 days"
+   520→    - paragraph
+   521→      - StaticText "Europe"
+   522→    - paragraph
+   523→      - StaticText "CIF & door-to-door"
+   524→    - StaticText "28–35 days"
+   525→    - paragraph
+   526→      - StaticText "Middle East"
+   527→    - paragraph
+   528→      - StaticText "FOB & DDP available"
+   529→    - StaticText "18–22 days"
+   530→    - paragraph
+   531→      - StaticText "Southeast Asia"
+   532→    - paragraph
+   533→      - StaticText "Fastest regional delivery"
+   534→    - StaticText "7–10 days"
+   535→    - paragraph
+   536→      - StaticText "Australia"
+   537→    - paragraph
+   538→      - StaticText "Direct shipping routes"
+   539→    - StaticText "15–20 days"
+   540→  - generic
+   541→    - paragraph
+   542→      - StaticText "ROOM TRANSFORMATION"
+   543→    - heading "See the difference" [level=2, ref=e77]
+   544→      - StaticText "See the difference"
+   545→    - paragraph
+   546→      - StaticText "From bare walls to breathtaking spaces — experience the dramatic impact of our FF&E solutions through interactive before & after comparisons."
+   547→    - generic
+   548→      - button "Guest Room" [ref=e138]
+   549→        - StaticText "Guest Room"
+   550→      - button "Bathroom" [ref=e139]
+   551→      - button "Lobby" [ref=e140]
+   552→    - slider "Before and after comparison slider" [ref=e78]: 50
+   553→      - image "After FF&E furnishing"
+   554→      - image "Before FF&E furnishing"
+   555→      - StaticText "BEFORE"
+   556→      - StaticText "AFTER"
+   557→    - paragraph
+   558→      - StaticText "DRAG THE SLIDER TO COMPARE"
+   559→  - paragraph
+   560→    - StaticText "TESTIMONIALS"
+   561→  - heading "TRUSTED BY HOSPITALITY BRANDS" [level=2, ref=e79]
+   562→  - paragraph
+   563→    - StaticText "What our partners say"
+   564→  - paragraph
+   565→    - StaticText "“Akshar Foshan delivered 240 keys of casegoods and upholstery on schedule with zero defects. Their quality control process is second to none — every piece arrived inspection-ready, saving us weeks of rework.”"
+   566→  - StaticText "S"
+   567→  - paragraph
+   568→    - StaticText "Sarah Chen"
+   569→  - paragraph
+   570→    - StaticText "Director of Procurement"
+   571→  - paragraph
+   572→    - StaticText "Hilton Garden Inn"
+   573→  - button "Previous testimonial" [ref=e80]
+   574→  - generic
+   575→    - button "Go to testimonial 1" [ref=e141]
+   576→    - button "Go to testimonial 2" [ref=e142]
+   577→    - button "Go to testimonial 3" [ref=e143]
+   578→  - button "Next testimonial" [ref=e81]
+   579→  - paragraph
+   580→    - StaticText "PROUDLY SERVING"
+   581→  - StaticText "IHG"
+   582→  - StaticText "Hilton"
+   583→  - StaticText "Marriott"
+   584→  - StaticText "Choice"
+   585→  - StaticText "Wyndham"
+   586→  - paragraph
+   587→    - StaticText "CERTIFICATIONS & STANDARDS"
+   588→  - heading "Quality that meetsglobal standards" [level=2, ref=e82]
+   589→    - StaticText "Quality that meetsglobal standards"
+   590→  - paragraph
+   591→    - StaticText "Every product is backed by internationally recognized certifications and rigorous quality assurance."
+   592→  - StaticText "01"
+   593→  - StaticText "Verified"
+   594→  - heading "ISO 9001:2015" [level=3, ref=e83]
+   595→  - paragraph
+   596→    - StaticText "Quality Management System certification ensuring consistent quality across all manufacturing processes."
+   597→  - StaticText "Learn more"
+   598→  - StaticText "02"
+   599→  - StaticText "Verified"
+   600→  - heading "ISO 14001:2015" [level=3, ref=e84]
+   601→  - paragraph
+   602→    - StaticText "Environmental Management System certification demonstrating our commitment to sustainable manufacturing."
+   603→  - StaticText "Learn more"
+   604→  - StaticText "03"
+   605→  - StaticText "Verified"
+   606→  - heading "BIFMA Certification" [level=3, ref=e85]
+   607→  - paragraph
+   608→    - StaticText "Business and Institutional Furniture Manufacturers Association standards compliance for commercial-grade furniture."
+   609→  - StaticText "Learn more"
+   610→  - StaticText "04"
+   611→  - StaticText "Verified"
+   612→  - heading "SGS Tested" [level=3, ref=e86]
+   613→  - paragraph
+   614→    - StaticText "Independent testing and verification by SGS, the world's leading inspection and certification company."
+   615→  - StaticText "Learn more"
+   616→  - StaticText "05"
+   617→  - StaticText "Verified"
+   618→  - heading "Intertek Certified" [level=3, ref=e87]
+   619→  - paragraph
+   620→    - StaticText "Product safety and quality certification from Intertek's global network of testing laboratories."
+   621→  - StaticText "Learn more"
+   622→  - StaticText "06"
+   623→  - StaticText "Verified"
+   624→  - heading "FSC Certified" [level=3, ref=e88]
+   625→  - paragraph
+   626→    - StaticText "Forest Stewardship Council certification ensuring responsible sourcing of wood materials."
+   627→  - StaticText "Learn more"
+   628→  - paragraph
+   629→    - StaticText "All products undergo rigorous third-party testing and certification"
+   630→  - paragraph
+   631→    - StaticText "FULL CATALOG"
+   632→  - heading "Browse our complete catalog" [level=2, ref=e89]
+   633→    - StaticText "Browse our complete catalog"
+   634→  - paragraph
+   635→    - StaticText "Explore our 2026 Furniture Catalog with detailed product specifications across all hotel brand standards."
+   636→  - generic
+   637→    - button "All" [ref=e144]
+   638→    - button "Cover" [ref=e145]
+   639→    - button "About" [ref=e146]
+   640→    - button "IHG" [ref=e147]
+   641→    - button "Marriott" [ref=e148]
+   642→    - button "Hilton" [ref=e149]
+   643→    - button "Choice" [ref=e150]
+   644→    - button "Wyndham" [ref=e151]
+   645→    - button "Contact" [ref=e152]
+   646→  - button "Furniture Catalog 2026 Click to view Furniture Catalog 2026 Page 1" [ref=e153]
+   647→    - image "Furniture Catalog 2026"
+   648→    - StaticText "Click to view"
+   649→    - paragraph
+   650→      - StaticText "Furniture Catalog 2026"
+   651→    - paragraph
+   652→      - StaticText "Page 1"
+   653→  - button "Customized Professionalism Click to view Customized Professionalism Page 4" [ref=e154]
+   654→    - image "Customized Professionalism"
+   655→    - StaticText "Click to view"
+   656→    - paragraph
+   657→      - StaticText "Customized Professionalism"
+   658→    - paragraph
+   659→      - StaticText "Page 4"
+   660→  - button "Holiday Inn Suites Click to view Holiday Inn Suites Page 11" [ref=e155]
+   661→    - image "Holiday Inn Suites"
+   662→    - StaticText "Click to view"
+   663→    - paragraph
+   664→      - StaticText "Holiday Inn Suites"
+   665→    - paragraph
+   666→      - StaticText "Page 11"
+   667→  - button "Holiday Inn Suites - Products Click to view Holiday Inn Suites - Products Page 12" [ref=e156]
+   668→    - image "Holiday Inn Suites - Products"
+   669→    - StaticText "Click to view"
+   670→    - paragraph
+   671→      - StaticText "Holiday Inn Suites - Products"
+   672→    - paragraph
+   673→      - StaticText "Page 12"
+   674→  - button "Holiday Inn Express Click to view Holiday Inn Express Page 13" [ref=e157]
+   675→    - image "Holiday Inn Express"
+   676→    - StaticText "Click to view"
+   677→    - paragraph
+   678→      - StaticText "Holiday Inn Express"
+   679→    - paragraph
+   680→      - StaticText "Page 13"
+   681→  - button "Holiday Inn Express - Products Click to view Holiday Inn Express - Products Page 14" [ref=e158]
+   682→    - image "Holiday Inn Express - Products"
+   683→    - StaticText "Click to view"
+   684→    - paragraph
+   685→      - StaticText "Holiday Inn Express - Products"
+   686→    - paragraph
+   687→      - StaticText "Page 14"
+   688→  - button "Candlewood Suites Click to view Candlewood Suites Page 15" [ref=e159]
+   689→    - image "Candlewood Suites"
+   690→    - StaticText "Click to view"
+   691→    - paragraph
+   692→      - StaticText "Candlewood Suites"
+   693→    - paragraph
+   694→      - StaticText "Page 15"
+   695→  - button "Candlewood Suites - Products Click to view Candlewood Suites - Products Page 16" [ref=e160]
+   696→    - image "Candlewood Suites - Products"
+   697→    - StaticText "Click to view"
+   698→    - paragraph
+   699→      - StaticText "Candlewood Suites - Products"
+   700→    - paragraph
+   701→      - StaticText "Page 16"
+   702→  - button "IHG Standards Click to view IHG Standards Page 17" [ref=e161]
+   703→    - image "IHG Standards"
+   704→    - StaticText "Click to view"
+   705→    - paragraph
+   706→      - StaticText "IHG Standards"
+   707→    - paragraph
+   708→      - StaticText "Page 17"
+   709→  - button "IHG Standards Click to view IHG Standards Page 18" [ref=e162]
+   710→    - image "IHG Standards"
+   711→    - StaticText "Click to view"
+   712→    - paragraph
+   713→      - StaticText "IHG Standards"
+   714→    - paragraph
+   715→      - StaticText "Page 18"
+   716→  - button "Fairfield Inn Click to view Fairfield Inn Page 19" [ref=e163]
+   717→    - image "Fairfield Inn"
+   718→    - StaticText "Click to view"
+   719→    - paragraph
+   720→      - StaticText "Fairfield Inn"
+   721→    - paragraph
+   722→      - StaticText "Page 19"
+   723→  - button "Fairfield Inn - Products Click to view Fairfield Inn - Products Page 20" [ref=e164]
+   724→    - image "Fairfield Inn - Products"
+   725→    - StaticText "Click to view"
+   726→    - paragraph
+   727→      - StaticText "Fairfield Inn - Products"
+   728→    - paragraph
+   729→      - StaticText "Page 20"
+   730→  - button "SpringHill Suites Click to view SpringHill Suites Page 21" [ref=e165]
+   731→    - image "SpringHill Suites"
+   732→    - StaticText "Click to view"
+   733→    - paragraph
+   734→      - StaticText "SpringHill Suites"
+   735→    - paragraph
+   736→      - StaticText "Page 21"
+   737→  - button "SpringHill Suites - Products Click to view SpringHill Suites - Products Page 22" [ref=e166]
+   738→    - image "SpringHill Suites - Products"
+   739→    - StaticText "Click to view"
+   740→    - paragraph
+   741→      - StaticText "SpringHill Suites - Products"
+   742→    - paragraph
+   743→      - StaticText "Page 22"
+   744→  - button "TownePlace Suites Click to view TownePlace Suites Page 23" [ref=e167]
+   745→    - image "TownePlace Suites"
+   746→    - StaticText "Click to view"
+   747→    - paragraph
+   748→      - StaticText "TownePlace Suites"
+   749→    - paragraph
+   750→      - StaticText "Page 23"
+   751→  - button "TownePlace Suites - Products Click to view TownePlace Suites - Products Page 24" [ref=e168]
+   752→    - image "TownePlace Suites - Products"
+   753→    - StaticText "Click to view"
+   754→    - paragraph
+   755→      - StaticText "TownePlace Suites - Products"
+   756→    - paragraph
+   757→      - StaticText "Page 24"
+   758→  - button "Marriott Standards Click to view Marriott Standards Page 25" [ref=e169]
+   759→    - image "Marriott Standards"
+   760→    - StaticText "Click to view"
+   761→    - paragraph
+   762→      - StaticText "Marriott Standards"
+   763→    - paragraph
+   764→      - StaticText "Page 25"
+   765→  - button "Marriott Standards Click to view Marriott Standards Page 26" [ref=e170]
+   766→    - image "Marriott Standards"
+   767→    - StaticText "Click to view"
+   768→    - paragraph
+   769→      - StaticText "Marriott Standards"
+   770→    - paragraph
+   771→      - StaticText "Page 26"
+   772→  - button "Hampton Inn Click to view Hampton Inn Page 27" [ref=e171]
+   773→    - image "Hampton Inn"
+   774→    - StaticText "Click to view"
+   775→    - paragraph
+   776→      - StaticText "Hampton Inn"
+   777→    - paragraph
+   778→      - StaticText "Page 27"
+   779→  - button "Hampton Inn - Products Click to view Hampton Inn - Products Page 28" [ref=e172]
+   780→    - image "Hampton Inn - Products"
+   781→    - StaticText "Click to view"
+   782→    - paragraph
+   783→      - StaticText "Hampton Inn - Products"
+   784→    - paragraph
+   785→      - StaticText "Page 28"
+   786→  - button "Home2 Suites Click to view Home2 Suites Page 29" [ref=e173]
+   787→    - image "Home2 Suites"
+   788→    - StaticText "Click to view"
+   789→    - paragraph
+   790→      - StaticText "Home2 Suites"
+   791→    - paragraph
+   792→      - StaticText "Page 29"
+   793→  - button "Home2 Suites - Products Click to view Home2 Suites - Products Page 30" [ref=e174]
+   794→    - image "Home2 Suites - Products"
+   795→    - StaticText "Click to view"
+   796→    - paragraph
+   797→      - StaticText "Home2 Suites - Products"
+   798→    - paragraph
+   799→      - StaticText "Page 30"
+   800→  - button "Homewood Suites Click to view Homewood Suites Page 31" [ref=e175]
+   801→    - image "Homewood Suites"
+   802→    - StaticText "Click to view"
+   803→    - paragraph
+   804→      - StaticText "Homewood Suites"
+   805→    - paragraph
+   806→      - StaticText "Page 31"
+   807→  - button "Homewood Suites - Products Click to view Homewood Suites - Products Page 32" [ref=e176]
+   808→    - image "Homewood Suites - Products"
+   809→    - StaticText "Click to view"
+   810→    - paragraph
+   811→      - StaticText "Homewood Suites - Products"
+   812→    - paragraph
+   813→      - StaticText "Page 32"
+   814→  - button "Hilton Standards Click to view Hilton Standards Page 33" [ref=e177]
+   815→    - image "Hilton Standards"
+   816→    - StaticText "Click to view"
+   817→    - paragraph
+   818→      - StaticText "Hilton Standards"
+   819→    - paragraph
+   820→      - StaticText "Page 33"
+   821→  - button "Hilton Standards Click to view Hilton Standards Page 34" [ref=e178]
+   822→    - image "Hilton Standards"
+   823→    - StaticText "Click to view"
+   824→    - paragraph
+   825→      - StaticText "Hilton Standards"
+   826→    - paragraph
+   827→      - StaticText "Page 34"
+   828→  - button "Comfort Inn Click to view Comfort Inn Page 35" [ref=e179]
+   829→    - image "Comfort Inn"
+   830→    - StaticText "Click to view"
+   831→    - paragraph
+   832→      - StaticText "Comfort Inn"
+   833→    - paragraph
+   834→      - StaticText "Page 35"
+   835→  - button "Comfort Inn - Products Click to view Comfort Inn - Products Page 36" [ref=e180]
+   836→    - image "Comfort Inn - Products"
+   837→    - StaticText "Click to view"
+   838→    - paragraph
+   839→      - StaticText "Comfort Inn - Products"
+   840→    - paragraph
+   841→      - StaticText "Page 36"
+   842→  - button "Country Inn Click to view Country Inn Page 37" [ref=e181]
+   843→    - image "Country Inn"
+   844→    - StaticText "Click to view"
+   845→    - paragraph
+   846→      - StaticText "Country Inn"
+   847→    - paragraph
+   848→      - StaticText "Page 37"
+   849→  - button "Country Inn - Products Click to view Country Inn - Products Page 38" [ref=e182]
+   850→    - image "Country Inn - Products"
+   851→    - StaticText "Click to view"
+   852→    - paragraph
+   853→      - StaticText "Country Inn - Products"
+   854→    - paragraph
+   855→      - StaticText "Page 38"
+   856→  - button "Choice Standards Click to view Choice Standards Page 39" [ref=e183]
+   857→    - image "Choice Standards"
+   858→    - StaticText "Click to view"
+   859→    - paragraph
+   860→      - StaticText "Choice Standards"
+   861→    - paragraph
+   862→      - StaticText "Page 39"
+   863→  - button "Wyndham Hotels Click to view Wyndham Hotels Page 40" [ref=e184]
+   864→    - image "Wyndham Hotels"
+   865→    - StaticText "Click to view"
+   866→    - paragraph
+   867→      - StaticText "Wyndham Hotels"
+   868→    - paragraph
+   869→      - StaticText "Page 40"
+   870→  - button "Wingate Click to view Wingate Page 41" [ref=e185]
+   871→    - image "Wingate"
+   872→    - StaticText "Click to view"
+   873→    - paragraph
+   874→      - StaticText "Wingate"
+   875→    - paragraph
+   876→      - StaticText "Page 41"
+   877→  - button "Wingate - Products Click to view Wingate - Products Page 42" [ref=e186]
+   878→    - image "Wingate - Products"
+   879→    - StaticText "Click to view"
+   880→    - paragraph
+   881→      - StaticText "Wingate - Products"
+   882→    - paragraph
+   883→      - StaticText "Page 42"
+   884→  - button "La Quinta Click to view La Quinta Page 43" [ref=e187]
+   885→    - image "La Quinta"
+   886→    - StaticText "Click to view"
+   887→    - paragraph
+   888→      - StaticText "La Quinta"
+   889→    - paragraph
+   890→      - StaticText "Page 43"
+   891→  - button "La Quinta - Products Click to view La Quinta - Products Page 44" [ref=e188]
+   892→    - image "La Quinta - Products"
+   893→    - StaticText "Click to view"
+   894→    - paragraph
+   895→      - StaticText "La Quinta - Products"
+   896→    - paragraph
+   897→      - StaticText "Page 44"
+   898→  - link "Download Full Catalog" [ref=e189]
+   899→  - generic
+   900→    - paragraph
+   901→      - StaticText "COMMON QUESTIONS"
+   902→    - heading "Frequently AskedQuestions" [level=2, ref=e90]
+   903→      - StaticText "Frequently AskedQuestions"
+   904→    - paragraph
+   905→      - StaticText "Everything you need to know about working with Akshar Foshan — from our capabilities to logistics and quality assurance."
+   906→    - textbox "Search questions..." [ref=e190]
+   907→    - button "Expand All" [ref=e91]
+   908→    - generic
+   909→      - StaticText "8 questions"
+   910→    - button "What does FF&E stand for?" [expanded=false, ref=e92]
+   911→      - StaticText "What does FF&E stand for?"
+   912→    - button "What hotel brands do you work with?" [expanded=false, ref=e93]
+   913→      - StaticText "What hotel brands do you work with?"
+   914→    - button "What is your typical lead time?" [expanded=false, ref=e94]
+   915→      - StaticText "What is your typical lead time?"
+   916→    - button "Do you provide samples before production?" [expanded=false, ref=e95]
+   917→      - StaticText "Do you provide samples before production?"
+   918→    - button "What is your minimum order quantity?" [expanded=false, ref=e96]
+   919→      - StaticText "What is your minimum order quantity?"
+   920→    - button "Do you handle logistics and shipping?" [expanded=false, ref=e97]
+   921→      - StaticText "Do you handle logistics and shipping?"
+   922→    - button "How do you ensure quality control?" [expanded=false, ref=e98]
+   923→      - StaticText "How do you ensure quality control?"
+   924→    - button "What geographic areas do you serve?" [expanded=false, ref=e99]
+   925→      - StaticText "What geographic areas do you serve?"
+   926→    - paragraph
+   927→      - StaticText "Still have questions?"
+   928→      - link "Get in touch with our team" [ref=e191]
+   929→  - generic
+   930→    - paragraph
+   931→      - StaticText "NEXT CHAPTER"
+   932→    - heading "Tell us about the property." [level=2, ref=e100]
+   933→    - heading "We'll script the FF&E." [level=3, ref=e101]
+   934→    - paragraph
+   935→      - StaticText "Share your floor plans, brand standards or a moodboard. We'll come back with a scope, a budget envelope and a sample plan within five working days."
+   936→    - button "Start a project" [ref=e102]
+   937→    - button "Request Catalog" [ref=e103]
+   938→  - generic
+   939→    - paragraph
+   940→      - StaticText "GET IN TOUCH"
+   941→    - heading "Let's start aconversation." [level=2, ref=e104]
+   942→      - StaticText "Let's start aconversation."
+   943→    - paragraph
+   944→      - StaticText "Whether you have a project in mind or simply want to explore possibilities, our team is ready to listen. Share your details and we'll respond within one business day."
+   945→    - paragraph
+   946→      - StaticText "Global Reach"
+   947→    - paragraph
+   948→      - StaticText "Shipping from Foshan to 30+ countries"
+   949→    - paragraph
+   950→      - StaticText "Foshan HQ"
+   951→    - paragraph
+   952→      - StaticText "23.02°N, 113.12°E"
+   953→    - generic
+   954→      - link "Phone 18666422531" [ref=e192]
+   955→        - paragraph
+   956→          - StaticText "Phone"
+   957→        - paragraph
+   958→          - StaticText "18666422531"
+   959→      - link "Email 250552975@qq.com" [ref=e193]
+   960→        - paragraph
+   961→          - StaticText "Email"
+   962→        - paragraph
+   963→          - StaticText "250552975@qq.com"
+   964→      - link "Address No. 29, Sanling Road, Gaoming, Foshan" [ref=e194]
+   965→        - paragraph
+   966→          - StaticText "Address"
+   967→        - paragraph
+   968→          - StaticText "No. 29, Sanling Road, Gaoming, Foshan"
+   969→    - paragraph
+   970→      - StaticText "Business Hours"
+   971→    - paragraph
+   972→      - StaticText "Mon–Sat: 9:00 AM – 6:00 PM (CST)"
+   973→    - generic
+   974→      - StaticText "Follow us"
+   975→      - link "LinkedIn" [ref=e195]
+   976→      - link "Facebook" [ref=e196]
+   977→      - link "WeChat" [ref=e197]
+   978→    - form
+   979→      - generic
+   980→        - StaticText "Form Progress0/4 fields"
+   981→      - LabelText
+   982→        - StaticText "Your Name *"
+   983→      - textbox "John Smith" [required, ref=e198]
+   984→      - LabelText
+   985→        - StaticText "Email *"
+   986→      - textbox "john@hotelbrand.com" [required, ref=e199]
+   987→      - LabelText
+   988→        - StaticText "Company / Property"
+   989→      - textbox "Hilton, Marriott, IHG..." [ref=e200]
+   990→      - LabelText
+   991→        - StaticText "Project Type *"
+   992→      - combobox [expanded=false, ref=e201]: Select project type...
+   993→        - StaticText "Select project type..."
+   994→      - LabelText
+   995→        - StaticText "Preferred Contact Time"
+   996→      - combobox [expanded=false, ref=e202]: Select time...
+   997→        - StaticText "Select time..."
+   998→      - LabelText
+   999→        - StaticText "Message *"
+  1000→      - textbox "Tell us about your project — property type, number of keys, timeline..." [required, ref=e203]
+  1001→      - generic
+  1002→        - StaticText "0/500 characters"
+  1003→      - button "Send Message" [ref=e204]
+  1004→      - StaticText "Typical response time: Within 24 hours"
+  1005→      - paragraph
+  1006→        - StaticText "Your information is secure and will never be shared."
+  1007→    - paragraph
+  1008→      - StaticText "QUICK CONTACT"
+  1009→    - link "Call Us 18666422531 Available 24/7" [ref=e105]
+  1010→      - paragraph
+  1011→        - StaticText "Call Us"
+  1012→      - paragraph
+  1013→        - StaticText "18666422531"
+  1014→      - paragraph
+  1015→        - StaticText "Available 24/7"
+  1016→    - link "Email 250552975@qq.com Response within 24h" [ref=e106]
+  1017→      - paragraph
+  1018→        - StaticText "Email"
+  1019→      - paragraph
+  1020→        - StaticText "250552975@qq.com"
+  1021→      - paragraph
+  1022→        - StaticText "Response within 24h"
+  1023→    - link "WeChat AksharFoshan Quick response" [ref=e107]
+  1024→      - paragraph
+  1025→        - StaticText "WeChat"
+  1026→      - paragraph
+  1027→        - StaticText "AksharFoshan"
+  1028→      - paragraph
+  1029→        - StaticText "Quick response"
+  1030→    - link "WhatsApp +86 18666422531 International" [ref=e108]
+  1031→      - paragraph
+  1032→        - StaticText "WhatsApp"
+  1033→      - paragraph
+  1034→        - StaticText "+86 18666422531"
+  1035→      - paragraph
+  1036→        - StaticText "International"
+  1037→    - paragraph
+  1038→      - StaticText "HOURS"
+  1039→    - generic
+  1040→      - StaticText "Mon–Fri9AM–6PM"
+  1041→    - generic
+  1042→      - StaticText "Saturday9AM–1PM"
+  1043→    - generic
+  1044→      - StaticText "SundayClosed"
+  1045→    - paragraph
+  1046→      - StaticText "China Standard Time (UTC+8)"
+  1047→    - generic
+  1048→      - link "Call Us 18666422531" [ref=e205]
+  1049→        - paragraph
+  1050→          - StaticText "Call Us"
+  1051→        - paragraph
+  1052→          - StaticText "18666422531"
+  1053→      - link "Email 250552975@qq.com" [ref=e206]
+  1054→        - paragraph
+  1055→          - StaticText "Email"
+  1056→        - paragraph
+  1057→          - StaticText "250552975@qq.com"
+  1058→      - link "WeChat AksharFoshan" [ref=e207]
+  1059→        - paragraph
+  1060→          - StaticText "WeChat"
+  1061→        - paragraph
+  1062→          - StaticText "AksharFoshan"
+  1063→      - link "WhatsApp +86 18666422531" [ref=e208]
+  1064→        - paragraph
+  1065→          - StaticText "WhatsApp"
+  1066→        - paragraph
+  1067→          - StaticText "+86 18666422531"
+  1068→- contentinfo
+  1069→  - heading "Akshar Foshan" [level=3, ref=e6]
+  1070→  - paragraph
+  1071→    - StaticText "HOSPITALITY FF&E"
+  1072→  - paragraph
+  1073→    - StaticText "Your partner in hospitality FF&E solutions. Crafting complete hotel furniture from Foshan, China to properties worldwide."
+  1074→  - StaticText "18666422531"
+  1075→  - StaticText "250552975@qq.com"
+  1076→  - StaticText "No. 29, Sanling Road, Hecheng Sub-district, Gaoming District, Foshan City"
+  1077→  - generic
+  1078→    - link "LinkedIn" [ref=e109]
+  1079→    - link "Facebook" [ref=e110]
+  1080→    - link "WeChat" [ref=e111]
+  1081→  - heading "EXPLORE" [level=4, ref=e7]
+  1082→  - list
+  1083→    - listitem [level=1]
+  1084→      - ListMarker "• "
+  1085→      - button "Home" [ref=e209]
+  1086→    - listitem [level=1]
+  1087→      - ListMarker "• "
+  1088→      - button "Portfolio" [ref=e210]
+  1089→    - listitem [level=1]
+  1090→      - ListMarker "• "
+  1091→      - button "About" [ref=e211]
+  1092→    - listitem [level=1]
+  1093→      - ListMarker "• "
+  1094→      - button "Contact" [ref=e212]
+  1095→  - heading "SCOPE" [level=4, ref=e8]
+  1096→  - list
+  1097→    - listitem [level=1]
+  1098→      - ListMarker "• "
+  1099→      - button "Casegoods" [ref=e213]
+  1100→    - listitem [level=1]
+  1101→      - ListMarker "• "
+  1102→      - button "Upholstery" [ref=e214]
+  1103→    - listitem [level=1]
+  1104→      - ListMarker "• "
+  1105→      - button "Lighting" [ref=e215]
+  1106→    - listitem [level=1]
+  1107→      - ListMarker "• "
+  1108→      - button "Bathroom FF&E" [ref=e216]
+  1109→    - listitem [level=1]
+  1110→      - ListMarker "• "
+  1111→      - button "Art & Decor" [ref=e217]
+  1112→  - heading "NEWSLETTER" [level=4, ref=e9]
+  1113→  - paragraph
+  1114→    - StaticText "Stay updated with our latest products and hospitality insights."
+  1115→  - form
+  1116→    - textbox "Enter your email" [required, ref=e218]
+  1117→    - button "Subscribe" [ref=e219]
+  1118→  - paragraph
+  1119→    - StaticText "© 2026 Akshar Foshan Hospitality FF&E. All rights reserved."
+  1120→  - StaticText "|"
+  1121→  - paragraph
+  1122→    - StaticText "Reg. No. 91440600MAXXXXXX"
+  1123→  - generic
+  1124→    - StaticText "Privacy PolicyTerms of Service"
+  1125→  - button "Back to top" [ref=e112]
+  1126→- navigation "Section navigation" [ref=e2]
+  1127→  - StaticText "Home"
+  1128→  - button "Navigate to Home section" [ref=e10]
+  1129→  - button "Navigate to Services section" [ref=e113]
+  1130→  - button "Navigate to Portfolio section" [ref=e114]
+  1131→  - button "Navigate to About section" [ref=e115]
+  1132→  - button "Navigate to Catalog section" [ref=e116]
+  1133→  - button "Navigate to Contact section" [ref=e117]
+  1134→- StaticText "Chat with us"
+  1135→- button "Open chat" [ref=e3]
+  1136→- region "Notifications (F8)" [ref=e4]
+  1137→  - list

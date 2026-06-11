@@ -176,7 +176,7 @@ function ComparisonSlider({ beforeSrc, afterSrc }: { beforeSrc: string; afterSrc
         </span>
       </div>
       <div className="absolute top-4 right-4 z-10 pointer-events-none">
-        <span className="inline-block px-3 py-1 text-[10px] sm:text-xs font-bold tracking-[0.2em] text-white bg-[#4A2364]/70 backdrop-blur-sm rounded">
+        <span className="inline-block px-3 py-1 text-[10px] sm:text-xs font-bold tracking-[0.2em] text-white bg-[#5d2c86]/70 backdrop-blur-sm rounded">
           AFTER
         </span>
       </div>
@@ -191,7 +191,7 @@ function ComparisonSlider({ beforeSrc, afterSrc }: { beforeSrc: string; afterSrc
 
         {/* Handle circle */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto">
-          <div className="w-12 h-12 rounded-full bg-[#4A2364] border-[3px] border-[#D4AF37] flex items-center justify-center shadow-lg shadow-black/40 hover:scale-110 transition-transform duration-200">
+          <div className="w-12 h-12 rounded-full bg-[#5d2c86] border-[3px] border-[#D4AF37] flex items-center justify-center shadow-lg shadow-black/40 hover:scale-110 transition-transform duration-200">
             <ChevronLeft className="w-4 h-4 text-[#D4AF37] -mr-1" />
             <ChevronRight className="w-4 h-4 text-[#D4AF37] -ml-1" />
           </div>
@@ -225,7 +225,7 @@ export default function BeforeAfterSection() {
       <div
         className="absolute -top-48 -left-48 w-96 h-96 rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(74,35,100,0.12) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(93,44,134,0.12) 0%, transparent 70%)',
         }}
       />
       <div

@@ -1,0 +1,1290 @@
+     1→     1→'use client';
+     2→     2→
+     3→     3→import { useRef, useState, useCallback } from 'react';
+     4→     4→import {
+     5→     5→  motion,
+     6→     6→  useInView,
+     7→     7→  useScroll,
+     8→     8→  useTransform,
+     9→     9→  useSpring,
+    10→    10→  AnimatePresence,
+    11→    11→} from 'framer-motion';
+    12→    12→import {
+    13→    13→  Shield,
+    14→    14→  Handshake,
+    15→    15→  Sparkles,
+    16→    16→  Lightbulb,
+    17→    17→  Factory,
+    18→    18→  Globe2,
+    19→    19→  Users,
+    20→    20→  Award,
+    21→    21→  Hammer,
+    22→    22→  Eye,
+    23→    23→  Cog,
+    24→    24→  ChevronLeft,
+    25→    25→  ChevronRight,
+    26→    26→  Clock,
+    27→    27→  X,
+    28→    28→  Expand,
+    29→    29→} from 'lucide-react';
+    30→    30→import Image from 'next/image';
+    31→    31→
+    32→    32→/* ── Brand Tokens ────────────────────────────────────────────── */
+    33→    33→const PURPLE = '#5d2c86';
+    34→    34→const CREAM = '#f8f3ed';
+    35→    35→const GOLD = '#D4AF37';
+    36→    36→const DARK = '#1A1A1A';
+    37→    37→
+    38→    38→/* ── Animation Variants ──────────────────────────────────────── */
+    39→    39→const fadeUp = {
+    40→    40→  hidden: { opacity: 0, y: 40 },
+    41→    41→  visible: (delay: number = 0) => ({
+    42→    42→    opacity: 1,
+    43→    43→    y: 0,
+    44→    44→    transition: { duration: 0.8, delay, ease: [0.25, 0.4, 0.25, 1] },
+    45→    45→  }),
+    46→    46→};
+    47→    47→
+    48→    48→const fadeIn = {
+    49→    49→  hidden: { opacity: 0 },
+    50→    50→  visible: (delay: number = 0) => ({
+    51→    51→    opacity: 1,
+    52→    52→    transition: { duration: 1, delay, ease: 'easeOut' },
+    53→    53→  }),
+    54→    54→};
+    55→    55→
+    56→    56→const slideInLeft = {
+    57→    57→  hidden: { opacity: 0, x: -60 },
+    58→    58→  visible: (delay: number = 0) => ({
+    59→    59→    opacity: 1,
+    60→    60→    x: 0,
+    61→    61→    transition: { duration: 0.8, delay, ease: [0.25, 0.4, 0.25, 1] },
+    62→    62→  }),
+    63→    63→};
+    64→    64→
+    65→    65→const slideInRight = {
+    66→    66→  hidden: { opacity: 0, x: 60 },
+    67→    67→  visible: (delay: number = 0) => ({
+    68→    68→    opacity: 1,
+    69→    69→    x: 0,
+    70→    70→    transition: { duration: 0.8, delay, ease: [0.25, 0.4, 0.25, 1] },
+    71→    71→  }),
+    72→    72→};
+    73→    73→
+    74→    74→const scaleUp = {
+    75→    75→  hidden: { opacity: 0, scale: 0.9 },
+    76→    76→  visible: (delay: number = 0) => ({
+    77→    77→    opacity: 1,
+    78→    78→    scale: 1,
+    79→    79→    transition: { duration: 0.7, delay, ease: [0.25, 0.4, 0.25, 1] },
+    80→    80→  }),
+    81→    81→};
+    82→    82→
+    83→    83→/* Cinematic reveal: blur + fade + scale */
+    84→    84→const cinematicReveal = {
+    85→    85→  hidden: { opacity: 0, scale: 1.08, filter: 'blur(12px)' },
+    86→    86→  visible: (delay: number = 0) => ({
+    87→    87→    opacity: 1,
+    88→    88→    scale: 1,
+    89→    89→    filter: 'blur(0px)',
+    90→    90→    transition: { duration: 1.2, delay, ease: [0.16, 1, 0.3, 1] },
+    91→    91→  }),
+    92→    92→};
+    93→    93→
+    94→    94→/* ── Values Data ─────────────────────────────────────────────── */
+    95→    95→const values = [
+    96→    96→  {
+    97→    97→    icon: Shield,
+    98→    98→    title: 'Quality',
+    99→    99→    description:
+   100→   100→      'Every piece is crafted to the highest hospitality standards, rigorously inspected before it leaves our facilities.',
+   101→   101→    accent: GOLD,
+   102→   102→  },
+   103→   103→  {
+   104→   104→    icon: Handshake,
+   105→   105→    title: 'Reliability',
+   106→   106→    description:
+   107→   107→      'On-time delivery and consistent quality — we understand that project timelines in hospitality are non-negotiable.',
+   108→   108→    accent: PURPLE,
+   109→   109→  },
+   110→   110→  {
+   111→   111→    icon: Sparkles,
+   112→   112→    title: 'Service',
+   113→   113→    description:
+   114→   114→      'Client-centric approach from first contact to final install. One dedicated team, one accountable partner.',
+   115→   115→    accent: GOLD,
+   116→   116→  },
+   117→   117→  {
+   118→   118→    icon: Lightbulb,
+   119→   119→    title: 'Innovation',
+   120→   120→    description:
+   121→   121→      'Continuously refining materials, processes, and designs to exceed evolving brand standards and guest expectations.',
+   122→   122→    accent: PURPLE,
+   123→   123→  },
+   124→   124→];
+   125→   125→
+   126→   126→/* ── Heritage Timeline Data ──────────────────────────────────── */
+   127→   127→const timelineEvents = [
+   128→   128→  {
+   129→   129→    year: '2010',
+   130→   130→    title: 'The Foundation',
+   131→   131→    description: 'Established in Foshan with a vision to redefine hospitality FF&E manufacturing.',
+   132→   132→    image: '/images/about/about-1.jpeg',
+   133→   133→  },
+   134→   134→  {
+   135→   135→    year: '2013',
+   136→   136→    title: 'First Major Contract',
+   137→   137→    description: 'Secured our first international hotel brand partnership, setting the standard for excellence.',
+   138→   138→    image: '/images/about/about-2.jpeg',
+   139→   139→  },
+   140→   140→  {
+   141→   141→    year: '2016',
+   142→   142→    title: 'Facility Expansion',
+   143→   143→    description: 'Expanded to 8 manufacturing facilities with dedicated upholstery and casegoods lines.',
+   144→   144→    image: '/images/about/about-5.jpeg',
+   145→   145→  },
+   146→   146→  {
+   147→   147→    year: '2019',
+   148→   148→    title: 'Global Reach',
+   149→   149→    description: 'Delivered projects across 5 continents, earning trust from the world\'s top hotel brands.',
+   150→   150→    image: '/images/about/about-8.jpeg',
+   151→   151→  },
+   152→   152→  {
+   153→   153→    year: '2022',
+   154→   154→    title: 'Innovation Hub',
+   155→   155→    description: 'Launched our R&D center for advanced material testing and sustainable manufacturing.',
+   156→   156→    image: '/images/about/about-11.jpeg',
+   157→   157→  },
+   158→   158→  {
+   159→   159→    year: '2025',
+   160→   160→    title: 'The Future',
+   161→   161→    description: 'Continuing to push boundaries with 13+ facilities and an unwavering commitment to craft.',
+   162→   162→    image: '/images/about/about-14.jpeg',
+   163→   163→  },
+   164→   164→];
+   165→   165→
+   166→   166→/* ── Masonry Gallery Data ────────────────────────────────────── */
+   167→   167→const galleryImages = [
+   168→   168→  { src: '/images/about/about-1.jpeg', alt: 'Akshar Foshan manufacturing facility', aspect: 'aspect-[4/5]', span: 'row-span-2' },
+   169→   169→  { src: '/images/about/about-2.jpeg', alt: 'Artisan crafting hotel furniture', aspect: 'aspect-square', span: '' },
+   170→   170→  { src: '/images/about/about-3.jpeg', alt: 'Finished hotel room installation', aspect: 'aspect-[3/2]', span: '' },
+   171→   171→  { src: '/images/about/about-4.jpeg', alt: 'Production line detail', aspect: 'aspect-[4/5]', span: 'row-span-2' },
+   172→   172→  { src: '/images/about/about-5.jpeg', alt: 'Quality inspection station', aspect: 'aspect-[3/2]', span: '' },
+   173→   173→  { src: '/images/about/about-6.jpeg', alt: 'Material warehouse overview', aspect: 'aspect-square', span: '' },
+   174→   174→  { src: '/images/about/about-7.jpeg', alt: 'Upholstery workshop interior', aspect: 'aspect-[3/2]', span: '' },
+   175→   175→  { src: '/images/about/about-8.jpeg', alt: 'Quality control center', aspect: 'aspect-[4/5]', span: 'row-span-2' },
+   176→   176→  { src: '/images/about/about-9.jpeg', alt: 'Production floor panoramic', aspect: 'aspect-square', span: '' },
+   177→   177→  { src: '/images/about/about-10.jpeg', alt: 'Raw material storage', aspect: 'aspect-[3/2]', span: '' },
+   178→   178→  { src: '/images/about/about-11.jpeg', alt: 'Raw material selection process', aspect: 'aspect-[4/5]', span: 'row-span-2' },
+   179→   179→  { src: '/images/about/about-12.jpeg', alt: 'Precision CNC machining', aspect: 'aspect-[3/2]', span: '' },
+   180→   180→  { src: '/images/about/about-13.jpeg', alt: 'Multi-point quality inspection', aspect: 'aspect-square', span: '' },
+   181→   181→  { src: '/images/about/about-14.jpeg', alt: 'Global logistics and shipping', aspect: 'aspect-[3/2]', span: '' },
+   182→   182→];
+   183→   183→
+   184→   184→/* ── Manufacturing Steps ─────────────────────────────────────── */
+   185→   185→const manufacturingSteps = [
+   186→   186→  {
+   187→   187→    icon: Hammer,
+   188→   188→    title: 'Raw Material Selection',
+   189→   189→    desc: 'Sourcing premium hardwoods, fabrics, and metals from certified suppliers.',
+   190→   190→    image: '/images/about/about-11.jpeg',
+   191→   191→  },
+   192→   192→  {
+   193→   193→    icon: Cog,
+   194→   194→    title: 'Precision Manufacturing',
+   195→   195→    desc: 'CNC machining, hand-finishing, and upholstery by skilled artisans.',
+   196→   196→    image: '/images/about/about-12.jpeg',
+   197→   197→  },
+   198→   198→  {
+   199→   199→    icon: Eye,
+   200→   200→    title: 'Quality Assurance',
+   201→   201→    desc: 'Multi-point inspection protocol aligned with brand standards.',
+   202→   202→    image: '/images/about/about-13.jpeg',
+   203→   203→  },
+   204→   204→  {
+   205→   205→    icon: Globe2,
+   206→   206→    title: 'Global Logistics',
+   207→   207→    desc: 'Containerized shipping, customs coordination, and on-site delivery.',
+   208→   208→    image: '/images/about/about-14.jpeg',
+   209→   209→  },
+   210→   210→];
+   211→   211→
+   212→   212→/* ── Parallax Image Component ────────────────────────────────── */
+   213→   213→function ParallaxImage({
+   214→   214→  src,
+   215→   215→  alt,
+   216→   216→  className,
+   217→   217→  speed = 0.16,
+   218→   218→}: {
+   219→   219→  src: string;
+   220→   220→  alt: string;
+   221→   221→  className?: string;
+   222→   222→  speed?: number;
+   223→   223→}) {
+   224→   224→  const ref = useRef<HTMLDivElement>(null);
+   225→   225→  const { scrollYProgress } = useScroll({
+   226→   226→    target: ref,
+   227→   227→    offset: ['start end', 'end start'],
+   228→   228→  });
+   229→   229→  const y = useTransform(scrollYProgress, [0, 1], [`${-speed * 100}%`, `${speed * 100}%`]);
+   230→   230→  const smoothY = useSpring(y, { stiffness: 100, damping: 30 });
+   231→   231→
+   232→   232→  return (
+   233→   233→    <div ref={ref} className={`overflow-hidden relative ${className || ''}`}>
+   234→   234→      <motion.div style={{ y: smoothY }} className="w-full h-full">
+   235→   235→        <Image
+   236→   236→          src={src}
+   237→   237→          alt={alt}
+   238→   238→          fill
+   239→   239→          className="object-cover"
+   240→   240→          sizes="(max-width: 768px) 100vw, 50vw"
+   241→   241→        />
+   242→   242→      </motion.div>
+   243→   243→    </div>
+   244→   244→  );
+   245→   245→}
+   246→   246→
+   247→   247→/* ── Cinematic Gallery Item ──────────────────────────────────── */
+   248→   248→function CinematicGalleryItem({
+   249→   249→  image,
+   250→   250→  index,
+   251→   251→  onExpand,
+   252→   252→}: {
+   253→   253→  image: (typeof galleryImages)[0];
+   254→   254→  index: number;
+   255→   255→  onExpand: (idx: number) => void;
+   256→   256→}) {
+   257→   257→  const ref = useRef<HTMLDivElement>(null);
+   258→   258→  const { scrollYProgress } = useScroll({
+   259→   259→    target: ref,
+   260→   260→    offset: ['start end', 'end start'],
+   261→   261→  });
+   262→   262→  const y = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
+   263→   263→  const smoothY = useSpring(y, { stiffness: 80, damping: 25 });
+   264→   264→
+   265→   265→  return (
+   266→   266→    <motion.div
+   267→   267→      ref={ref}
+   268→   268→      variants={cinematicReveal}
+   269→   269→      custom={index * 0.06}
+   270→   270→      initial="hidden"
+   271→   271→      whileInView="visible"
+   272→   272→      viewport={{ once: true, margin: '-60px' }}
+   273→   273→      className={`${image.span} relative rounded-xl overflow-hidden group cursor-pointer`}
+   274→   274→      onClick={() => onExpand(index)}
+   275→   275→    >
+   276→   276→      <motion.div style={{ y: smoothY }} className="w-full h-full">
+   277→   277→        <div className={`${image.aspect} relative w-full h-full`}>
+   278→   278→          <Image
+   279→   279→            src={image.src}
+   280→   280→            alt={image.alt}
+   281→   281→            fill
+   282→   282→            className="object-cover transition-transform duration-[800ms] ease-out group-hover:scale-105"
+   283→   283→            sizes="(max-width: 768px) 50vw, 33vw"
+   284→   284→          />
+   285→   285→        </div>
+   286→   286→      </motion.div>
+   287→   287→
+   288→   288→      {/* Dark overlay on hover */}
+   289→   289→      <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/80 via-[#1A1A1A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+   290→   290→
+   291→   291→      {/* Gold accent border on hover */}
+   292→   292→      <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#D4AF37]/60 rounded-xl transition-all duration-500 pointer-events-none" />
+   293→   293→
+   294→   294→      {/* Expand icon */}
+   295→   295→      <div className="absolute top-3 right-3 w-8 h-8 rounded-full bg-[#1A1A1A]/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-75 group-hover:scale-100">
+   296→   296→        <Expand className="w-3.5 h-3.5 text-white" />
+   297→   297→      </div>
+   298→   298→
+   299→   299→      {/* Caption */}
+   300→   300→      <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-400">
+   301→   301→        <p className="text-white text-xs font-sans-body truncate">{image.alt}</p>
+   302→   302→      </div>
+   303→   303→    </motion.div>
+   304→   304→  );
+   305→   305→}
+   306→   306→
+   307→   307→/* ── Lightbox ────────────────────────────────────────────────── */
+   308→   308→function Lightbox({
+   309→   309→  images,
+   310→   310→  currentIndex,
+   311→   311→  onClose,
+   312→   312→  onPrev,
+   313→   313→  onNext,
+   314→   314→}: {
+   315→   315→  images: typeof galleryImages;
+   316→   316→  currentIndex: number;
+   317→   317→  onClose: () => void;
+   318→   318→  onPrev: () => void;
+   319→   319→  onNext: () => void;
+   320→   320→}) {
+   321→   321→  const image = images[currentIndex];
+   322→   322→
+   323→   323→  return (
+   324→   324→    <AnimatePresence>
+   325→   325→      <motion.div
+   326→   326→        initial={{ opacity: 0 }}
+   327→   327→        animate={{ opacity: 1 }}
+   328→   328→        exit={{ opacity: 0 }}
+   329→   329→        transition={{ duration: 0.3 }}
+   330→   330→        className="fixed inset-0 z-50 flex items-center justify-center bg-[#1A1A1A]/95 backdrop-blur-xl"
+   331→   331→        onClick={onClose}
+   332→   332→      >
+   333→   333→        {/* Close button */}
+   334→   334→        <button
+   335→   335→          onClick={onClose}
+   336→   336→          className="absolute top-5 right-5 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors z-10"
+   337→   337→          aria-label="Close lightbox"
+   338→   338→        >
+   339→   339→          <X className="w-5 h-5 text-white" />
+   340→   340→        </button>
+   341→   341→
+   342→   342→        {/* Prev button */}
+   343→   343→        <button
+   344→   344→          onClick={(e) => { e.stopPropagation(); onPrev(); }}
+   345→   345→          className="absolute left-4 sm:left-8 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors z-10"
+   346→   346→          aria-label="Previous image"
+   347→   347→        >
+   348→   348→          <ChevronLeft className="w-5 h-5 text-white" />
+   349→   349→        </button>
+   350→   350→
+   351→   351→        {/* Image */}
+   352→   352→        <motion.div
+   353→   353→          key={currentIndex}
+   354→   354→          initial={{ opacity: 0, scale: 0.92 }}
+   355→   355→          animate={{ opacity: 1, scale: 1 }}
+   356→   356→          exit={{ opacity: 0, scale: 0.92 }}
+   357→   357→          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+   358→   358→          className="relative max-w-5xl max-h-[80vh] w-[90vw] aspect-[16/10] rounded-lg overflow-hidden"
+   359→   359→          onClick={(e) => e.stopPropagation()}
+   360→   360→        >
+   361→   361→          <Image
+   362→   362→            src={image.src}
+   363→   363→            alt={image.alt}
+   364→   364→            fill
+   365→   365→            className="object-contain"
+   366→   366→            sizes="90vw"
+   367→   367→            priority
+   368→   368→          />
+   369→   369→        </motion.div>
+   370→   370→
+   371→   371→        {/* Next button */}
+   372→   372→        <button
+   373→   373→          onClick={(e) => { e.stopPropagation(); onNext(); }}
+   374→   374→          className="absolute right-4 sm:right-8 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors z-10"
+   375→   375→          aria-label="Next image"
+   376→   376→        >
+   377→   377→          <ChevronRight className="w-5 h-5 text-white" />
+   378→   378→        </button>
+   379→   379→
+   380→   380→        {/* Counter */}
+   381→   381→        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-white/60 text-sm font-sans-body">
+   382→   382→          {currentIndex + 1} / {images.length}
+   383→   383→        </div>
+   384→   384→      </motion.div>
+   385→   385→    </AnimatePresence>
+   386→   386→  );
+   387→   387→}
+   388→   388→
+   389→   389→/* ── Value Card Component ────────────────────────────────────── */
+   390→   390→function ValueCard({
+   391→   391→  icon: Icon,
+   392→   392→  title,
+   393→   393→  description,
+   394→   394→  accent,
+   395→   395→  index,
+   396→   396→}: {
+   397→   397→  icon: React.ComponentType<{ className?: string }>;
+   398→   398→  title: string;
+   399→   399→  description: string;
+   400→   400→  accent: string;
+   401→   401→  index: number;
+   402→   402→}) {
+   403→   403→  return (
+   404→   404→    <motion.div
+   405→   405→      variants={fadeUp}
+   406→   406→      custom={index * 0.12}
+   407→   407→      initial="hidden"
+   408→   408→      whileInView="visible"
+   409→   409→      viewport={{ once: true, margin: '-60px' }}
+   410→   410→      className="group relative"
+   411→   411→    >
+   412→   412→      <div className="relative bg-white dark:bg-[#1a1a1a] rounded-2xl p-6 sm:p-8 border border-gray-100 dark:border-gray-800 hover:border-transparent transition-all duration-500 hover:shadow-2xl hover:shadow-[#5d2c86]/8 dark:hover:shadow-[#D4AF37]/8 overflow-hidden">
+   413→   413→        {/* Accent gradient on hover */}
+   414→   414→        <div
+   415→   415→          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+   416→   416→          style={{
+   417→   417→            background: `linear-gradient(135deg, ${accent}08 0%, transparent 60%)`,
+   418→   418→          }}
+   419→   419→        />
+   420→   420→        {/* Top accent bar */}
+   421→   421→        <div
+   422→   422→          className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+   423→   423→          style={{
+   424→   424→            background: `linear-gradient(90deg, transparent, ${accent}, transparent)`,
+   425→   425→          }}
+   426→   426→        />
+   427→   427→        <div className="relative z-10">
+   428→   428→          <div
+   429→   429→            className="w-12 h-12 rounded-xl flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110"
+   430→   430→            style={{ backgroundColor: `${accent}15` }}
+   431→   431→          >
+   432→   432→            <Icon className="w-5 h-5" style={{ color: accent }} />
+   433→   433→          </div>
+   434→   434→          <h3 className="text-lg font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-2">
+   435→   435→            {title}
+   436→   436→          </h3>
+   437→   437→          <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-400 font-sans-body">
+   438→   438→            {description}
+   439→   439→          </p>
+   440→   440→        </div>
+   441→   441→      </div>
+   442→   442→    </motion.div>
+   443→   443→  );
+   444→   444→}
+   445→   445→
+   446→   446→/* ── Horizontal Scroll Workshop ──────────────────────────────── */
+   447→   447→function WorkshopGallery() {
+   448→   448→  const scrollRef = useRef<HTMLDivElement>(null);
+   449→   449→  const [canScrollLeft, setCanScrollLeft] = useState(false);
+   450→   450→  const [canScrollRight, setCanScrollRight] = useState(true);
+   451→   451→
+   452→   452→  const workshopImages = [
+   453→   453→    { src: '/images/about/about-7.jpeg', alt: 'Upholstery workshop', label: 'Upholstery' },
+   454→   454→    { src: '/images/about/about-8.jpeg', alt: 'Quality control station', label: 'Quality Control' },
+   455→   455→    { src: '/images/about/about-9.jpeg', alt: 'Production floor', label: 'Production' },
+   456→   456→    { src: '/images/about/about-10.jpeg', alt: 'Material warehouse', label: 'Warehouse' },
+   457→   457→    { src: '/images/about/about-4.jpeg', alt: 'Assembly line', label: 'Assembly' },
+   458→   458→    { src: '/images/about/about-6.jpeg', alt: 'Finishing department', label: 'Finishing' },
+   459→   459→    { src: '/images/about/about-3.jpeg', alt: 'Installation team', label: 'Installation' },
+   460→   460→    { src: '/images/about/about-5.jpeg', alt: 'Packing and shipping', label: 'Logistics' },
+   461→   461→  ];
+   462→   462→
+   463→   463→  const checkScroll = useCallback(() => {
+   464→   464→    const el = scrollRef.current;
+   465→   465→    if (!el) return;
+   466→   466→    setCanScrollLeft(el.scrollLeft > 10);
+   467→   467→    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 10);
+   468→   468→  }, []);
+   469→   469→
+   470→   470→  const scroll = useCallback((direction: 'left' | 'right') => {
+   471→   471→    const el = scrollRef.current;
+   472→   472→    if (!el) return;
+   473→   473→    const amount = el.clientWidth * 0.7;
+   474→   474→    el.scrollBy({ left: direction === 'left' ? -amount : amount, behavior: 'smooth' });
+   475→   475→    setTimeout(checkScroll, 400);
+   476→   476→  }, [checkScroll]);
+   477→   477→
+   478→   478→  return (
+   479→   479→    <div className="relative">
+   480→   480→      {/* Scroll buttons */}
+   481→   481→      {canScrollLeft && (
+   482→   482→        <button
+   483→   483→          onClick={() => scroll('left')}
+   484→   484→          className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 dark:bg-[#1a1a1a]/90 shadow-lg flex items-center justify-center hover:bg-white dark:hover:bg-[#1a1a1a] transition-colors"
+   485→   485→          aria-label="Scroll left"
+   486→   486→        >
+   487→   487→          <ChevronLeft className="w-5 h-5 text-[#5d2c86] dark:text-[#D4AF37]" />
+   488→   488→        </button>
+   489→   489→      )}
+   490→   490→      {canScrollRight && (
+   491→   491→        <button
+   492→   492→          onClick={() => scroll('right')}
+   493→   493→          className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 dark:bg-[#1a1a1a]/90 shadow-lg flex items-center justify-center hover:bg-white dark:hover:bg-[#1a1a1a] transition-colors"
+   494→   494→          aria-label="Scroll right"
+   495→   495→        >
+   496→   496→          <ChevronRight className="w-5 h-5 text-[#5d2c86] dark:text-[#D4AF37]" />
+   497→   497→        </button>
+   498→   498→      )}
+   499→   499→
+   500→   500→      {/* Fade edges */}
+   501→   501→      <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-[#f8f3ed] dark:from-[#141414] to-transparent z-[5] pointer-events-none" />
+   502→   502→      <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-[#f8f3ed] dark:from-[#141414] to-transparent z-[5] pointer-events-none" />
+   503→   503→
+   504→   504→      <div
+   505→   505→        ref={scrollRef}
+   506→   506→        onScroll={checkScroll}
+   507→   507→        className="flex gap-4 sm:gap-5 overflow-x-auto scrollbar-hide pb-4 px-1 snap-x snap-mandatory"
+   508→   508→        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+   509→   509→      >
+   510→   510→        {workshopImages.map((img, i) => (
+   511→   511→          <motion.div
+   512→   512→            key={img.src}
+   513→   513→            variants={cinematicReveal}
+   514→   514→            custom={i * 0.08}
+   515→   515→            initial="hidden"
+   516→   516→            whileInView="visible"
+   517→   517→            viewport={{ once: true, margin: '-40px' }}
+   518→   518→            className="flex-shrink-0 w-[280px] sm:w-[320px] lg:w-[360px] snap-start"
+   519→   519→          >
+   520→   520→            <div className="relative rounded-xl overflow-hidden group aspect-[4/3]">
+   521→   521→              <ParallaxImage src={img.src} alt={img.alt} speed={0.1} />
+   522→   522→              {/* Overlay */}
+   523→   523→              <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/70 via-transparent to-transparent" />
+   524→   524→              {/* Gold accent bottom border on hover */}
+   525→   525→              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#D4AF37] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+   526→   526→              {/* Label */}
+   527→   527→              <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between">
+   528→   528→                <span className="text-white text-sm font-serif-display font-semibold">
+   529→   529→                  {img.label}
+   530→   530→                </span>
+   531→   531→                <span className="text-[#D4AF37] text-[10px] tracking-[0.15em] uppercase font-sans-body font-bold">
+   532→   532→                  {String(i + 1).padStart(2, '0')}
+   533→   533→                </span>
+   534→   534→              </div>
+   535→   535→            </div>
+   536→   536→          </motion.div>
+   537→   537→        ))}
+   538→   538→      </div>
+   539→   539→    </div>
+   540→   540→  );
+   541→   541→}
+   542→   542→
+   543→   543→/* ── Heritage Timeline Item ──────────────────────────────────── */
+   544→   544→function TimelineItem({
+   545→   545→  event,
+   546→   546→  index,
+   547→   547→}: {
+   548→   548→  event: (typeof timelineEvents)[0];
+   549→   549→  index: number;
+   550→   550→}) {
+   551→   551→  const isEven = index % 2 === 0;
+   552→   552→  const ref = useRef<HTMLDivElement>(null);
+   553→   553→  const { scrollYProgress } = useScroll({
+   554→   554→    target: ref,
+   555→   555→    offset: ['start end', 'end start'],
+   556→   556→  });
+   557→   557→  const parallaxY = useTransform(scrollYProgress, [0, 1], [30, -30]);
+   558→   558→  const smoothY = useSpring(parallaxY, { stiffness: 60, damping: 20 });
+   559→   559→
+   560→   560→  return (
+   561→   561→    <motion.div
+   562→   562→      ref={ref}
+   563→   563→      variants={fadeUp}
+   564→   564→      custom={index * 0.12}
+   565→   565→      initial="hidden"
+   566→   566→      whileInView="visible"
+   567→   567→      viewport={{ once: true, margin: '-60px' }}
+   568→   568→      className={`flex flex-col lg:flex-row items-center gap-6 lg:gap-12 ${
+   569→   569→        isEven ? '' : 'lg:flex-row-reverse'
+   570→   570→      }`}
+   571→   571→    >
+   572→   572→      {/* Image */}
+   573→   573→      <div className="w-full lg:w-1/2">
+   574→   574→        <motion.div
+   575→   575→          style={{ y: smoothY }}
+   576→   576→          className="relative rounded-xl overflow-hidden aspect-[16/10] shadow-xl group"
+   577→   577→        >
+   578→   578→          <Image
+   579→   579→            src={event.image}
+   580→   580→            alt={event.title}
+   581→   581→            fill
+   582→   582→            className="object-cover transition-transform duration-700 group-hover:scale-105"
+   583→   583→            sizes="(max-width: 1024px) 100vw, 50vw"
+   584→   584→          />
+   585→   585→          <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/40 to-transparent" />
+   586→   586→          {/* Gold corner accent */}
+   587→   587→          <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-[#D4AF37]/40 rounded-tl-xl pointer-events-none" />
+   588→   588→        </motion.div>
+   589→   589→      </div>
+   590→   590→
+   591→   591→      {/* Content */}
+   592→   592→      <div className="w-full lg:w-1/2">
+   593→   593→        <div className="relative">
+   594→   594→          {/* Year badge */}
+   595→   595→          <div className="inline-flex items-center gap-2 mb-3">
+   596→   596→            <div className="w-8 h-8 rounded-full bg-[#D4AF37]/15 flex items-center justify-center">
+   597→   597→              <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
+   598→   598→            </div>
+   599→   599→            <span className="text-[#D4AF37] text-sm font-sans-body font-bold tracking-[0.15em]">
+   600→   600→              {event.year}
+   601→   601→            </span>
+   602→   602→          </div>
+   603→   603→          <h4 className="text-xl sm:text-2xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-3">
+   604→   604→            {event.title}
+   605→   605→          </h4>
+   606→   606→          <p className="text-gray-600 dark:text-gray-400 font-sans-body leading-relaxed">
+   607→   607→            {event.description}
+   608→   608→          </p>
+   609→   609→          {/* Decorative line */}
+   610→   610→          <div className="w-12 h-px bg-[#5d2c86]/20 dark:bg-[#D4AF37]/20 mt-4" />
+   611→   611→        </div>
+   612→   612→      </div>
+   613→   613→    </motion.div>
+   614→   614→  );
+   615→   615→}
+   616→   616→
+   617→   617→/* ═══════════════════════════════════════════════════════════════
+   618→   618→   MAIN ABOUT SECTION
+   619→   619→   ═══════════════════════════════════════════════════════════════ */
+   620→   620→export default function AboutSection() {
+   621→   621→  const sectionRef = useRef<HTMLElement>(null);
+   622→   622→  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
+   623→   623→
+   624→   624→  /* Lightbox state */
+   625→   625→  const [lightboxOpen, setLightboxOpen] = useState(false);
+   626→   626→  const [lightboxIndex, setLightboxIndex] = useState(0);
+   627→   627→
+   628→   628→  const openLightbox = useCallback((idx: number) => {
+   629→   629→    setLightboxIndex(idx);
+   630→   630→    setLightboxOpen(true);
+   631→   631→  }, []);
+   632→   632→
+   633→   633→  const closeLightbox = useCallback(() => {
+   634→   634→    setLightboxOpen(false);
+   635→   635→  }, []);
+   636→   636→
+   637→   637→  const prevImage = useCallback(() => {
+   638→   638→    setLightboxIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
+   639→   639→  }, []);
+   640→   640→
+   641→   641→  const nextImage = useCallback(() => {
+   642→   642→    setLightboxIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1));
+   643→   643→  }, []);
+   644→   644→
+   645→   645→  return (
+   646→   646→    <section
+   647→   647→      id="about"
+   648→   648→      ref={sectionRef}
+   649→   649→      className="relative w-full bg-white dark:bg-[#0f0f0f] overflow-hidden"
+   650→   650→    >
+   651→   651→      {/* ═══════════════════════════════════════════════════════════
+   652→   652→          SECTION 1: OUR STORY — Text + Cinematic Image Collage
+   653→   653→          ═══════════════════════════════════════════════════════════ */}
+   654→   654→      <div className="py-20 lg:py-32">
+   655→   655→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   656→   656→          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+   657→   657→            {/* Left: Text */}
+   658→   658→            <motion.div
+   659→   659→              variants={slideInLeft}
+   660→   660→              initial="hidden"
+   661→   661→              whileInView="visible"
+   662→   662→              viewport={{ once: true, margin: '-80px' }}
+   663→   663→              className="order-2 lg:order-1"
+   664→   664→            >
+   665→   665→              <motion.p
+   666→   666→                variants={fadeUp}
+   667→   667→                custom={0}
+   668→   668→                className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+   669→   669→              >
+   670→   670→                Our Story
+   671→   671→              </motion.p>
+   672→   672→              <motion.h2
+   673→   673→                variants={fadeUp}
+   674→   674→                custom={0.1}
+   675→   675→                className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-6"
+   676→   676→              >
+   677→   677→                From Foshan to the{' '}
+   678→   678→                <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">
+   679→   679→                  world&apos;s finest hotels
+   680→   680→                </span>
+   681→   681→              </motion.h2>
+   682→   682→              <motion.div
+   683→   683→                variants={fadeUp}
+   684→   684→                custom={0.2}
+   685→   685→                className="w-16 h-[2px] bg-[#D4AF37] mb-6"
+   686→   686→              />
+   687→   687→              <motion.p
+   688→   688→                variants={fadeUp}
+   689→   689→                custom={0.25}
+   690→   690→                className="text-base sm:text-lg text-gray-600 dark:text-gray-300 font-sans-body leading-relaxed mb-5"
+   691→   691→              >
+   692→   692→                Akshar Foshan was founded on a singular conviction: hospitality
+   693→   693→                deserves furniture that endures. From our manufacturing hub in
+   694→   694→                Foshan, China — the heartland of global furniture production — we
+   695→   695→                have spent over a decade perfecting the craft of FF&amp;E for the
+   696→   696→                world&apos;s most demanding hotel brands.
+   697→   697→              </motion.p>
+   698→   698→              <motion.p
+   699→   699→                variants={fadeUp}
+   700→   700→                custom={0.3}
+   701→   701→                className="text-base sm:text-lg text-gray-600 dark:text-gray-300 font-sans-body leading-relaxed mb-5"
+   702→   702→              >
+   703→   703→                Our vertically integrated model — from raw material sourcing to
+   704→   704→                final on-site delivery — gives us unmatched control over quality,
+   705→   705→                timeline, and cost. Every piece that leaves our facilities carries
+   706→   706→                the trust of brands like Hilton, Marriott, IHG, and Hyatt.
+   707→   707→              </motion.p>
+   708→   708→              <motion.p
+   709→   709→                variants={fadeUp}
+   710→   710→                custom={0.35}
+   711→   711→                className="text-base sm:text-lg text-gray-600 dark:text-gray-300 font-sans-body leading-relaxed mb-8"
+   712→   712→              >
+   713→   713→                We don&apos;t just supply furniture. We engineer complete
+   714→   714→                FF&amp;E ecosystems — casegoods, upholstery, lighting, bathroom
+   715→   715→                accessories, art &amp; decor — all under one roof, all held to the
+   716→   716→                highest standards of hospitality excellence.
+   717→   717→              </motion.p>
+   718→   718→              <motion.div
+   719→   719→                variants={fadeUp}
+   720→   720→                custom={0.4}
+   721→   721→                className="flex flex-wrap gap-4"
+   722→   722→              >
+   723→   723→                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#D4AF37]">
+   724→   724→                  <Award className="w-4 h-4" />
+   725→   725→                  <span>ISO 9001 Certified</span>
+   726→   726→                </div>
+   727→   727→                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#D4AF37]">
+   728→   728→                  <Factory className="w-4 h-4" />
+   729→   729→                  <span>13+ Manufacturing Facilities</span>
+   730→   730→                </div>
+   731→   731→                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#D4AF37]">
+   732→   732→                  <Globe2 className="w-4 h-4" />
+   733→   733→                  <span>5+ Continents Served</span>
+   734→   734→                </div>
+   735→   735→              </motion.div>
+   736→   736→            </motion.div>
+   737→   737→
+   738→   738→            {/* Right: Cinematic Image Collage */}
+   739→   739→            <motion.div
+   740→   740→              variants={slideInRight}
+   741→   741→              initial="hidden"
+   742→   742→              whileInView="visible"
+   743→   743→              viewport={{ once: true, margin: '-80px' }}
+   744→   744→              className="order-1 lg:order-2 relative"
+   745→   745→            >
+   746→   746→              <div className="relative grid grid-cols-2 gap-3 sm:gap-4">
+   747→   747→                {/* Main large image */}
+   748→   748→                <motion.div
+   749→   749→                  variants={cinematicReveal}
+   750→   750→                  custom={0}
+   751→   751→                  className="col-span-2 relative rounded-2xl overflow-hidden aspect-[16/10] shadow-xl"
+   752→   752→                >
+   753→   753→                  <ParallaxImage
+   754→   754→                    src="/images/about/about-hero.jpeg"
+   755→   755→                    alt="Akshar Foshan manufacturing facility exterior"
+   756→   756→                    speed={0.12}
+   757→   757→                  />
+   758→   758→                  <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/40 to-transparent" />
+   759→   759→                  {/* Cinematic vignette corners */}
+   760→   760→                  <div className="absolute inset-0 pointer-events-none" style={{
+   761→   761→                    background: 'radial-gradient(ellipse at center, transparent 50%, rgba(26,26,26,0.3) 100%)',
+   762→   762→                  }} />
+   763→   763→                </motion.div>
+   764→   764→
+   765→   765→                {/* Two smaller images */}
+   766→   766→                <motion.div
+   767→   767→                  variants={cinematicReveal}
+   768→   768→                  custom={0.15}
+   769→   769→                  className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-lg"
+   770→   770→                >
+   771→   771→                  <ParallaxImage
+   772→   772→                    src="/images/about/about-2.jpeg"
+   773→   773→                    alt="Craftsman working on hotel furniture details"
+   774→   774→                    speed={0.1}
+   775→   775→                  />
+   776→   776→                  {/* Hover gold border */}
+   777→   777→                  <div className="absolute inset-0 border-2 border-transparent hover:border-[#D4AF37]/50 rounded-2xl transition-all duration-500" />
+   778→   778→                </motion.div>
+   779→   779→                <motion.div
+   780→   780→                  variants={cinematicReveal}
+   781→   781→                  custom={0.25}
+   782→   782→                  className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-lg"
+   783→   783→                >
+   784→   784→                  <ParallaxImage
+   785→   785→                    src="/images/about/about-3.jpeg"
+   786→   786→                    alt="Finished hotel room furniture installation"
+   787→   787→                    speed={0.1}
+   788→   788→                  />
+   789→   789→                  {/* Gold accent badge */}
+   790→   790→                  <div className="absolute bottom-3 left-3 bg-[#D4AF37] text-[#1A1A1A] text-[10px] tracking-[0.15em] uppercase font-bold px-3 py-1.5 rounded-full font-sans-body">
+   791→   791→                    Est. 2010
+   792→   792→                  </div>
+   793→   793→                  {/* Hover gold border */}
+   794→   794→                  <div className="absolute inset-0 border-2 border-transparent hover:border-[#D4AF37]/50 rounded-2xl transition-all duration-500" />
+   795→   795→                </motion.div>
+   796→   796→
+   797→   797→                {/* Decorative floating elements */}
+   798→   798→                <div
+   799→   799→                  className="absolute -bottom-4 -left-4 w-24 h-24 rounded-full opacity-10 pointer-events-none"
+   800→   800→                  style={{
+   801→   801→                    background: 'radial-gradient(circle, #D4AF37, transparent)',
+   802→   802→                  }}
+   803→   803→                  aria-hidden="true"
+   804→   804→                />
+   805→   805→                <div
+   806→   806→                  className="absolute -top-4 -right-4 w-32 h-32 rounded-full opacity-5 pointer-events-none"
+   807→   807→                  style={{
+   808→   808→                    background: 'radial-gradient(circle, #5d2c86, transparent)',
+   809→   809→                  }}
+   810→   810→                  aria-hidden="true"
+   811→   811→                />
+   812→   812→              </div>
+   813→   813→            </motion.div>
+   814→   814→          </div>
+   815→   815→        </div>
+   816→   816→      </div>
+   817→   817→
+   818→   818→      {/* ═══════════════════════════════════════════════════════════
+   819→   819→          SECTION 2: VALUES — Animated Cards
+   820→   820→          ═══════════════════════════════════════════════════════════ */}
+   821→   821→      <div className="py-20 lg:py-28 bg-[#f8f3ed] dark:bg-[#141414] relative">
+   822→   822→        {/* Subtle background pattern */}
+   823→   823→        <div
+   824→   824→          className="absolute inset-0 opacity-[0.02] dark:opacity-[0.04] pointer-events-none"
+   825→   825→          style={{
+   826→   826→            backgroundImage: 'radial-gradient(circle, #5d2c86 1px, transparent 1px)',
+   827→   827→            backgroundSize: '28px 28px',
+   828→   828→          }}
+   829→   829→          aria-hidden="true"
+   830→   830→        />
+   831→   831→
+   832→   832→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   833→   833→          <motion.div
+   834→   834→            initial="hidden"
+   835→   835→            whileInView="visible"
+   836→   836→            viewport={{ once: true, margin: '-80px' }}
+   837→   837→            className="text-center mb-14 lg:mb-20"
+   838→   838→          >
+   839→   839→            <motion.p
+   840→   840→              variants={fadeUp}
+   841→   841→              custom={0}
+   842→   842→              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+   843→   843→            >
+   844→   844→              What Drives Us
+   845→   845→            </motion.p>
+   846→   846→            <motion.h2
+   847→   847→              variants={fadeUp}
+   848→   848→              custom={0.1}
+   849→   849→              className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight"
+   850→   850→            >
+   851→   851→              Values that define{' '}
+   852→   852→              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">every piece</span>
+   853→   853→            </motion.h2>
+   854→   854→          </motion.div>
+   855→   855→
+   856→   856→          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6">
+   857→   857→            {values.map((value, i) => (
+   858→   858→              <ValueCard key={value.title} {...value} index={i} />
+   859→   859→            ))}
+   860→   860→          </div>
+   861→   861→        </div>
+   862→   862→      </div>
+   863→   863→
+   864→   864→      {/* ═══════════════════════════════════════════════════════════
+   865→   865→          SECTION 3: FULL IMAGE GALLERY — Masonry with Parallax
+   866→   866→          ═══════════════════════════════════════════════════════════ */}
+   867→   867→      <div className="py-20 lg:py-28 bg-white dark:bg-[#0f0f0f] relative">
+   868→   868→        {/* Decorative diagonal line */}
+   869→   869→        <div
+   870→   870→          className="absolute top-0 right-0 w-px h-40 bg-gradient-to-b from-[#D4AF37]/30 to-transparent pointer-events-none"
+   871→   871→          aria-hidden="true"
+   872→   872→        />
+   873→   873→
+   874→   874→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   875→   875→          <motion.div
+   876→   876→            initial="hidden"
+   877→   877→            whileInView="visible"
+   878→   878→            viewport={{ once: true, margin: '-80px' }}
+   879→   879→            className="text-center mb-14 lg:mb-20"
+   880→   880→          >
+   881→   881→            <motion.p
+   882→   882→              variants={fadeUp}
+   883→   883→              custom={0}
+   884→   884→              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+   885→   885→            >
+   886→   886→              Visual Journey
+   887→   887→            </motion.p>
+   888→   888→            <motion.h2
+   889→   889→              variants={fadeUp}
+   890→   890→              custom={0.1}
+   891→   891→              className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-4"
+   892→   892→            >
+   893→   893→              Inside our{' '}
+   894→   894→              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">world</span>
+   895→   895→            </motion.h2>
+   896→   896→            <motion.p
+   897→   897→              variants={fadeUp}
+   898→   898→              custom={0.2}
+   899→   899→              className="text-gray-500 dark:text-gray-400 font-sans-body max-w-xl mx-auto"
+   900→   900→            >
+   901→   901→              Every image tells a story of precision, passion, and the relentless pursuit of hospitality perfection.
+   902→   902→            </motion.p>
+   903→   903→          </motion.div>
+   904→   904→
+   905→   905→          {/* Masonry Grid */}
+   906→   906→          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 auto-rows-[180px] sm:auto-rows-[220px] lg:auto-rows-[240px]">
+   907→   907→            {galleryImages.map((image, i) => (
+   908→   908→              <CinematicGalleryItem
+   909→   909→                key={image.src}
+   910→   910→                image={image}
+   911→   911→                index={i}
+   912→   912→                onExpand={openLightbox}
+   913→   913→              />
+   914→   914→            ))}
+   915→   915→          </div>
+   916→   916→        </div>
+   917→   917→      </div>
+   918→   918→
+   919→   919→      {/* ═══════════════════════════════════════════════════════════
+   920→   920→          SECTION 4: OUR WORKSHOP — Horizontal Scroll Gallery
+   921→   921→          ═══════════════════════════════════════════════════════════ */}
+   922→   922→      <div className="py-20 lg:py-28 bg-[#f8f3ed] dark:bg-[#141414] relative">
+   923→   923→        {/* Background texture */}
+   924→   924→        <div
+   925→   925→          className="absolute inset-0 opacity-[0.015] dark:opacity-[0.03] pointer-events-none"
+   926→   926→          style={{
+   927→   927→            backgroundImage: `repeating-linear-gradient(
+   928→   928→              45deg,
+   929→   929→              #5d2c86 0px,
+   930→   930→              #5d2c86 1px,
+   931→   931→              transparent 1px,
+   932→   932→              transparent 20px
+   933→   933→            )`,
+   934→   934→          }}
+   935→   935→          aria-hidden="true"
+   936→   936→        />
+   937→   937→
+   938→   938→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   939→   939→          <motion.div
+   940→   940→            initial="hidden"
+   941→   941→            whileInView="visible"
+   942→   942→            viewport={{ once: true, margin: '-80px' }}
+   943→   943→            className="text-center mb-12 lg:mb-16"
+   944→   944→          >
+   945→   945→            <motion.p
+   946→   946→              variants={fadeUp}
+   947→   947→              custom={0}
+   948→   948→              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+   949→   949→            >
+   950→   950→              Our Workshop
+   951→   951→            </motion.p>
+   952→   952→            <motion.h2
+   953→   953→              variants={fadeUp}
+   954→   954→              custom={0.1}
+   955→   955→              className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-4"
+   956→   956→            >
+   957→   957→              Where craftsmanship{' '}
+   958→   958→              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">comes alive</span>
+   959→   959→            </motion.h2>
+   960→   960→            <motion.p
+   961→   961→              variants={fadeUp}
+   962→   962→              custom={0.2}
+   963→   963→              className="text-gray-500 dark:text-gray-400 font-sans-body max-w-lg mx-auto"
+   964→   964→            >
+   965→   965→              Slide through the spaces where raw materials become masterpieces.
+   966→   966→            </motion.p>
+   967→   967→          </motion.div>
+   968→   968→
+   969→   969→          <WorkshopGallery />
+   970→   970→        </div>
+   971→   971→      </div>
+   972→   972→
+   973→   973→      {/* ═══════════════════════════════════════════════════════════
+   974→   974→          SECTION 5: HERITAGE TIMELINE — Visual Storytelling
+   975→   975→          ═══════════════════════════════════════════════════════════ */}
+   976→   976→      <div className="py-20 lg:py-28 bg-white dark:bg-[#0f0f0f] relative">
+   977→   977→        {/* Central timeline line */}
+   978→   978→        <div
+   979→   979→          className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/15 to-transparent pointer-events-none hidden lg:block"
+   980→   980→          aria-hidden="true"
+   981→   981→        />
+   982→   982→
+   983→   983→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   984→   984→          <motion.div
+   985→   985→            initial="hidden"
+   986→   986→            whileInView="visible"
+   987→   987→            viewport={{ once: true, margin: '-80px' }}
+   988→   988→            className="text-center mb-14 lg:mb-20"
+   989→   989→          >
+   990→   990→            <motion.p
+   991→   991→              variants={fadeUp}
+   992→   992→              custom={0}
+   993→   993→              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+   994→   994→            >
+   995→   995→              Our Heritage
+   996→   996→            </motion.p>
+   997→   997→            <motion.h2
+   998→   998→              variants={fadeUp}
+   999→   999→              custom={0.1}
+  1000→  1000→              className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-4"
+  1001→  1001→            >
+  1002→  1002→              A legacy in{' '}
+  1003→  1003→              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">the making</span>
+  1004→  1004→            </motion.h2>
+  1005→  1005→            <motion.p
+  1006→  1006→              variants={fadeUp}
+  1007→  1007→              custom={0.2}
+  1008→  1008→              className="text-gray-500 dark:text-gray-400 font-sans-body max-w-lg mx-auto"
+  1009→  1009→            >
+  1010→  1010→              From a single workshop to a global hospitality FF&E powerhouse.
+  1011→  1011→            </motion.p>
+  1012→  1012→          </motion.div>
+  1013→  1013→
+  1014→  1014→          {/* Timeline items */}
+  1015→  1015→          <div className="space-y-12 lg:space-y-20">
+  1016→  1016→            {timelineEvents.map((event, i) => (
+  1017→  1017→              <TimelineItem key={event.year} event={event} index={i} />
+  1018→  1018→            ))}
+  1019→  1019→          </div>
+  1020→  1020→        </div>
+  1021→  1021→      </div>
+  1022→  1022→
+  1023→  1023→      {/* ═══════════════════════════════════════════════════════════
+  1024→  1024→          SECTION 6: MANUFACTURING PROCESS — Step-by-step
+  1025→  1025→          ═══════════════════════════════════════════════════════════ */}
+  1026→  1026→      <div className="py-20 lg:py-28 bg-[#f8f3ed] dark:bg-[#141414] relative">
+  1027→  1027→        {/* Background decorative line */}
+  1028→  1028→        <div
+  1029→  1029→          className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/20 to-transparent pointer-events-none hidden lg:block"
+  1030→  1030→          aria-hidden="true"
+  1031→  1031→        />
+  1032→  1032→
+  1033→  1033→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  1034→  1034→          <motion.div
+  1035→  1035→            initial="hidden"
+  1036→  1036→            whileInView="visible"
+  1037→  1037→            viewport={{ once: true, margin: '-80px' }}
+  1038→  1038→            className="text-center mb-14 lg:mb-20"
+  1039→  1039→          >
+  1040→  1040→            <motion.p
+  1041→  1041→              variants={fadeUp}
+  1042→  1042→              custom={0}
+  1043→  1043→              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+  1044→  1044→            >
+  1045→  1045→              Our Process
+  1046→  1046→            </motion.p>
+  1047→  1047→            <motion.h2
+  1048→  1048→              variants={fadeUp}
+  1049→  1049→              custom={0.1}
+  1050→  1050→              className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight"
+  1051→  1051→            >
+  1052→  1052→              From raw material to{' '}
+  1053→  1053→              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">perfect delivery</span>
+  1054→  1054→            </motion.h2>
+  1055→  1055→          </motion.div>
+  1056→  1056→
+  1057→  1057→          <div className="space-y-12 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-16 lg:gap-y-16">
+  1058→  1058→            {manufacturingSteps.map((step, i) => {
+  1059→  1059→              const isEven = i % 2 === 0;
+  1060→  1060→              return (
+  1061→  1061→                <motion.div
+  1062→  1062→                  key={step.title}
+  1063→  1063→                  variants={isEven ? slideInLeft : slideInRight}
+  1064→  1064→                  custom={i * 0.15}
+  1065→  1065→                  initial="hidden"
+  1066→  1066→                  whileInView="visible"
+  1067→  1067→                  viewport={{ once: true, margin: '-60px' }}
+  1068→  1068→                  className="flex gap-5 sm:gap-6 items-start"
+  1069→  1069→                >
+  1070→  1070→                  {/* Step image */}
+  1071→  1071→                  <div className="relative w-28 h-28 sm:w-36 sm:h-36 flex-shrink-0 rounded-xl overflow-hidden shadow-lg group">
+  1072→  1072→                    <Image
+  1073→  1073→                      src={step.image}
+  1074→  1074→                      alt={step.title}
+  1075→  1075→                      fill
+  1076→  1076→                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+  1077→  1077→                      sizes="144px"
+  1078→  1078→                    />
+  1079→  1079→                    <div className="absolute inset-0 bg-[#5d2c86]/20" />
+  1080→  1080→                    {/* Step number */}
+  1081→  1081→                    <div className="absolute top-2 left-2 w-7 h-7 rounded-full bg-[#D4AF37] flex items-center justify-center text-[#1A1A1A] text-xs font-bold font-serif-display">
+  1082→  1082→                      {i + 1}
+  1083→  1083→                    </div>
+  1084→  1084→                  </div>
+  1085→  1085→                  {/* Step content */}
+  1086→  1086→                  <div className="flex-1 min-w-0">
+  1087→  1087→                    <div className="flex items-center gap-2 mb-2">
+  1088→  1088→                      <step.icon className="w-4 h-4 text-[#5d2c86] dark:text-[#D4AF37]" />
+  1089→  1089→                      <h4 className="text-base sm:text-lg font-bold font-serif-display text-[#1A1A1A] dark:text-white">
+  1090→  1090→                        {step.title}
+  1091→  1091→                      </h4>
+  1092→  1092→                    </div>
+  1093→  1093→                    <p className="text-sm text-gray-600 dark:text-gray-400 font-sans-body leading-relaxed">
+  1094→  1094→                      {step.desc}
+  1095→  1095→                    </p>
+  1096→  1096→                  </div>
+  1097→  1097→                </motion.div>
+  1098→  1098→              );
+  1099→  1099→            })}
+  1100→  1100→          </div>
+  1101→  1101→        </div>
+  1102→  1102→      </div>
+  1103→  1103→
+  1104→  1104→      {/* ═══════════════════════════════════════════════════════════
+  1105→  1105→          SECTION 7: TEAM & SCALE — Stats + Image
+  1106→  1106→          ═══════════════════════════════════════════════════════════ */}
+  1107→  1107→      <div className="py-20 lg:py-28 bg-white dark:bg-[#0f0f0f]">
+  1108→  1108→        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  1109→  1109→          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+  1110→  1110→            {/* Left: Image with parallax */}
+  1111→  1111→            <motion.div
+  1112→  1112→              variants={slideInLeft}
+  1113→  1113→              initial="hidden"
+  1114→  1114→              whileInView="visible"
+  1115→  1115→              viewport={{ once: true, margin: '-80px' }}
+  1116→  1116→              className="relative"
+  1117→  1117→            >
+  1118→  1118→              <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-2xl">
+  1119→  1119→                <ParallaxImage
+  1120→  1120→                  src="/images/about/about-hero.jpeg"
+  1121→  1121→                  alt="Akshar Foshan team and manufacturing overview"
+  1122→  1122→                  className="w-full h-full"
+  1123→  1123→                  speed={0.14}
+  1124→  1124→                />
+  1125→  1125→                <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86]/30 to-transparent" />
+  1126→  1126→                {/* Cinematic vignette */}
+  1127→  1127→                <div className="absolute inset-0 pointer-events-none" style={{
+  1128→  1128→                  background: 'radial-gradient(ellipse at center, transparent 50%, rgba(26,26,26,0.25) 100%)',
+  1129→  1129→                }} />
+  1130→  1130→              </div>
+  1131→  1131→              {/* Floating stat card */}
+  1132→  1132→              <motion.div
+  1133→  1133→                variants={scaleUp}
+  1134→  1134→                custom={0.3}
+  1135→  1135→                initial="hidden"
+  1136→  1136→                whileInView="visible"
+  1137→  1137→                viewport={{ once: true }}
+  1138→  1138→                className="absolute -bottom-5 -right-2 sm:-right-6 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-xl p-4 sm:p-5 border border-gray-100 dark:border-gray-800"
+  1139→  1139→              >
+  1140→  1140→                <div className="flex items-center gap-3">
+  1141→  1141→                  <div className="w-10 h-10 rounded-full bg-[#D4AF37]/15 flex items-center justify-center">
+  1142→  1142→                    <Users className="w-5 h-5 text-[#D4AF37]" />
+  1143→  1143→                  </div>
+  1144→  1144→                  <div>
+  1145→  1145→                    <p className="text-2xl font-bold font-serif-display text-[#1A1A1A] dark:text-white">
+  1146→  1146→                      500+<span className="text-[#D4AF37]"> </span>
+  1147→  1147→                    </p>
+  1148→  1148→                    <p className="text-xs text-gray-500 dark:text-gray-400 font-sans-body">Skilled Artisans</p>
+  1149→  1149→                  </div>
+  1150→  1150→                </div>
+  1151→  1151→              </motion.div>
+  1152→  1152→              {/* Decorative corner accent */}
+  1153→  1153→              <div
+  1154→  1154→                className="absolute -top-3 -left-3 w-16 h-16 border-t-2 border-l-2 border-[#D4AF37]/30 rounded-tl-2xl pointer-events-none"
+  1155→  1155→                aria-hidden="true"
+  1156→  1156→              />
+  1157→  1157→            </motion.div>
+  1158→  1158→
+  1159→  1159→            {/* Right: Stats & Text */}
+  1160→  1160→            <motion.div
+  1161→  1161→              variants={slideInRight}
+  1162→  1162→              initial="hidden"
+  1163→  1163→              whileInView="visible"
+  1164→  1164→              viewport={{ once: true, margin: '-80px' }}
+  1165→  1165→            >
+  1166→  1166→              <motion.p
+  1167→  1167→                variants={fadeUp}
+  1168→  1168→                custom={0}
+  1169→  1169→                className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+  1170→  1170→              >
+  1171→  1171→                Scale & Expertise
+  1172→  1172→              </motion.p>
+  1173→  1173→              <motion.h2
+  1174→  1174→                variants={fadeUp}
+  1175→  1175→                custom={0.1}
+  1176→  1176→                className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-6"
+  1177→  1177→              >
+  1178→  1178→                Built by <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">hands that know</span>
+  1179→  1179→              </motion.h2>
+  1180→  1180→              <motion.p
+  1181→  1181→                variants={fadeUp}
+  1182→  1182→                custom={0.2}
+  1183→  1183→                className="text-base text-gray-600 dark:text-gray-300 font-sans-body leading-relaxed mb-8"
+  1184→  1184→              >
+  1185→  1185→                Our team of over 500 skilled artisans combines generations of
+  1186→  1186→                furniture-making heritage with modern precision engineering. From
+  1187→  1187→                hand-carved details to CNC-precise joinery, every technique in
+  1188→  1188→                our repertoire serves a single purpose: exceeding hospitality
+  1189→  1189→                standards.
+  1190→  1190→              </motion.p>
+  1191→  1191→
+  1192→  1192→              {/* Stats grid */}
+  1193→  1193→              <div className="grid grid-cols-2 gap-4 sm:gap-6">
+  1194→  1194→                {[
+  1195→  1195→                  { value: '13+', label: 'Manufacturing Facilities', icon: Factory },
+  1196→  1196→                  { value: '240+', label: 'Hotel Keys Delivered', icon: Users },
+  1197→  1197→                  { value: '5+', label: 'Continents Served', icon: Globe2 },
+  1198→  1198→                  { value: '100%', label: 'Inspection Pass Rate', icon: Shield },
+  1199→  1199→                ].map((stat, i) => (
+  1200→  1200→                  <motion.div
+  1201→  1201→                    key={stat.label}
+  1202→  1202→                    variants={fadeUp}
+  1203→  1203→                    custom={0.3 + i * 0.08}
+  1204→  1204→                    initial="hidden"
+  1205→  1205→                    whileInView="visible"
+  1206→  1206→                    viewport={{ once: true }}
+  1207→  1207→                    className="bg-[#f8f3ed] dark:bg-[#1a1a1a] rounded-xl p-4 sm:p-5 border border-gray-100 dark:border-gray-800"
+  1208→  1208→                  >
+  1209→  1209→                    <stat.icon className="w-5 h-5 text-[#5d2c86] dark:text-[#D4AF37] mb-2" />
+  1210→  1210→                    <p className="text-xl sm:text-2xl font-bold font-serif-display text-[#1A1A1A] dark:text-white">
+  1211→  1211→                      {stat.value}
+  1212→  1212→                    </p>
+  1213→  1213→                    <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 font-sans-body mt-0.5">
+  1214→  1214→                      {stat.label}
+  1215→  1215→                    </p>
+  1216→  1216→                  </motion.div>
+  1217→  1217→                ))}
+  1218→  1218→              </div>
+  1219→  1219→            </motion.div>
+  1220→  1220→          </div>
+  1221→  1221→        </div>
+  1222→  1222→      </div>
+  1223→  1223→
+  1224→  1224→      {/* ═══════════════════════════════════════════════════════════
+  1225→  1225→          SECTION 8: CLOSING — Full-width cinematic image with quote
+  1226→  1226→          ═══════════════════════════════════════════════════════════ */}
+  1227→  1227→      <div className="relative h-[50vh] sm:h-[60vh] overflow-hidden">
+  1228→  1228→        <ParallaxImage
+  1229→  1229→          src="/images/about/about-small.jpeg"
+  1230→  1230→          alt="Akshar Foshan finished hotel interior showcase"
+  1231→  1231→          className="w-full h-full"
+  1232→  1232→          speed={0.2}
+  1233→  1233→        />
+  1234→  1234→        <div className="absolute inset-0 bg-[#1A1A1A]/60" />
+  1235→  1235→        {/* Cinematic letterbox bars */}
+  1236→  1236→        <div className="absolute top-0 left-0 right-0 h-[8%] bg-[#1A1A1A]/40 pointer-events-none" />
+  1237→  1237→        <div className="absolute bottom-0 left-0 right-0 h-[8%] bg-[#1A1A1A]/40 pointer-events-none" />
+  1238→  1238→
+  1239→  1239→        <div className="absolute inset-0 flex items-center justify-center">
+  1240→  1240→          <motion.div
+  1241→  1241→            initial="hidden"
+  1242→  1242→            whileInView="visible"
+  1243→  1243→            viewport={{ once: true, margin: '-80px' }}
+  1244→  1244→            className="text-center px-4 sm:px-6 max-w-3xl"
+  1245→  1245→          >
+  1246→  1246→            <motion.div
+  1247→  1247→              variants={fadeUp}
+  1248→  1248→              custom={0}
+  1249→  1249→              className="w-12 h-px bg-[#D4AF37] mx-auto mb-6"
+  1250→  1250→            />
+  1251→  1251→            <motion.blockquote
+  1252→  1252→              variants={fadeUp}
+  1253→  1253→              custom={0.15}
+  1254→  1254→              className="text-xl sm:text-2xl lg:text-3xl font-serif-display text-white leading-relaxed mb-6 italic"
+  1255→  1255→            >
+  1256→  1256→              &ldquo;We don&apos;t just manufacture furniture — we engineer the
+  1257→  1257→              experiences that guests remember.&rdquo;
+  1258→  1258→            </motion.blockquote>
+  1259→  1259→            <motion.p
+  1260→  1260→              variants={fadeUp}
+  1261→  1261→              custom={0.25}
+  1262→  1262→              className="text-sm tracking-[0.15em] text-[#D4AF37] font-sans-body uppercase"
+  1263→  1263→            >
+  1264→  1264→              Akshar Foshan Leadership
+  1265→  1265→            </motion.p>
+  1266→  1266→            <motion.div
+  1267→  1267→              variants={fadeUp}
+  1268→  1268→              custom={0.3}
+  1269→  1269→              className="w-12 h-px bg-[#D4AF37] mx-auto mt-6"
+  1270→  1270→            />
+  1271→  1271→          </motion.div>
+  1272→  1272→        </div>
+  1273→  1273→      </div>
+  1274→  1274→
+  1275→  1275→      {/* ═══════════════════════════════════════════════════════════
+  1276→  1276→          LIGHTBOX OVERLAY
+  1277→  1277→          ═══════════════════════════════════════════════════════════ */}
+  1278→  1278→      {lightboxOpen && (
+  1279→  1279→        <Lightbox
+  1280→  1280→          images={galleryImages}
+  1281→  1281→          currentIndex={lightboxIndex}
+  1282→  1282→          onClose={closeLightbox}
+  1283→  1283→          onPrev={prevImage}
+  1284→  1284→          onNext={nextImage}
+  1285→  1285→        />
+  1286→  1286→      )}
+  1287→  1287→    </section>
+  1288→  1288→  );
+  1289→  1289→}
+  1290→  1290→

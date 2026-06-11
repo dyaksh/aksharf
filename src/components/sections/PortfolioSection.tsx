@@ -1,583 +1,950 @@
 'use client';
 
-import { useState, useRef, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { ArrowRight, Eye, X, Star, Sparkles, BookOpen } from 'lucide-react';
+import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion';
+import {
+  Table,
+  Armchair,
+  Sofa,
+  Box,
+  Bed,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  ZoomIn,
+  ArrowRight,
+  Sparkles,
+  Keyboard,
+} from 'lucide-react';
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogTitle,
 } from '@/components/ui/dialog';
 
-const brands = [
-  {
-    name: 'Holiday Inn Suites',
-    image: '/catalog-pages/page_11.png',
-    category: 'IHG',
-    page: 11,
-    description: 'Comfortable, affordable stays for families, business travelers, and friends.',
-    items: ['King Headboard', 'Queen Headboard', 'Desk', 'C-Table', 'TV Chest', 'Sleeper Sofa'],
-    keys: 180,
-  },
-  {
-    name: 'Holiday Inn Express',
-    image: '/catalog-pages/page_14.png',
-    category: 'IHG',
-    page: 14,
-    description: 'Simple and smart travel experience with clean, comfortable rooms.',
-    items: ['King Headboard', 'SmartShelf & Hook Panel', 'Functional Rack', 'Metal Bed Platform'],
-    keys: 120,
-  },
-  {
-    name: 'Candlewood Suites',
-    image: '/catalog-pages/page_16.png',
-    category: 'IHG',
-    page: 16,
-    description: 'A "home away from home" experience with apartment-like suites.',
-    items: ['King Headboard', 'TV Panel', 'Dresser', 'Lounge Chair', 'Sleeper Sofa'],
-    keys: 95,
-  },
-  {
-    name: 'Fairfield Inn',
-    image: '/catalog-pages/page_20.png',
-    category: 'Marriott',
-    page: 20,
-    description: 'Warm hospitality with a "Beauty of Simplicity" philosophy.',
-    items: ['King Headboard', 'Ottoman Bench', 'Sleeper Sofa', 'Nightstand', 'Task Chair'],
-    keys: 150,
-  },
-  {
-    name: 'SpringHill Suites',
-    image: '/catalog-pages/page_22.png',
-    category: 'Marriott',
-    page: 22,
-    description: 'Separate areas for relaxing and working in all-suite hotels.',
-    items: ['King Headboard', 'TV Stand', 'Desk Chair', 'Bench', 'Sleeper Sofa'],
-    keys: 140,
-  },
-  {
-    name: 'TownePlace Suites',
-    image: '/catalog-pages/page_24.png',
-    category: 'Marriott',
-    page: 24,
-    description: 'Extended-stay hotel designed for travelers who want comfortable flexibility.',
-    items: ['King Headboard', 'Lounge Chair', 'Functional Sofa', 'Dresser', 'Vanity'],
-    keys: 110,
-  },
-  {
-    name: 'Hampton Inn',
-    image: '/catalog-pages/page_28.png',
-    category: 'Hilton',
-    page: 28,
-    description: 'Consistent, reliable, and friendly experience at a mid-price level.',
-    items: ['King Headboard', 'C-Table', 'TV Panel', 'Hospitality Unit', 'Sleeper Sofa'],
-    keys: 200,
-  },
-  {
-    name: 'Home2 Suites',
-    image: '/catalog-pages/page_30.png',
-    category: 'Hilton',
-    page: 30,
-    description: 'All-suite, extended-stay hotel for cost-conscious guests seeking comfort.',
-    items: ['King Headboard', 'Ottoman', 'Desk', 'Sleeper Sofa', 'Kitchenette Wall'],
-    keys: 105,
-  },
-  {
-    name: 'Homewood Suites',
-    image: '/catalog-pages/page_32.png',
-    category: 'Hilton',
-    page: 32,
-    description: 'Home-like accommodations for guests and their pets.',
-    items: ['King Headboard', 'Nesting Table', 'Sleeper Sofa', 'Vanity', 'Dresser'],
-    keys: 130,
-  },
-  {
-    name: 'Comfort Inn',
-    image: '/catalog-pages/page_36.png',
-    category: 'Choice',
-    page: 36,
-    description: 'Bright hospitality, convenient amenities and a colorful outlook.',
-    items: ['King Headboard', 'Desk', 'Sleeper Sofa', 'Semi Open Vanity', 'Closet Unit'],
-    keys: 160,
-  },
-  {
-    name: 'Country Inn',
-    image: '/catalog-pages/page_38.png',
-    category: 'Choice',
-    page: 38,
-    description: 'Thoughtful extras and heartfelt hospitality for every guest.',
-    items: ['King Headboard', 'Refrigerator Cabinet', 'Desk', 'Luggage Bench', 'Lounge Chair'],
-    keys: 85,
-  },
-  {
-    name: 'Wingate',
-    image: '/catalog-pages/page_42.png',
-    category: 'Wyndham',
-    page: 42,
-    description: 'Designed for modern travelers who need to stay connected and productive.',
-    items: ['King Headboard', 'Desk & Chair', 'Coffee Table', 'TV Panel', 'Sleeper Sofa'],
-    keys: 100,
-  },
-  {
-    name: 'La Quinta',
-    image: '/catalog-pages/page_44.png',
-    category: 'Wyndham',
-    page: 44,
-    description: 'Upper-midscale hotel brand focusing on consistent, comfortable, and friendly experience.',
-    items: ['King Headboard', 'Double Queen Headboard', 'C-Table', 'Functional Sofa', 'Lounge Chair', 'Luggage Bench'],
-    keys: 240,
-  },
+/* ── Category & Image Data ──────────────────────────────────── */
+
+interface PortfolioItem {
+  id: string;
+  category: string;
+  name: string;
+  image: string;
+}
+
+interface CategoryDef {
+  key: string;
+  label: string;
+  icon: React.ElementType;
+}
+
+const categories: CategoryDef[] = [
+  { key: 'all', label: 'All', icon: ZoomIn },
+  { key: 'bedroom', label: 'Bedroom', icon: Bed },
+  { key: 'headboard', label: 'Headboard', icon: Sofa },
+  { key: 'sofa', label: 'Sofa & Seating', icon: Armchair },
+  { key: 'table', label: 'Table & Desk', icon: Table },
+  { key: 'cabinet', label: 'Cabinet & Storage', icon: Box },
 ];
 
-const categories = ['All', 'IHG', 'Marriott', 'Hilton', 'Choice', 'Wyndham'] as const;
+const portfolioItems: PortfolioItem[] = [
+  // ── Bedroom Sets (room renderings showing full bedrooms) ──
+  { id: 'cat-01', category: 'bedroom', name: 'Beds & Lamp Collection', image: '/images/portfolio/catalog-01.jpg' },
+  { id: 'cat-11', category: 'bedroom', name: 'Guest Room Furniture Set', image: '/images/portfolio/catalog-11.jpg' },
+  { id: 'cat-13', category: 'bedroom', name: 'Bedroom & Wardrobe Set', image: '/images/portfolio/catalog-13.jpg' },
+  { id: 'cat-15', category: 'bedroom', name: 'Room Furniture Collection', image: '/images/portfolio/catalog-15.jpg' },
+  { id: 'cat-19', category: 'bedroom', name: 'Guest Room Bed & Desk', image: '/images/portfolio/catalog-19.jpg' },
+  { id: 'cat-21', category: 'bedroom', name: 'Bed & Sofa Set', image: '/images/portfolio/catalog-21.jpg' },
+  { id: 'cat-23', category: 'bedroom', name: 'Extended Stay Room Set', image: '/images/portfolio/catalog-23.jpg' },
+  { id: 'cat-27', category: 'bedroom', name: 'Full Room Package', image: '/images/portfolio/catalog-27.jpg' },
+  { id: 'cat-29', category: 'bedroom', name: 'Bed & Sofa Suite', image: '/images/portfolio/catalog-29.jpg' },
+  { id: 'cat-31', category: 'bedroom', name: 'Suite Furniture Set', image: '/images/portfolio/catalog-31.jpg' },
+  { id: 'cat-35', category: 'bedroom', name: 'Sofa & Bedroom Set', image: '/images/portfolio/catalog-35.jpg' },
+  { id: 'cat-37', category: 'bedroom', name: 'Complete Suite Package', image: '/images/portfolio/catalog-37.jpg' },
+  { id: 'cat-43', category: 'bedroom', name: 'Classic Bedroom Set', image: '/images/portfolio/catalog-43.jpg' },
 
-const categoryColors: Record<string, string> = {
-  IHG: 'bg-emerald-500/90',
-  Marriott: 'bg-red-500/90',
-  Hilton: 'bg-blue-500/90',
-  Choice: 'bg-amber-500/90',
-  Wyndham: 'bg-purple-500/90',
+  // ── Headboard Spec Pages (individual headboard products with specs) ──
+  { id: 'cat-12', category: 'headboard', name: 'King & Queen Headboard, Desk, Sleeper Sofa', image: '/images/portfolio/catalog-12.jpg' },
+  { id: 'cat-14', category: 'headboard', name: 'King & Queen Headboard, Chaise Lounge', image: '/images/portfolio/catalog-14.jpg' },
+  { id: 'cat-16', category: 'headboard', name: 'King Headboard, TV Panel, Lounge Chair', image: '/images/portfolio/catalog-16.jpg' },
+  { id: 'cat-20', category: 'headboard', name: 'Double Queen Headboard, Ottoman Bench', image: '/images/portfolio/catalog-20.jpg' },
+  { id: 'cat-22', category: 'headboard', name: 'King Headboard, Wardrobe, Dry Bar', image: '/images/portfolio/catalog-22.jpg' },
+  { id: 'cat-24', category: 'headboard', name: 'King Headboard, Nightstand, Vanity', image: '/images/portfolio/catalog-24.jpg' },
+  { id: 'cat-28', category: 'headboard', name: 'King Headboard, C-Table, Luggage Bench', image: '/images/portfolio/catalog-28.jpg' },
+  { id: 'cat-30', category: 'headboard', name: 'King Headboard, Ottoman, Kitchenette', image: '/images/portfolio/catalog-30.jpg' },
+  { id: 'cat-32', category: 'headboard', name: 'King Headboard, Nesting Table, Vanity', image: '/images/portfolio/catalog-32.jpg' },
+  { id: 'cat-36', category: 'headboard', name: 'King Headboard, Closet Unit, Vanity', image: '/images/portfolio/catalog-36.jpg' },
+  { id: 'cat-38', category: 'headboard', name: 'King Headboard, TV Panel, Lounge Chair', image: '/images/portfolio/catalog-38.jpg' },
+  { id: 'cat-42', category: 'headboard', name: 'King Headboard, Desk Set, Lounge Chair', image: '/images/portfolio/catalog-42.jpg' },
+  { id: 'cat-44', category: 'headboard', name: 'King Headboard, Functional Sofa, Ottoman', image: '/images/portfolio/catalog-44.jpg' },
+];
+
+/* ── Varying heights for Pinterest masonry effect ──────────── */
+const heightClasses: Record<string, string> = {
+  // Bedroom items — varied for Pinterest look
+  'cat-01': 'aspect-[4/3]',  'cat-11': 'aspect-[3/4]',  'cat-13': 'aspect-square',
+  'cat-15': 'aspect-[4/5]',  'cat-19': 'aspect-[3/4]',  'cat-21': 'aspect-[4/3]',
+  'cat-23': 'aspect-square', 'cat-27': 'aspect-[3/4]',  'cat-29': 'aspect-[4/5]',
+  'cat-31': 'aspect-[4/3]',  'cat-35': 'aspect-square', 'cat-37': 'aspect-[3/4]',
+  'cat-43': 'aspect-[4/5]',
+  // Headboard spec items — taller portrait cards for spec sheets
+  'cat-12': 'aspect-[3/4]',  'cat-14': 'aspect-[4/5]',  'cat-16': 'aspect-[3/4]',
+  'cat-20': 'aspect-square', 'cat-22': 'aspect-[4/5]',  'cat-24': 'aspect-[3/4]',
+  'cat-28': 'aspect-square', 'cat-30': 'aspect-[4/5]',  'cat-32': 'aspect-[3/4]',
+  'cat-36': 'aspect-square', 'cat-38': 'aspect-[4/5]',  'cat-42': 'aspect-[3/4]',
+  'cat-44': 'aspect-[4/5]',
 };
 
-// Additional catalog pages for each brand (for the detail modal)
-const brandCatalogPages: Record<string, number[]> = {
-  'Holiday Inn Suites': [11, 12],
-  'Holiday Inn Express': [13, 14],
-  'Candlewood Suites': [15, 16],
-  'Fairfield Inn': [19, 20],
-  'SpringHill Suites': [21, 22],
-  'TownePlace Suites': [23, 24],
-  'Hampton Inn': [27, 28],
-  'Home2 Suites': [29, 30],
-  'Homewood Suites': [31, 32],
-  'Comfort Inn': [35, 36],
-  'Country Inn': [37, 38],
-  'Wingate': [41, 42],
-  'La Quinta': [43, 44],
+/* ── Count items per category ──────────────────────────────── */
+function getCategoryCount(key: string): number {
+  if (key === 'all') return portfolioItems.length;
+  return portfolioItems.filter((i) => i.category === key).length;
+}
+
+/* ── Stagger Animation Variants (blur-to-focus) ────────────── */
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.05,
+      delayChildren: 0.1,
+    },
+  },
 };
 
-export default function PortfolioSection() {
-  const [activeCategory, setActiveCategory] = useState<string>('All');
-  const [showAll, setShowAll] = useState(false);
-  const [selectedBrand, setSelectedBrand] = useState<(typeof brands)[0] | null>(null);
-  const [filterIndicator, setFilterIndicator] = useState({ left: 0, width: 0 });
-  const filterRef = useRef<HTMLDivElement>(null);
-  const buttonRefs = useRef<Record<string, HTMLButtonElement | null>>({});
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+const itemVariants = {
+  hidden: { opacity: 0, y: 30, filter: 'blur(10px)' },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.6,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  },
+  exit: {
+    opacity: 0,
+    filter: 'blur(6px)',
+    scale: 0.95,
+    transition: { duration: 0.25 },
+  },
+};
 
-  const filteredBrands =
-    activeCategory === 'All'
-      ? brands
-      : brands.filter((b) => b.category === activeCategory);
+/* ── Particle burst helper ─────────────────────────────────── */
+function ParticleBurst({ active, onDone }: { active: boolean; onDone: () => void }) {
+  const particles = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, i) => ({
+        id: i,
+        angle: (i / 12) * 360,
+        distance: 20 + Math.random() * 30,
+        size: 3 + Math.random() * 3,
+        duration: 0.4 + Math.random() * 0.3,
+      })),
+    []
+  );
 
-  const displayedBrands = showAll ? filteredBrands : filteredBrands.slice(0, 6);
+  if (!active) return null;
 
-  // Update sliding indicator position
+  return (
+    <div className="absolute inset-0 pointer-events-none overflow-visible">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          initial={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+          animate={{
+            opacity: 0,
+            scale: 0,
+            x: Math.cos((p.angle * Math.PI) / 180) * p.distance,
+            y: Math.sin((p.angle * Math.PI) / 180) * p.distance,
+          }}
+          transition={{ duration: p.duration, ease: 'easeOut' }}
+          onAnimationComplete={p.id === 0 ? onDone : undefined}
+          className="absolute top-1/2 left-1/2 rounded-full"
+          style={{
+            width: p.size,
+            height: p.size,
+            backgroundColor: '#D4AF37',
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ── Premium Lightbox Component ─────────────────────────────── */
+function Lightbox({
+  isOpen,
+  onClose,
+  items,
+  currentIndex,
+  onNavigate,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  items: PortfolioItem[];
+  currentIndex: number;
+  onNavigate: (index: number) => void;
+}) {
+  const [isZoomed, setIsZoomed] = useState(false);
+  const [showHints, setShowHints] = useState(false);
+
+  // Navigate with zoom reset
+  const navigateTo = useCallback(
+    (index: number) => {
+      setIsZoomed(false);
+      onNavigate(index);
+    },
+    [onNavigate]
+  );
+
+  // Keyboard navigation
   useEffect(() => {
-    const btn = buttonRefs.current[activeCategory];
-    if (btn && filterRef.current) {
-      const containerRect = filterRef.current.getBoundingClientRect();
-      const btnRect = btn.getBoundingClientRect();
-      setFilterIndicator({
-        left: btnRect.left - containerRect.left,
-        width: btnRect.width,
-      });
-    }
-  }, [activeCategory]);
+    if (!isOpen) return;
 
-  const handleViewCatalogPage = useCallback((page: number) => {
-    // Dispatch a custom event that CatalogSection listens for
-    const event = new CustomEvent('openCatalogPage', { detail: { page } });
-    window.dispatchEvent(event);
-    // Scroll to catalog section
-    const catalogSection = document.getElementById('catalog');
-    if (catalogSection) {
-      catalogSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (isZoomed) { setIsZoomed(false); return; }
+        onClose();
+      }
+      if (e.key === 'ArrowLeft') {
+        navigateTo(currentIndex > 0 ? currentIndex - 1 : items.length - 1);
+      }
+      if (e.key === 'ArrowRight') {
+        navigateTo(currentIndex < items.length - 1 ? currentIndex + 1 : 0);
+      }
+      if (e.key === 'z' || e.key === 'Z') {
+        setIsZoomed((prev) => !prev);
+      }
+      if (e.key === 'h' || e.key === 'H') {
+        setShowHints((prev) => !prev);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, currentIndex, items.length, onClose, navigateTo, isZoomed]);
+
+  const currentItem = items[currentIndex];
+  if (!currentItem) return null;
+
+  const categoryLabel =
+    categories.find((c) => c.key === currentItem.category)?.label ?? currentItem.category;
+
+  return (
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogContent
+        showCloseButton={false}
+        className="fixed inset-0 z-[100] w-screen h-screen max-w-none max-h-none translate-x-0 translate-y-0 top-0 left-0 rounded-none border-0 p-0 bg-black/80 backdrop-blur-2xl flex items-center justify-center"
+      >
+        <DialogTitle className="sr-only">
+          {categoryLabel} — {currentItem.name}
+        </DialogTitle>
+        <DialogDescription className="sr-only">
+          View {currentItem.name} in the {categoryLabel} category — image {currentIndex + 1} of {items.length}
+        </DialogDescription>
+
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200 backdrop-blur-sm"
+          aria-label="Close lightbox"
+        >
+          <X className="w-5 h-5" />
+        </button>
+
+        {/* Keyboard Hints Toggle */}
+        <button
+          onClick={() => setShowHints((p) => !p)}
+          className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200 backdrop-blur-sm"
+          aria-label="Show keyboard shortcuts"
+        >
+          <Keyboard className="w-4 h-4" />
+        </button>
+
+        {/* Keyboard Hints Overlay */}
+        <AnimatePresence>
+          {showHints && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="absolute top-16 left-4 sm:top-18 sm:left-6 z-10 bg-black/70 backdrop-blur-md rounded-lg px-4 py-3 text-white/80 text-xs font-sans-body space-y-1.5 border border-white/10"
+            >
+              <div className="flex gap-3 items-center">
+                <kbd className="px-1.5 py-0.5 bg-white/15 rounded text-[10px]">←</kbd>
+                <kbd className="px-1.5 py-0.5 bg-white/15 rounded text-[10px]">→</kbd>
+                <span>Navigate</span>
+              </div>
+              <div className="flex gap-3 items-center">
+                <kbd className="px-1.5 py-0.5 bg-white/15 rounded text-[10px]">Z</kbd>
+                <span>Zoom</span>
+              </div>
+              <div className="flex gap-3 items-center">
+                <kbd className="px-1.5 py-0.5 bg-white/15 rounded text-[10px]">Esc</kbd>
+                <span>Close</span>
+              </div>
+              <div className="flex gap-3 items-center">
+                <kbd className="px-1.5 py-0.5 bg-white/15 rounded text-[10px]">H</kbd>
+                <span>Toggle hints</span>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Navigation Arrows */}
+        {items.length > 1 && (
+          <>
+            <button
+              onClick={() =>
+                navigateTo(currentIndex > 0 ? currentIndex - 1 : items.length - 1)
+              }
+              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200 backdrop-blur-sm"
+              aria-label="Previous image"
+            >
+              <ChevronLeft className="w-6 h-6" />
+            </button>
+            <button
+              onClick={() =>
+                navigateTo(currentIndex < items.length - 1 ? currentIndex + 1 : 0)
+              }
+              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200 backdrop-blur-sm"
+              aria-label="Next image"
+            >
+              <ChevronRight className="w-6 h-6" />
+            </button>
+          </>
+        )}
+
+        {/* Image + Info */}
+        <div className="flex flex-col items-center justify-center w-full h-full px-4 py-16 sm:px-16">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentItem.id}
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="relative flex-1 flex items-center justify-center w-full min-h-0 overflow-hidden"
+            >
+              <motion.div
+                className={`relative cursor-zoom-in ${isZoomed ? 'cursor-zoom-out' : 'cursor-zoom-in'}`}
+                onClick={() => setIsZoomed((prev) => !prev)}
+                animate={
+                  isZoomed
+                    ? { scale: 1.8 }
+                    : { scale: 1 }
+                }
+                transition={{ duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+              >
+                {/* Ken Burns subtle animation wrapper */}
+                <motion.div
+                  animate={
+                    isZoomed
+                      ? {}
+                      : {
+                          scale: [1, 1.03, 1],
+                          x: [0, 5, 0],
+                          y: [0, -3, 0],
+                        }
+                  }
+                  transition={
+                    isZoomed
+                      ? {}
+                      : {
+                          duration: 8,
+                          repeat: Infinity,
+                          ease: 'easeInOut',
+                        }
+                  }
+                >
+                  <img
+                    src={currentItem.image}
+                    alt={`${currentItem.name} — ${categoryLabel}`}
+                    className="max-h-[70vh] max-w-full object-contain rounded-lg shadow-2xl"
+                    draggable={false}
+                  />
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+
+          {/* Info Bar + Progress Dots */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.35 }}
+            className="flex flex-col items-center gap-3 mt-4 sm:mt-6"
+          >
+            <div className="flex items-center gap-3">
+              <span className="px-3 py-1 rounded-full text-xs font-medium tracking-wide uppercase bg-[#5d2c86] text-white font-sans-body">
+                {categoryLabel}
+              </span>
+              <span className="text-white/80 text-sm sm:text-base font-sans-body">
+                {currentItem.name}
+              </span>
+              <span className="text-white/40 text-sm font-sans-body ml-2">
+                {currentIndex + 1} / {items.length}
+              </span>
+            </div>
+
+            {/* Progress Dots */}
+            {items.length > 1 && (
+              <div className="flex items-center gap-1.5">
+                {items.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => navigateTo(idx)}
+                    className={`transition-all duration-300 rounded-full ${
+                      idx === currentIndex
+                        ? 'w-6 h-2 bg-[#D4AF37]'
+                        : 'w-2 h-2 bg-white/30 hover:bg-white/50'
+                    }`}
+                    aria-label={`Go to image ${idx + 1}`}
+                  />
+                ))}
+              </div>
+            )}
+          </motion.div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+/* ── Enhanced Masonry Item Component ────────────────────────── */
+function MasonryItem({
+  item,
+  index,
+  onClick,
+}: {
+  item: PortfolioItem;
+  index: number;
+  onClick: () => void;
+}) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const categoryLabel =
+    categories.find((c) => c.key === item.category)?.label ?? item.category;
+  const CategoryIcon = categories.find((c) => c.key === item.category)?.icon ?? Box;
+  const aspectClass = heightClasses[item.id] || 'aspect-square';
+
+  // 3D tilt handler
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+    const tiltX = (y - 0.5) * -10; // max 5deg
+    const tiltY = (x - 0.5) * 10;  // max 5deg
+    setTilt({ x: tiltX, y: tiltY });
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setTilt({ x: 0, y: 0 });
   }, []);
 
   return (
-    <section id="portfolio" className="bg-[#1A1A1A] py-20 lg:py-32" ref={sectionRef}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="flex flex-col sm:flex-row sm:items-end sm:justify-between mb-12"
-        >
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <p className="text-xs tracking-[0.3em] text-[#D4AF37] font-sans-body">
-                SELECTED REEL
-              </p>
-              {/* Total portfolio count badge */}
-              <motion.span
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-[#4A2364]/20 border border-[#4A2364]/40 text-[#D4AF37] text-[10px] font-bold font-sans-body"
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: 0.3, type: 'spring' }}
-              >
-                <Sparkles className="w-3 h-3" />
-                13+
-              </motion.span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-white max-w-2xl">
-              A refined portfolio for{' '}
-              <span className="text-[#D4AF37] italic">hospitality furniture</span>.
-            </h2>
-          </div>
-          <div className="mt-4 sm:mt-0 flex items-center gap-4">
-            {/* Animated counter */}
-            <motion.span
-              key={`${displayedBrands.length}-${filteredBrands.length}`}
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-xs text-white/40 font-sans-body"
-            >
-              Showing {displayedBrands.length} of {filteredBrands.length} brands
-            </motion.span>
-            <button
-              onClick={() => setShowAll(!showAll)}
-              className="text-sm text-white/70 hover:text-white font-sans-body flex items-center gap-1 group transition-colors"
-            >
-              {showAll ? 'Show less' : `View all ${brands.length} frames`}
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Category Filter with Sliding Indicator */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="relative flex flex-wrap gap-2 mb-10"
-          ref={filterRef}
-        >
-          {/* Sliding indicator */}
-          <motion.div
-            className="absolute top-0 h-full rounded-full bg-[#4A2364]/30 border border-[#4A2364]/50"
-            animate={{
-              left: filterIndicator.left,
-              width: filterIndicator.width,
-            }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          />
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              ref={(el) => { buttonRefs.current[cat] = el; }}
-              onClick={() => {
-                setActiveCategory(cat);
-                setShowAll(false);
-              }}
-              className={`relative z-10 px-4 py-2 rounded-full text-xs font-medium font-sans-body transition-all duration-300 ${
-                activeCategory === cat
-                  ? 'text-white'
-                  : 'bg-transparent text-white/60 hover:bg-white/10 hover:text-white'
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Portfolio Grid with Staggered Animation */}
-        <AnimatePresence mode="popLayout">
-          <motion.div
-            key={activeCategory + (showAll ? '-all' : '-partial')}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
-            initial="hidden"
-            animate={isInView ? 'visible' : 'hidden'}
-            variants={{
-              hidden: {},
-              visible: {
-                transition: {
-                  staggerChildren: 0.1,
-                },
-              },
-            }}
-          >
-            {displayedBrands.map((brand, index) => (
-              <motion.div
-                key={brand.name}
-                variants={{
-                  hidden: { opacity: 0, y: 40, scale: 0.95 },
-                  visible: {
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                    transition: { duration: 0.5, ease: 'easeOut' },
-                  },
-                }}
-                layout
-                className={index % 2 === 1 ? 'sm:mt-6 lg:mt-8' : ''}
-              >
-                {/* Gradient border wrapper */}
-                <div className="p-[1px] rounded-2xl bg-transparent group/card hover:bg-gradient-to-r hover:from-[#4A2364] hover:via-[#D4AF37] hover:to-[#4A2364] transition-all duration-500 bg-[length:200%_100%] hover:bg-[length:100%_100%]">
-                  <div className="group bg-white/5 rounded-2xl overflow-hidden border border-white/10 hover:border-transparent transition-all duration-500 hover:bg-white/[0.08] hover:shadow-[0_8px_40px_rgba(74,35,100,0.15)]">
-                    {/* Image */}
-                    <div className="relative aspect-[4/3] overflow-hidden">
-                      <img
-                        src={brand.image}
-                        alt={brand.name}
-                        className="w-full h-full object-cover group-hover:scale-105 group-hover:translate-x-[2%] group-hover:translate-y-[2%] transition-transform duration-[1.5s]"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-
-                      {/* Category Badge with Brand-Specific Colors */}
-                      <div className="absolute top-3 left-3">
-                        <span className={`px-2.5 py-1 ${categoryColors[brand.category] || 'bg-[#4A2364]/80'} text-white text-[10px] font-bold rounded-full font-sans-body shadow-lg`}>
-                          {brand.category}
-                        </span>
-                      </div>
-
-                      {/* Keys Count Badge */}
-                      <div className="absolute top-3 right-3">
-                        <span className="px-2.5 py-1 bg-black/50 backdrop-blur-sm text-white text-[10px] font-bold rounded-full font-sans-body shadow-lg border border-white/10">
-                          {brand.keys} Keys
-                        </span>
-                      </div>
-
-                      {/* Featured / New Badge for first 3 items */}
-                      {index < 3 && (
-                        <div className="absolute top-12 right-3">
-                          <span className={`px-2 py-1 text-[9px] font-bold rounded-full font-sans-body flex items-center gap-1 shadow-lg overflow-hidden relative ${
-                            index === 0
-                              ? 'bg-[#D4AF37] text-black'
-                              : 'bg-white/20 text-white backdrop-blur-sm border border-white/20'
-                          }`}>
-                            {/* Shimmer sweep on Featured badge */}
-                            {index === 0 && (
-                              <span className="absolute inset-0 overflow-hidden rounded-full">
-                                <span
-                                  className="absolute inset-0 animate-[featuredShimmer_3s_ease-in-out_infinite]"
-                                  style={{
-                                    background: 'linear-gradient(110deg, transparent 30%, rgba(255,255,255,0.4) 50%, transparent 70%)',
-                                    backgroundSize: '200% 100%',
-                                  }}
-                                />
-                              </span>
-                            )}
-                            <span className="relative flex items-center gap-1">
-                              {index === 0 ? (
-                                <>
-                                  <Star className="w-3 h-3" fill="currentColor" />
-                                  Featured
-                                </>
-                              ) : (
-                                <>
-                                  <Sparkles className="w-3 h-3" />
-                                  New
-                                </>
-                              )}
-                            </span>
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Hover overlay with View Details button */}
-                      <div className="absolute inset-0 bg-[#4A2364]/0 group-hover:bg-[#4A2364]/50 transition-all duration-500 flex items-center justify-center">
-                        <motion.div
-                          initial={{ opacity: 0, y: 20 }}
-                          whileHover={{ opacity: 1, y: 0 }}
-                          className="opacity-0 group-hover:opacity-100 transition-all duration-300"
-                        >
-                          <Button
-                            onClick={() => setSelectedBrand(brand)}
-                            className="bg-white text-[#4A2364] hover:bg-[#D4AF37] hover:text-black font-sans-body text-xs font-bold rounded-full px-5 shadow-xl transition-colors duration-300"
-                          >
-                            <Eye className="w-3.5 h-3.5 mr-1.5" />
-                            View Details
-                          </Button>
-                        </motion.div>
-                      </div>
-                    </div>
-
-                    {/* Gold Divider Line */}
-                    <div className="h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/60 to-transparent" />
-
-                    {/* Content */}
-                    <div className="p-5">
-                      <h3 className="text-base sm:text-lg font-bold text-white font-sans-body mb-2 group-hover:text-[#D4AF37] transition-colors duration-300">
-                        {brand.name}
-                      </h3>
-                      <p className="text-xs sm:text-xs text-white/50 mb-4 font-sans-body line-clamp-2">
-                        {brand.description}
-                      </p>
-                      <div className="flex flex-wrap gap-1.5 mb-4">
-                        {brand.items.slice(0, 4).map((item) => (
-                          <span
-                            key={item}
-                            className="px-2 py-0.5 bg-white/5 text-white/40 text-[10px] rounded-full font-sans-body group-hover:bg-white/10 group-hover:text-white/60 transition-colors duration-300"
-                          >
-                            {item}
-                          </span>
-                        ))}
-                        {brand.items.length > 4 && (
-                          <span className="px-2 py-0.5 bg-white/5 text-white/40 text-[10px] rounded-full font-sans-body">
-                            +{brand.items.length - 4}
-                          </span>
-                        )}
-                      </div>
-
-                      <div className="flex items-center gap-3">
-                        {/* View Catalog Page Link */}
-                        <button
-                          onClick={() => handleViewCatalogPage(brand.page)}
-                          className="inline-flex items-center gap-1.5 text-xs text-[#D4AF37]/70 hover:text-[#D4AF37] font-sans-body font-medium transition-colors duration-300 group/link"
-                        >
-                          <BookOpen className="w-3.5 h-3.5" />
-                          View Catalog Page
-                          <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform duration-300" />
-                        </button>
-
-                        {/* Quick View Button */}
-                        <Button
-                          variant="ghost"
-                          onClick={() => setSelectedBrand(brand)}
-                          className="inline-flex items-center gap-1.5 text-xs text-white/40 hover:text-[#D4AF37] font-sans-body font-medium px-2 py-1 h-auto hover:bg-white/5 transition-colors duration-300"
-                        >
-                          <Eye className="w-3.5 h-3.5" />
-                          Quick View
-                        </Button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Brand Detail Dialog */}
-      <Dialog
-        open={selectedBrand !== null}
-        onOpenChange={(open) => {
-          if (!open) setSelectedBrand(null);
+    <motion.div
+      variants={itemVariants}
+      className="break-inside-avoid mb-3 sm:mb-4 group cursor-pointer"
+      onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-label={`View ${item.name}`}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === 'Space') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+    >
+      {/* Image Card — Pinterest style with rounded corners */}
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className={`relative overflow-hidden rounded-2xl ${aspectClass} bg-[#e8e0d6] transition-all duration-500 group-hover:shadow-[0_8px_30px_rgba(93,44,134,0.2)]`}
+        style={{
+          perspective: '800px',
+          transform: `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${tilt.x === 0 && tilt.y === 0 ? 1 : 1.02})`,
+          transition: 'transform 0.3s ease-out, box-shadow 0.5s ease',
         }}
       >
-        <DialogContent className="max-w-4xl w-[95vw] max-h-[90vh] bg-[#1A1A1A] border-white/10 p-0 overflow-hidden dialog-animate-enter" showCloseButton={false}>
-          <DialogTitle className="sr-only">
-            {selectedBrand?.name ?? 'Brand Details'}
-          </DialogTitle>
-          {selectedBrand && (
-            <div className="relative flex flex-col h-full max-h-[90vh]">
-              {/* Gold Progress Bar - Page X of Y */}
-              <div className="relative h-1 bg-white/5">
-                <div
-                  className="absolute inset-y-0 left-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] transition-all duration-500"
+        <img
+          src={item.image}
+          alt={`${item.name} — ${categoryLabel}`}
+          className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+          loading="lazy"
+        />
+
+        {/* Subtle dark gradient at bottom for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+        {/* Gold shimmer sweep on hover */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmerSweep_0.8s_ease-in-out] bg-gradient-to-br from-transparent via-white/15 to-transparent skew-x-[-20deg]" />
+        </div>
+
+        {/* Hover: Zoom icon top-right */}
+        <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0">
+          <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/20">
+            <ZoomIn className="w-4 h-4 text-white" />
+          </div>
+        </div>
+
+        {/* Hover: Category pill at top-left */}
+        <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#5d2c86]/80 backdrop-blur-sm">
+            <CategoryIcon className="w-3 h-3 text-white" />
+            <span className="text-[10px] tracking-widest uppercase text-white/90 font-sans-body font-medium">
+              {categoryLabel}
+            </span>
+          </div>
+        </div>
+
+        {/* Gold border on hover */}
+        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ boxShadow: 'inset 0 0 0 2px rgba(212,175,55,0.5)' }} />
+      </div>
+
+      {/* Pinterest-style caption below image */}
+      <div className="px-1 pt-2.5 pb-1">
+        <h3 className="text-sm sm:text-base font-serif-display font-semibold text-[#2d1b4e] dark:text-white leading-snug line-clamp-2 group-hover:text-[#5d2c86] dark:group-hover:text-[#D4AF37] transition-colors duration-300">
+          {item.name}
+        </h3>
+        <div className="flex items-center gap-1.5 mt-1">
+          <CategoryIcon className="w-3 h-3 text-[#5d2c86]/50 dark:text-[#D4AF37]/60" />
+          <span className="text-[10px] tracking-wider uppercase text-[#5d2c86]/50 dark:text-white/40 font-sans-body font-medium">
+            {categoryLabel}
+          </span>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ── Main Portfolio Section ─────────────────────────────────── */
+export default function PortfolioSection() {
+  const [activeCategory, setActiveCategory] = useState('all');
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const [particlesKey, setParticlesKey] = useState(0);
+  const [showParticles, setShowParticles] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
+
+  // Parallax on grid
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
+  const gridY = useTransform(scrollYProgress, [0, 1], [40, -40]);
+
+  // Get filtered items
+  const filteredItems =
+    activeCategory === 'all'
+      ? portfolioItems
+      : portfolioItems.filter((item) => item.category === activeCategory);
+
+  // Lightbox navigation
+  const handleNavigate = useCallback((index: number) => {
+    setLightboxIndex(index);
+  }, []);
+
+  const openLightbox = useCallback(
+    (item: PortfolioItem) => {
+      const idx = filteredItems.findIndex((i) => i.id === item.id);
+      setLightboxIndex(idx >= 0 ? idx : 0);
+      setLightboxOpen(true);
+    },
+    [filteredItems]
+  );
+
+  // Category switch with particles
+  const handleCategoryChange = useCallback((key: string) => {
+    setActiveCategory(key);
+    setShowParticles(true);
+    setParticlesKey((prev) => prev + 1);
+  }, []);
+
+  // Prevent body scroll when lightbox is open
+  useEffect(() => {
+    if (lightboxOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [lightboxOpen]);
+
+  // Eyebrow and heading word split for animations
+  const eyebrowText = 'Crafted with Precision';
+  const headingWords = ['Our', 'Portfolio'];
+
+  return (
+    <section
+      ref={sectionRef}
+      id="portfolio"
+      className="relative py-0 overflow-hidden"
+      style={{ backgroundColor: '#f8f3ed' }}
+    >
+      {/* ── Cinematic Page Header ──────────────────────────── */}
+      <div className="relative w-full min-h-[320px] sm:min-h-[400px] lg:min-h-[480px] flex items-center justify-center overflow-hidden">
+        {/* Gradient overlay purple to transparent */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#5d2c86] via-[#5d2c86]/70 to-transparent" />
+
+        {/* Subtle background pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.06] pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(circle, #D4AF37 1px, transparent 1px)`,
+            backgroundSize: '32px 32px',
+          }}
+        />
+
+        {/* Decorative diagonal lines */}
+        <div className="absolute inset-0 pointer-events-none opacity-[0.04]">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: `repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 80px,
+                rgba(212,175,55,0.3) 80px,
+                rgba(212,175,55,0.3) 81px
+              )`,
+            }}
+          />
+        </div>
+
+        {/* Animated gold line reveal */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={isInView ? { scaleX: 1 } : {}}
+          transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
+          className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent origin-center"
+        />
+
+        <div className="relative z-10 text-center px-4 py-16 sm:py-20 lg:py-24">
+          {/* Eyebrow with letter-spacing animation */}
+          <motion.p
+            initial={{ opacity: 0, letterSpacing: '0.1em' }}
+            animate={isInView ? { opacity: 1, letterSpacing: '0.35em' } : {}}
+            transition={{ duration: 1.0, ease: 'easeOut', delay: 0.3 }}
+            className="text-[11px] sm:text-xs text-[#D4AF37] uppercase mb-4 sm:mb-5 font-sans-body font-medium"
+          >
+            {eyebrowText}
+          </motion.p>
+
+          {/* Heading with cinematic word-by-word reveal */}
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-serif-display font-bold text-white leading-tight flex flex-wrap items-center justify-center gap-x-4">
+            {headingWords.map((word, i) => (
+              <motion.span
+                key={i}
+                initial={{ opacity: 0, y: 40, filter: 'blur(8px)' }}
+                animate={isInView ? { opacity: 1, y: 0, filter: 'blur(0px)' } : {}}
+                transition={{
+                  duration: 0.8,
+                  delay: 0.5 + i * 0.2,
+                  ease: [0.25, 0.46, 0.45, 0.94],
+                }}
+                className="inline-block"
+              >
+                {word}
+              </motion.span>
+            ))}
+          </h2>
+
+          {/* Animated gold line below heading */}
+          <motion.div
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={isInView ? { scaleX: 1, opacity: 1 } : {}}
+            transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94], delay: 1.0 }}
+            className="mt-6 sm:mt-8 mx-auto w-24 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent origin-center"
+          />
+        </div>
+
+        {/* Bottom gold accent line */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={isInView ? { scaleX: 1 } : {}}
+          transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94], delay: 1.2 }}
+          className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent origin-center"
+        />
+      </div>
+
+      {/* ── Content Area ──────────────────────────────────────── */}
+      <div className="relative py-16 sm:py-20 lg:py-24">
+        {/* Subtle background pattern */}
+        <div
+          className="absolute inset-0 opacity-[0.03] pointer-events-none"
+          style={{
+            backgroundImage: `radial-gradient(circle, #5d2c86 1px, transparent 1px)`,
+            backgroundSize: '28px 28px',
+          }}
+        />
+
+        {/* Gold accent line between sections */}
+        <motion.div
+          initial={{ scaleX: 0 }}
+          animate={isInView ? { scaleX: 1 } : {}}
+          transition={{ duration: 0.8, delay: 1.4, ease: 'easeOut' }}
+          className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12"
+        >
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+        </motion.div>
+
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+          {/* ── Category Filter Pills ──────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: 1.5, ease: 'easeOut' }}
+            className="mb-10 sm:mb-14"
+          >
+            <div className="relative flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide justify-start sm:justify-center px-1">
+              {categories.filter(cat => cat.key === 'all' || getCategoryCount(cat.key) > 0).map((cat) => {
+                const isActive = activeCategory === cat.key;
+                const Icon = cat.icon;
+                const count = getCategoryCount(cat.key);
+                return (
+                  <div key={cat.key} className="relative flex-shrink-0">
+                    <button
+                      onClick={() => handleCategoryChange(cat.key)}
+                      className={`
+                        flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-sm font-medium
+                        transition-all duration-300 whitespace-nowrap font-sans-body
+                        ${
+                          isActive
+                            ? 'bg-[#5d2c86] text-white shadow-lg shadow-[#5d2c86]/25 scale-105'
+                            : 'bg-white text-gray-500 hover:text-[#5d2c86] hover:bg-white hover:shadow-md border border-gray-200/80'
+                        }
+                      `}
+                      aria-pressed={isActive}
+                      aria-label={`Filter by ${cat.label}`}
+                    >
+                      <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-400'}`} />
+                      <span>{cat.label}</span>
+                      {/* Count badge */}
+                      <span
+                        className={`ml-0.5 text-[10px] font-semibold px-1.5 py-0.5 rounded-full min-w-[18px] text-center ${
+                          isActive
+                            ? 'bg-white/20 text-white'
+                            : 'bg-gray-100 text-gray-400'
+                        }`}
+                      >
+                        {count}
+                      </span>
+                    </button>
+                    {/* Particle burst on this active pill */}
+                    {isActive && (
+                      <ParticleBurst
+                        key={particlesKey}
+                        active={showParticles}
+                        onDone={() => setShowParticles(false)}
+                      />
+                    )}
+                  </div>
+                );
+              })}
+
+              {/* Animated underline that slides between active categories */}
+              <motion.div
+                layoutId="categoryUnderline"
+                className="absolute -bottom-1 h-[2px] bg-[#D4AF37] rounded-full"
+                style={{
+                  left: 0,
+                  width: 0,
+                }}
+                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+              />
+            </div>
+          </motion.div>
+
+          {/* ── Masonry Grid with Parallax ─────────────────────── */}
+          <motion.div style={{ y: gridY }} ref={gridRef}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory}
+                variants={containerVariants}
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                className="masonry-grid"
+              >
+                {filteredItems.map((item, index) => (
+                  <MasonryItem
+                    key={item.id}
+                    item={item}
+                    index={index}
+                    onClick={() => openLightbox(item)}
+                  />
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Empty state */}
+          {filteredItems.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-20 text-gray-400 font-sans-body"
+            >
+              No items in this category yet.
+            </motion.div>
+          )}
+
+          {/* ── Gold accent line between sections ────────────── */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={isInView ? { scaleX: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
+            className="mt-16 sm:mt-20"
+          >
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+          </motion.div>
+
+          {/* ── Request Custom CTA ──────────────────────────────── */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.5, ease: 'easeOut' }}
+            className="mt-10 sm:mt-14 mb-4"
+          >
+            <div className="relative overflow-hidden rounded-2xl p-8 sm:p-10 lg:p-12 text-center">
+              {/* Purple gradient background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[#5d2c86] via-[#5d2c86] to-[#3d1c56]" />
+
+              {/* Animated border effect */}
+              <div className="absolute inset-0 rounded-2xl pointer-events-none">
+                <div className="absolute inset-0 rounded-2xl border border-[#D4AF37]/20" />
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+                  className="absolute -inset-[1px] rounded-2xl pointer-events-none"
                   style={{
-                    width: `${((brandCatalogPages[selectedBrand.name]?.[0] ?? 1) / 44) * 100}%`,
+                    background: `conic-gradient(from 0deg, transparent 0%, transparent 75%, rgba(212,175,55,0.4) 85%, transparent 100%)`,
+                    mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                    maskComposite: 'exclude',
+                    WebkitMaskComposite: 'xor',
+                    padding: '1px',
                   }}
                 />
-                <div className="absolute top-1 right-0 px-2">
-                  <span className="text-[9px] text-[#D4AF37]/60 font-sans-body">
-                    Page {brandCatalogPages[selectedBrand.name]?.[0] ?? '-'} of 44
-                  </span>
-                </div>
               </div>
-              {/* Header */}
-              <div className="flex items-center justify-between p-5 border-b border-white/10">
-                <div className="flex items-center gap-3">
-                  <span className={`px-2.5 py-1 ${categoryColors[selectedBrand.category] || 'bg-[#4A2364]/80'} text-white text-[10px] font-bold rounded-full font-sans-body`}>
-                    {selectedBrand.category}
-                  </span>
-                  <div>
-                    <h3 className="text-lg font-bold text-white font-serif-display">
-                      {selectedBrand.name}
-                    </h3>
-                    <p className="text-xs text-white/40 font-sans-body">
-                      Catalog pages {brandCatalogPages[selectedBrand.name]?.join('–')}
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="text-white/60 hover:text-white hover:bg-white/10 rounded-full"
-                  onClick={() => setSelectedBrand(null)}
-                >
-                  <X className="w-5 h-5" />
-                </Button>
-              </div>
+
+              {/* Subtle pattern overlay */}
+              <div
+                className="absolute inset-0 opacity-[0.04] pointer-events-none"
+                style={{
+                  backgroundImage: `radial-gradient(circle, #D4AF37 1px, transparent 1px)`,
+                  backgroundSize: '24px 24px',
+                }}
+              />
 
               {/* Content */}
-              <div className="flex-1 overflow-y-auto p-5">
-                <div className="flex flex-col md:flex-row gap-6">
-                  {/* Catalog Images */}
-                  <div className="md:w-1/2 flex flex-col gap-4">
-                    {brandCatalogPages[selectedBrand.name]?.map((pageNum) => (
-                      <div key={pageNum} className="rounded-xl overflow-hidden border border-white/10 shadow-lg">
-                        <img
-                          src={`/catalog-pages/page_${pageNum}.png`}
-                          alt={`${selectedBrand.name} - Page ${pageNum}`}
-                          className="w-full h-auto object-contain"
-                        />
-                        <div className="p-2 bg-white/5 text-center">
-                          <span className="text-[10px] text-white/40 font-sans-body">Page {pageNum}</span>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+              <div className="relative z-10">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                  transition={{ duration: 0.5, delay: 0.7 }}
+                  className="w-14 h-14 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center mx-auto mb-5"
+                >
+                  <Sparkles className="w-6 h-6 text-[#D4AF37]" />
+                </motion.div>
 
-                  {/* Product Info */}
-                  <div className="md:w-1/2">
-                    <p className="text-sm text-white/70 font-sans-body leading-relaxed mb-6">
-                      {selectedBrand.description}
-                    </p>
+                <h3 className="text-2xl sm:text-3xl font-serif-display font-bold text-white mb-3">
+                  Don&apos;t see what you need?
+                </h3>
+                <p className="text-white/60 text-sm sm:text-base font-sans-body max-w-md mx-auto mb-7">
+                  Every piece we create is tailored to your vision. Let us craft something extraordinary just for you.
+                </p>
 
-                    <div className="h-[1px] bg-gradient-to-r from-[#D4AF37]/50 to-transparent mb-6" />
-
-                    <h4 className="text-sm font-bold text-[#D4AF37] font-sans-body mb-4 tracking-wider uppercase">
-                      Product List
-                    </h4>
-                    <div className="space-y-3">
-                      {selectedBrand.items.map((item, i) => (
-                        <motion.div
-                          key={item}
-                          initial={{ opacity: 0, x: 20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: i * 0.08, duration: 0.3 }}
-                          className="flex items-center gap-3 p-3 bg-white/5 rounded-xl border border-white/5 hover:border-[#D4AF37]/20 transition-colors group"
-                        >
-                          <div className="w-8 h-8 rounded-lg bg-[#4A2364]/20 flex items-center justify-center text-[#D4AF37] text-xs font-bold font-sans-body group-hover:bg-[#4A2364]/40 transition-colors">
-                            {String(i + 1).padStart(2, '0')}
-                          </div>
-                          <span className="text-sm text-white/80 font-sans-body">{item}</span>
-                        </motion.div>
-                      ))}
-                    </div>
-
-                    <div className="mt-8 p-4 bg-[#4A2364]/10 rounded-xl border border-[#4A2364]/20">
-                      <p className="text-xs text-white/50 font-sans-body">
-                        Interested in {selectedBrand.name} FF&E packages?{' '}
-                        <a href="#contact" className="text-[#D4AF37] hover:underline" onClick={() => setSelectedBrand(null)}>
-                          Contact us
-                        </a>{' '}
-                        for detailed specifications and pricing.
-                      </p>
-                    </div>
-                  </div>
-                </div>
+                <a
+                  href="#contact"
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#D4AF37] hover:bg-[#c9a230] text-[#2d1b4e] font-sans-body font-semibold text-sm sm:text-base transition-all duration-300 hover:shadow-[0_0_24px_rgba(212,175,55,0.4)] hover:scale-105 group"
+                >
+                  Request Custom Piece
+                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
               </div>
             </div>
-          )}
-        </DialogContent>
-      </Dialog>
+          </motion.div>
+        </div>
+      </div>
 
-      {/* Shimmer animation keyframes for Featured badge */}
-      <style jsx>{`
-        @keyframes featuredShimmer {
-          0% { background-position: 200% 0; }
-          100% { background-position: -200% 0; }
+      {/* ── Lightbox ──────────────────────────────────────── */}
+      <Lightbox
+        isOpen={lightboxOpen}
+        onClose={() => setLightboxOpen(false)}
+        items={filteredItems}
+        currentIndex={lightboxIndex}
+        onNavigate={handleNavigate}
+      />
+
+      {/* ── Global Styles — Pinterest Masonry ──────────────────── */}
+      <style jsx global>{`
+        .masonry-grid {
+          column-count: 2;
+          column-gap: 12px;
+        }
+        @media (min-width: 640px) {
+          .masonry-grid {
+            column-count: 2;
+            column-gap: 16px;
+          }
+        }
+        @media (min-width: 768px) {
+          .masonry-grid {
+            column-count: 3;
+            column-gap: 16px;
+          }
+        }
+        @media (min-width: 1024px) {
+          .masonry-grid {
+            column-count: 4;
+            column-gap: 18px;
+          }
+        }
+        @media (min-width: 1400px) {
+          .masonry-grid {
+            column-count: 5;
+            column-gap: 20px;
+          }
+        }
+
+        /* Hide scrollbar for category pills */
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+
+        /* Gold shimmer sweep keyframe */
+        @keyframes shimmerSweep {
+          0% {
+            transform: translateX(-100%) skewX(-20deg);
+          }
+          100% {
+            transform: translateX(200%) skewX(-20deg);
+          }
+        }
+
+        /* Pinterest-style line clamp */
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
         }
       `}</style>
     </section>

@@ -40,22 +40,22 @@ function BrandPill({ name }: { name: string }) {
           inline-flex items-center justify-center
           px-5 py-2.5 sm:px-6 sm:py-3
           rounded-full
-          border border-[#4A2364]/15 dark:border-[#D4AF37]/25
-          bg-[#F8F5F2]/60 dark:bg-[#1E1E2A]/80
+          border border-[#5d2c86]/15 dark:border-[#D4AF37]/25
+          bg-[#f8f3ed]/60 dark:bg-[#1E1E2A]/80
           backdrop-blur-sm
           transition-colors duration-300
-          hover:border-[#4A2364]/40 dark:hover:border-[#D4AF37]/50
-          hover:bg-[#F8F5F2] dark:hover:bg-[#1E1E2A]
+          hover:border-[#5d2c86]/40 dark:hover:border-[#D4AF37]/50
+          hover:bg-[#f8f3ed] dark:hover:bg-[#1E1E2A]
           group cursor-default select-none
         "
       >
         <span
           className="
             font-sans-body text-sm sm:text-base font-medium
-            text-[#4A2364]/75 dark:text-[#D4AF37]/80
+            text-[#5d2c86]/75 dark:text-[#D4AF37]/80
             tracking-wide uppercase
             transition-colors duration-300
-            group-hover:text-[#4A2364] dark:group-hover:text-[#D4AF37]
+            group-hover:text-[#5d2c86] dark:group-hover:text-[#D4AF37]
             whitespace-nowrap
           "
         >
@@ -81,8 +81,8 @@ export default function BrandMarquee() {
       "
     >
       {/* Subtle top/bottom border accents */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#4A2364]/10 dark:via-[#D4AF37]/10 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#4A2364]/10 dark:via-[#D4AF37]/10 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#5d2c86]/10 dark:via-[#D4AF37]/10 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#5d2c86]/10 dark:via-[#D4AF37]/10 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section heading */}

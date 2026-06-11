@@ -2,15 +2,14 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home, Sofa, Frame, Building2, BookOpen, Mail } from 'lucide-react';
+import { Home, Sofa, Frame, Building2, Mail } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 
 const sections: { id: string; label: string; icon: LucideIcon }[] = [
   { id: 'home', label: 'Home', icon: Home },
-  { id: 'services', label: 'Services', icon: Sofa },
-  { id: 'portfolio', label: 'Portfolio', icon: Frame },
   { id: 'about', label: 'About', icon: Building2 },
-  { id: 'catalog', label: 'Catalog', icon: BookOpen },
+  { id: 'portfolio', label: 'Portfolio', icon: Frame },
+  { id: 'services', label: 'Services', icon: Sofa },
   { id: 'contact', label: 'Contact', icon: Mail },
 ];
 
@@ -18,34 +17,19 @@ export default function FloatingNav() {
   const [activeSection, setActiveSection] = useState('home');
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
-  // IntersectionObserver for scroll spy
+  // Track active section from URL hash
   useEffect(() => {
-    const observerOptions: IntersectionObserverInit = {
-      root: null,
-      rootMargin: '-20% 0px -60% 0px',
-      threshold: 0,
+    const updateFromHash = () => {
+      const hash = window.location.hash.replace('#', '') || 'home';
+      setActiveSection(hash);
     };
-
-    const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersect, observerOptions);
-
-    sections.forEach(({ id }) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
+    updateFromHash();
+    window.addEventListener('hashchange', updateFromHash);
+    return () => window.removeEventListener('hashchange', updateFromHash);
   }, []);
 
   const scrollToSection = useCallback((id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    window.location.hash = id;
   }, []);
 
   return (
@@ -71,8 +55,8 @@ export default function FloatingNav() {
                   transition={{ duration: 0.2, ease: 'easeOut' }}
                 >
                   {/* Connecting line */}
-                  <div className="w-3 h-[1px] bg-[#4A2364]/30 dark:bg-[#6B3F8E]/30" />
-                  <span className="rounded-md px-2.5 py-1 bg-white dark:bg-[#2A2A2A] text-[#4A2364] dark:text-[#D4AF37] font-sans-body text-[10px] tracking-wider font-medium shadow-sm border border-gray-200/50 dark:border-white/10">
+                  <div className="w-3 h-[1px] bg-[#5d2c86]/30 dark:bg-[#7d44a8]/30" />
+                  <span className="rounded-md px-2.5 py-1 bg-white dark:bg-[#2A2A2A] text-[#5d2c86] dark:text-[#D4AF37] font-sans-body text-[10px] tracking-wider font-medium shadow-sm border border-gray-200/50 dark:border-white/10">
                     {section.label}
                   </span>
                 </motion.div>
@@ -90,10 +74,10 @@ export default function FloatingNav() {
                   transition={{ duration: 0.2, ease: 'easeOut' }}
                 >
                   {/* Connecting line */}
-                  <div className="w-3 h-[1px] bg-[#4A2364]/40 dark:bg-[#6B3F8E]/40" />
+                  <div className="w-3 h-[1px] bg-[#5d2c86]/40 dark:bg-[#7d44a8]/40" />
                   {/* Gold dot indicator */}
                   <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] mr-1.5 shrink-0" />
-                  <span className="rounded-md px-2.5 py-1 bg-[#4A2364] text-white font-sans-body text-[10px] tracking-wider font-bold shadow-sm">
+                  <span className="rounded-md px-2.5 py-1 bg-[#5d2c86] text-white font-sans-body text-[10px] tracking-wider font-bold shadow-sm">
                     {section.label}
                   </span>
                 </motion.div>
@@ -107,8 +91,8 @@ export default function FloatingNav() {
               onMouseLeave={() => setHoveredItem(null)}
               className={`flex items-center justify-center rounded-lg px-2.5 py-1.5 text-[10px] tracking-wider transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] ${
                 isActive
-                  ? 'bg-[#4A2364] text-white font-bold'
-                  : 'text-gray-400 hover:text-[#4A2364] dark:hover:text-[#6B3F8E] hover:bg-[#4A2364]/5 dark:hover:bg-[#6B3F8E]/5 font-medium'
+                  ? 'bg-[#5d2c86] text-white font-bold'
+                  : 'text-gray-400 hover:text-[#5d2c86] dark:hover:text-[#7d44a8] hover:bg-[#5d2c86]/5 dark:hover:bg-[#7d44a8]/5 font-medium'
               }`}
               aria-label={`Navigate to ${section.label} section`}
               aria-current={isActive ? 'true' : undefined}

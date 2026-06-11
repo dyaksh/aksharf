@@ -35,8 +35,8 @@ function getAccentColor(fromBg: string, toBg: string): string {
   const toLight = isLight(toBg);
 
   if (fromLight && !toLight) return '#D4AF37'; // light-to-dark: gold
-  if (!fromLight && toLight) return '#4A2364'; // dark-to-light: purple
-  if (fromLight && toLight) return '#4A2364'; // light-to-light: purple
+  if (!fromLight && toLight) return '#5d2c86'; // dark-to-light: purple
+  if (fromLight && toLight) return '#5d2c86'; // light-to-light: purple
   return '#D4AF37'; // dark-to-dark: gold
 }
 
@@ -46,7 +46,7 @@ export default function SectionDivider({ fromBg, toBg, variant = 'wave' }: Secti
   const accentColor = getAccentColor(fromBg, toBg);
 
   // Secondary accent color (opposite of primary)
-  const secondaryColor = accentColor === '#D4AF37' ? '#4A2364' : '#D4AF37';
+  const secondaryColor = accentColor === '#D4AF37' ? '#5d2c86' : '#D4AF37';
 
   return (
     <div
