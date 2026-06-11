@@ -9,10 +9,12 @@ import ProcessSection from '@/components/sections/ProcessSection';
 import AboutSection from '@/components/sections/AboutSection';
 import PortfolioSection from '@/components/sections/PortfolioSection';
 import ServicesSection from '@/components/sections/ServicesSection';
+import TestimonialsSection from '@/components/sections/TestimonialsSection';
 import CatalogSection from '@/components/sections/CatalogSection';
 import CTASection from '@/components/sections/CTASection';
 import ContactSection from '@/components/sections/ContactSection';
 import Footer from '@/components/sections/Footer';
+import ChatWidget from '@/components/sections/ChatWidget';
 
 function ScrollToTop() {
   const [visible, setVisible] = useState(false);
@@ -58,12 +60,14 @@ export default function Home() {
         <AboutSection />
         <PortfolioSection />
         <ServicesSection />
+        <TestimonialsSection />
         <CatalogSection />
         <CTASection />
         <ContactSection />
       </main>
       <Footer />
       <ScrollToTop />
+      <ChatWidget />
     </div>
   );
 }

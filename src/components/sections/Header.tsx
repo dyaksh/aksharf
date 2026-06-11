@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Home } from 'lucide-react';
+import { Menu, X, Home, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from 'next-themes';
 
 const navLinks = [
   { label: 'Home', href: '#home' },
@@ -11,6 +12,21 @@ const navLinks = [
   { label: 'About', href: '#about' },
   { label: 'Contact', href: '#contact' },
 ];
+
+function ThemeToggle() {
+  const { setTheme, resolvedTheme } = useTheme();
+
+  return (
+    <button
+      onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+      className="w-10 h-10 rounded-full flex items-center justify-center text-gray-500 hover:text-[#4A2364] dark:text-gray-400 dark:hover:text-[#6B3F8E] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+      aria-label={resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+    >
+      <Sun className="w-5 h-5 block dark:hidden" />
+      <Moon className="w-5 h-5 hidden dark:block" />
+    </button>
+  );
+}
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -82,7 +98,7 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
-          ? 'bg-white/95 backdrop-blur-md shadow-sm'
+          ? 'bg-white/95 dark:bg-[#1A1A1A]/95 backdrop-blur-md shadow-sm'
           : 'bg-transparent'
       }`}
     >
@@ -129,10 +145,10 @@ export default function Header() {
               </motion.div>
             </motion.div>
             <div>
-              <h1 className="text-lg font-bold text-[#1A1A1A] leading-tight font-sans-body">
+              <h1 className="text-lg font-bold text-[#1A1A1A] dark:text-white leading-tight font-sans-body">
                 Akshar Foshan
               </h1>
-              <p className="text-[10px] tracking-[0.2em] text-gray-400 font-sans-body">
+              <p className="text-[10px] tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body">
                 HOSPITALITY FF&E
               </p>
             </div>
@@ -148,15 +164,15 @@ export default function Header() {
                   onClick={() => handleNavClick(link.href)}
                   className={`relative text-sm font-medium transition-all duration-300 font-sans-body px-4 py-2 rounded-full ${
                     isActive
-                      ? 'text-[#4A2364]'
-                      : 'text-gray-500 hover:text-[#4A2364]'
+                      ? 'text-[#4A2364] dark:text-[#6B3F8E]'
+                      : 'text-gray-500 dark:text-gray-400 hover:text-[#4A2364] dark:hover:text-[#6B3F8E]'
                   }`}
                 >
                   {link.label}
                   {isActive && (
                     <motion.div
                       layoutId="activeNav"
-                      className="absolute inset-0 bg-[#4A2364]/8 rounded-full -z-10"
+                      className="absolute inset-0 bg-[#4A2364]/8 dark:bg-[#6B3F8E]/8 rounded-full -z-10"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -165,8 +181,9 @@ export default function Header() {
             })}
           </nav>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
+          {/* Desktop CTA + Theme Toggle */}
+          <div className="hidden md:flex items-center gap-2">
+            <ThemeToggle />
             <Button
               onClick={() => handleNavClick('#contact')}
               className="bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-full px-6 font-sans-body text-sm shadow-md hover:shadow-lg transition-shadow duration-300"
@@ -175,14 +192,17 @@ export default function Header() {
             </Button>
           </div>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            className="md:hidden p-2 text-[#1A1A1A] relative z-50"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
-          >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-          </button>
+          {/* Mobile: Theme Toggle + Menu Toggle */}
+          <div className="flex items-center gap-1 md:hidden">
+            <ThemeToggle />
+            <button
+              className="p-2 text-[#1A1A1A] dark:text-white relative z-50"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
+            >
+              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -201,7 +221,7 @@ export default function Header() {
             />
             {/* Menu panel */}
             <motion.div
-              className="fixed top-0 right-0 bottom-0 w-[280px] bg-white z-50 md:hidden shadow-2xl"
+              className="fixed top-0 right-0 bottom-0 w-[280px] bg-white dark:bg-[#1A1A1A] z-50 md:hidden shadow-2xl"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
@@ -220,8 +240,8 @@ export default function Header() {
                         transition={{ delay: 0.1 + index * 0.08, duration: 0.3 }}
                         className={`text-left text-lg font-medium py-3 px-4 rounded-lg transition-colors font-sans-body ${
                           isActive
-                            ? 'text-[#4A2364] bg-[#4A2364]/8'
-                            : 'text-gray-700 hover:text-[#4A2364] hover:bg-gray-50'
+                            ? 'text-[#4A2364] dark:text-[#6B3F8E] bg-[#4A2364]/8 dark:bg-[#6B3F8E]/8'
+                            : 'text-gray-700 dark:text-gray-300 hover:text-[#4A2364] dark:hover:text-[#6B3F8E] hover:bg-gray-50 dark:hover:bg-gray-800'
                         }`}
                       >
                         {link.label}
@@ -240,7 +260,7 @@ export default function Header() {
                 {/* Decorative element at bottom */}
                 <div className="mt-auto pb-8">
                   <div className="w-16 h-0.5 bg-[#D4AF37] mb-3" />
-                  <p className="text-xs tracking-[0.2em] text-gray-400 font-sans-body">
+                  <p className="text-xs tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body">
                     HOSPITALITY FF&E
                   </p>
                 </div>

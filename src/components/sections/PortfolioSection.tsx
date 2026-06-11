@@ -1,9 +1,9 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Eye, X, Star, Sparkles } from 'lucide-react';
+import { ArrowRight, Eye, X, Star, Sparkles, BookOpen } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -18,6 +18,7 @@ const brands = [
     page: 11,
     description: 'Comfortable, affordable stays for families, business travelers, and friends.',
     items: ['King Headboard', 'Queen Headboard', 'Desk', 'C-Table', 'TV Chest', 'Sleeper Sofa'],
+    keys: 180,
   },
   {
     name: 'Holiday Inn Express',
@@ -26,6 +27,7 @@ const brands = [
     page: 14,
     description: 'Simple and smart travel experience with clean, comfortable rooms.',
     items: ['King Headboard', 'SmartShelf & Hook Panel', 'Functional Rack', 'Metal Bed Platform'],
+    keys: 120,
   },
   {
     name: 'Candlewood Suites',
@@ -34,6 +36,7 @@ const brands = [
     page: 16,
     description: 'A "home away from home" experience with apartment-like suites.',
     items: ['King Headboard', 'TV Panel', 'Dresser', 'Lounge Chair', 'Sleeper Sofa'],
+    keys: 95,
   },
   {
     name: 'Fairfield Inn',
@@ -42,6 +45,7 @@ const brands = [
     page: 20,
     description: 'Warm hospitality with a "Beauty of Simplicity" philosophy.',
     items: ['King Headboard', 'Ottoman Bench', 'Sleeper Sofa', 'Nightstand', 'Task Chair'],
+    keys: 150,
   },
   {
     name: 'SpringHill Suites',
@@ -50,6 +54,7 @@ const brands = [
     page: 22,
     description: 'Separate areas for relaxing and working in all-suite hotels.',
     items: ['King Headboard', 'TV Stand', 'Desk Chair', 'Bench', 'Sleeper Sofa'],
+    keys: 140,
   },
   {
     name: 'TownePlace Suites',
@@ -58,6 +63,7 @@ const brands = [
     page: 24,
     description: 'Extended-stay hotel designed for travelers who want comfortable flexibility.',
     items: ['King Headboard', 'Lounge Chair', 'Functional Sofa', 'Dresser', 'Vanity'],
+    keys: 110,
   },
   {
     name: 'Hampton Inn',
@@ -66,6 +72,7 @@ const brands = [
     page: 28,
     description: 'Consistent, reliable, and friendly experience at a mid-price level.',
     items: ['King Headboard', 'C-Table', 'TV Panel', 'Hospitality Unit', 'Sleeper Sofa'],
+    keys: 200,
   },
   {
     name: 'Home2 Suites',
@@ -74,6 +81,7 @@ const brands = [
     page: 30,
     description: 'All-suite, extended-stay hotel for cost-conscious guests seeking comfort.',
     items: ['King Headboard', 'Ottoman', 'Desk', 'Sleeper Sofa', 'Kitchenette Wall'],
+    keys: 105,
   },
   {
     name: 'Homewood Suites',
@@ -82,6 +90,7 @@ const brands = [
     page: 32,
     description: 'Home-like accommodations for guests and their pets.',
     items: ['King Headboard', 'Nesting Table', 'Sleeper Sofa', 'Vanity', 'Dresser'],
+    keys: 130,
   },
   {
     name: 'Comfort Inn',
@@ -90,6 +99,7 @@ const brands = [
     page: 36,
     description: 'Bright hospitality, convenient amenities and a colorful outlook.',
     items: ['King Headboard', 'Desk', 'Sleeper Sofa', 'Semi Open Vanity', 'Closet Unit'],
+    keys: 160,
   },
   {
     name: 'Country Inn',
@@ -98,6 +108,7 @@ const brands = [
     page: 38,
     description: 'Thoughtful extras and heartfelt hospitality for every guest.',
     items: ['King Headboard', 'Refrigerator Cabinet', 'Desk', 'Luggage Bench', 'Lounge Chair'],
+    keys: 85,
   },
   {
     name: 'Wingate',
@@ -106,6 +117,16 @@ const brands = [
     page: 42,
     description: 'Designed for modern travelers who need to stay connected and productive.',
     items: ['King Headboard', 'Desk & Chair', 'Coffee Table', 'TV Panel', 'Sleeper Sofa'],
+    keys: 100,
+  },
+  {
+    name: 'La Quinta',
+    image: '/catalog-pages/page_44.png',
+    category: 'Wyndham',
+    page: 44,
+    description: 'Upper-midscale hotel brand focusing on consistent, comfortable, and friendly experience.',
+    items: ['King Headboard', 'Double Queen Headboard', 'C-Table', 'Functional Sofa', 'Lounge Chair', 'Luggage Bench'],
+    keys: 240,
   },
 ];
 
@@ -133,6 +154,7 @@ const brandCatalogPages: Record<string, number[]> = {
   'Comfort Inn': [35, 36],
   'Country Inn': [37, 38],
   'Wingate': [41, 42],
+  'La Quinta': [43, 44],
 };
 
 export default function PortfolioSection() {
@@ -164,6 +186,17 @@ export default function PortfolioSection() {
       });
     }
   }, [activeCategory]);
+
+  const handleViewCatalogPage = useCallback((page: number) => {
+    // Dispatch a custom event that CatalogSection listens for
+    const event = new CustomEvent('openCatalogPage', { detail: { page } });
+    window.dispatchEvent(event);
+    // Scroll to catalog section
+    const catalogSection = document.getElementById('catalog');
+    if (catalogSection) {
+      catalogSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, []);
 
   return (
     <section id="portfolio" className="bg-[#1A1A1A] py-20 lg:py-32" ref={sectionRef}>
@@ -243,7 +276,7 @@ export default function PortfolioSection() {
         </motion.div>
 
         {/* Portfolio Grid with Staggered Animation */}
-        <AnimatePresence mode="wait">
+        <AnimatePresence mode="popLayout">
           <motion.div
             key={activeCategory + (showAll ? '-all' : '-partial')}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -271,90 +304,111 @@ export default function PortfolioSection() {
                   },
                 }}
                 layout
-                className="group bg-white/5 rounded-2xl overflow-hidden border border-white/10 hover:border-[#D4AF37]/30 transition-all duration-500 hover:bg-white/[0.08] hover:shadow-[0_8px_40px_rgba(74,35,100,0.15)]"
               >
-                {/* Image */}
-                <div className="relative h-48 overflow-hidden">
-                  <img
-                    src={brand.image}
-                    alt={brand.name}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                {/* Gradient border wrapper */}
+                <div className="p-[1px] rounded-2xl bg-transparent group/card hover:bg-gradient-to-r hover:from-[#4A2364] hover:via-[#D4AF37] hover:to-[#4A2364] transition-all duration-500 bg-[length:200%_100%] hover:bg-[length:100%_100%]">
+                  <div className="group bg-white/5 rounded-2xl overflow-hidden border border-white/10 hover:border-transparent transition-all duration-500 hover:bg-white/[0.08] hover:shadow-[0_8px_40px_rgba(74,35,100,0.15)]">
+                    {/* Image */}
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <img
+                        src={brand.image}
+                        alt={brand.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
-                  {/* Category Badge with Brand-Specific Colors */}
-                  <div className="absolute top-3 left-3">
-                    <span className={`px-2.5 py-1 ${categoryColors[brand.category] || 'bg-[#4A2364]/80'} text-white text-[10px] font-bold rounded-full font-sans-body shadow-lg`}>
-                      {brand.category}
-                    </span>
-                  </div>
+                      {/* Category Badge with Brand-Specific Colors */}
+                      <div className="absolute top-3 left-3">
+                        <span className={`px-2.5 py-1 ${categoryColors[brand.category] || 'bg-[#4A2364]/80'} text-white text-[10px] font-bold rounded-full font-sans-body shadow-lg`}>
+                          {brand.category}
+                        </span>
+                      </div>
 
-                  {/* Featured / New Badge for first 3 items */}
-                  {index < 3 && (
-                    <div className="absolute top-3 right-3">
-                      <span className={`px-2 py-1 text-[9px] font-bold rounded-full font-sans-body flex items-center gap-1 shadow-lg ${
-                        index === 0
-                          ? 'bg-[#D4AF37] text-black'
-                          : 'bg-white/20 text-white backdrop-blur-sm border border-white/20'
-                      }`}>
-                        {index === 0 ? (
-                          <>
-                            <Star className="w-3 h-3" fill="currentColor" />
-                            Featured
-                          </>
-                        ) : (
-                          <>
-                            <Sparkles className="w-3 h-3" />
-                            New
-                          </>
-                        )}
-                      </span>
+                      {/* Keys Count Badge */}
+                      <div className="absolute top-3 right-3">
+                        <span className="px-2.5 py-1 bg-black/50 backdrop-blur-sm text-white text-[10px] font-bold rounded-full font-sans-body shadow-lg border border-white/10">
+                          {brand.keys} Keys
+                        </span>
+                      </div>
+
+                      {/* Featured / New Badge for first 3 items */}
+                      {index < 3 && (
+                        <div className="absolute top-12 right-3">
+                          <span className={`px-2 py-1 text-[9px] font-bold rounded-full font-sans-body flex items-center gap-1 shadow-lg ${
+                            index === 0
+                              ? 'bg-[#D4AF37] text-black'
+                              : 'bg-white/20 text-white backdrop-blur-sm border border-white/20'
+                          }`}>
+                            {index === 0 ? (
+                              <>
+                                <Star className="w-3 h-3" fill="currentColor" />
+                                Featured
+                              </>
+                            ) : (
+                              <>
+                                <Sparkles className="w-3 h-3" />
+                                New
+                              </>
+                            )}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Hover overlay with View Details button */}
+                      <div className="absolute inset-0 bg-[#4A2364]/0 group-hover:bg-[#4A2364]/50 transition-all duration-500 flex items-center justify-center">
+                        <motion.div
+                          initial={{ opacity: 0, y: 20 }}
+                          whileHover={{ opacity: 1, y: 0 }}
+                          className="opacity-0 group-hover:opacity-100 transition-all duration-300"
+                        >
+                          <Button
+                            onClick={() => setSelectedBrand(brand)}
+                            className="bg-white text-[#4A2364] hover:bg-[#D4AF37] hover:text-black font-sans-body text-xs font-bold rounded-full px-5 shadow-xl transition-colors duration-300"
+                          >
+                            <Eye className="w-3.5 h-3.5 mr-1.5" />
+                            View Details
+                          </Button>
+                        </motion.div>
+                      </div>
                     </div>
-                  )}
 
-                  {/* Hover overlay with View Details button */}
-                  <div className="absolute inset-0 bg-[#4A2364]/0 group-hover:bg-[#4A2364]/50 transition-all duration-500 flex items-center justify-center">
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      whileHover={{ opacity: 1, y: 0 }}
-                      className="opacity-0 group-hover:opacity-100 transition-all duration-300"
-                    >
-                      <Button
-                        onClick={() => setSelectedBrand(brand)}
-                        className="bg-white text-[#4A2364] hover:bg-[#D4AF37] hover:text-black font-sans-body text-xs font-bold rounded-full px-5 shadow-xl transition-colors duration-300"
+                    {/* Gold Divider Line */}
+                    <div className="h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/60 to-transparent" />
+
+                    {/* Content */}
+                    <div className="p-5">
+                      <h3 className="text-lg font-bold text-white font-sans-body mb-2 group-hover:text-[#D4AF37] transition-colors duration-300">
+                        {brand.name}
+                      </h3>
+                      <p className="text-xs text-white/50 mb-4 font-sans-body line-clamp-2">
+                        {brand.description}
+                      </p>
+                      <div className="flex flex-wrap gap-1.5 mb-4">
+                        {brand.items.slice(0, 4).map((item) => (
+                          <span
+                            key={item}
+                            className="px-2 py-0.5 bg-white/5 text-white/40 text-[10px] rounded-full font-sans-body group-hover:bg-white/10 group-hover:text-white/60 transition-colors duration-300"
+                          >
+                            {item}
+                          </span>
+                        ))}
+                        {brand.items.length > 4 && (
+                          <span className="px-2 py-0.5 bg-white/5 text-white/40 text-[10px] rounded-full font-sans-body">
+                            +{brand.items.length - 4}
+                          </span>
+                        )}
+                      </div>
+
+                      {/* View Catalog Page Link */}
+                      <button
+                        onClick={() => handleViewCatalogPage(brand.page)}
+                        className="inline-flex items-center gap-1.5 text-[11px] text-[#D4AF37]/70 hover:text-[#D4AF37] font-sans-body font-medium transition-colors duration-300 group/link"
                       >
-                        <Eye className="w-3.5 h-3.5 mr-1.5" />
-                        View Details
-                      </Button>
-                    </motion.div>
-                  </div>
-                </div>
-
-                {/* Gold Divider Line */}
-                <div className="h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/60 to-transparent" />
-
-                {/* Content */}
-                <div className="p-5">
-                  <h3 className="text-lg font-bold text-white font-sans-body mb-2 group-hover:text-[#D4AF37] transition-colors duration-300">
-                    {brand.name}
-                  </h3>
-                  <p className="text-xs text-white/50 mb-4 font-sans-body line-clamp-2">
-                    {brand.description}
-                  </p>
-                  <div className="flex flex-wrap gap-1.5">
-                    {brand.items.slice(0, 4).map((item) => (
-                      <span
-                        key={item}
-                        className="px-2 py-0.5 bg-white/5 text-white/40 text-[10px] rounded-full font-sans-body group-hover:bg-white/10 group-hover:text-white/60 transition-colors duration-300"
-                      >
-                        {item}
-                      </span>
-                    ))}
-                    {brand.items.length > 4 && (
-                      <span className="px-2 py-0.5 bg-white/5 text-white/40 text-[10px] rounded-full font-sans-body">
-                        +{brand.items.length - 4}
-                      </span>
-                    )}
+                        <BookOpen className="w-3.5 h-3.5" />
+                        View Catalog Page
+                        <ArrowRight className="w-3 h-3 group-hover/link:translate-x-0.5 transition-transform duration-300" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </motion.div>

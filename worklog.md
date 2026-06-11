@@ -1,35 +1,24 @@
 ---
-Task ID: 2
-Agent: Cron Review Agent
-Task: QA testing, bug fixes, and comprehensive visual enhancements
+Task ID: 3
+Agent: Cron Review Agent (Round 3)
+Task: QA testing, mobile fixes, new features (testimonials, dark mode, chat widget, portfolio enhancements)
 
 Work Log:
-- Performed full QA with agent-browser across all sections (Hero, Stats, Process, Portfolio, Services, Catalog, CTA, Contact, Footer)
-- Analyzed screenshots with VLM for detailed feedback on visual quality
-- Identified key issues: mobile responsiveness (6/10), missing animations, basic card design, no About section
-- Fixed mobile responsiveness: reduced hero image height, improved text scaling, fixed overflow issues
-- Enhanced Header: scroll progress bar, active section highlighting (IntersectionObserver), animated logo, mobile slide-in menu with backdrop
-- Enhanced HeroSection: framer-motion scroll-reveal, gradient background overlay, decorative SVG dot pattern, gold accent on badge, count-up stats animation, scroll-down indicator
-- Enhanced ProcessSection: staggered card animations, connecting arrows between cards, outlined numbers, dramatic hover with purple border-left, decorative background
-- Created AboutSection: brand story from PDF pages 2-3, split layout with catalog images, 4 value cards (Quality, Reliability, Service, Innovation), decorative elements
-- Enhanced PortfolioSection: staggered grid animations, brand-specific category badge colors (IHG=green, Marriott=red, etc.), "Featured"/"New" badges, brand detail modal dialog, sliding filter indicator, smooth filter transitions
-- Enhanced ServicesSection: scroll-reveal from left/right, gradient borders on hover, gold corner accents, gradient icon containers, "Learn more →" links
-- Enhanced CatalogSection: category filter, thumbnail strip in viewer, zoom controls with mouse wheel, keyboard navigation, enhanced thumbnails with purple glow
-- Enhanced CTASection: floating decorative particles, dot grid texture, glow/shimmer on buttons, gold line separator, parallax background movement
-- Enhanced ContactSection: lucide icons replacing emojis, form validation with green checkmarks, map placeholder, social media icons, hover effects on contact cards
-- Enhanced Footer: back-to-top button, social media icons, newsletter signup form, underline animation on links, decorative gold line
-- Added ScrollToTop floating button component to page.tsx
-- Added AboutSection between ProcessSection and PortfolioSection
-- Fixed min-h-screen flex layout for sticky footer
+- Performed comprehensive QA with agent-browser + VLM analysis across all sections
+- Identified mobile hero issues (6/10): floating thumbnails overlapping, touch targets too small, stat labels wrapping
+- Identified missing features: no testimonials/trust section, no dark mode, no chat widget, no La Quinta in portfolio
+- Fixed mobile hero: floating thumbnails now hidden md:block (desktop only), min-h-12 on CTA buttons, shorter stat labels on mobile
+- Created TestimonialsSection: 3 testimonial cards with carousel (auto-advance, pause-on-hover, arrows, dots), brand logos row (IHG, Hilton, Marriott, Choice, Wyndham)
+- Implemented dark mode with next-themes: ThemeProvider in layout.tsx, Sun/Moon toggle in Header, dark: classes on all sections
+- Enhanced portfolio: added La Quinta (13th brand), aspect-[4/3] consistent card heights, gradient border on hover, "View Catalog Page →" links, "Keys" count badges
+- Created ChatWidget: floating purple button with pulse animation, quick contact form panel, POST to /api/contact
+- Created brand favicon: purple circle with white "A" at /public/favicon.svg
+- Updated layout.tsx to use local favicon
 
 Stage Summary:
-- Mobile score improved from 6/10 to 8/10
-- Desktop overall score: 7-8/10
-- All sections now have framer-motion animations
-- New AboutSection added with brand story content
-- Portfolio has brand-specific colors and detail modals
-- Catalog viewer has zoom, keyboard nav, and thumbnail strip
-- Contact form has validation feedback
-- Footer has newsletter signup and social links
-- Zero lint errors, all pages returning HTTP 200
-- No console errors in dev server
+- Mobile score: 6→7/10 (improved hero layout, touch targets, stat labels)
+- Desktop score: 7-8/10 with dark mode at 8/10
+- New sections: TestimonialsSection (between Services and Catalog)
+- New features: Dark mode toggle, Chat widget, Brand favicon
+- Portfolio now has 13 brands including La Quinta with gradient borders and keys badges
+- All lint checks pass, HTTP 200 responses, no runtime errors

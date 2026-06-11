@@ -48,7 +48,7 @@ export default function ServicesSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   return (
-    <section className="bg-[#F8F5F2] py-20 lg:py-32 relative overflow-hidden" ref={sectionRef}>
+    <section className="bg-[#F8F5F2] dark:bg-[#121212] py-20 lg:py-32 relative overflow-hidden" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
           {/* Left Column - Slides in from left */}
@@ -65,10 +65,10 @@ export default function ServicesSection() {
             <p className="text-xs tracking-[0.3em] text-gray-400 mb-4 font-sans-body">
               WHAT WE COVER
             </p>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] mb-6">
-              <span className="text-[#4A2364]">360° FF&E support</span>, under one roof.
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-6">
+              <span className="text-[#4A2364] dark:text-[#6B3F8E]">360° FF&E support</span>, under one roof.
             </h2>
-            <p className="text-sm text-gray-500 leading-relaxed mb-8 font-sans-body">
+            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-8 font-sans-body">
               From concept sketches to on-site install, every FF&E need is handled by our
               integrated team — no gaps, no finger-pointing, just one accountable partner.
             </p>
@@ -119,11 +119,11 @@ export default function ServicesSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.1 * index }}
-                    className="relative bg-white rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-500 border border-gray-100 group overflow-hidden"
+                    className="relative bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-500 border border-gray-100 dark:border-gray-800 group overflow-hidden"
                   >
                     {/* Gradient border effect on hover */}
                     <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-[2px] bg-gradient-to-br from-[#4A2364] via-[#D4AF37] to-[#4A2364]">
-                      <div className="w-full h-full bg-white rounded-[14px]" />
+                      <div className="w-full h-full bg-white dark:bg-[#1E1E1E] rounded-[14px]" />
                     </div>
 
                     {/* Gold triangle corner accent - top right */}
@@ -138,10 +138,10 @@ export default function ServicesSection() {
                       <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#4A2364]/10 to-[#D4AF37]/10 flex items-center justify-center mb-4 group-hover:from-[#4A2364]/20 group-hover:to-[#D4AF37]/20 transition-all duration-300">
                         <Icon className="w-5 h-5 text-[#4A2364] group-hover:text-[#4A2364] transition-colors" />
                       </div>
-                      <h3 className="text-base font-bold text-[#1A1A1A] font-sans-body mb-2">
+                      <h3 className="text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-2">
                         {service.title}
                       </h3>
-                      <p className="text-xs text-gray-500 leading-relaxed font-sans-body mb-3">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-3">
                         {service.description}
                       </p>
 

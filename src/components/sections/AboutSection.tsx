@@ -39,7 +39,7 @@ export default function AboutSection() {
   return (
     <section
       id="about-brand"
-      className="relative py-20 lg:py-32 overflow-hidden bg-white"
+      className="relative py-20 lg:py-32 overflow-hidden bg-white dark:bg-[#121212]"
       ref={sectionRef}
     >
       {/* Subtle dot grid texture overlay */}
@@ -91,8 +91,8 @@ export default function AboutSection() {
           <p className="text-xs tracking-[0.3em] text-[#D4AF37] mb-4 font-sans-body">
             OUR STORY
           </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] max-w-3xl mx-auto">
-            Built on <span className="text-[#4A2364]">trust</span>, defined by{' '}
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white max-w-3xl mx-auto">
+            Built on <span className="text-[#4A2364] dark:text-[#6B3F8E]">trust</span>, defined by{' '}
             <span className="text-[#D4AF37]">excellence</span>.
           </h2>
         </motion.div>
@@ -114,7 +114,7 @@ export default function AboutSection() {
               <Quote className="w-8 h-8 text-[#D4AF37]/40" />
             </div>
 
-            <p className="text-base text-gray-600 leading-relaxed font-sans-body mb-6">
+            <p className="text-base text-gray-600 dark:text-gray-300 leading-relaxed font-sans-body mb-6">
               Akshar Hospitality serves as the exclusive international sales and
               project management arm for our strategic hospitality furniture
               manufacturing partner based in Foshan, China and there are more
@@ -122,7 +122,7 @@ export default function AboutSection() {
             </p>
 
             {/* Brand Definition */}
-            <div className="bg-[#F8F5F2] rounded-2xl p-6 mb-6 relative overflow-hidden">
+            <div className="bg-[#F8F5F2] dark:bg-[#1E1E1E] rounded-2xl p-6 mb-6 relative overflow-hidden">
               {/* Decorative corner */}
               <div className="absolute top-0 right-0 z-0">
                 <div className="w-12 h-12">
@@ -130,11 +130,11 @@ export default function AboutSection() {
                 </div>
               </div>
               <div className="relative z-10">
-                <p className="text-xs tracking-[0.2em] text-[#4A2364] font-sans-body font-bold mb-3">
+                <p className="text-xs tracking-[0.2em] text-[#4A2364] dark:text-[#6B3F8E] font-sans-body font-bold mb-3">
                   BRAND DEFINITION
                 </p>
-                <p className="text-sm text-gray-600 leading-relaxed font-sans-body">
-                  <span className="text-[#4A2364] font-bold font-serif-display text-lg">
+                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-sans-body">
+                  <span className="text-[#4A2364] dark:text-[#6B3F8E] font-bold font-serif-display text-lg">
                     &ldquo;Akshar&rdquo;
                   </span>{' '}
                   combines stability and high quality of hotel furniture and
@@ -147,10 +147,10 @@ export default function AboutSection() {
             {/* Mission & Values */}
             <div className="relative">
               <div className="w-8 h-[2px] bg-[#D4AF37] mb-4" />
-              <p className="text-xs tracking-[0.2em] text-gray-400 font-sans-body font-bold mb-3">
+              <p className="text-xs tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body font-bold mb-3">
                 MISSION & VALUES
               </p>
-              <p className="text-sm text-gray-600 leading-relaxed font-sans-body">
+              <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-sans-body">
                 Our mission is to optimize hospitality supply chains by providing
                 reliable, well-crafted furniture and exceptional, client-centric
                 service.
@@ -225,7 +225,7 @@ export default function AboutSection() {
             <p className="text-xs tracking-[0.3em] text-[#4A2364] mb-3 font-sans-body">
               CLIENT-CENTRIC VALUES
             </p>
-            <h3 className="text-2xl sm:text-3xl font-bold font-serif-display text-[#1A1A1A]">
+            <h3 className="text-2xl sm:text-3xl font-bold font-serif-display text-[#1A1A1A] dark:text-white">
               What drives every decision we make.
             </h3>
           </div>
@@ -236,7 +236,7 @@ export default function AboutSection() {
               return (
                 <motion.div
                   key={value.title}
-                  className="relative bg-[#F8F5F2] rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-500 group overflow-hidden cursor-default"
+                  className="relative bg-[#F8F5F2] dark:bg-[#1E1E1E] rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all duration-500 group overflow-hidden cursor-default"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -247,18 +247,18 @@ export default function AboutSection() {
 
                   {/* Gradient border on hover */}
                   <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-[2px] bg-gradient-to-br from-[#4A2364] via-[#D4AF37] to-[#4A2364]">
-                    <div className="w-full h-full bg-[#F8F5F2] rounded-[14px]" />
+                    <div className="w-full h-full bg-[#F8F5F2] dark:bg-[#1E1E1E] rounded-[14px]" />
                   </div>
 
                   <div className="relative z-10">
                     {/* Icon */}
-                    <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center mb-4 shadow-sm group-hover:bg-[#4A2364] transition-colors duration-300">
+                    <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#2A2A2A] flex items-center justify-center mb-4 shadow-sm group-hover:bg-[#4A2364] transition-colors duration-300">
                       <Icon className="w-5 h-5 text-[#4A2364] group-hover:text-white transition-colors duration-300" />
                     </div>
-                    <h4 className="text-base font-bold text-[#1A1A1A] font-sans-body mb-2">
+                    <h4 className="text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-2">
                       {value.title}
                     </h4>
-                    <p className="text-xs text-gray-500 leading-relaxed font-sans-body">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body">
                       {value.description}
                     </p>
                   </div>

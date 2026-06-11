@@ -136,6 +136,18 @@ export default function CatalogSection() {
     setZoomLevel(1);
   }, []);
 
+  // Listen for custom event from PortfolioSection "View Catalog Page" links
+  useEffect(() => {
+    const handleCustomEvent = (e: Event) => {
+      const customEvent = e as CustomEvent<{ page: number }>;
+      if (customEvent.detail?.page) {
+        handleOpenPage(customEvent.detail.page);
+      }
+    };
+    window.addEventListener('openCatalogPage', handleCustomEvent);
+    return () => window.removeEventListener('openCatalogPage', handleCustomEvent);
+  }, [handleOpenPage]);
+
   const handlePrevPage = useCallback(() => {
     if (currentPage > 0) {
       const newIdx = currentPage - 1;
@@ -192,7 +204,7 @@ export default function CatalogSection() {
   const thumbnailPages = catalogPages.slice(thumbnailStart, thumbnailEnd);
 
   return (
-    <section className="bg-white py-20 lg:py-32 relative" ref={sectionRef}>
+    <section className="bg-white dark:bg-[#121212] py-20 lg:py-32 relative" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -205,10 +217,10 @@ export default function CatalogSection() {
           <p className="text-xs tracking-[0.3em] text-gray-400 mb-4 font-sans-body">
             FULL CATALOG
           </p>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] mb-4">
-            Browse our <span className="text-[#4A2364]">complete catalog</span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-4">
+            Browse our <span className="text-[#4A2364] dark:text-[#6B3F8E]">complete catalog</span>
           </h2>
-          <p className="text-sm text-gray-500 max-w-xl mx-auto font-sans-body">
+          <p className="text-sm text-gray-500 dark:text-gray-400 max-w-xl mx-auto font-sans-body">
             Explore our 2026 Furniture Catalog with detailed product specifications
             across all hotel brand standards.
           </p>
@@ -229,7 +241,7 @@ export default function CatalogSection() {
               className={`px-4 py-2 rounded-full text-xs font-medium font-sans-body transition-all duration-300 ${
                 activeCategory === cat
                   ? 'bg-[#4A2364] text-white shadow-md shadow-[#4A2364]/20'
-                  : 'bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700'
+                  : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-700 dark:hover:text-gray-200'
               }`}
             >
               {cat}
@@ -269,7 +281,7 @@ export default function CatalogSection() {
                   <TooltipTrigger asChild>
                     <button
                       onClick={() => handleOpenPage(page.page)}
-                      className="group relative rounded-xl overflow-hidden border border-gray-100 hover:border-[#4A2364]/40 shadow-sm hover:shadow-xl transition-all duration-500 bg-gray-50 w-full"
+                      className="group relative rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-[#4A2364]/40 shadow-sm hover:shadow-xl transition-all duration-500 bg-gray-50 dark:bg-gray-800 w-full"
                     >
                       <div className="aspect-[3/4] relative">
                         <img

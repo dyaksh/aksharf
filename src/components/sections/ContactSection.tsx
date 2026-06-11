@@ -85,7 +85,7 @@ export default function ContactSection() {
   ];
 
   return (
-    <section className="bg-[#F8F5F2] py-20 lg:py-32 relative overflow-hidden" ref={sectionRef}>
+    <section className="bg-[#F8F5F2] dark:bg-[#1A1A1A] py-20 lg:py-32 relative overflow-hidden" ref={sectionRef}>
       {/* Decorative elements */}
       <div
         className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none"
@@ -114,11 +114,11 @@ export default function ContactSection() {
             <p className="text-xs tracking-[0.3em] text-gray-400 mb-4 font-sans-body">
               GET IN TOUCH
             </p>
-            <h2 className="text-3xl sm:text-4xl font-bold font-serif-display text-[#1A1A1A] mb-6">
+            <h2 className="text-3xl sm:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-6">
               Let&apos;s start a{' '}
-              <span className="text-[#4A2364]">conversation</span>.
+              <span className="text-[#4A2364] dark:text-[#6B3F8E]">conversation</span>.
             </h2>
-            <p className="text-sm text-gray-500 leading-relaxed font-sans-body mb-8">
+            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-8">
               Whether you have a project in mind or simply want to explore
               possibilities, our team is ready to listen. Share your details and
               we&apos;ll respond within one business day.
@@ -132,7 +132,7 @@ export default function ContactSection() {
                   <motion.a
                     key={item.label}
                     href={item.href || '#'}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-white border border-gray-100 shadow-sm hover:shadow-md hover:border-[#4A2364]/20 transition-all duration-300 group cursor-pointer"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md hover:border-[#4A2364]/20 dark:hover:border-[#6B3F8E]/20 transition-all duration-300 group cursor-pointer"
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -145,7 +145,7 @@ export default function ContactSection() {
                       <p className="text-xs text-gray-400 font-sans-body">
                         {item.label}
                       </p>
-                      <p className="text-sm font-medium text-[#1A1A1A] font-sans-body group-hover:text-[#4A2364] transition-colors duration-300">
+                      <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">
                         {item.value}
                       </p>
                     </div>
@@ -156,7 +156,7 @@ export default function ContactSection() {
 
             {/* Map Placeholder */}
             <motion.div
-              className="relative rounded-2xl overflow-hidden bg-gray-200 h-36 border border-gray-200"
+              className="relative rounded-2xl overflow-hidden bg-gray-200 dark:bg-gray-800 h-36 border border-gray-200 dark:border-gray-700"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -215,21 +215,21 @@ export default function ContactSection() {
               </span>
               <a
                 href="#"
-                className="w-9 h-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center hover:bg-[#4A2364] hover:border-[#4A2364] hover:text-white text-gray-500 transition-all duration-300"
+                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#4A2364] hover:border-[#4A2364] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-4 h-4" />
               </a>
               <a
                 href="#"
-                className="w-9 h-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center hover:bg-[#4A2364] hover:border-[#4A2364] hover:text-white text-gray-500 transition-all duration-300"
+                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#4A2364] hover:border-[#4A2364] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
                 aria-label="Facebook"
               >
                 <Facebook className="w-4 h-4" />
               </a>
               <a
                 href="#"
-                className="w-9 h-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center hover:bg-[#4A2364] hover:border-[#4A2364] hover:text-white text-gray-500 transition-all duration-300"
+                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#4A2364] hover:border-[#4A2364] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
                 aria-label="WeChat"
               >
                 <MessageCircle className="w-4 h-4" />
@@ -246,7 +246,7 @@ export default function ContactSection() {
           >
             <form
               onSubmit={handleSubmit}
-              className="bg-white rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100 transition-shadow duration-500 hover:shadow-xl relative overflow-hidden"
+              className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100 dark:border-gray-800 transition-shadow duration-500 hover:shadow-xl relative overflow-hidden"
             >
               {/* Top accent line */}
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4A2364] to-[#D4AF37]" />

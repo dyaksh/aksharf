@@ -53,20 +53,27 @@ function DecorativePattern() {
 }
 
 const stats = [
-  { value: 13, suffix: '+', label: 'COOPERATING FACILITIES' },
-  { value: 5, suffix: '+', label: 'YEARS HOSPITALITY EXPERIENCE' },
-  { value: 240, suffix: '', label: 'KEYS DELIVERED IN 21 DAYS' },
-  { value: 360, suffix: '°', label: 'FULL FF&E COVERAGE', isSpecial: true },
+  { value: 13, suffix: '+', label: 'COOPERATING FACILITIES', mobileLabel: 'FACILITIES' },
+  { value: 5, suffix: '+', label: 'YEARS HOSPITALITY EXPERIENCE', mobileLabel: 'YEARS EXPERIENCE' },
+  { value: 240, suffix: '', label: 'KEYS DELIVERED IN 21 DAYS', mobileLabel: 'KEYS IN 21 DAYS' },
+  { value: 360, suffix: '°', label: 'FULL FF&E COVERAGE', mobileLabel: 'FF&E COVERAGE', isSpecial: true },
 ];
 
 export default function HeroSection() {
   return (
-    <section id="home" className="relative bg-[#F8F5F2] min-h-screen pt-20 lg:pt-0 overflow-hidden">
+    <section id="home" className="relative bg-[#F8F5F2] dark:bg-[#1A1A1A] min-h-screen pt-20 lg:pt-0 overflow-x-hidden overflow-y-hidden">
       {/* Gradient overlay - cream to very light purple tint */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background: 'linear-gradient(160deg, #F8F5F2 0%, #F8F5F2 40%, #F3EFF8 70%, #EDE7F3 100%)',
+        }}
+      />
+      {/* Dark mode gradient */}
+      <div
+        className="absolute inset-0 pointer-events-none hidden dark:block"
+        style={{
+          background: 'linear-gradient(160deg, #1A1A1A 0%, #1A1A1A 40%, #1E1525 70%, #231830 100%)',
         }}
       />
 
@@ -87,7 +94,7 @@ export default function HeroSection() {
 
             {/* Subheading */}
             <motion.p
-              className="text-xs tracking-[0.3em] text-gray-400 mb-4 font-sans-body"
+              className="text-xs tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-4 font-sans-body"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -97,7 +104,7 @@ export default function HeroSection() {
 
             {/* Main headline */}
             <motion.h2
-              className="text-3xl sm:text-4xl lg:text-6xl font-bold font-serif-display text-[#1A1A1A] leading-tight mb-6"
+              className="text-3xl sm:text-4xl lg:text-6xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-6"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
@@ -109,7 +116,7 @@ export default function HeroSection() {
 
             {/* Description */}
             <motion.p
-              className="text-base text-gray-500 leading-relaxed mb-8 font-sans-body max-w-lg"
+              className="text-base text-gray-500 dark:text-gray-400 leading-relaxed mb-8 font-sans-body max-w-lg"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
@@ -119,7 +126,7 @@ export default function HeroSection() {
               sourcing, QC and logistics for hospitality brands worldwide.
             </motion.p>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - min 48px touch target */}
             <motion.div
               className="flex flex-col sm:flex-row gap-4"
               initial={{ opacity: 0, y: 20 }}
@@ -128,7 +135,7 @@ export default function HeroSection() {
             >
               <Button
                 onClick={() => document.querySelector('#portfolio')?.scrollIntoView({ behavior: 'smooth' })}
-                className="bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-full px-8 py-6 font-sans-body text-sm font-medium group shadow-lg hover:shadow-xl transition-shadow duration-300"
+                className="bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-full px-8 min-h-12 font-sans-body text-sm font-medium group shadow-lg hover:shadow-xl transition-shadow duration-300"
               >
                 Open the portfolio
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
@@ -136,7 +143,7 @@ export default function HeroSection() {
               <Button
                 variant="outline"
                 onClick={() => document.querySelector('#contact')?.scrollIntoView({ behavior: 'smooth' })}
-                className="border-[#4A2364] text-[#4A2364] hover:bg-[#4A2364]/5 rounded-full px-8 py-6 font-sans-body text-sm font-medium"
+                className="border-[#4A2364] text-[#4A2364] dark:border-[#6B3F8E] dark:text-[#6B3F8E] hover:bg-[#4A2364]/5 rounded-full px-8 min-h-12 font-sans-body text-sm font-medium"
               >
                 Start a project
               </Button>
@@ -171,9 +178,9 @@ export default function HeroSection() {
                 </motion.div>
               </div>
 
-              {/* Floating small image - top right with brand color frame */}
+              {/* Floating small image - top right with brand color frame - only on desktop */}
               <motion.div
-                className="absolute -top-4 -right-2 lg:-right-8 w-28 h-24 lg:w-40 lg:h-32 rounded-xl overflow-hidden shadow-xl hidden sm:block"
+                className="absolute -top-4 -right-2 lg:-right-8 w-28 h-24 lg:w-40 lg:h-32 rounded-xl overflow-hidden shadow-xl hidden md:block"
                 initial={{ opacity: 0, scale: 0.8, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 1.0 }}
@@ -186,9 +193,9 @@ export default function HeroSection() {
                 />
               </motion.div>
 
-              {/* Floating small image - bottom right with brand color frame */}
+              {/* Floating small image - bottom right with brand color frame - only on desktop */}
               <motion.div
-                className="absolute -bottom-6 right-8 lg:right-16 w-24 h-20 lg:w-36 lg:h-28 rounded-xl overflow-hidden shadow-xl hidden sm:block"
+                className="absolute -bottom-6 right-8 lg:right-16 w-24 h-20 lg:w-36 lg:h-28 rounded-xl overflow-hidden shadow-xl hidden md:block"
                 initial={{ opacity: 0, scale: 0.8, y: -20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 1.2 }}
@@ -223,27 +230,27 @@ export default function HeroSection() {
               <StatItem key={stat.label} stat={stat} index={index} />
             ))}
           </div>
-        </div>
 
-        {/* Scroll-down indicator */}
-        <motion.div
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2, duration: 1 }}
-        >
-          <span className="text-[10px] tracking-[0.2em] text-gray-400 font-sans-body">SCROLL</span>
+          {/* Scroll-down indicator - part of stats section */}
           <motion.div
-            animate={{ y: [0, 6, 0] }}
-            transition={{
-              duration: 1.8,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
+            className="flex flex-col items-center gap-1 mt-10"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2, duration: 1 }}
           >
-            <ChevronDown className="w-4 h-4 text-[#4A2364]/50" />
+            <span className="text-[10px] tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body">SCROLL</span>
+            <motion.div
+              animate={{ y: [0, 6, 0] }}
+              transition={{
+                duration: 1.8,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            >
+              <ChevronDown className="w-4 h-4 text-[#4A2364]/50 dark:text-[#6B3F8E]/50" />
+            </motion.div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -262,7 +269,7 @@ function StatItem({ stat, index }: { stat: typeof stats[number]; index: number }
       viewport={{ once: true }}
       transition={{ duration: 0.6, delay: index * 0.15 }}
     >
-      <p className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A]">
+      <p className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white">
         {stat.isSpecial ? (
           <>
             <span>{count}</span>
@@ -275,8 +282,10 @@ function StatItem({ stat, index }: { stat: typeof stats[number]; index: number }
           </>
         )}
       </p>
-      <p className="text-xs tracking-widest text-gray-400 mt-2 font-sans-body">
-        {stat.label}
+      <p className="text-xs tracking-widest text-gray-400 dark:text-gray-500 mt-2 font-sans-body">
+        {/* Shorter labels on mobile */}
+        <span className="md:hidden">{stat.mobileLabel}</span>
+        <span className="hidden md:inline">{stat.label}</span>
       </p>
     </motion.div>
   );

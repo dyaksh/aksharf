@@ -69,10 +69,10 @@ export default function ProcessSection() {
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
 
   return (
-    <section id="about" className="relative py-20 lg:py-32 overflow-hidden" ref={sectionRef}>
+    <section id="about" className="relative py-20 lg:py-32 overflow-hidden dark:bg-[#121212]" ref={sectionRef}>
       {/* Subtle gradient background - cream to slightly different cream */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 dark:hidden"
         style={{
           background: 'linear-gradient(180deg, #F8F5F2 0%, #F5F1ED 50%, #F8F5F2 100%)',
         }}
@@ -93,7 +93,7 @@ export default function ProcessSection() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <motion.p
-            className="text-xs tracking-[0.3em] text-gray-400 mb-4 font-sans-body"
+            className="text-xs tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-4 font-sans-body"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -102,14 +102,14 @@ export default function ProcessSection() {
             HOW A PROJECT UNFOLDS
           </motion.p>
           <motion.h2
-            className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] max-w-3xl mx-auto"
+            className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             Three acts.{' '}
-            <span className="text-[#4A2364]">One accountable team.</span>{' '}
+            <span className="text-[#4A2364] dark:text-[#6B3F8E]">One accountable team.</span>{' '}
             From brief to install.
           </motion.h2>
         </div>
@@ -136,7 +136,7 @@ export default function ProcessSection() {
                 )}
 
                 <motion.div
-                  className="bg-white rounded-2xl p-8 lg:p-10 shadow-sm border border-gray-100 group relative overflow-hidden cursor-default transition-all duration-500 hover:shadow-xl hover:-translate-y-2 hover:border-l-[3px] hover:border-l-[#4A2364]"
+                  className="bg-white dark:bg-[#1E1E1E] rounded-2xl p-8 lg:p-10 shadow-sm border border-gray-100 dark:border-gray-800 group relative overflow-hidden cursor-default transition-all duration-500 hover:shadow-xl hover:-translate-y-2 hover:border-l-[3px] hover:border-l-[#4A2364] dark:hover:border-l-[#6B3F8E]"
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
@@ -167,12 +167,12 @@ export default function ProcessSection() {
                       <div className="w-10 h-10 rounded-lg bg-[#4A2364]/5 flex items-center justify-center mb-3 group-hover:bg-[#4A2364]/10 transition-colors duration-300">
                         <Icon className="w-5 h-5 text-[#4A2364]" />
                       </div>
-                      <h3 className="text-lg font-bold text-[#1A1A1A] font-sans-body">
+                      <h3 className="text-lg font-bold text-[#1A1A1A] dark:text-white font-sans-body">
                         {act.title}
                       </h3>
                     </div>
                   </div>
-                  <p className="relative text-sm text-gray-500 leading-relaxed font-sans-body">
+                  <p className="relative text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body">
                     {act.description}
                   </p>
                 </motion.div>
