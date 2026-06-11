@@ -12,11 +12,29 @@ interface ContactFormData {
   message: string;
 }
 
+/* Small inline SVG icons for WhatsApp and WeChat to avoid extra deps */
+function WhatsAppIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+    </svg>
+  );
+}
+
+function WeChatIcon({ className }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M8.691 2.188C3.891 2.188 0 5.476 0 9.53c0 2.212 1.17 4.203 3.002 5.55a.59.59 0 01.213.665l-.39 1.48c-.019.07-.048.141-.048.213 0 .163.13.295.29.295a.326.326 0 00.167-.054l1.903-1.114a.864.864 0 01.717-.098 10.16 10.16 0 002.837.403c.276 0 .543-.027.811-.05a6.127 6.127 0 01-.235-1.676c0-3.793 3.527-6.87 7.879-6.87.243 0 .482.012.718.031C17.084 4.635 13.227 2.188 8.691 2.188zm-2.5 4.39c.58 0 1.049.47 1.049 1.05s-.47 1.05-1.049 1.05c-.58 0-1.051-.47-1.051-1.05s.47-1.05 1.051-1.05zm5.038 0c.58 0 1.05.47 1.05 1.05s-.47 1.05-1.05 1.05c-.58 0-1.05-.47-1.05-1.05s.47-1.05 1.05-1.05zm5.147 4.127c-3.846 0-6.968 2.725-6.968 6.085 0 3.36 3.122 6.085 6.968 6.085.697 0 1.37-.096 2-.261a.717.717 0 01.596.081l1.389.813a.27.27 0 00.138.047c.132 0 .24-.11.24-.245 0-.06-.024-.118-.04-.175l-.285-1.08a.49.49 0 01.177-.552C22.096 20.28 23 18.71 23 16.895c0-3.36-3.122-6.19-6.624-6.19zm-2.2 3.39c.48 0 .869.39.869.87s-.39.87-.869.87c-.48 0-.87-.39-.87-.87s.39-.87.87-.87zm4.398 0c.48 0 .87.39.87.87s-.39.87-.87.87c-.48 0-.87-.39-.87-.87s.39-.87.87-.87z" />
+    </svg>
+  );
+}
+
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pulseCount, setPulseCount] = useState(0);
+  const [showTooltip, setShowTooltip] = useState(true);
   const [form, setForm] = useState<ContactFormData>({
     name: '',
     email: '',
@@ -33,6 +51,20 @@ export default function ChatWidget() {
     }, 3000);
     return () => clearTimeout(timer);
   }, [pulseCount, isOpen]);
+
+  // Auto-dismiss tooltip after 5 seconds
+  useEffect(() => {
+    if (!showTooltip || isOpen) return;
+    const timer = setTimeout(() => {
+      setShowTooltip(false);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, [showTooltip, isOpen]);
+
+  // Hide tooltip when chat opens
+  useEffect(() => {
+    if (isOpen) setShowTooltip(false);
+  }, [isOpen]);
 
   // Close panel when clicking outside
   useEffect(() => {
@@ -105,13 +137,68 @@ export default function ChatWidget() {
                   <p className="text-[10px] text-white/60 font-sans-body">We typically reply within 24 hours</p>
                 </div>
               </div>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
-                aria-label="Close chat"
-              >
-                <X className="w-3.5 h-3.5 text-white" />
-              </button>
+              <div className="flex items-center gap-1.5">
+                {/* WhatsApp quick-action button in header */}
+                <a
+                  href="https://wa.me/8618666422531"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Chat on WhatsApp"
+                  title="Chat on WhatsApp"
+                  className="w-7 h-7 rounded-full bg-[#25D366]/20 hover:bg-[#25D366]/30 flex items-center justify-center transition-colors relative"
+                >
+                  <WhatsAppIcon className="w-3.5 h-3.5 text-white" />
+                  {/* Small green dot indicator */}
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#25D366] border border-[#4A2364]" />
+                </a>
+
+                {/* WeChat quick-action button in header */}
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <button
+                      aria-label="Add WeChat"
+                      title="Add WeChat"
+                      className="w-7 h-7 rounded-full bg-[#07C160]/20 hover:bg-[#07C160]/30 flex items-center justify-center transition-colors relative"
+                    >
+                      <WeChatIcon className="w-3.5 h-3.5 text-white" />
+                      {/* Small green dot indicator */}
+                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#07C160] border border-[#4A2364]" />
+                    </button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    side="left"
+                    align="center"
+                    className="w-auto bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-white/10 shadow-xl rounded-xl p-4"
+                  >
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-10 h-10 rounded-full bg-[#07C160]/10 flex items-center justify-center">
+                        <Smartphone className="w-5 h-5 text-[#07C160]" />
+                      </div>
+                      <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body">
+                        Add WeChat
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 font-sans-body font-mono bg-gray-50 dark:bg-white/5 px-3 py-1.5 rounded-md select-all">
+                        18666422531
+                      </p>
+                      <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
+                        Scan or search to add
+                      </p>
+                    </div>
+                  </PopoverContent>
+                </Popover>
+
+                {/* Subtle divider */}
+                <div className="w-px h-4 bg-white/20 mx-0.5" />
+
+                {/* Close button */}
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+                  aria-label="Close chat"
+                >
+                  <X className="w-3.5 h-3.5 text-white" />
+                </button>
+              </div>
             </div>
 
             {/* Form Content */}
@@ -197,6 +284,54 @@ export default function ChatWidget() {
                       </span>
                     )}
                   </Button>
+
+                  {/* Footer: Or reach us on WhatsApp / WeChat */}
+                  <div className="pt-2 border-t border-gray-100 dark:border-white/5">
+                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body text-center mb-2">
+                      Or reach us on
+                    </p>
+                    <div className="flex items-center justify-center gap-4">
+                      <a
+                        href="https://wa.me/8618666422531"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-1.5 text-[11px] text-[#25D366] hover:text-[#20BD5A] font-sans-body font-medium transition-colors"
+                      >
+                        <WhatsAppIcon className="w-3.5 h-3.5" />
+                        WhatsApp
+                      </a>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <button
+                            className="flex items-center gap-1.5 text-[11px] text-[#07C160] hover:text-[#06AD56] font-sans-body font-medium transition-colors"
+                          >
+                            <WeChatIcon className="w-3.5 h-3.5" />
+                            WeChat
+                          </button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          side="top"
+                          align="center"
+                          className="w-auto bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-white/10 shadow-xl rounded-xl p-4"
+                        >
+                          <div className="flex flex-col items-center gap-2">
+                            <div className="w-10 h-10 rounded-full bg-[#07C160]/10 flex items-center justify-center">
+                              <Smartphone className="w-5 h-5 text-[#07C160]" />
+                            </div>
+                            <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body">
+                              Add WeChat
+                            </p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400 font-sans-body font-mono bg-gray-50 dark:bg-white/5 px-3 py-1.5 rounded-md select-all">
+                              18666422531
+                            </p>
+                            <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
+                              Scan or search to add
+                            </p>
+                          </div>
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+                  </div>
                 </form>
               )}
             </div>
@@ -204,113 +339,24 @@ export default function ChatWidget() {
         )}
       </AnimatePresence>
 
-      {/* WeChat Button - Top position */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 1.2, type: 'spring', stiffness: 200, damping: 15 }}
-      >
-        <Popover>
-          <PopoverTrigger asChild>
-            <motion.button
-              className="relative w-12 h-12 rounded-full bg-[#07C160] hover:bg-[#06AD56] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 group"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              aria-label="Add WeChat"
-              title="Add WeChat"
-            >
-              <Smartphone className="w-5 h-5" />
-
-              {/* Pulse rings */}
-              <motion.span
-                className="absolute inset-0 rounded-full border-2 border-[#07C160]"
-                animate={{
-                  scale: [1, 1.6],
-                  opacity: [0.5, 0],
-                }}
-                transition={{
-                  duration: 1.2,
-                  repeat: 2,
-                  repeatDelay: 1,
-                  delay: 1.4,
-                }}
-              />
-            </motion.button>
-          </PopoverTrigger>
-          <PopoverContent
-            side="left"
-            align="center"
-            className="w-auto bg-white dark:bg-[#1A1A1A] border border-gray-200 dark:border-white/10 shadow-xl rounded-xl p-4"
+      {/* Brand-styled tooltip for main chat button */}
+      <AnimatePresence>
+        {showTooltip && !isOpen && (
+          <motion.div
+            initial={{ opacity: 0, x: 10 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 10 }}
+            transition={{ duration: 0.3 }}
+            className="absolute right-16 bottom-3 bg-[#4A2364] text-white px-3 py-1.5 rounded-lg text-xs font-sans-body font-medium shadow-lg whitespace-nowrap pointer-events-none"
           >
-            <div className="flex flex-col items-center gap-2">
-              <div className="w-10 h-10 rounded-full bg-[#07C160]/10 flex items-center justify-center">
-                <Smartphone className="w-5 h-5 text-[#07C160]" />
-              </div>
-              <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body">
-                Add WeChat
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400 font-sans-body font-mono bg-gray-50 dark:bg-white/5 px-3 py-1.5 rounded-md select-all">
-                18666422531
-              </p>
-              <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
-                Scan or search to add
-              </p>
-            </div>
-          </PopoverContent>
-        </Popover>
-      </motion.div>
+            Chat with us
+            {/* Gold arrow pointing right */}
+            <div className="absolute right-[-6px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[6px] border-l-[#D4AF37]" />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {/* WhatsApp Button - Middle position */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 1.0, type: 'spring', stiffness: 200, damping: 15 }}
-      >
-        <a
-          href="https://wa.me/8618666422531"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Chat on WhatsApp"
-          title="Chat on WhatsApp"
-        >
-          <motion.button
-            className="relative w-12 h-12 rounded-full bg-[#25D366] hover:bg-[#20BD5A] text-white flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <MessageCircle className="w-5 h-5" />
-
-            {/* Pulse rings */}
-            <motion.span
-              className="absolute inset-0 rounded-full border-2 border-[#25D366]"
-              animate={{
-                scale: [1, 1.6],
-                opacity: [0.5, 0],
-              }}
-              transition={{
-                duration: 1.2,
-                repeat: 2,
-                repeatDelay: 1,
-                delay: 1.2,
-              }}
-            />
-          </motion.button>
-        </a>
-      </motion.div>
-
-      {/* Tooltip for main chat button */}
-      {!isOpen && (
-        <motion.div
-          initial={{ opacity: 0, x: 10 }}
-          animate={{ opacity: 1, x: 0 }}
-          className="absolute right-16 bottom-0 bg-[#1A1A1A] dark:bg-white text-white dark:text-[#1A1A1A] px-3 py-1.5 rounded-lg text-xs font-sans-body font-medium shadow-lg whitespace-nowrap pointer-events-none"
-        >
-          Chat with us
-          <div className="absolute right-[-6px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[6px] border-l-[#1A1A1A] dark:border-l-white" />
-        </motion.div>
-      )}
-
-      {/* Floating Main Chat Button - Bottom position */}
+      {/* Single Floating Main Chat Button */}
       <motion.button
         ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}

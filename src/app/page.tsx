@@ -7,16 +7,20 @@ import Header from '@/components/sections/Header';
 import HeroSection from '@/components/sections/HeroSection';
 import BrandMarquee from '@/components/sections/BrandMarquee';
 import ProcessSection from '@/components/sections/ProcessSection';
+import ProjectTimeline from '@/components/sections/ProjectTimeline';
 import AboutSection from '@/components/sections/AboutSection';
 import PortfolioSection from '@/components/sections/PortfolioSection';
 import ServicesSection from '@/components/sections/ServicesSection';
 import GlobalReachSection from '@/components/sections/GlobalReachSection';
+import BeforeAfterSection from '@/components/sections/BeforeAfterSection';
 import TestimonialsSection from '@/components/sections/TestimonialsSection';
+import AwardsSection from '@/components/sections/AwardsSection';
 import CatalogSection from '@/components/sections/CatalogSection';
 import FAQSection from '@/components/sections/FAQSection';
 import CTASection from '@/components/sections/CTASection';
 import ContactSection from '@/components/sections/ContactSection';
 import Footer from '@/components/sections/Footer';
+import FloatingNav from '@/components/sections/FloatingNav';
 import ChatWidget from '@/components/sections/ChatWidget';
 import SectionDivider from '@/components/sections/SectionDivider';
 import CookieConsent from '@/components/sections/CookieConsent';
@@ -145,6 +149,8 @@ export default function HomePage() {
         <BrandMarquee />
         <SectionDivider fromBg="#FFFFFF" toBg="#F8F5F2" variant="curve" />
         <ProcessSection />
+        <SectionDivider fromBg="#F8F5F2" toBg="#F8F5F2" variant="curve" />
+        <ProjectTimeline />
         <SectionDivider fromBg="#F8F5F2" toBg="#FFFFFF" variant="curve" />
         <AboutSection />
         <StatsTicker />
@@ -154,8 +160,12 @@ export default function HomePage() {
         <ServicesSection />
         <SectionDivider fromBg="#F8F5F2" toBg="#FFFFFF" variant="curve" />
         <GlobalReachSection />
-        <SectionDivider fromBg="#FFFFFF" toBg="#FFFFFF" variant="curve" />
+        <SectionDivider fromBg="#FFFFFF" toBg="#1A1A1A" variant="angled" />
+        <BeforeAfterSection />
+        <SectionDivider fromBg="#1A1A1A" toBg="#FFFFFF" variant="angled" />
         <TestimonialsSection />
+        <SectionDivider fromBg="#FFFFFF" toBg="#FFFFFF" variant="curve" />
+        <AwardsSection />
         <SectionDivider fromBg="#FFFFFF" toBg="#FFFFFF" variant="curve" />
         <CatalogSection />
         <SectionDivider fromBg="#FFFFFF" toBg="#F8F5F2" variant="curve" />
@@ -167,6 +177,7 @@ export default function HomePage() {
       </main>
       <Footer />
       <ScrollToTop />
+      <FloatingNav />
       <ChatWidget />
       <CookieConsent />
     </div>

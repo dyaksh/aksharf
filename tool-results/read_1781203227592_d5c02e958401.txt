@@ -1,0 +1,962 @@
+     1→'use client';
+     2→
+     3→import { useState, useRef, useEffect, useMemo } from 'react';
+     4→import { motion, useInView, AnimatePresence } from 'framer-motion';
+     5→import { Button } from '@/components/ui/button';
+     6→import { Input } from '@/components/ui/input';
+     7→import { Textarea } from '@/components/ui/textarea';
+     8→import {
+     9→  Select,
+    10→  SelectContent,
+    11→  SelectItem,
+    12→  SelectTrigger,
+    13→  SelectValue,
+    14→} from '@/components/ui/select';
+    15→import {
+    16→  Send,
+    17→  CheckCircle,
+    18→  Loader2,
+    19→  Phone,
+    20→  Mail,
+    21→  MapPin,
+    22→  Check,
+    23→  MapPinIcon,
+    24→  Linkedin,
+    25→  Facebook,
+    26→  MessageCircle,
+    27→  Building2,
+    28→  Clock,
+    29→  Shield,
+    30→  Globe,
+    31→  MessageSquare,
+    32→} from 'lucide-react';
+    33→
+    34→// Simple email regex for validation
+    35→const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    36→
+    37→// Confetti particle component
+    38→function ConfettiParticle({ delay, x, color }: { delay: number; x: number; color: string }) {
+    39→  return (
+    40→    <motion.div
+    41→      className="absolute w-2 h-2 rounded-full"
+    42→      style={{
+    43→        backgroundColor: color,
+    44→        left: `${x}%`,
+    45→        top: '50%',
+    46→      }}
+    47→      initial={{ opacity: 0, scale: 0, y: 0 }}
+    48→      animate={{
+    49→        opacity: [0, 1, 1, 0],
+    50→        scale: [0, 1, 1, 0.5],
+    51→        y: [0, -60, -120],
+    52→        x: [0, (Math.random() - 0.5) * 80],
+    53→      }}
+    54→      transition={{
+    55→        duration: 1.5,
+    56→        delay: delay,
+    57→        ease: 'easeOut',
+    58→      }}
+    59→    />
+    60→  );
+    61→}
+    62→
+    63→// Stylized World Map SVG Component with highlighted China/Foshan
+    64→function WorldMapGraphic() {
+    65→  return (
+    66→    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-[#4A2364]/5 via-[#F8F5F2] to-[#D4AF37]/5 dark:from-[#4A2364]/10 dark:via-[#1E1E1E] dark:to-[#D4AF37]/5 border border-gray-200 dark:border-gray-700">
+    67→      {/* Background grid */}
+    68→      <svg
+    69→        className="absolute inset-0 w-full h-full pointer-events-none"
+    70→        style={{ opacity: 0.06 }}
+    71→        aria-hidden="true"
+    72→      >
+    73→        <defs>
+    74→          <pattern
+    75→            id="contact-map-grid"
+    76→            x="0"
+    77→            y="0"
+    78→            width="30"
+    79→            height="30"
+    80→            patternUnits="userSpaceOnUse"
+    81→          >
+    82→            <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#4A2364" strokeWidth="0.5" />
+    83→          </pattern>
+    84→        </defs>
+    85→        <rect width="100%" height="100%" fill="url(#contact-map-grid)" />
+    86→      </svg>
+    87→
+    88→      {/* Stylized World Map */}
+    89→      <svg
+    90→        viewBox="0 0 600 350"
+    91→        className="absolute inset-0 w-full h-full"
+    92→        aria-hidden="true"
+    93→      >
+    94→        {/* Continent shapes - simplified abstract representations */}
+    95→        {/* North America */}
+    96→        <path
+    97→          d="M 80 60 Q 100 40 140 45 Q 170 48 180 70 Q 185 90 175 110 Q 165 130 140 140 Q 120 145 100 135 Q 80 125 70 105 Q 60 85 80 60Z"
+    98→          fill="#4A2364"
+    99→          opacity="0.08"
+   100→          className="dark:opacity-[0.12]"
+   101→        />
+   102→        {/* South America */}
+   103→        <path
+   104→          d="M 140 170 Q 155 160 165 175 Q 170 200 165 230 Q 160 255 145 270 Q 130 280 120 265 Q 115 240 120 210 Q 125 185 140 170Z"
+   105→          fill="#4A2364"
+   106→          opacity="0.08"
+   107→          className="dark:opacity-[0.12]"
+   108→        />
+   109→        {/* Europe */}
+   110→        <path
+   111→          d="M 280 55 Q 300 45 320 50 Q 335 55 340 70 Q 338 85 325 90 Q 310 92 295 85 Q 280 78 275 65 Q 275 55 280 55Z"
+   112→          fill="#4A2364"
+   113→          opacity="0.08"
+   114→          className="dark:opacity-[0.12]"
+   115→        />
+   116→        {/* Africa */}
+   117→        <path
+   118→          d="M 290 105 Q 310 95 330 100 Q 345 110 350 135 Q 348 165 335 190 Q 320 210 305 215 Q 290 210 280 190 Q 275 165 278 140 Q 280 120 290 105Z"
+   119→          fill="#4A2364"
+   120→          opacity="0.08"
+   121→          className="dark:opacity-[0.12]"
+   122→        />
+   123→        {/* Asia - HIGHLIGHTED */}
+   124→        <path
+   125→          d="M 340 40 Q 370 30 410 35 Q 450 40 480 55 Q 510 70 520 95 Q 525 120 510 140 Q 490 155 460 160 Q 430 158 400 148 Q 375 138 355 120 Q 340 105 335 85 Q 332 65 340 40Z"
+   126→          fill="#4A2364"
+   127→          opacity="0.15"
+   128→          className="dark:opacity-[0.25]"
+   129→          stroke="#4A2364"
+   130→          strokeWidth="1"
+   131→          strokeOpacity="0.2"
+   132→        />
+   133→        {/* India subcontinent */}
+   134→        <path
+   135→          d="M 400 130 Q 415 125 420 140 Q 418 160 408 175 Q 398 185 390 178 Q 385 165 388 148 Q 392 135 400 130Z"
+   136→          fill="#4A2364"
+   137→          opacity="0.12"
+   138→          className="dark:opacity-[0.2]"
+   139→        />
+   140→        {/* Southeast Asia */}
+   141→        <path
+   142→          d="M 460 150 Q 475 145 485 155 Q 490 170 483 182 Q 475 188 465 183 Q 458 172 460 150Z"
+   143→          fill="#4A2364"
+   144→          opacity="0.1"
+   145→          className="dark:opacity-[0.16]"
+   146→        />
+   147→        {/* Australia */}
+   148→        <path
+   149→          d="M 480 220 Q 510 210 535 220 Q 548 235 540 255 Q 525 268 505 265 Q 485 260 478 245 Q 475 230 480 220Z"
+   150→          fill="#4A2364"
+   151→          opacity="0.06"
+   152→          className="dark:opacity-[0.1]"
+   153→        />
+   154→
+   155→        {/* China/Foshan highlighted area - pulsing glow */}
+   156→        <circle cx="445" cy="95" r="35" fill="#D4AF37" opacity="0.06" />
+   157→        <circle cx="445" cy="95" r="20" fill="#D4AF37" opacity="0.12" />
+   158→        <circle cx="445" cy="95" r="8" fill="#D4AF37" opacity="0.4">
+   159→          <animate
+   160→            attributeName="r"
+   161→            values="8;12;8"
+   162→            dur="2s"
+   163→            repeatCount="indefinite"
+   164→          />
+   165→          <animate
+   166→            attributeName="opacity"
+   167→            values="0.4;0.2;0.4"
+   168→            dur="2s"
+   169→            repeatCount="indefinite"
+   170→          />
+   171→        </circle>
+   172→
+   173→        {/* Foshan pin */}
+   174→        <g transform="translate(445, 85)">
+   175→          {/* Pin drop */}
+   176→          <path
+   177→            d="M 0 -12 C -5 -12 -8 -8 -8 -4 C -8 2 0 12 0 12 C 0 12 8 2 8 -4 C 8 -8 5 -12 0 -12Z"
+   178→            fill="#D4AF37"
+   179→            opacity="0.9"
+   180→          />
+   181→          <circle cx="0" cy="-4" r="3" fill="white" opacity="0.9" />
+   182→        </g>
+   183→
+   184→        {/* Connection lines from Foshan to other regions */}
+   185→        <line x1="445" y1="85" x2="130" y2="90" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.2">
+   186→          <animate attributeName="stroke-dashoffset" values="0;8" dur="3s" repeatCount="indefinite" />
+   187→        </line>
+   188→        <line x1="445" y1="85" x2="310" y2="65" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.2">
+   189→          <animate attributeName="stroke-dashoffset" values="0;8" dur="3s" repeatCount="indefinite" />
+   190→        </line>
+   191→        <line x1="445" y1="85" x2="510" y2="240" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.15">
+   192→          <animate attributeName="stroke-dashoffset" values="0;8" dur="3s" repeatCount="indefinite" />
+   193→        </line>
+   194→
+   195→        {/* Small dots at connection endpoints */}
+   196→        <circle cx="130" cy="90" r="2" fill="#4A2364" opacity="0.3" />
+   197→        <circle cx="310" cy="65" r="2" fill="#4A2364" opacity="0.3" />
+   198→        <circle cx="510" cy="240" r="2" fill="#4A2364" opacity="0.2" />
+   199→      </svg>
+   200→
+   201→      {/* Overlay text */}
+   202→      <div className="absolute bottom-3 left-3 right-3 flex items-end justify-between">
+   203→        <div>
+   204→          <p className="text-xs font-semibold text-[#4A2364] dark:text-[#6B3F8E] font-sans-body flex items-center gap-1">
+   205→            <Globe className="w-3 h-3" />
+   206→            Global Reach
+   207→          </p>
+   208→          <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
+   209→            Shipping from Foshan to 30+ countries
+   210→          </p>
+   211→        </div>
+   212→        <div className="text-right">
+   213→          <p className="text-[10px] font-medium text-[#D4AF37] font-sans-body">Foshan HQ</p>
+   214→          <p className="text-[9px] text-gray-400 dark:text-gray-500 font-sans-body">23.02°N, 113.12°E</p>
+   215→        </div>
+   216→      </div>
+   217→
+   218→      {/* Purple-gold gradient accent at bottom */}
+   219→      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4A2364] to-[#D4AF37]" />
+   220→    </div>
+   221→  );
+   222→}
+   223→
+   224→export default function ContactSection() {
+   225→  const [formState, setFormState] = useState<'idle' | 'loading' | 'success'>(
+   226→    'idle'
+   227→  );
+   228→  const [formData, setFormData] = useState({
+   229→    name: '',
+   230→    email: '',
+   231→    company: '',
+   232→    projectType: '',
+   233→    message: '',
+   234→  });
+   235→  const [touched, setTouched] = useState({
+   236→    name: false,
+   237→    email: false,
+   238→    company: false,
+   239→    projectType: false,
+   240→    message: false,
+   241→  });
+   242→
+   243→  const sectionRef = useRef<HTMLDivElement>(null);
+   244→  const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
+   245→
+   246→  // Confetti colors
+   247→  const confettiColors = ['#D4AF37', '#4A2364', '#6B3F8E', '#F0C040', '#8B5CF6', '#E5B830'];
+   248→  const confettiParticles = useMemo(() => Array.from({ length: 18 }, (_, i) => ({
+   249→    id: i,
+   250→    delay: 0.3 + i * 0.05,
+   251→    x: 20 + Math.random() * 60,
+   252→    color: confettiColors[i % confettiColors.length],
+   253→  })), []);
+   254→
+   255→  // Form progress calculation
+   256→  const formProgress = useMemo(() => {
+   257→    let filled = 0;
+   258→    const total = 4; // name, email, projectType, message (required fields)
+   259→    if (formData.name.trim()) filled++;
+   260→    if (formData.email.trim() && isValidEmail(formData.email)) filled++;
+   261→    if (formData.projectType) filled++;
+   262→    if (formData.message.trim()) filled++;
+   263→    return { filled, total, percentage: (filled / total) * 100 };
+   264→  }, [formData]);
+   265→
+   266→  // Auto-dismiss success overlay
+   267→  const [showSuccessOverlay, setShowSuccessOverlay] = useState(false);
+   268→  useEffect(() => {
+   269→    if (formState === 'success') {
+   270→      setShowSuccessOverlay(true);
+   271→      const timer = setTimeout(() => {
+   272→        setShowSuccessOverlay(false);
+   273→        setFormState('idle');
+   274→      }, 3000);
+   275→      return () => clearTimeout(timer);
+   276→    }
+   277→  }, [formState]);
+   278→
+   279→  const handleSubmit = async (e: React.FormEvent) => {
+   280→    e.preventDefault();
+   281→    setFormState('loading');
+   282→
+   283→    try {
+   284→      const res = await fetch('/api/contact', {
+   285→        method: 'POST',
+   286→        headers: { 'Content-Type': 'application/json' },
+   287→        body: JSON.stringify(formData),
+   288→      });
+   289→      if (res.ok) {
+   290→        setFormState('success');
+   291→        setFormData({ name: '', email: '', company: '', projectType: '', message: '' });
+   292→        setTouched({ name: false, email: false, company: false, projectType: false, message: false });
+   293→      }
+   294→    } catch {
+   295→      setFormState('idle');
+   296→    }
+   297→  };
+   298→
+   299→  const charCount = formData.message.length;
+   300→  const maxChars = 500;
+   301→
+   302→  const contactItems = [
+   303→    {
+   304→      icon: Phone,
+   305→      label: 'Phone',
+   306→      value: '18666422531',
+   307→      href: 'tel:18666422531',
+   308→    },
+   309→    {
+   310→      icon: Mail,
+   311→      label: 'Email',
+   312→      value: '250552975@qq.com',
+   313→      href: 'mailto:250552975@qq.com',
+   314→    },
+   315→    {
+   316→      icon: MapPin,
+   317→      label: 'Address',
+   318→      value: 'No. 29, Sanling Road, Gaoming, Foshan',
+   319→      href: undefined,
+   320→    },
+   321→  ];
+   322→
+   323→  // Quick contact sidebar items
+   324→  const quickContactItems = [
+   325→    {
+   326→      icon: Phone,
+   327→      label: 'Call Us',
+   328→      value: '18666422531',
+   329→      href: 'tel:18666422531',
+   330→      description: 'Available 24/7',
+   331→      color: 'text-green-600 dark:text-green-400',
+   332→      bgColor: 'bg-green-50 dark:bg-green-900/20',
+   333→    },
+   334→    {
+   335→      icon: Mail,
+   336→      label: 'Email',
+   337→      value: '250552975@qq.com',
+   338→      href: 'mailto:250552975@qq.com',
+   339→      description: 'Response within 24h',
+   340→      color: 'text-[#4A2364] dark:text-[#6B3F8E]',
+   341→      bgColor: 'bg-[#4A2364]/5 dark:bg-[#6B3F8E]/10',
+   342→    },
+   343→    {
+   344→      icon: MessageCircle,
+   345→      label: 'WeChat',
+   346→      value: 'AksharFoshan',
+   347→      href: '#',
+   348→      description: 'Quick response',
+   349→      color: 'text-green-600 dark:text-green-400',
+   350→      bgColor: 'bg-green-50 dark:bg-green-900/20',
+   351→    },
+   352→    {
+   353→      icon: MessageSquare,
+   354→      label: 'WhatsApp',
+   355→      value: '+86 18666422531',
+   356→      href: 'https://wa.me/8618666422531',
+   357→      description: 'International',
+   358→      color: 'text-emerald-600 dark:text-emerald-400',
+   359→      bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
+   360→    },
+   361→  ];
+   362→
+   363→  return (
+   364→    <section className="bg-[#F8F5F2] dark:bg-[#1A1A1A] py-20 lg:py-32 relative overflow-hidden transition-colors duration-300" ref={sectionRef}>
+   365→      {/* Decorative elements */}
+   366→      <div
+   367→        className="absolute -top-20 -right-20 w-64 h-64 rounded-full pointer-events-none"
+   368→        style={{
+   369→          background:
+   370→            'radial-gradient(circle, rgba(74,35,100,0.03) 0%, transparent 70%)',
+   371→        }}
+   372→      />
+   373→      <div
+   374→        className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full pointer-events-none"
+   375→        style={{
+   376→          background:
+   377→            'radial-gradient(circle, rgba(212,175,55,0.03) 0%, transparent 70%)',
+   378→        }}
+   379→      />
+   380→
+   381→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   382→        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
+   383→          {/* Left - Map & Contact Info */}
+   384→          <motion.div
+   385→            className="lg:w-5/12"
+   386→            initial={{ opacity: 0, x: -50 }}
+   387→            animate={isInView ? { opacity: 1, x: 0 } : {}}
+   388→            transition={{ duration: 0.7, ease: 'easeOut' }}
+   389→          >
+   390→            <p className="text-xs tracking-[0.3em] text-gray-400 dark:text-gray-500 mb-4 font-sans-body">
+   391→              GET IN TOUCH
+   392→            </p>
+   393→            <h2 className="text-3xl sm:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-6">
+   394→              Let&apos;s start a{' '}
+   395→              <span className="text-[#4A2364] dark:text-[#6B3F8E]">conversation</span>.
+   396→            </h2>
+   397→            <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-8">
+   398→              Whether you have a project in mind or simply want to explore
+   399→              possibilities, our team is ready to listen. Share your details and
+   400→              we&apos;ll respond within one business day.
+   401→            </p>
+   402→
+   403→            {/* Stylized World Map */}
+   404→            <motion.div
+   405→              initial={{ opacity: 0, y: 20 }}
+   406→              whileInView={{ opacity: 1, y: 0 }}
+   407→              viewport={{ once: true }}
+   408→              transition={{ duration: 0.6, delay: 0.1 }}
+   409→            >
+   410→              <WorldMapGraphic />
+   411→            </motion.div>
+   412→
+   413→            {/* Contact Info Cards with gold left border */}
+   414→            <div className="space-y-3 mt-6">
+   415→              {contactItems.map((item, index) => {
+   416→                const Icon = item.icon;
+   417→                return (
+   418→                  <motion.a
+   419→                    key={item.label}
+   420→                    href={item.href || '#'}
+   421→                    className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md border-l-[3px] border-l-[#D4AF37] hover:border-l-[#4A2364] dark:border-l-[#D4AF37] dark:hover:border-l-[#6B3F8E] transition-all duration-300 group cursor-pointer"
+   422→                    initial={{ opacity: 0, x: -30 }}
+   423→                    whileInView={{ opacity: 1, x: 0 }}
+   424→                    viewport={{ once: true }}
+   425→                    transition={{ duration: 0.5, delay: 0.1 * index }}
+   426→                  >
+   427→                    <div className="w-11 h-11 rounded-xl bg-[#D4AF37]/5 dark:bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/10 dark:group-hover:bg-[#D4AF37]/20 transition-colors duration-300 shrink-0">
+   428→                      <Icon className="w-5 h-5 text-[#D4AF37] group-hover:scale-110 transition-transform duration-300" />
+   429→                    </div>
+   430→                    <div>
+   431→                      <p className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">
+   432→                        {item.label}
+   433→                      </p>
+   434→                      <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">
+   435→                        {item.value}
+   436→                      </p>
+   437→                    </div>
+   438→                  </motion.a>
+   439→                );
+   440→              })}
+   441→            </div>
+   442→
+   443→            {/* Business Hours */}
+   444→            <motion.div
+   445→              className="mt-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 border-l-[3px] border-l-[#4A2364] dark:border-l-[#6B3F8E]"
+   446→              initial={{ opacity: 0, x: -30 }}
+   447→              whileInView={{ opacity: 1, x: 0 }}
+   448→              viewport={{ once: true }}
+   449→              transition={{ duration: 0.5, delay: 0.4 }}
+   450→            >
+   451→              <div className="flex items-center gap-3">
+   452→                <div className="w-11 h-11 rounded-xl bg-[#4A2364]/5 dark:bg-[#6B3F8E]/10 flex items-center justify-center shrink-0">
+   453→                  <Clock className="w-5 h-5 text-[#4A2364] dark:text-[#6B3F8E]" />
+   454→                </div>
+   455→                <div>
+   456→                  <p className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">Business Hours</p>
+   457→                  <p className="text-sm font-medium text-[#1A1A1A] dark:text-white font-sans-body">
+   458→                    Mon–Sat: 9:00 AM – 6:00 PM (CST)
+   459→                  </p>
+   460→                </div>
+   461→              </div>
+   462→            </motion.div>
+   463→
+   464→            {/* Social Media Icons */}
+   465→            <motion.div
+   466→              className="flex items-center gap-4 mt-6"
+   467→              initial={{ opacity: 0 }}
+   468→              whileInView={{ opacity: 1 }}
+   469→              viewport={{ once: true }}
+   470→              transition={{ duration: 0.5, delay: 0.5 }}
+   471→            >
+   472→              <span className="text-xs text-gray-400 font-sans-body mr-2">
+   473→                Follow us
+   474→              </span>
+   475→              <a
+   476→                href="#"
+   477→                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#0A66C2] hover:border-[#0A66C2] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
+   478→                aria-label="LinkedIn"
+   479→              >
+   480→                <Linkedin className="w-4 h-4" />
+   481→              </a>
+   482→              <a
+   483→                href="#"
+   484→                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#1877F2] hover:border-[#1877F2] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
+   485→                aria-label="Facebook"
+   486→              >
+   487→                <Facebook className="w-4 h-4" />
+   488→              </a>
+   489→              <a
+   490→                href="#"
+   491→                className="w-9 h-9 rounded-lg bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 flex items-center justify-center hover:bg-[#07C160] hover:border-[#07C160] hover:text-white text-gray-500 dark:text-gray-400 transition-all duration-300"
+   492→                aria-label="WeChat"
+   493→              >
+   494→                <MessageCircle className="w-4 h-4" />
+   495→              </a>
+   496→            </motion.div>
+   497→          </motion.div>
+   498→
+   499→          {/* Right - Form + Quick Contact Sidebar */}
+   500→          <motion.div
+   501→            className="lg:w-7/12"
+   502→            initial={{ opacity: 0, x: 50 }}
+   503→            animate={isInView ? { opacity: 1, x: 0 } : {}}
+   504→            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
+   505→          >
+   506→            <div className="flex flex-col xl:flex-row gap-6">
+   507→              {/* Contact Form */}
+   508→              <form
+   509→                onSubmit={handleSubmit}
+   510→                className="flex-1 bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100 dark:border-gray-800 transition-shadow duration-500 hover:shadow-xl relative overflow-hidden"
+   511→              >
+   512→                {/* Top accent line */}
+   513→                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4A2364] to-[#D4AF37]" />
+   514→
+   515→                {/* Form Progress Indicator */}
+   516→                <div className="mb-6">
+   517→                  <div className="flex items-center justify-between mb-2">
+   518→                    <span className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">
+   519→                      Form Progress
+   520→                    </span>
+   521→                    <span className="text-xs font-medium font-sans-body" style={{ color: formProgress.percentage === 100 ? '#22c55e' : formProgress.percentage >= 50 ? '#D4AF37' : '#9ca3af' }}>
+   522→                      {formProgress.filled}/{formProgress.total} fields
+   523→                    </span>
+   524→                  </div>
+   525→                  <div className="h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+   526→                    <motion.div
+   527→                      className="h-full rounded-full"
+   528→                      style={{
+   529→                        background: formProgress.percentage === 100
+   530→                          ? 'linear-gradient(to right, #22c55e, #16a34a)'
+   531→                          : 'linear-gradient(to right, #4A2364, #D4AF37)',
+   532→                      }}
+   533→                      initial={{ width: 0 }}
+   534→                      animate={{ width: `${formProgress.percentage}%` }}
+   535→                      transition={{ duration: 0.4, ease: 'easeOut' }}
+   536→                    />
+   537→                  </div>
+   538→                </div>
+   539→
+   540→                {/* Success Overlay */}
+   541→                <AnimatePresence>
+   542→                  {showSuccessOverlay && (
+   543→                    <motion.div
+   544→                      className="absolute inset-0 z-10 bg-white/95 dark:bg-[#1E1E1E]/95 backdrop-blur-sm flex flex-col items-center justify-center rounded-2xl"
+   545→                      initial={{ opacity: 0 }}
+   546→                      animate={{ opacity: 1 }}
+   547→                      exit={{ opacity: 0 }}
+   548→                      transition={{ duration: 0.3 }}
+   549→                    >
+   550→                      {/* Confetti particles */}
+   551→                      {confettiParticles.map((particle) => (
+   552→                        <ConfettiParticle
+   553→                          key={particle.id}
+   554→                          delay={particle.delay}
+   555→                          x={particle.x}
+   556→                          color={particle.color}
+   557→                        />
+   558→                      ))}
+   559→
+   560→                      {/* Green checkmark with spring animation */}
+   561→                      <motion.div
+   562→                        initial={{ scale: 0 }}
+   563→                        animate={{ scale: 1 }}
+   564→                        transition={{
+   565→                          type: 'spring',
+   566→                          stiffness: 260,
+   567→                          damping: 20,
+   568→                          delay: 0.1,
+   569→                        }}
+   570→                        className="w-20 h-20 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center mb-6"
+   571→                      >
+   572→                        <motion.div
+   573→                          initial={{ scale: 0, rotate: -180 }}
+   574→                          animate={{ scale: 1, rotate: 0 }}
+   575→                          transition={{
+   576→                            type: 'spring',
+   577→                            stiffness: 260,
+   578→                            damping: 20,
+   579→                            delay: 0.25,
+   580→                          }}
+   581→                        >
+   582→                          <CheckCircle className="w-10 h-10 text-green-500" />
+   583→                        </motion.div>
+   584→                      </motion.div>
+   585→
+   586→                      {/* Thank you heading */}
+   587→                      <motion.h3
+   588→                        className="text-2xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-2"
+   589→                        initial={{ opacity: 0, y: 10 }}
+   590→                        animate={{ opacity: 1, y: 0 }}
+   591→                        transition={{ delay: 0.4, duration: 0.4 }}
+   592→                      >
+   593→                        Thank you!
+   594→                      </motion.h3>
+   595→
+   596→                      {/* Subtitle */}
+   597→                      <motion.p
+   598→                        className="text-sm text-gray-500 dark:text-gray-400 font-sans-body"
+   599→                        initial={{ opacity: 0, y: 10 }}
+   600→                        animate={{ opacity: 1, y: 0 }}
+   601→                        transition={{ delay: 0.55, duration: 0.4 }}
+   602→                      >
+   603→                        We&apos;ll get back to you within 24 hours
+   604→                      </motion.p>
+   605→                    </motion.div>
+   606→                  )}
+   607→                </AnimatePresence>
+   608→
+   609→                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+   610→                  {/* Name Field */}
+   611→                  <div className="relative group">
+   612→                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   613→                      Your Name <span className="text-red-400">*</span>
+   614→                    </label>
+   615→                    <div className="relative">
+   616→                      <Input
+   617→                        required
+   618→                        value={formData.name}
+   619→                        onChange={(e) =>
+   620→                          setFormData({ ...formData, name: e.target.value })
+   621→                        }
+   622→                        onBlur={() =>
+   623→                          setTouched({ ...touched, name: true })
+   624→                        }
+   625→                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#4A2364]/30 focus-visible:border-[#4A2364]/50 dark:focus-visible:ring-[#6B3F8E]/30 dark:focus-visible:border-[#6B3F8E]/50 transition-colors"
+   626→                        placeholder="John Smith"
+   627→                      />
+   628→                      {/* Animated underline */}
+   629→                      <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+   630→                        <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   631→                      </div>
+   632→                      {touched.name && formData.name.trim() && (
+   633→                        <motion.div
+   634→                          className="absolute right-2 top-1/2 -translate-y-1/2"
+   635→                          initial={{ scale: 0 }}
+   636→                          animate={{ scale: 1 }}
+   637→                          transition={{ type: 'spring', stiffness: 300 }}
+   638→                        >
+   639→                          <Check className="w-4 h-4 text-green-500" />
+   640→                        </motion.div>
+   641→                      )}
+   642→                    </div>
+   643→                  </div>
+   644→
+   645→                  {/* Email Field */}
+   646→                  <div className="relative group">
+   647→                    <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   648→                      Email <span className="text-red-400">*</span>
+   649→                    </label>
+   650→                    <div className="relative">
+   651→                      <Input
+   652→                        required
+   653→                        type="email"
+   654→                        value={formData.email}
+   655→                        onChange={(e) =>
+   656→                          setFormData({ ...formData, email: e.target.value })
+   657→                        }
+   658→                        onBlur={() =>
+   659→                          setTouched({ ...touched, email: true })
+   660→                        }
+   661→                        className={`rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#4A2364]/30 focus-visible:border-[#4A2364]/50 dark:focus-visible:ring-[#6B3F8E]/30 dark:focus-visible:border-[#6B3F8E]/50 transition-colors ${
+   662→                          touched.email && formData.email && !isValidEmail(formData.email)
+   663→                            ? 'border-red-300 dark:border-red-500/50 focus-visible:ring-red-200'
+   664→                            : ''
+   665→                        }`}
+   666→                        placeholder="john@hotelbrand.com"
+   667→                      />
+   668→                      {/* Animated underline */}
+   669→                      <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+   670→                        <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   671→                      </div>
+   672→                      {touched.email && isValidEmail(formData.email) && (
+   673→                        <motion.div
+   674→                          className="absolute right-2 top-1/2 -translate-y-1/2"
+   675→                          initial={{ scale: 0 }}
+   676→                          animate={{ scale: 1 }}
+   677→                          transition={{ type: 'spring', stiffness: 300 }}
+   678→                        >
+   679→                          <Check className="w-4 h-4 text-green-500" />
+   680→                        </motion.div>
+   681→                      )}
+   682→                      {touched.email &&
+   683→                        formData.email &&
+   684→                        !isValidEmail(formData.email) && (
+   685→                          <motion.p
+   686→                            className="text-[10px] text-red-400 mt-1 font-sans-body"
+   687→                            initial={{ opacity: 0, y: -5 }}
+   688→                            animate={{ opacity: 1, y: 0 }}
+   689→                          >
+   690→                            Please enter a valid email address
+   691→                          </motion.p>
+   692→                        )}
+   693→                    </div>
+   694→                  </div>
+   695→                </div>
+   696→
+   697→                {/* Company Field */}
+   698→                <div className="mb-4 relative group">
+   699→                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   700→                    Company / Property
+   701→                  </label>
+   702→                  <div className="relative">
+   703→                    <Input
+   704→                      value={formData.company}
+   705→                      onChange={(e) =>
+   706→                        setFormData({ ...formData, company: e.target.value })
+   707→                      }
+   708→                      onBlur={() =>
+   709→                        setTouched({ ...touched, company: true })
+   710→                      }
+   711→                      className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#4A2364]/30 focus-visible:border-[#4A2364]/50 dark:focus-visible:ring-[#6B3F8E]/30 dark:focus-visible:border-[#6B3F8E]/50 transition-colors"
+   712→                      placeholder="Hilton, Marriott, IHG..."
+   713→                    />
+   714→                    {/* Animated underline */}
+   715→                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
+   716→                      <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   717→                    </div>
+   718→                    {touched.company && formData.company.trim() && (
+   719→                      <motion.div
+   720→                        className="absolute right-2 top-1/2 -translate-y-1/2"
+   721→                        initial={{ scale: 0 }}
+   722→                        animate={{ scale: 1 }}
+   723→                        transition={{ type: 'spring', stiffness: 300 }}
+   724→                      >
+   725→                        <Check className="w-4 h-4 text-green-500" />
+   726→                      </motion.div>
+   727→                    )}
+   728→                  </div>
+   729→                </div>
+   730→
+   731→                {/* Project Type Dropdown */}
+   732→                <div className="mb-4 relative group">
+   733→                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   734→                    Project Type <span className="text-red-400">*</span>
+   735→                  </label>
+   736→                  <div className="relative">
+   737→                    <Select
+   738→                      value={formData.projectType}
+   739→                      onValueChange={(value) => {
+   740→                        setFormData({ ...formData, projectType: value });
+   741→                        setTouched({ ...touched, projectType: true });
+   742→                      }}
+   743→                    >
+   744→                      <SelectTrigger className="w-full rounded-xl font-sans-body h-10 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus:ring-[#4A2364]/30 focus:border-[#4A2364]/50 dark:focus:ring-[#6B3F8E]/30 dark:focus:border-[#6B3F8E]/50 transition-colors">
+   745→                        <div className="flex items-center gap-2">
+   746→                          <Building2 className="w-4 h-4 text-gray-400 dark:text-gray-500 shrink-0" />
+   747→                          <SelectValue placeholder="Select project type..." />
+   748→                        </div>
+   749→                      </SelectTrigger>
+   750→                      <SelectContent className="rounded-xl">
+   751→                        <SelectItem value="new-build">New Build</SelectItem>
+   752→                        <SelectItem value="renovation">Renovation</SelectItem>
+   753→                        <SelectItem value="brand-conversion">Brand Conversion</SelectItem>
+   754→                        <SelectItem value="ffe-replacement">FF&amp;E Replacement</SelectItem>
+   755→                      </SelectContent>
+   756→                    </Select>
+   757→                    {/* Animated underline */}
+   758→                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
+   759→                      <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   760→                    </div>
+   761→                  </div>
+   762→                </div>
+   763→
+   764→                {/* Message Field */}
+   765→                <div className="mb-6 relative group">
+   766→                  <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5 font-sans-body transition-colors group-focus-within:text-[#4A2364] dark:group-focus-within:text-[#6B3F8E]">
+   767→                    Message <span className="text-red-400">*</span>
+   768→                  </label>
+   769→                  <div className="relative">
+   770→                    <Textarea
+   771→                      required
+   772→                      value={formData.message}
+   773→                      onChange={(e) =>
+   774→                        setFormData({ ...formData, message: e.target.value })
+   775→                      }
+   776→                      onBlur={() =>
+   777→                        setTouched({ ...touched, message: true })
+   778→                      }
+   779→                      maxLength={maxChars}
+   780→                      className="rounded-xl min-h-[120px] font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#4A2364]/30 focus-visible:border-[#4A2364]/50 dark:focus-visible:ring-[#6B3F8E]/30 dark:focus-visible:border-[#6B3F8E]/50 transition-colors"
+   781→                      placeholder="Tell us about your project — property type, number of keys, timeline..."
+   782→                    />
+   783→                    {/* Animated underline */}
+   784→                    <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
+   785→                      <div className="absolute inset-0 bg-gradient-to-r from-[#4A2364] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+   786→                    </div>
+   787→                    {touched.message && formData.message.trim() && (
+   788→                      <motion.div
+   789→                        className="absolute right-2 top-3"
+   790→                        initial={{ scale: 0 }}
+   791→                        animate={{ scale: 1 }}
+   792→                        transition={{ type: 'spring', stiffness: 300 }}
+   793→                      >
+   794→                        <Check className="w-4 h-4 text-green-500" />
+   795→                      </motion.div>
+   796→                    )}
+   797→                  </div>
+   798→                  {/* Character counter */}
+   799→                  <div className="flex justify-end mt-1.5">
+   800→                    <span
+   801→                      className={`text-[10px] font-sans-body transition-colors duration-200 ${
+   802→                        charCount >= 450
+   803→                          ? charCount >= maxChars
+   804→                            ? 'text-red-500 font-medium'
+   805→                            : 'text-orange-500'
+   806→                          : 'text-gray-400'
+   807→                      }`}
+   808→                    >
+   809→                      {charCount}/{maxChars} characters
+   810→                    </span>
+   811→                  </div>
+   812→                </div>
+   813→
+   814→                <Button
+   815→                  type="submit"
+   816→                  disabled={formState === 'loading'}
+   817→                  className="w-full btn-shimmer bg-[#4A2364] hover:bg-[#6B3F8E] text-white rounded-xl py-6 font-sans-body text-sm font-medium transition-all duration-300"
+   818→                >
+   819→                  {formState === 'loading' ? (
+   820→                    <>
+   821→                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+   822→                      Sending...
+   823→                    </>
+   824→                  ) : formState === 'success' ? (
+   825→                    <>
+   826→                      <CheckCircle className="w-4 h-4 mr-2" />
+   827→                      Message Sent!
+   828→                    </>
+   829→                  ) : (
+   830→                    <>
+   831→                      Send Message
+   832→                      <Send className="w-4 h-4 ml-2" />
+   833→                    </>
+   834→                  )}
+   835→                </Button>
+   836→
+   837→                {/* Privacy Note */}
+   838→                <div className="flex items-center justify-center gap-1.5 mt-3">
+   839→                  <Shield className="w-3 h-3 text-gray-400 dark:text-gray-500 shrink-0" />
+   840→                  <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body text-center">
+   841→                    Your information is secure and will never be shared.
+   842→                  </p>
+   843→                </div>
+   844→              </form>
+   845→
+   846→              {/* Quick Contact Sidebar - visible on xl screens */}
+   847→              <motion.div
+   848→                className="hidden xl:flex flex-col gap-3 w-52 shrink-0"
+   849→                initial={{ opacity: 0, x: 30 }}
+   850→                animate={isInView ? { opacity: 1, x: 0 } : {}}
+   851→                transition={{ duration: 0.6, delay: 0.4 }}
+   852→              >
+   853→                <p className="text-xs tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body font-bold mb-1">
+   854→                  QUICK CONTACT
+   855→                </p>
+   856→                {quickContactItems.map((item, index) => {
+   857→                  const Icon = item.icon;
+   858→                  return (
+   859→                    <motion.a
+   860→                      key={item.label}
+   861→                      href={item.href}
+   862→                      target={item.href.startsWith('http') ? '_blank' : undefined}
+   863→                      rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+   864→                      className="group p-3 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer"
+   865→                      initial={{ opacity: 0, y: 15 }}
+   866→                      animate={isInView ? { opacity: 1, y: 0 } : {}}
+   867→                      transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
+   868→                    >
+   869→                      <div className="flex items-start gap-3">
+   870→                        <div className={`w-9 h-9 rounded-lg ${item.bgColor} flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300`}>
+   871→                          <Icon className={`w-4 h-4 ${item.color}`} />
+   872→                        </div>
+   873→                        <div className="min-w-0">
+   874→                          <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
+   875→                            {item.label}
+   876→                          </p>
+   877→                          <p className="text-xs font-medium text-[#1A1A1A] dark:text-white font-sans-body truncate group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">
+   878→                            {item.value}
+   879→                          </p>
+   880→                          <p className="text-[9px] text-gray-300 dark:text-gray-600 font-sans-body mt-0.5">
+   881→                            {item.description}
+   882→                          </p>
+   883→                        </div>
+   884→                      </div>
+   885→                    </motion.a>
+   886→                  );
+   887→                })}
+   888→
+   889→                {/* Business hours card in sidebar */}
+   890→                <motion.div
+   891→                  className="p-3 rounded-xl bg-gradient-to-br from-[#4A2364]/5 to-[#D4AF37]/5 dark:from-[#4A2364]/10 dark:to-[#D4AF37]/5 border border-gray-100 dark:border-gray-800 mt-1"
+   892→                  initial={{ opacity: 0, y: 15 }}
+   893→                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+   894→                  transition={{ duration: 0.4, delay: 0.9 }}
+   895→                >
+   896→                  <div className="flex items-center gap-2 mb-2">
+   897→                    <Clock className="w-3.5 h-3.5 text-[#4A2364] dark:text-[#6B3F8E]" />
+   898→                    <p className="text-[10px] font-bold text-[#4A2364] dark:text-[#6B3F8E] font-sans-body tracking-wider">
+   899→                      HOURS
+   900→                    </p>
+   901→                  </div>
+   902→                  <div className="space-y-1">
+   903→                    <div className="flex justify-between">
+   904→                      <span className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">Mon–Fri</span>
+   905→                      <span className="text-[10px] font-medium text-[#1A1A1A] dark:text-gray-300 font-sans-body">9AM–6PM</span>
+   906→                    </div>
+   907→                    <div className="flex justify-between">
+   908→                      <span className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">Saturday</span>
+   909→                      <span className="text-[10px] font-medium text-[#1A1A1A] dark:text-gray-300 font-sans-body">9AM–1PM</span>
+   910→                    </div>
+   911→                    <div className="flex justify-between">
+   912→                      <span className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">Sunday</span>
+   913→                      <span className="text-[10px] font-medium text-gray-400 dark:text-gray-500 font-sans-body">Closed</span>
+   914→                    </div>
+   915→                  </div>
+   916→                  <p className="text-[9px] text-gray-300 dark:text-gray-600 font-sans-body mt-2">
+   917→                    China Standard Time (UTC+8)
+   918→                  </p>
+   919→                </motion.div>
+   920→              </motion.div>
+   921→            </div>
+   922→
+   923→            {/* Quick Contact Mobile - visible below xl screens */}
+   924→            <motion.div
+   925→              className="xl:hidden grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6"
+   926→              initial={{ opacity: 0, y: 20 }}
+   927→              animate={isInView ? { opacity: 1, y: 0 } : {}}
+   928→              transition={{ duration: 0.5, delay: 0.4 }}
+   929→            >
+   930→              {quickContactItems.map((item, index) => {
+   931→                const Icon = item.icon;
+   932→                return (
+   933→                  <motion.a
+   934→                    key={item.label}
+   935→                    href={item.href}
+   936→                    target={item.href.startsWith('http') ? '_blank' : undefined}
+   937→                    rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+   938→                    className="group p-3 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md transition-all duration-300 cursor-pointer text-center"
+   939→                    initial={{ opacity: 0, y: 15 }}
+   940→                    animate={isInView ? { opacity: 1, y: 0 } : {}}
+   941→                    transition={{ duration: 0.4, delay: 0.5 + index * 0.08 }}
+   942→                  >
+   943→                    <div className={`w-10 h-10 rounded-lg ${item.bgColor} flex items-center justify-center mx-auto mb-2 group-hover:scale-110 transition-transform duration-300`}>
+   944→                      <Icon className={`w-5 h-5 ${item.color}`} />
+   945→                    </div>
+   946→                    <p className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body">
+   947→                      {item.label}
+   948→                    </p>
+   949→                    <p className="text-xs font-medium text-[#1A1A1A] dark:text-white font-sans-body truncate group-hover:text-[#4A2364] dark:group-hover:text-[#6B3F8E] transition-colors duration-300">
+   950→                      {item.value}
+   951→                    </p>
+   952→                  </motion.a>
+   953→                );
+   954→              })}
+   955→            </motion.div>
+   956→          </motion.div>
+   957→        </div>
+   958→      </div>
+   959→    </section>
+   960→  );
+   961→}
+   962→

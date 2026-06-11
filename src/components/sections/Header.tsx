@@ -95,7 +95,7 @@ export default function Header() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         isScrolled
           ? 'bg-white/80 dark:bg-[#1A1A1A]/80 backdrop-blur-xl shadow-sm'
-          : 'bg-transparent'
+          : 'bg-gradient-to-b from-black/20 to-transparent dark:from-black/40 dark:to-transparent'
       }`}
     >
       {/* Subtle bottom border on scroll */}
@@ -135,7 +135,7 @@ export default function Header() {
               <h1 className="text-lg font-bold text-[#1A1A1A] dark:text-white leading-tight font-sans-body">
                 Akshar Foshan
               </h1>
-              <p className="text-[10px] tracking-[0.2em] text-gray-400 dark:text-gray-500 font-sans-body">
+              <p className="text-[10px] tracking-[0.2em] text-gray-400 dark:text-gray-400 font-sans-body">
                 HOSPITALITY FF&E
               </p>
             </div>

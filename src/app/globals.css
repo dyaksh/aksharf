@@ -343,6 +343,102 @@ html {
   animation: gentleFloat 4s ease-in-out infinite;
 }
 
+/* Rotating conic gradient border for hero image */
+@keyframes rotateConicBorder {
+  from { --conic-angle: 0deg; }
+  to { --conic-angle: 360deg; }
+}
+@property --conic-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+.hero-gradient-border {
+  background: conic-gradient(from var(--conic-angle), #4A2364, #D4AF37, #4A2364, #D4AF37, #4A2364);
+  animation: rotateConicBorder 6s linear infinite;
+}
+.hero-gradient-border-dark {
+  background: conic-gradient(from var(--conic-angle), #6B3F8E, #D4AF37, #6B3F8E, #D4AF37, #6B3F8E);
+  animation: rotateConicBorder 6s linear infinite;
+}
+
+/* Stats shimmer sweep animation */
+@keyframes shimmerSweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+.stats-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.stats-shimmer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(212,175,55,0.08) 40%, rgba(212,175,55,0.15) 50%, rgba(212,175,55,0.08) 60%, transparent 100%);
+  animation: shimmerSweep 5s ease-in-out infinite;
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+/* Traveling gold dot on separator */
+@keyframes travelDot {
+  0% { left: -2%; opacity: 0; }
+  5% { opacity: 1; }
+  95% { opacity: 1; }
+  100% { left: 102%; opacity: 0; }
+}
+.traveling-dot {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 8px;
+  height: 8px;
+  background: #D4AF37;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(212,175,55,0.6), 0 0 16px rgba(212,175,55,0.3);
+  animation: travelDot 4s ease-in-out infinite;
+}
+
+/* CTA button pulse glow */
+@keyframes ctaPulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(74,35,100,0.4); }
+  50% { box-shadow: 0 0 20px 4px rgba(74,35,100,0.3); }
+}
+.cta-pulse-glow {
+  animation: ctaPulseGlow 3s ease-in-out infinite;
+}
+
+/* Decorative particle float */
+@keyframes particleFloat {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.25; }
+  25% { transform: translateY(-12px) translateX(4px); opacity: 0.3; }
+  50% { transform: translateY(-18px) translateX(-3px); opacity: 0.2; }
+  75% { transform: translateY(-8px) translateX(5px); opacity: 0.3; }
+}
+
+/* Reduced motion: disable complex animations */
+@media (prefers-reduced-motion: reduce) {
+  .hero-gradient-border,
+  .hero-gradient-border-dark {
+    animation: none;
+    background: linear-gradient(135deg, #4A2364, #D4AF37);
+  }
+  .stats-shimmer::after {
+    animation: none;
+  }
+  .traveling-dot {
+    animation: none;
+    display: none;
+  }
+  .cta-pulse-glow {
+    animation: none;
+  }
+  .count-glow {
+    animation: none;
+  }
+}
+
 /* Pulse ring animation for CTA buttons */
 @keyframes pulseRing {
   0% { transform: scale(1); opacity: 0.6; }

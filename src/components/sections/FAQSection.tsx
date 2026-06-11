@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { Plus, Minus } from 'lucide-react';
+import { useState, useMemo, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Plus, Minus, Search, ChevronsUpDown, ChevronsDownUp } from 'lucide-react';
 
 interface FAQItem {
   question: string;
@@ -75,7 +74,7 @@ function FAQAccordionItem({
       <div
         className={`
           bg-white dark:bg-[#1E1E1E] rounded-xl overflow-hidden
-          border transition-all duration-500
+          border transition-all duration-500 relative
           ${
             isOpen
               ? 'border-[#4A2364]/20 dark:border-[#6B3F8E]/30 shadow-lg shadow-[#4A2364]/5 dark:shadow-[#6B3F8E]/10'
@@ -83,10 +82,19 @@ function FAQAccordionItem({
           }
         `}
       >
+        {/* Left border accent - gold on active, subtle on hover */}
+        <div
+          className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl transition-all duration-500 ${
+            isOpen
+              ? 'bg-gradient-to-b from-[#4A2364] via-[#D4AF37] to-[#4A2364] dark:from-[#6B3F8E] dark:via-[#D4AF37] dark:to-[#6B3F8E]'
+              : 'bg-gray-200 dark:bg-gray-700 group-hover:bg-[#D4AF37]/50 dark:group-hover:bg-[#D4AF37]/30'
+          }`}
+        />
+
         {/* Question — clickable header */}
         <button
           onClick={onToggle}
-          className="w-full flex items-center justify-between gap-4 px-6 py-5 text-left cursor-pointer
+          className="w-full flex items-center justify-between gap-4 px-6 py-5 pl-7 text-left cursor-pointer
                      focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4A2364]/40 dark:focus-visible:ring-[#6B3F8E]/40 focus-visible:rounded-xl
                      transition-colors duration-300"
           aria-expanded={isOpen}
@@ -108,15 +116,27 @@ function FAQAccordionItem({
               w-8 h-8 rounded-full transition-all duration-300
               ${
                 isOpen
-                  ? 'bg-[#4A2364] dark:bg-[#6B3F8E] text-white'
+                  ? 'bg-[#4A2364] dark:bg-[#6B3F8E] text-white shadow-md shadow-[#4A2364]/20 dark:shadow-[#6B3F8E]/20'
                   : 'bg-[#4A2364]/10 dark:bg-[#6B3F8E]/15 text-[#4A2364] dark:text-[#6B3F8E] group-hover:bg-[#4A2364]/20 dark:group-hover:bg-[#6B3F8E]/25'
               }
             `}
           >
             {isOpen ? (
-              <Minus className="w-4 h-4" />
+              <motion.div
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Minus className="w-4 h-4" />
+              </motion.div>
             ) : (
-              <Plus className="w-4 h-4" />
+              <motion.div
+                initial={{ rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                transition={{ duration: 0.2 }}
+              >
+                <Plus className="w-4 h-4" />
+              </motion.div>
             )}
           </span>
         </button>
@@ -132,10 +152,10 @@ function FAQAccordionItem({
               transition={{ duration: 0.35, ease: [0.4, 0, 0.2, 1] }}
               className="overflow-hidden"
             >
-              <div className="px-6 pb-5 flex gap-4">
-                {/* Decorative purple line on the left of the answer */}
+              <div className="px-6 pb-5 pl-7 flex gap-4 bg-gradient-to-r from-[#4A2364]/[0.03] via-transparent to-transparent dark:from-[#4A2364]/[0.06] dark:via-transparent dark:to-transparent rounded-b-xl">
+                {/* Decorative gradient line on the left of the answer */}
                 <div className="flex-shrink-0 w-[3px] rounded-full bg-gradient-to-b from-[#4A2364] via-[#4A2364]/60 to-[#D4AF37]/40 dark:from-[#6B3F8E] dark:via-[#6B3F8E]/60 dark:to-[#D4AF37]/40" />
-                <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed font-sans-body pt-0.5">
+                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-sans-body pt-0.5">
                   {item.answer}
                 </p>
               </div>
@@ -148,13 +168,48 @@ function FAQAccordionItem({
 }
 
 export default function FAQSection() {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [openIndices, setOpenIndices] = useState<Set<number>>(new Set());
+  const [searchQuery, setSearchQuery] = useState('');
+  const [allExpanded, setAllExpanded] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+
+  // Filter FAQ items based on search query
+  const filteredItems = useMemo(() => {
+    if (!searchQuery.trim()) return faqItems;
+    const query = searchQuery.toLowerCase();
+    return faqItems.filter(
+      (item) =>
+        item.question.toLowerCase().includes(query) ||
+        item.answer.toLowerCase().includes(query)
+    );
+  }, [searchQuery]);
+
+  const hasResults = filteredItems.length > 0;
 
   const handleToggle = (index: number) => {
-    setOpenIndex((prev) => (prev === index ? null : index));
+    setOpenIndices((prev) => {
+      const next = new Set(prev);
+      if (next.has(index)) {
+        next.delete(index);
+      } else {
+        next.add(index);
+      }
+      return next;
+    });
   };
+
+  const handleExpandAll = () => {
+    if (allExpanded) {
+      setOpenIndices(new Set());
+      setAllExpanded(false);
+    } else {
+      setOpenIndices(new Set(filteredItems.map((_, i) => i)));
+      setAllExpanded(true);
+    }
+  };
+
+  // Sync allExpanded state with actual open indices
+  const isAllExpanded = filteredItems.length > 0 && filteredItems.every((_, i) => openIndices.has(i));
 
   return (
     <section
@@ -222,18 +277,110 @@ export default function FAQSection() {
           />
         </div>
 
+        {/* Search and Controls Bar */}
+        <motion.div
+          className="mb-6 space-y-3"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+        >
+          <div className="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center">
+            {/* Search Input */}
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 dark:text-gray-500 pointer-events-none" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search questions..."
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 text-sm font-sans-body text-[#1A1A1A] dark:text-gray-200 placeholder:text-gray-400 dark:placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-[#4A2364]/30 dark:focus:ring-[#6B3F8E]/30 focus:border-[#4A2364]/50 dark:focus:border-[#6B3F8E]/50 transition-all duration-300"
+              />
+            </div>
+
+            {/* Expand All / Collapse All Toggle */}
+            {hasResults && (
+              <button
+                onClick={handleExpandAll}
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-200 dark:border-gray-700 text-xs font-medium font-sans-body text-gray-500 dark:text-gray-400 hover:text-[#4A2364] dark:hover:text-[#6B3F8E] hover:border-[#4A2364]/20 dark:hover:border-[#6B3F8E]/20 transition-all duration-300 whitespace-nowrap cursor-pointer"
+              >
+                {isAllExpanded ? (
+                  <>
+                    <ChevronsDownUp className="w-3.5 h-3.5" />
+                    Collapse All
+                  </>
+                ) : (
+                  <>
+                    <ChevronsUpDown className="w-3.5 h-3.5" />
+                    Expand All
+                  </>
+                )}
+              </button>
+            )}
+          </div>
+
+          {/* Count badge */}
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">
+              {searchQuery.trim() ? (
+                <>
+                  {filteredItems.length} of {faqItems.length} question{faqItems.length !== 1 ? 's' : ''}
+                </>
+              ) : (
+                <>
+                  {faqItems.length} question{faqItems.length !== 1 ? 's' : ''}
+                </>
+              )}
+            </span>
+            {searchQuery.trim() && (
+              <button
+                onClick={() => setSearchQuery('')}
+                className="text-xs text-[#4A2364] dark:text-[#6B3F8E] font-medium font-sans-body hover:underline underline-offset-2 transition-colors cursor-pointer"
+              >
+                Clear search
+              </button>
+            )}
+          </div>
+        </motion.div>
+
         {/* FAQ Accordion */}
-        <div className="flex flex-col gap-3 sm:gap-4">
-          {faqItems.map((item, index) => (
-            <FAQAccordionItem
-              key={index}
-              item={item}
-              index={index}
-              isOpen={openIndex === index}
-              onToggle={() => handleToggle(index)}
-            />
-          ))}
-        </div>
+        {hasResults ? (
+          <div className="flex flex-col gap-3 sm:gap-4">
+            {filteredItems.map((item, filteredIndex) => {
+              // Find the original index for proper toggling
+              const originalIndex = faqItems.indexOf(item);
+              return (
+                <FAQAccordionItem
+                  key={originalIndex}
+                  item={item}
+                  index={filteredIndex}
+                  isOpen={openIndices.has(originalIndex)}
+                  onToggle={() => handleToggle(originalIndex)}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <motion.div
+            className="text-center py-12"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mx-auto mb-3">
+              <Search className="w-5 h-5 text-gray-400 dark:text-gray-500" />
+            </div>
+            <p className="text-sm text-gray-500 dark:text-gray-400 font-sans-body mb-1">
+              No questions match your search.
+            </p>
+            <a
+              href="#contact"
+              className="text-sm text-[#4A2364] dark:text-[#D4AF37] font-semibold font-sans-body hover:underline underline-offset-2 transition-colors"
+            >
+              Contact us for help.
+            </a>
+          </motion.div>
+        )}
 
         {/* Bottom CTA nudge */}
         <motion.div

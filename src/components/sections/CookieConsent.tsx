@@ -46,7 +46,9 @@ export default function CookieConsent() {
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         >
-          <div className="relative w-full max-w-2xl rounded-2xl border border-white/10 bg-[#1A1A1A]/90 backdrop-blur-xl shadow-2xl p-5 md:p-6">
+          <div className="relative w-full max-w-2xl rounded-2xl border border-white/10 bg-gradient-to-r from-[#1A1A1A] to-[#2D1B42] backdrop-blur-xl shadow-2xl p-5 md:p-6">
+            {/* Gold top border accent */}
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent" />
             {/* Close button */}
             <button
               onClick={handleClose}
@@ -58,20 +60,23 @@ export default function CookieConsent() {
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               {/* Cookie icon */}
-              <div className="shrink-0 w-10 h-10 rounded-xl bg-[#4A2364]/30 flex items-center justify-center">
+              <div className="shrink-0 w-10 h-10 rounded-xl bg-[#D4AF37]/20 border border-[#D4AF37]/30 flex items-center justify-center">
                 <Cookie className="w-5 h-5 text-[#D4AF37]" />
               </div>
 
               {/* Text */}
-              <p className="text-sm text-white/80 leading-relaxed flex-1 pr-6 sm:pr-0">
-                We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.
-              </p>
+              <div className="flex-1 pr-6 sm:pr-0">
+                <p className="text-sm text-white leading-relaxed">
+                  We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.{' '}
+                  <a href="/privacy-policy" className="text-[#D4AF37] hover:text-[#D4AF37]/80 underline underline-offset-2 transition-colors">Privacy Policy</a>
+                </p>
+              </div>
 
               {/* Buttons */}
               <div className="flex items-center gap-3 shrink-0 w-full sm:w-auto">
                 <button
                   onClick={handleDecline}
-                  className="flex-1 sm:flex-initial px-5 py-2.5 min-h-12 rounded-full border border-white/20 text-white/70 text-sm font-medium hover:bg-white/10 transition-colors"
+                  className="flex-1 sm:flex-initial px-5 py-2.5 min-h-12 rounded-full border border-white/50 hover:border-white/70 hover:bg-white/10 text-white text-sm font-medium transition-colors"
                 >
                   Decline
                 </button>

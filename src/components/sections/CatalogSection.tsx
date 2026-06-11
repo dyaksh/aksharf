@@ -204,7 +204,7 @@ export default function CatalogSection() {
   const thumbnailPages = catalogPages.slice(thumbnailStart, thumbnailEnd);
 
   return (
-    <section className="bg-white dark:bg-[#121212] py-20 lg:py-32 relative transition-colors duration-300" ref={sectionRef}>
+    <section id="catalog" className="bg-white dark:bg-[#121212] py-20 lg:py-32 relative transition-colors duration-300" ref={sectionRef}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
@@ -281,8 +281,11 @@ export default function CatalogSection() {
                   <TooltipTrigger asChild>
                     <button
                       onClick={() => handleOpenPage(page.page)}
-                      className="group relative rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700/50 hover:border-[#4A2364]/40 dark:hover:border-[#6B3F8E]/40 shadow-sm hover:shadow-xl transition-all duration-500 bg-gray-50 dark:bg-[#1E1E1E] w-full"
+                      className="group relative rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700/50 hover:border-[#4A2364]/40 dark:hover:border-[#6B3F8E]/40 shadow-sm hover:shadow-2xl hover:shadow-[#4A2364]/10 dark:hover:shadow-[#6B3F8E]/10 hover:scale-[1.03] transition-all duration-500 bg-gray-50 dark:bg-[#1E1E1E] w-full active:scale-[0.98]"
                     >
+                      {/* Gold top accent line on hover */}
+                      <div className="absolute top-0 left-0 right-0 h-[3px] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(90deg, #4A2364, #D4AF37, #4A2364)' }} />
+
                       <div className="aspect-[3/4] relative">
                         <img
                           src={page.image}
@@ -290,7 +293,9 @@ export default function CatalogSection() {
                           className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
                         />
                         {/* Hover overlay with purple glow */}
-                        <div className="absolute inset-0 bg-[#4A2364]/0 group-hover:bg-[#4A2364]/25 dark:group-hover:bg-[#6B3F8E]/25 transition-all duration-500 group-hover:shadow-[inset_0_0_30px_rgba(74,35,100,0.3)] dark:group-hover:shadow-[inset_0_0_30px_rgba(107,63,142,0.3)]" />
+                        <div className="absolute inset-0 bg-[#4A2364]/0 group-hover:bg-[#4A2364]/20 dark:group-hover:bg-[#6B3F8E]/20 transition-all duration-500" />
+                        {/* Inner shadow glow on hover */}
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shadow-[inset_0_0_40px_rgba(74,35,100,0.15)] dark:shadow-[inset_0_0_40px_rgba(107,63,142,0.15)]" />
                         {/* Click to view indicator */}
                         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
                           <div className="flex items-center gap-1.5 bg-white/90 dark:bg-[#2A2A2A]/90 backdrop-blur-sm px-3 py-1.5 rounded-full shadow-lg">
