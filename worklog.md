@@ -1537,3 +1537,28 @@ Stage Summary:
 - Key files modified: Header.tsx, HeroSection.tsx, Footer.tsx, ContactSection.tsx, ChatWidget.tsx, page.tsx, SEOHead.tsx
 - Contact details now match real company: +1 (760) 617-0800, yogin@aksharfoshan.com
 - Homepage now includes: Hero → Marquee → Partners → About CTA → Process → Services → Before/After → Testimonials → FAQ → CTA
+
+---
+Task ID: 9
+Agent: Main Agent
+Task: Redesign ServicesSection with concentric circles layout (Outer Ring: Stats, Inner Ring: Services, Center Core: 360°)
+
+Work Log:
+- Completely redesigned the ServicesSection main content area
+- Replaced the flat card grid + workshop image layout with an interactive concentric circles diagram
+- Created 3-layer radial design:
+  1. OUTER RING: Dashed gold border with stat pills (500+ projects, 120+ fixtures, 8K+ rooms fitted, 21 day avg, 99.2% pass rate, 340+ programs) positioned around the perimeter
+  2. INNER SERVICE RING: Solid purple border with 6 service icon nodes (Casegoods, Lighting, Bathroom, Logistics, QC, Decor) evenly spaced in a circle
+  3. CENTER CORE: Dark purple circle with "360° FF&E SUPPORT" text, rotating gold accents, and animated conic gradient shimmer
+- Added interactive features: hover highlights, click-to-select with detail panel, connector lines between service nodes and their stats
+- Added legend bar above diagram showing the 3 ring labels with color-coded indicators
+- Created mobile fallback: compact card list with expand/collapse instead of concentric circles
+- Added detail panel that appears below diagram when a service is clicked, showing icon, title, description, and stats
+- Kept hero banner ("WHAT WE COVER" / "360° FF&E support, under one roof") and process steps section unchanged
+- Verified with agent-browser and VLM — all 3 rings visible, interactive detail panel works correctly
+
+Stage Summary:
+- New concentric circles visualization replaces the old card grid in ServicesSection
+- Interactive: hover highlights, click-to-select service, detail panel with back navigation
+- Responsive: Full radial diagram on desktop, card list on mobile
+- Brand colors maintained: purple #5d2c86, gold #D4AF37, cream #f8f3ed

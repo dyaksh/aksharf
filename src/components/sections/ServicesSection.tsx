@@ -1,184 +1,540 @@
 'use client';
 
 import { useRef, useState, useEffect, useCallback } from 'react';
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { Sofa, Lamp, Bath, Package, ShieldCheck, Frame, ArrowRight, PenTool, Factory, CheckCircle, Truck } from 'lucide-react';
 import RevealOnScroll from '@/components/RevealOnScroll';
+
+/* ═══════════════════════════════════════════════════════
+   DATA
+   ═══════════════════════════════════════════════════════ */
 
 const services = [
   {
     icon: Sofa,
-    title: 'Casegoods & Upholstery',
-    description:
-      'Full range of hotel casegoods, headboards, desks, and upholstered seating crafted to brand specifications.',
+    title: 'Casegoods &\nUpholstery',
+    shortTitle: 'Casegoods',
+    description: 'Full range of hotel casegoods, headboards, desks, and upholstered seating crafted to brand specifications.',
     stat: '500+',
     statLabel: 'projects',
+    color: '#5d2c86',
   },
   {
     icon: Lamp,
-    title: 'Lighting & Mirrors',
-    description:
-      'Custom lighting solutions and mirrors designed to complement each property\'s unique aesthetic.',
+    title: 'Lighting &\nMirrors',
+    shortTitle: 'Lighting',
+    description: 'Custom lighting solutions and mirrors designed to complement each property\'s unique aesthetic.',
     stat: '120+',
     statLabel: 'fixtures',
+    color: '#7d44a8',
   },
   {
     icon: Bath,
-    title: 'Bathroom Accessories',
-    description:
-      'Complete bathroom FF&E packages including vanities, accessories, and hardware.',
+    title: 'Bathroom\nAccessories',
+    shortTitle: 'Bathroom',
+    description: 'Complete bathroom FF&E packages including vanities, accessories, and hardware.',
     stat: '8K+',
     statLabel: 'rooms fitted',
+    color: '#9b6bc4',
   },
   {
     icon: Package,
-    title: 'Sourcing & Logistics',
-    description:
-      'End-to-end supply chain management from raw materials to on-site delivery and installation.',
+    title: 'Sourcing &\nLogistics',
+    shortTitle: 'Logistics',
+    description: 'End-to-end supply chain management from raw materials to on-site delivery and installation.',
     stat: '21',
     statLabel: 'day avg',
+    color: '#D4AF37',
   },
   {
     icon: ShieldCheck,
-    title: 'Quality Control',
-    description:
-      'Rigorous inspection at every stage — from raw material through production to final packaging.',
+    title: 'Quality\nControl',
+    shortTitle: 'QC',
+    description: 'Rigorous inspection at every stage — from raw material through production to final packaging.',
     stat: '99.2%',
     statLabel: 'pass rate',
+    color: '#b8960e',
   },
   {
     icon: Frame,
-    title: 'Art & Decor',
-    description:
-      'Curated art programs and decorative accessories that bring each hotel\'s brand story to life.',
+    title: 'Art &\nDecor',
+    shortTitle: 'Decor',
+    description: 'Curated art programs and decorative accessories that bring each hotel\'s brand story to life.',
     stat: '340+',
     statLabel: 'programs',
+    color: '#8b7410',
   },
 ];
 
 const processSteps = [
-  {
-    icon: PenTool,
-    title: 'Design',
-    description: 'Translate brand standards into precise FF&E specifications and technical drawings.',
-  },
-  {
-    icon: Factory,
-    title: 'Manufacture',
-    description: 'Mill, upholster, finish and assemble every piece in our Foshan workshops.',
-  },
-  {
-    icon: CheckCircle,
-    title: 'QC',
-    description: 'Multi-stage inspection from raw materials through production to final packaging.',
-  },
-  {
-    icon: Truck,
-    title: 'Deliver',
-    description: 'Consolidate, document and install on-site — FOB or DDP, one accountable team.',
-  },
+  { icon: PenTool, title: 'Design', description: 'Translate brand standards into precise FF&E specifications and technical drawings.' },
+  { icon: Factory, title: 'Manufacture', description: 'Mill, upholster, finish and assemble every piece in our Foshan workshops.' },
+  { icon: CheckCircle, title: 'QC', description: 'Multi-stage inspection from raw materials through production to final packaging.' },
+  { icon: Truck, title: 'Deliver', description: 'Consolidate, document and install on-site — FOB or DDP, one accountable team.' },
 ];
 
-/* ── Animated Number Counter ── */
-function AnimatedCounter({ value, label }: { value: string; label: string }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const spanRef = useRef<HTMLSpanElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-50px' });
-  const hasAnimated = useRef(false);
+/* ═══════════════════════════════════════════════════════
+   CONCENTRIC CIRCLES COMPONENT
+   ═══════════════════════════════════════════════════════ */
 
-  useEffect(() => {
-    if (!isInView || hasAnimated.current) return;
-    hasAnimated.current = true;
+function ConcentricCircles() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(containerRef, { once: true, margin: '-80px' });
 
-    const numericMatch = value.match(/^[\d.]+/);
-    if (!numericMatch || !spanRef.current) return;
+  // Selected service for detail panel
+  const selectedService = activeIndex !== null ? services[activeIndex] : null;
 
-    const target = parseFloat(numericMatch[0]);
-    const suffix = value.replace(numericMatch[0], '');
-    const hasDecimal = numericMatch[0].includes('.');
-    const duration = 1800;
-    const startTime = performance.now();
-
-    const animate = (now: number) => {
-      const elapsed = now - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = target * eased;
-      if (spanRef.current) {
-        spanRef.current.textContent = (hasDecimal ? current.toFixed(1) : Math.floor(current).toString()) + suffix;
-      }
-      if (progress < 1) requestAnimationFrame(animate);
+  // Position 6 services evenly around the inner ring (starting from top, going clockwise)
+  const servicePositions = services.map((_, i) => {
+    const angle = (i * 60 - 90) * (Math.PI / 180); // Start from top (-90°)
+    return {
+      x: 50 + 30 * Math.cos(angle), // 30% radius from center
+      y: 50 + 30 * Math.sin(angle),
     };
-    requestAnimationFrame(animate);
-  }, [isInView, value]);
+  });
 
-  const numericMatch = value.match(/^[\d.]+/);
-  const initialValue = numericMatch ? '0' : value;
+  // Position 6 stats evenly around the outer ring (offset by 30° from services)
+  const statPositions = services.map((_, i) => {
+    const angle = (i * 60 - 90 + 30) * (Math.PI / 180); // Offset 30° from services
+    return {
+      x: 50 + 45 * Math.cos(angle), // 45% radius from center
+      y: 50 + 45 * Math.sin(angle),
+    };
+  });
 
   return (
-    <div ref={ref} className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-800">
-      <div className="flex items-baseline gap-1.5">
-        <span ref={spanRef} className="text-lg font-bold font-serif-display text-[#5d2c86] dark:text-[#7d44a8] count-glow">
-          {initialValue}
-        </span>
-        <span className="text-[10px] text-gray-400 dark:text-gray-500 font-sans-body uppercase tracking-wider">
-          {label}
-        </span>
+    <div ref={containerRef} className="relative w-full max-w-3xl mx-auto">
+      {/* ── CONCENTRIC CIRCLES DIAGRAM ── */}
+      <div className="relative aspect-square w-full">
+        {/* Decorative background glow */}
+        <div
+          className="absolute inset-0 rounded-full pointer-events-none"
+          style={{
+            background: 'radial-gradient(circle at center, rgba(93,44,134,0.06) 0%, rgba(93,44,134,0.02) 40%, transparent 65%)',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* ═══ OUTER RING ═══ */}
+        <motion.div
+          className="absolute rounded-full border-2 border-dashed border-[#D4AF37]/25 dark:border-[#D4AF37]/20"
+          style={{
+            top: '5%',
+            left: '5%',
+            right: '5%',
+            bottom: '5%',
+          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={isInView ? { scale: 1, opacity: 1 } : {}}
+          transition={{ duration: 1.0, delay: 0.3, ease: 'easeOut' }}
+        >
+          {/* Outer ring label — top */}
+          <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#f8f3ed] dark:bg-[#121212] px-3">
+            <span className="text-[9px] tracking-[0.25em] font-sans-body font-bold text-[#D4AF37] whitespace-nowrap">
+              STATISTICS & METRICS
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Outer ring glow pulse */}
+        <motion.div
+          className="absolute rounded-full pointer-events-none"
+          style={{
+            top: '5%',
+            left: '5%',
+            right: '5%',
+            bottom: '5%',
+            boxShadow: '0 0 30px rgba(212,175,55,0.08), inset 0 0 30px rgba(212,175,55,0.04)',
+          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={isInView ? { scale: 1, opacity: [0, 1, 0.6, 1] } : {}}
+          transition={{ duration: 1.5, delay: 0.5 }}
+        />
+
+        {/* ═══ INNER SERVICE RING ═══ */}
+        <motion.div
+          className="absolute rounded-full border-2 border-[#5d2c86]/20 dark:border-[#7d44a8]/25"
+          style={{
+            top: '18%',
+            left: '18%',
+            right: '18%',
+            bottom: '18%',
+          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={isInView ? { scale: 1, opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+        >
+          {/* Inner ring label — bottom */}
+          <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#f8f3ed] dark:bg-[#121212] px-3">
+            <span className="text-[9px] tracking-[0.25em] font-sans-body font-bold text-[#5d2c86] dark:text-[#7d44a8] whitespace-nowrap">
+              SERVICE CATEGORIES
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Connector lines from inner services to outer stats */}
+        {services.map((_, i) => {
+          const innerPos = servicePositions[i];
+          const outerPos = statPositions[i];
+          return (
+            <motion.div
+              key={`connector-${i}`}
+              className="absolute pointer-events-none"
+              style={{
+                left: `${innerPos.x}%`,
+                top: `${innerPos.y}%`,
+                width: '1px',
+                height: '0px',
+                transformOrigin: '0 0',
+                transform: `rotate(${Math.atan2(outerPos.y - innerPos.y, outerPos.x - innerPos.x) * (180 / Math.PI)}deg)`,
+              }}
+              initial={{ height: 0, opacity: 0 }}
+              animate={isInView ? { height: '12%', opacity: 0.2 } : {}}
+              transition={{ duration: 0.6, delay: 1.2 + i * 0.1 }}
+            >
+              <div className="w-full h-full bg-gradient-to-b from-[#5d2c86]/30 to-[#D4AF37]/30" />
+            </motion.div>
+          );
+        })}
+
+        {/* ═══ STAT NODES (OUTER RING) ═══ */}
+        {services.map((service, i) => {
+          const pos = statPositions[i];
+          const isHovered = hoveredIndex === i;
+          const isActive = activeIndex === i;
+          return (
+            <motion.div
+              key={`stat-${i}`}
+              className="absolute z-20 cursor-pointer"
+              style={{
+                left: `${pos.x}%`,
+                top: `${pos.y}%`,
+                transform: 'translate(-50%, -50%)',
+              }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={isInView ? { scale: 1, opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 1.0 + i * 0.1 }}
+              onMouseEnter={() => setHoveredIndex(i)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              onClick={() => setActiveIndex(isActive ? null : i)}
+            >
+              <motion.div
+                className="relative flex flex-col items-center"
+                animate={{
+                  scale: isHovered || isActive ? 1.15 : 1,
+                }}
+                transition={{ duration: 0.3, type: 'spring', stiffness: 300, damping: 20 }}
+              >
+                {/* Stat pill */}
+                <div className={`
+                  px-3 py-1.5 rounded-full border backdrop-blur-sm shadow-md transition-all duration-300
+                  ${isActive
+                    ? 'bg-[#D4AF37]/15 border-[#D4AF37]/50 shadow-[0_0_15px_rgba(212,175,55,0.2)]'
+                    : isHovered
+                      ? 'bg-white/90 dark:bg-[#1E1E1E]/90 border-[#D4AF37]/30 shadow-[0_0_10px_rgba(212,175,55,0.1)]'
+                      : 'bg-white/80 dark:bg-[#1E1E1E]/80 border-[#D4AF37]/15'
+                  }
+                `}>
+                  <div className="flex items-baseline gap-1">
+                    <span className={`text-sm font-bold font-serif-display ${isActive ? 'text-[#D4AF37]' : 'text-[#5d2c86] dark:text-[#7d44a8]'}`}>
+                      {service.stat}
+                    </span>
+                    <span className="text-[8px] text-gray-400 dark:text-gray-500 font-sans-body tracking-wider uppercase">
+                      {service.statLabel}
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          );
+        })}
+
+        {/* ═══ SERVICE NODES (INNER RING) ═══ */}
+        {services.map((service, i) => {
+          const pos = servicePositions[i];
+          const Icon = service.icon;
+          const isHovered = hoveredIndex === i;
+          const isActive = activeIndex === i;
+          return (
+            <motion.div
+              key={`service-${i}`}
+              className="absolute z-30 cursor-pointer"
+              style={{
+                left: `${pos.x}%`,
+                top: `${pos.y}%`,
+                transform: 'translate(-50%, -50%)',
+              }}
+              initial={{ scale: 0, opacity: 0 }}
+              animate={isInView ? { scale: 1, opacity: 1 } : {}}
+              transition={{ duration: 0.5, delay: 0.8 + i * 0.12, type: 'spring' }}
+              onMouseEnter={() => setHoveredIndex(i)}
+              onMouseLeave={() => setHoveredIndex(null)}
+              onClick={() => setActiveIndex(isActive ? null : i)}
+            >
+              <motion.div
+                className="relative flex flex-col items-center"
+                animate={{
+                  scale: isHovered || isActive ? 1.12 : 1,
+                }}
+                transition={{ duration: 0.3, type: 'spring', stiffness: 300, damping: 20 }}
+              >
+                {/* Glow ring behind icon when active */}
+                {isActive && (
+                  <motion.div
+                    className="absolute inset-0 rounded-full"
+                    style={{
+                      boxShadow: `0 0 20px ${service.color}33, 0 0 40px ${service.color}15`,
+                    }}
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                  />
+                )}
+
+                {/* Icon circle */}
+                <div className={`
+                  w-14 h-14 rounded-full flex items-center justify-center border-2 shadow-lg transition-all duration-300
+                  ${isActive
+                    ? `bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] border-[#D4AF37] shadow-xl`
+                    : isHovered
+                      ? 'bg-white dark:bg-[#1E1E1E] border-[#5d2c86]/40 dark:border-[#7d44a8]/40 shadow-lg'
+                      : 'bg-white dark:bg-[#1E1E1E] border-gray-200 dark:border-gray-700 shadow-md'
+                  }
+                `}>
+                  <Icon className={`w-6 h-6 transition-colors duration-300 ${
+                    isActive ? 'text-white' : 'text-[#5d2c86] dark:text-[#7d44a8]'
+                  }`} />
+                </div>
+
+                {/* Service label below icon */}
+                <div className={`
+                  mt-2 text-center transition-all duration-300
+                  ${isActive ? 'opacity-100' : isHovered ? 'opacity-100' : 'opacity-80'}
+                `}>
+                  <span className={`text-[10px] font-sans-body font-bold tracking-wide leading-tight block ${
+                    isActive ? 'text-[#5d2c86] dark:text-[#7d44a8]' : 'text-gray-600 dark:text-gray-300'
+                  }`}>
+                    {service.shortTitle}
+                  </span>
+                </div>
+              </motion.div>
+            </motion.div>
+          );
+        })}
+
+        {/* ═══ CENTER CORE ═══ */}
+        <motion.div
+          className="absolute z-40"
+          style={{
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+          initial={{ scale: 0, opacity: 0 }}
+          animate={isInView ? { scale: 1, opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.4, type: 'spring', stiffness: 100 }}
+        >
+          <div className="relative">
+            {/* Rotating outer gold ring */}
+            <motion.div
+              className="absolute -inset-3 rounded-full border border-dashed border-[#D4AF37]/20"
+              animate={{ rotate: 360 }}
+              transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+            />
+
+            {/* Counter-rotating inner ring */}
+            <motion.div
+              className="absolute -inset-1.5 rounded-full border border-[#5d2c86]/15 dark:border-[#7d44a8]/15"
+              animate={{ rotate: -360 }}
+              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+            />
+
+            {/* Main center circle */}
+            <div className="relative w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full bg-gradient-to-br from-[#5d2c86] via-[#5d2c86] to-[#3d1c5a] flex flex-col items-center justify-center shadow-2xl border-2 border-[#D4AF37]/30 overflow-hidden">
+              {/* Animated conic gradient shimmer */}
+              <motion.div
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: 'conic-gradient(from 0deg, transparent, rgba(212,175,55,0.15), transparent, rgba(212,175,55,0.1), transparent)',
+                }}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+              />
+
+              {/* Content */}
+              <div className="relative z-10 text-center">
+                <span className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif-display text-white leading-none">
+                  360°
+                </span>
+                <div className="w-8 h-[1px] bg-[#D4AF37] mx-auto my-1" />
+                <span className="text-[8px] sm:text-[9px] tracking-[0.2em] font-sans-body font-bold text-[#D4AF37] uppercase">
+                  FF&E
+                </span>
+                <span className="text-[8px] sm:text-[9px] tracking-[0.15em] font-sans-body font-medium text-white/70 uppercase block mt-0.5">
+                  SUPPORT
+                </span>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* ═══ HOVER/ACTIVE DETAIL TOOLTIP ═══ */}
+        <AnimatePresence>
+          {(hoveredIndex !== null || activeIndex !== null) && (() => {
+            const idx = activeIndex ?? hoveredIndex;
+            if (idx === null) return null;
+            const svc = services[idx];
+            const pos = servicePositions[idx];
+            // Position tooltip toward the center if node is on outside, or away
+            const isTop = pos.y < 50;
+            const isLeft = pos.x < 50;
+            return (
+              <motion.div
+                key={`tooltip-${idx}`}
+                className="absolute z-50 pointer-events-none"
+                style={{
+                  left: `${pos.x}%`,
+                  top: `${pos.y}%`,
+                  transform: `translate(${isLeft ? '10%' : '-110%'}, ${isTop ? '10%' : '-110%'})`,
+                }}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.25 }}
+              >
+                <div className="bg-white/95 dark:bg-[#1E1E1E]/95 backdrop-blur-md rounded-xl shadow-xl border border-[#5d2c86]/10 dark:border-[#7d44a8]/10 p-4 w-56">
+                  <div className="flex items-center gap-2 mb-2">
+                    <svc.icon className="w-4 h-4 text-[#5d2c86] dark:text-[#7d44a8]" />
+                    <h4 className="text-sm font-bold text-[#1A1A1A] dark:text-white font-sans-body">
+                      {svc.title.replace('\n', ' ')}
+                    </h4>
+                  </div>
+                  <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-2">
+                    {svc.description}
+                  </p>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-lg font-bold font-serif-display text-[#5d2c86] dark:text-[#7d44a8]">{svc.stat}</span>
+                    <span className="text-[9px] text-gray-400 dark:text-gray-500 font-sans-body uppercase tracking-wider">{svc.statLabel}</span>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })()}
+        </AnimatePresence>
       </div>
+
+      {/* ── MOBILE FALLBACK: Card Grid ── */}
+      <div className="sm:hidden mt-6 space-y-3">
+        {services.map((service, i) => {
+          const Icon = service.icon;
+          const isActive = activeIndex === i;
+          return (
+            <motion.button
+              key={`mobile-${i}`}
+              className={`w-full text-left rounded-xl p-4 border transition-all duration-300 ${
+                isActive
+                  ? 'bg-[#5d2c86]/5 dark:bg-[#7d44a8]/10 border-[#5d2c86]/20 dark:border-[#7d44a8]/20'
+                  : 'bg-white/80 dark:bg-[#1E1E1E]/80 border-gray-100 dark:border-gray-800'
+              }`}
+              onClick={() => setActiveIndex(isActive ? null : i)}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
+            >
+              <div className="flex items-center gap-3">
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
+                  isActive ? 'bg-[#5d2c86]' : 'bg-[#5d2c86]/10 dark:bg-[#7d44a8]/10'
+                }`}>
+                  <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-[#5d2c86] dark:text-[#7d44a8]'}`} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <h4 className="text-sm font-bold text-[#1A1A1A] dark:text-white font-sans-body">
+                      {service.title.replace('\n', ' ')}
+                    </h4>
+                    <span className="text-xs font-bold font-serif-display text-[#D4AF37] whitespace-nowrap">
+                      {service.stat} {service.statLabel}
+                    </span>
+                  </div>
+                  {isActive && (
+                    <motion.p
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mt-2"
+                    >
+                      {service.description}
+                    </motion.p>
+                  )}
+                </div>
+              </div>
+            </motion.button>
+          );
+        })}
+      </div>
+
+      {/* ── SELECTED SERVICE DETAIL PANEL (DESKTOP) ── */}
+      <AnimatePresence>
+        {selectedService && (
+          <motion.div
+            initial={{ opacity: 0, y: 20, height: 0 }}
+            animate={{ opacity: 1, y: 0, height: 'auto' }}
+            exit={{ opacity: 0, y: 10, height: 0 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+            className="mt-8 hidden sm:block"
+          >
+            <div className="relative bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#5d2c86]/10 dark:border-[#7d44a8]/15 overflow-hidden">
+              {/* Top accent bar */}
+              <div className="h-1 bg-gradient-to-r from-[#5d2c86] via-[#D4AF37] to-[#5d2c86]" />
+
+              <div className="p-6 flex flex-col sm:flex-row gap-6 items-start">
+                {/* Icon */}
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] flex items-center justify-center shrink-0 shadow-lg">
+                  <selectedService.icon className="w-7 h-7 text-white" />
+                </div>
+
+                {/* Text */}
+                <div className="flex-1">
+                  <h3 className="text-xl font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-2">
+                    {selectedService.title.replace('\n', ' ')}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-4">
+                    {selectedService.description}
+                  </p>
+
+                  {/* Stats row */}
+                  <div className="flex items-center gap-6">
+                    <div>
+                      <span className="text-2xl font-bold font-serif-display text-[#5d2c86] dark:text-[#7d44a8]">
+                        {selectedService.stat}
+                      </span>
+                      <span className="text-xs text-gray-400 dark:text-gray-500 font-sans-body ml-2 uppercase tracking-wider">
+                        {selectedService.statLabel}
+                      </span>
+                    </div>
+                    <button
+                      onClick={() => setActiveIndex(null)}
+                      className="text-xs text-[#5d2c86] dark:text-[#7d44a8] hover:text-[#D4AF37] font-sans-body font-medium transition-colors"
+                    >
+                      ← Back to overview
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
-/* ── 3D Tilt Card Wrapper ── */
-function TiltCard({ children, className }: { children: React.ReactNode; className?: string }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
+/* ═══════════════════════════════════════════════════════
+   GOLD ACCENT SEPARATOR
+   ═══════════════════════════════════════════════════════ */
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width;
-    const y = (e.clientY - rect.top) / rect.height;
-    setTilt({
-      x: ((y - 0.5) * -6), // max 3deg
-      y: ((x - 0.5) * 6),  // max 3deg
-    });
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
-    setTilt({ x: 0, y: 0 });
-    setIsHovering(false);
-  }, []);
-
-  return (
-    <div
-      ref={cardRef}
-      className={className}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        perspective: '1000px',
-        transformStyle: 'preserve-3d',
-      }}
-    >
-      <div
-        style={{
-          transform: isHovering
-            ? `rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(1.02)`
-            : 'rotateX(0deg) rotateY(0deg) scale(1)',
-          transition: isHovering ? 'transform 0.15s ease-out' : 'transform 0.5s ease-out',
-          transformStyle: 'preserve-3d',
-        }}
-      >
-        {children}
-      </div>
-    </div>
-  );
-}
-
-/* ── Gold Accent Separator ── */
 function GoldSeparator() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-30px' });
@@ -196,38 +552,15 @@ function GoldSeparator() {
   );
 }
 
-/* ── Particle Dot Pattern (visible on hover) ── */
-function ParticleDots() {
-  return (
-    <svg
-      className="absolute inset-0 w-full h-full opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"
-      aria-hidden="true"
-    >
-      <defs>
-        <pattern id="card-dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-          <circle cx="2" cy="2" r="0.8" fill="#D4AF37" opacity="0.25" />
-        </pattern>
-      </defs>
-      <rect width="100%" height="100%" fill="url(#card-dots)" />
-    </svg>
-  );
-}
+/* ═══════════════════════════════════════════════════════
+   MAIN EXPORT
+   ═══════════════════════════════════════════════════════ */
 
 export default function ServicesSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
-  const heroRef = useRef<HTMLDivElement>(null);
   const processRef = useRef<HTMLDivElement>(null);
   const isProcessInView = useInView(processRef, { once: true, margin: '-80px' });
-
-  // Parallax & zoom for workshop image
-  const imageRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: imageRef,
-    offset: ['start end', 'end start'],
-  });
-  const imageY = useTransform(scrollYProgress, [0, 1], [-30, 30]);
-  const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.08, 1.04, 1.12]);
 
   // Word-by-word reveal heading
   const headingWords = ['360°', 'FF&E', 'support,', 'under', 'one', 'roof.'];
@@ -235,26 +568,21 @@ export default function ServicesSection() {
   return (
     <section id="services" className="bg-[#f8f3ed] dark:bg-[#121212] relative overflow-hidden transition-colors duration-300" ref={sectionRef}>
       {/* ─────────────── 1. CINEMATIC HERO BANNER ─────────────── */}
-      <div ref={heroRef} className="relative pt-16 lg:pt-24 pb-4 overflow-hidden">
-        {/* Background gradient cream → transparent */}
+      <div className="relative pt-16 lg:pt-24 pb-4 overflow-hidden">
+        {/* Background gradient */}
         <div
           className="absolute inset-0 pointer-events-none"
-          style={{
-            background: 'linear-gradient(180deg, rgba(248,243,237,0.95) 0%, rgba(248,243,237,0) 100%)',
-          }}
+          style={{ background: 'linear-gradient(180deg, rgba(248,243,237,0.95) 0%, rgba(248,243,237,0) 100%)' }}
           aria-hidden="true"
         />
-        {/* Dark mode gradient */}
         <div
           className="absolute inset-0 pointer-events-none hidden dark:block"
-          style={{
-            background: 'linear-gradient(180deg, rgba(18,18,18,0.95) 0%, rgba(18,18,18,0) 100%)',
-          }}
+          style={{ background: 'linear-gradient(180deg, rgba(18,18,18,0.95) 0%, rgba(18,18,18,0) 100%)' }}
           aria-hidden="true"
         />
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          {/* Eyebrow with gold color and tracking animation */}
+          {/* Eyebrow */}
           <motion.p
             className="text-xs tracking-[0.3em] text-[#D4AF37] mb-5 font-sans-body font-semibold"
             initial={{ opacity: 0, letterSpacing: '0.6em' }}
@@ -274,17 +602,11 @@ export default function ServicesSection() {
                 initial={{ opacity: 0, y: 25, filter: 'blur(6px)' }}
                 whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
                 viewport={{ once: true }}
-                transition={{
-                  duration: 0.6,
-                  delay: 0.3 + i * 0.12,
-                  ease: [0.25, 0.4, 0.25, 1],
-                }}
+                transition={{ duration: 0.6, delay: 0.3 + i * 0.12, ease: [0.25, 0.4, 0.25, 1] }}
               >
                 {word === '360°' || word === 'FF&E' || word === 'support,' ? (
                   <span className="text-[#5d2c86] dark:text-[#7d44a8]">{word}</span>
-                ) : (
-                  word
-                )}
+                ) : word}
               </motion.span>
             ))}
           </h2>
@@ -301,7 +623,7 @@ export default function ServicesSection() {
             integrated team — no gaps, no finger-pointing, just one accountable partner.
           </motion.p>
 
-          {/* Animated gold line below heading */}
+          {/* Animated gold line */}
           <div className="flex items-center justify-center">
             <motion.div
               className="h-[2px] rounded-full"
@@ -318,155 +640,37 @@ export default function ServicesSection() {
       {/* ─── Gold Accent Separator ─── */}
       <GoldSeparator />
 
-      {/* ─────────────── MAIN CONTENT: Workshop Image + Service Cards ─────────────── */}
+      {/* ─────────────── 2. CONCENTRIC CIRCLES ─────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col lg:flex-row gap-12 lg:gap-20">
-          {/* Left Column - Workshop Image (Enhanced) */}
-          <motion.div
-            className="lg:w-5/12 relative"
-            initial={{ opacity: 0, x: -60 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: 'easeOut' }}
-          >
-            {/* Decorative purple accent line on left side */}
-            <div className="absolute -left-4 lg:-left-6 top-0 bottom-0 w-1 rounded-full bg-gradient-to-b from-[#5d2c86] via-[#5d2c86]/50 to-transparent" />
+        {/* Ring labels legend */}
+        <motion.div
+          className="flex flex-wrap items-center justify-center gap-6 mb-8"
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full border-2 border-dashed border-[#D4AF37]/50" />
+            <span className="text-[10px] tracking-[0.15em] font-sans-body font-semibold text-gray-500 dark:text-gray-400 uppercase">
+              Outer Ring — Statistics
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full border-2 border-[#5d2c86]/30" />
+            <span className="text-[10px] tracking-[0.15em] font-sans-body font-semibold text-gray-500 dark:text-gray-400 uppercase">
+              Inner Ring — Services
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded-full bg-gradient-to-br from-[#5d2c86] to-[#3d1c5a] border border-[#D4AF37]/30" />
+            <span className="text-[10px] tracking-[0.15em] font-sans-body font-semibold text-gray-500 dark:text-gray-400 uppercase">
+              Core — 360° Support
+            </span>
+          </div>
+        </motion.div>
 
-            {/* Workshop Image with Parallax, Zoom, Ken Burns & Overlay Badge */}
-            <div ref={imageRef} className="relative rounded-2xl overflow-hidden shadow-xl image-zoom-premium">
-              {/* Gold accent corner - top right */}
-              <div className="absolute top-0 right-0 z-20">
-                <div className="w-16 h-16">
-                  <div className="absolute top-0 right-0 w-0 h-0 border-l-[64px] border-l-transparent border-t-[64px] border-t-[#D4AF37]" />
-                  <div className="absolute top-2 right-2 w-0 h-0 border-l-[48px] border-l-transparent border-t-[48px] border-t-white/90 dark:border-t-[#1E1E1E]/90" />
-                </div>
-              </div>
-              {/* Gold accent corner - bottom left */}
-              <div className="absolute bottom-0 left-0 z-20">
-                <div className="w-16 h-16">
-                  <div className="absolute bottom-0 left-0 w-0 h-0 border-r-[64px] border-r-transparent border-b-[64px] border-b-[#D4AF37]" />
-                  <div className="absolute bottom-2 left-2 w-0 h-0 border-r-[48px] border-r-transparent border-b-[48px] border-b-white/90 dark:border-b-[#1E1E1E]/90" />
-                </div>
-              </div>
-              {/* Gold border effect */}
-              <div className="absolute inset-0 rounded-2xl border-2 border-[#D4AF37]/30 pointer-events-none z-20" />
-
-              {/* Parallax image with Ken Burns */}
-              <motion.div
-                style={{ y: imageY, scale: imageScale }}
-                className="w-full h-48 lg:h-64 overflow-hidden"
-              >
-                <img
-                  src="/images/about/about-7.jpeg"
-                  alt="Akshar Foshan Workshop — Manufacturing Excellence"
-                  className="w-full h-full object-cover animate-ken-burns"
-                />
-              </motion.div>
-
-              {/* Subtle overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#5d2c86]/20 to-transparent pointer-events-none z-10" />
-
-              {/* "Manufacturing Excellence" overlay badge with animated border */}
-              <div className="absolute bottom-4 left-4 z-30">
-                <div className="relative">
-                  {/* Animated border */}
-                  <div
-                    className="absolute -inset-[2px] rounded-lg award-card-border"
-                    style={{
-                      background: 'conic-gradient(from var(--border-angle), #D4AF37, #5d2c86, #D4AF37, #5d2c86, #D4AF37)',
-                    }}
-                  />
-                  <div className="relative bg-white/95 dark:bg-[#1E1E1E]/95 backdrop-blur-sm rounded-lg px-4 py-2.5">
-                    <p className="text-[10px] tracking-[0.2em] text-[#D4AF37] font-sans-body font-semibold uppercase">
-                      Manufacturing
-                    </p>
-                    <p className="text-sm font-bold text-[#1A1A1A] dark:text-white font-serif-display">
-                      Excellence
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Right Column - Service Cards (Enhanced) */}
-          <motion.div
-            className="lg:w-7/12"
-            initial={{ opacity: 0, x: 60 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.2 }}
-          >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {services.map((service, index) => {
-                const Icon = service.icon;
-                return (
-                  <RevealOnScroll
-                    key={service.title}
-                    direction="up"
-                    delay={index * 0.1}
-                    duration={0.5}
-                  >
-                    <TiltCard>
-                      <div className="relative bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 dark:border-gray-800 group overflow-hidden h-full">
-                        {/* Blur-to-focus reveal on scroll */}
-                        <motion.div
-                          className="absolute inset-0 pointer-events-none z-0"
-                          initial={{ filter: 'blur(8px)', opacity: 0.5 }}
-                          whileInView={{ filter: 'blur(0px)', opacity: 1 }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 0.8, delay: index * 0.1 }}
-                        />
-
-                        {/* Particle dot pattern on hover */}
-                        <ParticleDots />
-
-                        {/* Gold shimmer sweep on hover */}
-                        <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
-                          <div className="card-shimmer-sweep" />
-                        </div>
-
-                        {/* Gradient border effect on hover */}
-                        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 p-[2px] bg-gradient-to-br from-[#5d2c86] via-[#D4AF37] to-[#5d2c86]">
-                          <div className="w-full h-full bg-white dark:bg-[#1E1E1E] rounded-[14px]" />
-                        </div>
-
-                        {/* Gold triangle corner accent - top right */}
-                        <div className="absolute top-0 right-0 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                          <div className="w-8 h-8">
-                            <div className="absolute top-0 right-0 w-0 h-0 border-l-[32px] border-l-transparent border-t-[32px] border-t-[#D4AF37]" />
-                          </div>
-                        </div>
-
-                        <div className="relative z-10">
-                          {/* Icon with gradient background */}
-                          <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#5d2c86]/10 to-[#D4AF37]/10 flex items-center justify-center mb-4 group-hover:from-[#5d2c86]/20 group-hover:to-[#D4AF37]/20 transition-all duration-300 group-hover:scale-110">
-                            <Icon className="w-5 h-5 text-[#5d2c86] group-hover:text-[#5d2c86] transition-colors" />
-                          </div>
-                          <h3 className="text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-2">
-                            {service.title}
-                          </h3>
-                          <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-3">
-                            {service.description}
-                          </p>
-
-                          {/* Animated number counter */}
-                          <AnimatedCounter value={service.stat} label={service.statLabel} />
-
-                          {/* Learn more link - appears on hover */}
-                          <div className="flex items-center gap-1 text-[#5d2c86] text-xs font-sans-body font-medium opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 mt-3">
-                            Learn more
-                            <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform duration-300" />
-                          </div>
-                        </div>
-                      </div>
-                    </TiltCard>
-                  </RevealOnScroll>
-                );
-              })}
-            </div>
-          </motion.div>
-        </div>
+        <ConcentricCircles />
       </div>
 
       {/* ─── Gold Accent Separator ─── */}
@@ -474,10 +678,9 @@ export default function ServicesSection() {
         <GoldSeparator />
       </div>
 
-      {/* ─────────────── 4. PROCESS STEPS SECTION ─────────────── */}
+      {/* ─────────────── 3. PROCESS STEPS ─────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 lg:pb-24">
         <div ref={processRef}>
-          {/* Section header */}
           <div className="text-center mb-10">
             <motion.p
               className="text-xs tracking-[0.3em] text-[#D4AF37] mb-3 font-sans-body font-semibold"
@@ -500,35 +703,24 @@ export default function ServicesSection() {
             </motion.h3>
           </div>
 
-          {/* Desktop: Horizontal steps with gold lines */}
+          {/* Desktop: Horizontal steps */}
           <div className="hidden md:grid grid-cols-4 gap-0 relative">
             {processSteps.map((step, index) => {
               const Icon = step.icon;
               return (
-                <RevealOnScroll
-                  key={step.title}
-                  direction="up"
-                  delay={index * 0.15}
-                  duration={0.6}
-                >
+                <RevealOnScroll key={step.title} direction="up" delay={index * 0.15} duration={0.6}>
                   <div className="relative flex flex-col items-center text-center px-4 lg:px-6">
-                    {/* Gold connector line between steps */}
                     {index < processSteps.length - 1 && (
                       <div className="absolute top-8 lg:top-9 left-[calc(50%+28px)] right-0 z-0 flex items-center">
                         <div className="w-full relative h-[2px]">
-                          {/* Track */}
                           <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700/50 rounded-full" />
-                          {/* Animated gold fill */}
                           <motion.div
                             className="absolute inset-y-0 left-0 rounded-full"
-                            style={{
-                              background: 'linear-gradient(90deg, #5d2c86, #D4AF37)',
-                            }}
+                            style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37)' }}
                             initial={{ scaleX: 0 }}
                             animate={isProcessInView ? { scaleX: 1 } : {}}
                             transition={{ duration: 1.0, delay: 0.8 + index * 0.25, ease: 'easeOut' }}
                           />
-                          {/* Traveling gold dot */}
                           <motion.div
                             className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"
                             initial={{ left: '0%', opacity: 0 }}
@@ -536,7 +728,6 @@ export default function ServicesSection() {
                             transition={{ duration: 1.2, delay: 1.0 + index * 0.25, ease: 'easeInOut' }}
                           />
                         </div>
-                        {/* Arrow head */}
                         <motion.div
                           initial={{ opacity: 0 }}
                           animate={isProcessInView ? { opacity: 0.6 } : {}}
@@ -546,8 +737,6 @@ export default function ServicesSection() {
                         </motion.div>
                       </div>
                     )}
-
-                    {/* Step icon with gold pulse glow */}
                     <div className="relative mb-4">
                       <motion.div
                         className="w-14 h-14 lg:w-[72px] lg:h-[72px] rounded-2xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 flex items-center justify-center shadow-sm relative z-10"
@@ -558,109 +747,50 @@ export default function ServicesSection() {
                       >
                         <Icon className="w-6 h-6 lg:w-7 lg:h-7 text-[#5d2c86] dark:text-[#7d44a8]" />
                       </motion.div>
-                      {/* Gold glow pulse when in viewport */}
                       <motion.div
                         className="absolute inset-0 rounded-2xl"
-                        style={{
-                          boxShadow: '0 0 20px rgba(212,175,55,0.3), 0 0 40px rgba(212,175,55,0.1)',
-                        }}
+                        style={{ boxShadow: '0 0 20px rgba(212,175,55,0.3), 0 0 40px rgba(212,175,55,0.1)' }}
                         initial={{ opacity: 0, scale: 0.9 }}
                         animate={isProcessInView ? { opacity: [0, 0.6, 0], scale: [0.9, 1.15, 0.9] } : {}}
-                        transition={{
-                          duration: 2.5,
-                          delay: 0.5 + index * 0.2,
-                          repeat: Infinity,
-                          repeatDelay: 2,
-                          ease: 'easeInOut',
-                        }}
+                        transition={{ duration: 2.5, delay: 0.5 + index * 0.2, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }}
                       />
                     </div>
-
-                    {/* Step number */}
-                    <motion.span
-                      className="text-[10px] font-sans-body font-bold tracking-[0.2em] text-[#D4AF37] mb-2"
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.4 + index * 0.15 }}
-                    >
+                    <motion.span className="text-[10px] font-sans-body font-bold tracking-[0.2em] text-[#D4AF37] mb-2" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 + index * 0.15 }}>
                       STEP 0{index + 1}
                     </motion.span>
-
-                    <h4 className="text-sm lg:text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-2">
-                      {step.title}
-                    </h4>
-                    <p className="text-[11px] lg:text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body">
-                      {step.description}
-                    </p>
+                    <h4 className="text-sm lg:text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-2">{step.title}</h4>
+                    <p className="text-[11px] lg:text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body">{step.description}</p>
                   </div>
                 </RevealOnScroll>
               );
             })}
           </div>
 
-          {/* Mobile: Vertical steps with gold lines */}
+          {/* Mobile: Vertical steps */}
           <div className="md:hidden flex flex-col">
             {processSteps.map((step, index) => {
               const Icon = step.icon;
               return (
-                <RevealOnScroll
-                  key={step.title}
-                  direction="up"
-                  delay={index * 0.12}
-                  duration={0.5}
-                >
+                <RevealOnScroll key={step.title} direction="up" delay={index * 0.12} duration={0.5}>
                   <div className="flex gap-4">
-                    {/* Left: icon + connector */}
                     <div className="flex flex-col items-center">
                       <div className="relative">
                         <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 flex items-center justify-center shadow-sm relative z-10">
                           <Icon className="w-5 h-5 text-[#5d2c86] dark:text-[#7d44a8]" />
                         </div>
-                        {/* Gold pulse glow */}
-                        <motion.div
-                          className="absolute inset-0 rounded-xl"
-                          style={{
-                            boxShadow: '0 0 16px rgba(212,175,55,0.25)',
-                          }}
-                          initial={{ opacity: 0, scale: 0.9 }}
-                          animate={isProcessInView ? { opacity: [0, 0.5, 0], scale: [0.9, 1.1, 0.9] } : {}}
-                          transition={{
-                            duration: 2.5,
-                            delay: 0.3 + index * 0.2,
-                            repeat: Infinity,
-                            repeatDelay: 2,
-                            ease: 'easeInOut',
-                          }}
-                        />
+                        <motion.div className="absolute inset-0 rounded-xl" style={{ boxShadow: '0 0 16px rgba(212,175,55,0.25)' }} initial={{ opacity: 0, scale: 0.9 }} animate={isProcessInView ? { opacity: [0, 0.5, 0], scale: [0.9, 1.1, 0.9] } : {}} transition={{ duration: 2.5, delay: 0.3 + index * 0.2, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }} />
                       </div>
-                      {/* Vertical gold connector */}
                       {index < processSteps.length - 1 && (
                         <div className="relative w-[2px] h-10 my-1">
                           <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700/50 rounded-full" />
-                          <motion.div
-                            className="absolute inset-x-0 top-0 bottom-0 rounded-full"
-                            style={{
-                              background: 'linear-gradient(180deg, #5d2c86, #D4AF37)',
-                            }}
-                            initial={{ scaleY: 0 }}
-                            animate={isProcessInView ? { scaleY: 1 } : {}}
-                            transition={{ duration: 0.6, delay: 0.6 + index * 0.2 }}
-                          />
+                          <motion.div className="absolute inset-x-0 top-0 bottom-0 rounded-full" style={{ background: 'linear-gradient(180deg, #5d2c86, #D4AF37)' }} initial={{ scaleY: 0 }} animate={isProcessInView ? { scaleY: 1 } : {}} transition={{ duration: 0.6, delay: 0.6 + index * 0.2 }} />
                         </div>
                       )}
                     </div>
-                    {/* Right: content */}
                     <div className="pb-6">
-                      <span className="text-[9px] font-sans-body font-bold tracking-[0.2em] text-[#D4AF37]">
-                        STEP 0{index + 1}
-                      </span>
-                      <h4 className="text-sm font-bold text-[#1A1A1A] dark:text-white font-sans-body mt-0.5 mb-1">
-                        {step.title}
-                      </h4>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body">
-                        {step.description}
-                      </p>
+                      <span className="text-[9px] font-sans-body font-bold tracking-[0.2em] text-[#D4AF37]">STEP 0{index + 1}</span>
+                      <h4 className="text-sm font-bold text-[#1A1A1A] dark:text-white font-sans-body mt-0.5 mb-1">{step.title}</h4>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body">{step.description}</p>
                     </div>
                   </div>
                 </RevealOnScroll>
@@ -675,23 +805,9 @@ export default function ServicesSection() {
         <GoldSeparator />
       </div>
 
-      {/* ─── Ambient decorative elements ─── */}
-      {/* Top right gold blob */}
-      <div
-        className="absolute -top-10 -right-10 w-72 h-72 rounded-full pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(212,175,55,0.04) 0%, transparent 70%)',
-        }}
-        aria-hidden="true"
-      />
-      {/* Bottom left purple blob */}
-      <div
-        className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full pointer-events-none"
-        style={{
-          background: 'radial-gradient(circle, rgba(93,44,134,0.03) 0%, transparent 70%)',
-        }}
-        aria-hidden="true"
-      />
+      {/* Ambient decorative elements */}
+      <div className="absolute -top-10 -right-10 w-72 h-72 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.04) 0%, transparent 70%)' }} aria-hidden="true" />
+      <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(93,44,134,0.03) 0%, transparent 70%)' }} aria-hidden="true" />
     </section>
   );
 }
