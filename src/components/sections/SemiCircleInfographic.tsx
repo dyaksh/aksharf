@@ -6,6 +6,7 @@ import { Sofa, Lamp, Bath, Package, ShieldCheck, Frame } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════
    DATA — Semantic service definitions for SEO/AEO/GEO
+   Allowed colors: #5d2c86, #f8f3ed, #FFF, #000
    ═══════════════════════════════════════════════════════ */
 
 const services = [
@@ -16,7 +17,6 @@ const services = [
     description: 'Full range of hotel casegoods, headboards, desks, and upholstered seating crafted to brand specifications.',
     stat: '500+',
     statLabel: 'projects delivered',
-    color: '#5d2c86',
     keywords: ['hotel casegoods', 'upholstered furniture', 'headboards', 'desks'],
   },
   {
@@ -26,7 +26,6 @@ const services = [
     description: 'Custom lighting solutions and mirrors designed to complement each property\'s unique aesthetic.',
     stat: '120+',
     statLabel: 'lighting fixtures',
-    color: '#7d44a8',
     keywords: ['hotel lighting', 'custom mirrors', 'sconces', 'chandeliers'],
   },
   {
@@ -36,7 +35,6 @@ const services = [
     description: 'Complete bathroom FF&E packages including vanities, accessories, and hardware.',
     stat: '8K+',
     statLabel: 'rooms fitted',
-    color: '#9b6bc4',
     keywords: ['bathroom FF&E', 'vanities', 'bathroom accessories', 'hardware'],
   },
   {
@@ -46,7 +44,6 @@ const services = [
     description: 'End-to-end supply chain management from raw materials to on-site delivery and installation.',
     stat: '21',
     statLabel: 'day avg delivery',
-    color: '#D4AF37',
     keywords: ['FF&E sourcing', 'supply chain', 'logistics', 'hotel procurement'],
   },
   {
@@ -56,7 +53,6 @@ const services = [
     description: 'Rigorous inspection at every stage — from raw material through production to final packaging.',
     stat: '99.2%',
     statLabel: 'pass rate',
-    color: '#b8960e',
     keywords: ['quality control', 'inspection', 'FF&E quality', 'manufacturing QC'],
   },
   {
@@ -66,13 +62,12 @@ const services = [
     description: 'Curated art programs and decorative accessories that bring each hotel\'s brand story to life.',
     stat: '340+',
     statLabel: 'art programs',
-    color: '#8b7410',
     keywords: ['hotel art', 'decor', 'art programs', 'wall decor'],
   },
 ];
 
 /* ═══════════════════════════════════════════════════════
-   SERVICE CARD — used in mobile & detail panel
+   SERVICE CARD — used in mobile & tablet layout
    ═══════════════════════════════════════════════════════ */
 
 function ServiceCard({
@@ -92,8 +87,8 @@ function ServiceCard({
       className={`
         relative rounded-xl border cursor-pointer transition-all duration-300 overflow-hidden
         ${isActive
-          ? 'bg-white border-[#5d2c86]/20 shadow-lg ring-1 ring-[#5d2c86]/10'
-          : 'bg-white/70 border-gray-100 hover:border-[#5d2c86]/15 hover:shadow-md'
+          ? 'bg-white border-[#5d2c86]/25 shadow-lg ring-1 ring-[#5d2c86]/15'
+          : 'bg-white/70 border-[#000]/8 hover:border-[#5d2c86]/20 hover:shadow-md'
         }
       `}
       onClick={onClick}
@@ -110,9 +105,9 @@ function ServiceCard({
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
     >
       {/* Top accent line */}
-      <div className="h-[2px] bg-gradient-to-r from-transparent via-[#5d2c86] to-transparent opacity-20" />
+      <div className="h-[2px] bg-gradient-to-r from-transparent via-[#5d2c86] to-transparent opacity-25" />
 
-      <div className="p-4 flex items-start gap-3">
+      <div className="p-4 sm:p-5 flex items-start gap-3">
         {/* Icon */}
         <div className={`
           w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300
@@ -124,14 +119,14 @@ function ServiceCard({
         {/* Content */}
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between gap-2">
-            <h3 className="text-sm font-bold text-[#1A1A1A] font-sans-body" itemProp="name">
+            <h3 className="text-sm font-bold text-[#000] font-sans-body" itemProp="name">
               {service.title}
             </h3>
-            <span className="text-xs font-bold font-serif-display text-[#D4AF37] whitespace-nowrap" itemProp="aggregateRating">
+            <span className="text-xs font-bold font-serif-display text-[#5d2c86] whitespace-nowrap" itemProp="aggregateRating">
               {service.stat}
             </span>
           </div>
-          <p className="text-[10px] text-gray-400 font-sans-body tracking-wide uppercase mt-0.5">
+          <p className="text-[10px] text-[#000]/40 font-sans-body tracking-wide uppercase mt-0.5">
             {service.statLabel}
           </p>
 
@@ -144,7 +139,7 @@ function ServiceCard({
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.3 }}
               >
-                <p className="text-xs text-gray-500 leading-relaxed font-sans-body mt-2" itemProp="description">
+                <p className="text-xs text-[#000]/55 leading-relaxed font-sans-body mt-2" itemProp="description">
                   {service.description}
                 </p>
                 <meta itemProp="keywords" content={service.keywords.join(', ')} />
@@ -171,17 +166,14 @@ function SemiCircleDesktop() {
   // Position service nodes along the inner semi-circle arc (from -180° to 0° = top half)
   const nodePositions = useMemo(() => {
     return services.map((_, i) => {
-      // Spread 6 nodes across the inner arc: angles from 180° to 0° (left to right)
       const angleDeg = 180 - (i * 180 / (services.length - 1));
       const angleRad = angleDeg * (Math.PI / 180);
-      // Inner arc radius (for service icons)
       const innerR = 32; // % from center
-      // Outer arc radius (for stat pills)
       const outerR = 44; // % from center
       return {
         service: {
           x: 50 + innerR * Math.cos(angleRad),
-          y: 50 - innerR * Math.sin(angleRad), // flip Y for screen coords
+          y: 50 - innerR * Math.sin(angleRad),
         },
         stat: {
           x: 50 + outerR * Math.cos(angleRad),
@@ -193,7 +185,7 @@ function SemiCircleDesktop() {
   }, []);
 
   return (
-    <div ref={containerRef}>
+    <div ref={containerRef} className="py-4">
       {/* ── SEMI-CIRCLE SVG + HTML OVERLAY ── */}
       <div className="relative w-full max-w-2xl mx-auto" style={{ paddingBottom: '52%' }}>
         {/* SVG layer: arcs, connectors, stats */}
@@ -207,15 +199,15 @@ function SemiCircleDesktop() {
           <defs>
             {/* Gradient for outer arc */}
             <linearGradient id="outerArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="#D4AF37" stopOpacity="0.3" />
-              <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.1" />
+              <stop offset="0%" stopColor="#5d2c86" stopOpacity="0.08" />
+              <stop offset="50%" stopColor="#5d2c86" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#5d2c86" stopOpacity="0.08" />
             </linearGradient>
             {/* Gradient for inner arc */}
             <linearGradient id="innerArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#5d2c86" stopOpacity="0.08" />
-              <stop offset="50%" stopColor="#5d2c86" stopOpacity="0.25" />
-              <stop offset="100%" stopColor="#5d2c86" stopOpacity="0.08" />
+              <stop offset="0%" stopColor="#5d2c86" stopOpacity="0.1" />
+              <stop offset="50%" stopColor="#5d2c86" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#5d2c86" stopOpacity="0.1" />
             </linearGradient>
             {/* Subtle glow filter */}
             <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
@@ -227,19 +219,19 @@ function SemiCircleDesktop() {
             </filter>
             {/* Core gradient */}
             <radialGradient id="coreGrad" cx="40%" cy="40%">
-              <stop offset="0%" stopColor="#7d44a8" />
-              <stop offset="100%" stopColor="#3d1c5a" />
+              <stop offset="0%" stopColor="#5d2c86" />
+              <stop offset="100%" stopColor="#000" />
             </radialGradient>
             {/* Filled semi-circle band — outer */}
             <linearGradient id="outerFillGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.02" />
-              <stop offset="50%" stopColor="#D4AF37" stopOpacity="0.06" />
-              <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.02" />
+              <stop offset="0%" stopColor="#5d2c86" stopOpacity="0.01" />
+              <stop offset="50%" stopColor="#5d2c86" stopOpacity="0.05" />
+              <stop offset="100%" stopColor="#5d2c86" stopOpacity="0.01" />
             </linearGradient>
             {/* Filled semi-circle band — inner */}
             <linearGradient id="innerFillGrad" x1="0%" y1="0%" x2="100%" y2="0%">
               <stop offset="0%" stopColor="#5d2c86" stopOpacity="0.01" />
-              <stop offset="50%" stopColor="#5d2c86" stopOpacity="0.04" />
+              <stop offset="50%" stopColor="#5d2c86" stopOpacity="0.03" />
               <stop offset="100%" stopColor="#5d2c86" stopOpacity="0.01" />
             </linearGradient>
           </defs>
@@ -277,7 +269,7 @@ function SemiCircleDesktop() {
           <motion.path
             d="M 100,500 A 400,400 0 0,1 900,500"
             fill="none"
-            stroke="#D4AF37"
+            stroke="#5d2c86"
             strokeWidth="6"
             opacity="0.06"
             filter="url(#softGlow)"
@@ -291,7 +283,7 @@ function SemiCircleDesktop() {
             x="500"
             y="78"
             textAnchor="middle"
-            fill="#D4AF37"
+            fill="#5d2c86"
             fontSize="11"
             fontFamily="var(--font-sans-body, system-ui)"
             fontWeight="700"
@@ -337,9 +329,9 @@ function SemiCircleDesktop() {
             fontFamily="var(--font-sans-body, system-ui)"
             fontWeight="700"
             letterSpacing="0.2em"
-            opacity="0.3"
+            opacity="0.35"
             initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 0.3 } : {}}
+            animate={isInView ? { opacity: 0.35 } : {}}
             transition={{ duration: 0.6, delay: 2.0 }}
           >
             SERVICE CATEGORIES
@@ -359,10 +351,10 @@ function SemiCircleDesktop() {
                 y1={sy}
                 x2={ox}
                 y2={oy}
-                stroke={isActive ? '#D4AF37' : '#5d2c86'}
+                stroke="#5d2c86"
                 strokeWidth={isActive ? 1.5 : 0.6}
                 strokeDasharray={isActive ? '4 3' : '2 4'}
-                opacity={isActive ? 0.5 : 0.12}
+                opacity={isActive ? 0.45 : 0.12}
                 initial={{ pathLength: 0 }}
                 animate={isInView ? { pathLength: 1 } : {}}
                 transition={{ duration: 0.6, delay: 1.3 + i * 0.08 }}
@@ -391,7 +383,7 @@ function SemiCircleDesktop() {
                       width="92"
                       height="34"
                       rx="17"
-                      fill="rgba(212,175,55,0.15)"
+                      fill="rgba(93,44,134,0.15)"
                       filter="url(#softGlow)"
                     />
                   )}
@@ -402,8 +394,8 @@ function SemiCircleDesktop() {
                     width="88"
                     height="30"
                     rx="15"
-                    fill={isActive ? 'rgba(212,175,55,0.12)' : 'rgba(255,255,255,0.9)'}
-                    stroke={isActive ? 'rgba(212,175,55,0.5)' : 'rgba(212,175,55,0.18)'}
+                    fill={isActive ? 'rgba(93,44,134,0.08)' : 'rgba(255,255,255,0.9)'}
+                    stroke={isActive ? 'rgba(93,44,134,0.4)' : 'rgba(93,44,134,0.15)'}
                     strokeWidth="1"
                   />
                   {/* Stat value */}
@@ -412,7 +404,7 @@ function SemiCircleDesktop() {
                     y={cy + 1}
                     textAnchor="middle"
                     dominantBaseline="middle"
-                    fill={isActive ? '#D4AF37' : '#5d2c86'}
+                    fill="#5d2c86"
                     fontSize="14"
                     fontFamily="var(--font-serif-display, Georgia)"
                     fontWeight="700"
@@ -425,7 +417,8 @@ function SemiCircleDesktop() {
                     y={cy + 1}
                     textAnchor="start"
                     dominantBaseline="middle"
-                    fill="#9CA3AF"
+                    fill="#000"
+                    opacity="0.35"
                     fontSize="6.5"
                     fontFamily="var(--font-sans-body, system-ui)"
                     fontWeight="500"
@@ -445,9 +438,9 @@ function SemiCircleDesktop() {
             transition={{ duration: 0.8, delay: 0.2, type: 'spring', stiffness: 80 }}
           >
             {/* Core glow */}
-            <circle cx="500" cy="500" r="80" fill="#5d2c86" opacity="0.06" filter="url(#purpleGlow)" />
+            <circle cx="500" cy="500" r="80" fill="#5d2c86" opacity="0.08" filter="url(#purpleGlow)" />
             {/* Core background */}
-            <circle cx="500" cy="500" r="58" fill="url(#coreGrad)" stroke="#D4AF37" strokeWidth="1.5" opacity="0.95" />
+            <circle cx="500" cy="500" r="58" fill="url(#coreGrad)" stroke="#5d2c86" strokeWidth="1.5" opacity="0.95" />
             {/* Inner highlight */}
             <circle cx="490" cy="488" r="25" fill="rgba(255,255,255,0.06)" />
             {/* 360° text */}
@@ -455,13 +448,13 @@ function SemiCircleDesktop() {
               360°
             </text>
             {/* Divider line */}
-            <line x1="478" y1="498" x2="522" y2="498" stroke="#D4AF37" strokeWidth="1.5" />
+            <line x1="478" y1="498" x2="522" y2="498" stroke="#FFF" strokeWidth="1" opacity="0.3" />
             {/* FF&E text */}
-            <text x="500" y="516" textAnchor="middle" dominantBaseline="middle" fill="#D4AF37" fontSize="11" fontFamily="var(--font-sans-body, system-ui)" fontWeight="700" letterSpacing="0.2em">
+            <text x="500" y="516" textAnchor="middle" dominantBaseline="middle" fill="#FFF" fontSize="11" fontFamily="var(--font-sans-body, system-ui)" fontWeight="700" letterSpacing="0.2em">
               FF&amp;E
             </text>
             {/* SUPPORT text */}
-            <text x="500" y="532" textAnchor="middle" dominantBaseline="middle" fill="rgba(255,255,255,0.65)" fontSize="9" fontFamily="var(--font-sans-body, system-ui)" fontWeight="500" letterSpacing="0.15em">
+            <text x="500" y="532" textAnchor="middle" dominantBaseline="middle" fill="rgba(255,255,255,0.6)" fontSize="9" fontFamily="var(--font-sans-body, system-ui)" fontWeight="500" letterSpacing="0.15em">
               SUPPORT
             </text>
           </motion.g>
@@ -483,15 +476,13 @@ function SemiCircleDesktop() {
         </svg>
 
         {/* ── HTML OVERLAY for interactive service icon nodes ── */}
-        {/* These are positioned using the same percentages as the SVG viewBox */}
         <div className="absolute inset-0" style={{ paddingBottom: '0' }}>
           {services.map((service, i) => {
             const pos = nodePositions[i];
             const Icon = service.icon;
             const isActive = activeIndex === i;
-            // Convert SVG coordinates (0-1000 x, 0-520 y) to percentage
-            const leftPct = (pos.service.x * 10) / 10; // already in %
-            const topPct = (pos.service.y * 5.2) / 5.2; // already in %
+            const leftPct = (pos.service.x * 10) / 10;
+            const topPct = (pos.service.y * 5.2) / 5.2;
             return (
               <motion.button
                 key={`svc-btn-${i}`}
@@ -515,7 +506,7 @@ function SemiCircleDesktop() {
                     style={{
                       width: '56px',
                       height: '56px',
-                      boxShadow: `0 0 20px ${service.color}40, 0 0 40px ${service.color}20`,
+                      boxShadow: '0 0 20px rgba(93,44,134,0.35), 0 0 40px rgba(93,44,134,0.15)',
                     }}
                     animate={{ scale: [1, 1.2, 1], opacity: [0.6, 0, 0.6] }}
                     transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
@@ -528,8 +519,8 @@ function SemiCircleDesktop() {
                     w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center
                     border-2 shadow-md transition-all duration-300 backdrop-blur-sm
                     ${isActive
-                      ? `bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] border-[#D4AF37] shadow-lg`
-                      : 'bg-white/90 border-[#5d2c86]/20 hover:border-[#5d2c86]/40 hover:shadow-lg'
+                      ? 'bg-[#5d2c86] border-[#5d2c86] shadow-lg'
+                      : 'bg-white/90 border-[#5d2c86]/20 hover:border-[#5d2c86]/50 hover:shadow-lg'
                     }
                   `}
                 >
@@ -543,9 +534,9 @@ function SemiCircleDesktop() {
                 {/* Label */}
                 <span
                   className={`
-                    mt-1 text-[8px] sm:text-[9px] lg:text-[10px] font-sans-body font-bold tracking-wide text-center
-                    transition-all duration-300 max-w-[60px] leading-tight
-                    ${isActive ? 'text-[#5d2c86]' : 'text-gray-500'}
+                    mt-1.5 text-[8px] sm:text-[9px] lg:text-[10px] font-sans-body font-bold tracking-wide text-center
+                    transition-all duration-300 max-w-[70px] leading-tight
+                    ${isActive ? 'text-[#5d2c86]' : 'text-[#000]/45'}
                   `}
                 >
                   {service.shortTitle}
@@ -589,35 +580,35 @@ function SemiCircleDesktop() {
             animate={{ opacity: 1, y: 0, height: 'auto' }}
             exit={{ opacity: 0, y: 10, height: 0 }}
             transition={{ duration: 0.35, ease: 'easeOut' }}
-            className="mt-6 max-w-2xl mx-auto"
+            className="mt-8 max-w-2xl mx-auto"
           >
             <article
               className="relative bg-white rounded-xl shadow-lg border border-[#5d2c86]/10 overflow-hidden"
               itemScope
               itemType="https://schema.org/Service"
             >
-              <div className="h-1 bg-gradient-to-r from-[#5d2c86] via-[#D4AF37] to-[#5d2c86]" />
-              <div className="p-5 flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] flex items-center justify-center shrink-0 shadow-md">
+              <div className="h-1 bg-[#5d2c86]" />
+              <div className="p-5 sm:p-6 flex items-start gap-4">
+                <div className="w-12 h-12 rounded-xl bg-[#5d2c86] flex items-center justify-center shrink-0 shadow-md">
                   <selectedService.icon className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-lg font-bold text-[#1A1A1A] font-sans-body mb-1" itemProp="name">
+                  <h3 className="text-lg font-bold text-[#000] font-sans-body mb-1" itemProp="name">
                     {selectedService.title}
                   </h3>
-                  <p className="text-sm text-gray-500 leading-relaxed font-sans-body mb-3" itemProp="description">
+                  <p className="text-sm text-[#000]/55 leading-relaxed font-sans-body mb-3" itemProp="description">
                     {selectedService.description}
                   </p>
                   <div className="flex items-center gap-4">
                     <span className="text-xl font-bold font-serif-display text-[#5d2c86]" itemProp="aggregateRating">
                       {selectedService.stat}
                     </span>
-                    <span className="text-xs text-gray-400 font-sans-body uppercase tracking-wider">
+                    <span className="text-xs text-[#000]/35 font-sans-body uppercase tracking-wider">
                       {selectedService.statLabel}
                     </span>
                     <button
                       onClick={() => setActiveIndex(null)}
-                      className="ml-auto text-xs text-[#5d2c86] hover:text-[#D4AF37] font-sans-body font-medium transition-colors"
+                      className="ml-auto text-xs text-[#5d2c86] hover:text-[#000] font-sans-body font-medium transition-colors"
                     >
                       ← Back
                     </button>
@@ -635,7 +626,7 @@ function SemiCircleDesktop() {
 
 /* ═══════════════════════════════════════════════════════
    SEMI-CIRCLE INFOGRAPHIC (MOBILE/TABLET)
-   Vertical stacked layout with progress arcs
+   Vertical stacked layout with cards
    ═══════════════════════════════════════════════════════ */
 
 function SemiCircleMobile() {

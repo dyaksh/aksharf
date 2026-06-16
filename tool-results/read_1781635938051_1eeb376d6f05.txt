@@ -1563,3 +1563,68 @@
   1563→- Responsive: Full radial diagram on desktop, card list on mobile
   1564→- Brand colors maintained: purple #5d2c86, gold #D4AF37, cream #f8f3ed
   1565→
+  1566→---
+  1567→Task ID: 8
+  1568→Agent: Main Agent
+  1569→Task: Redesign "What We Cover" section as 3D concentric circles with immersive animations
+  1570→
+  1571→Work Log:
+  1572→- Created new component `/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx` with:
+  1573→  - Particle canvas background with floating animated particles (purple + gold)
+  1574→  - 3D perspective tilt with mouse parallax on desktop (spring-animated rotateX/rotateY)
+  1575→  - SVG orbit rings with rotation animation (dashed gold outer, solid purple inner, decorative third ring)
+  1576→  - 6 Service nodes (inner ring) with icon circles, hover/active states, glow effects
+  1577→  - 6 Stat nodes (outer ring) with glassmorphism pills showing metrics
+  1578→  - Center core "360° FF&E SUPPORT" with animated conic shimmer, rotating rings, pulse glow
+  1579→  - SVG connector lines between inner and outer nodes
+  1580→  - Ring labels ("STATISTICS & METRICS", "SERVICE CATEGORIES")
+  1581→  - Mobile card layout fallback for small screens
+  1582→  - Desktop detail panel on node click
+  1583→- Updated `ServicesSection.tsx` to import and use `ConcentricCircles3D` instead of old flat component
+  1584→- Removed old `ConcentricCircles` function and unused `services` data from ServicesSection.tsx
+  1585→- Cleaned up unused imports (Sofa, Lamp, Bath, Package, ShieldCheck, Frame, useState, useEffect, AnimatePresence)
+  1586→- Fixed hydration mismatch by using `useMemo` with rounded position values
+  1587→- Fixed pointer-events issue: added `pointer-events-none` to decorative overlays and `pointer-events-auto` to interactive overlay
+  1588→- Lint passes clean, dev server returns 200
+  1589→
+  1590→Stage Summary:
+  1591→- 3D concentric circles infographic is now live with:
+  1592→  - OUTER RING: Statistics & Metrics (6 stat pills)
+  1593→  - INNER RING: Service Categories (6 icon nodes)
+  1594→  - CENTER CORE: 360° FF&E SUPPORT
+  1595→- Immersive features: particle canvas, mouse parallax, orbital ring animations, glow effects, spring animations
+  1596→- Responsive: Full 3D experience on desktop, simplified on mobile with card layout
+  1597→- All interactivity works: click nodes to see detail panel, hover effects, mobile card expand
+  1598→
+  1599→---
+  1600→Task ID: 9
+  1601→Agent: Main Agent
+  1602→Task: Redesign "What We Cover" section as 2D semi-circle infographic, responsive, SEO/AEO/GEO friendly
+  1603→
+  1604→Work Log:
+  1605→- Created new component `/home/z/my-project/src/components/sections/SemiCircleInfographic.tsx` replacing ConcentricCircles3D.tsx
+  1606→- Semi-circle dome shape with SVG arcs (outer: gold stats, inner: purple services, center: 360° core)
+  1607→- Hybrid SVG+HTML approach: SVG for arcs/connectors/stats, HTML overlay for Lucide icon nodes
+  1608→- 6 Service nodes with proper Lucide icons (Sofa, Lamp, Bath, Package, ShieldCheck, Frame)
+  1609→- 6 Stat pills positioned along outer arc with gold accent styling
+  1610→- Center core "360° FF&E SUPPORT" with gradient and glow effects
+  1611→- Connector lines between inner/outer nodes that highlight on active
+  1612→- Responsive: desktop shows semi-circle SVG, mobile shows card grid
+  1613→- SEO/AEO/GEO features:
+  1614→  - Schema.org ItemList + Service structured data
+  1615→  - Hidden AEO-friendly Q&A content for answer engines
+  1616→  - Keywords meta for each service (GEO optimization)
+  1617→  - Semantic HTML: <article>, <h3>, itemProp attributes
+  1618→  - ARIA labels, roles, keyboard navigation support
+  1619→  - aria-expanded on interactive elements
+  1620→- Updated ServicesSection.tsx: import SemiCircleInfographic, updated legend labels
+  1621→- Removed old ConcentricCircles3D.tsx import
+  1622→- Lint clean, server 200, all browser tests pass
+  1623→
+  1624→Stage Summary:
+  1625→- 2D semi-circle infographic is live and fully functional
+  1626→- Desktop: Beautiful dome shape with animated arcs, Lucide icons, stat pills, detail panel
+  1627→- Mobile: Clean card grid with expandable descriptions
+  1628→- SEO/AEO/GEO: Structured data, semantic HTML, keyword meta, answer-friendly hidden content
+  1629→- All interactive features verified: click nodes, detail panel, mobile cards
+  1630→
