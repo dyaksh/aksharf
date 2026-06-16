@@ -1,0 +1,709 @@
+     1→'use client';
+     2→
+     3→import { useRef, useState, useMemo } from 'react';
+     4→import { motion, useInView, AnimatePresence } from 'framer-motion';
+     5→import { Sofa, Lamp, Bath, Package, ShieldCheck, Frame } from 'lucide-react';
+     6→
+     7→/* ═══════════════════════════════════════════════════════
+     8→   DATA — Semantic service definitions for SEO/AEO/GEO
+     9→   ═══════════════════════════════════════════════════════ */
+    10→
+    11→const services = [
+    12→  {
+    13→    icon: Sofa,
+    14→    title: 'Casegoods & Upholstery',
+    15→    shortTitle: 'Casegoods',
+    16→    description: 'Full range of hotel casegoods, headboards, desks, and upholstered seating crafted to brand specifications.',
+    17→    stat: '500+',
+    18→    statLabel: 'projects delivered',
+    19→    color: '#5d2c86',
+    20→    keywords: ['hotel casegoods', 'upholstered furniture', 'headboards', 'desks'],
+    21→  },
+    22→  {
+    23→    icon: Lamp,
+    24→    title: 'Lighting & Mirrors',
+    25→    shortTitle: 'Lighting',
+    26→    description: 'Custom lighting solutions and mirrors designed to complement each property\'s unique aesthetic.',
+    27→    stat: '120+',
+    28→    statLabel: 'lighting fixtures',
+    29→    color: '#7d44a8',
+    30→    keywords: ['hotel lighting', 'custom mirrors', 'sconces', 'chandeliers'],
+    31→  },
+    32→  {
+    33→    icon: Bath,
+    34→    title: 'Bathroom Accessories',
+    35→    shortTitle: 'Bathroom',
+    36→    description: 'Complete bathroom FF&E packages including vanities, accessories, and hardware.',
+    37→    stat: '8K+',
+    38→    statLabel: 'rooms fitted',
+    39→    color: '#9b6bc4',
+    40→    keywords: ['bathroom FF&E', 'vanities', 'bathroom accessories', 'hardware'],
+    41→  },
+    42→  {
+    43→    icon: Package,
+    44→    title: 'Sourcing & Logistics',
+    45→    shortTitle: 'Logistics',
+    46→    description: 'End-to-end supply chain management from raw materials to on-site delivery and installation.',
+    47→    stat: '21',
+    48→    statLabel: 'day avg delivery',
+    49→    color: '#D4AF37',
+    50→    keywords: ['FF&E sourcing', 'supply chain', 'logistics', 'hotel procurement'],
+    51→  },
+    52→  {
+    53→    icon: ShieldCheck,
+    54→    title: 'Quality Control',
+    55→    shortTitle: 'QC',
+    56→    description: 'Rigorous inspection at every stage — from raw material through production to final packaging.',
+    57→    stat: '99.2%',
+    58→    statLabel: 'pass rate',
+    59→    color: '#b8960e',
+    60→    keywords: ['quality control', 'inspection', 'FF&E quality', 'manufacturing QC'],
+    61→  },
+    62→  {
+    63→    icon: Frame,
+    64→    title: 'Art & Decor',
+    65→    shortTitle: 'Decor',
+    66→    description: 'Curated art programs and decorative accessories that bring each hotel\'s brand story to life.',
+    67→    stat: '340+',
+    68→    statLabel: 'art programs',
+    69→    color: '#8b7410',
+    70→    keywords: ['hotel art', 'decor', 'art programs', 'wall decor'],
+    71→  },
+    72→];
+    73→
+    74→/* ═══════════════════════════════════════════════════════
+    75→   SERVICE CARD — used in mobile & detail panel
+    76→   ═══════════════════════════════════════════════════════ */
+    77→
+    78→function ServiceCard({
+    79→  service,
+    80→  isActive,
+    81→  onClick,
+    82→  index,
+    83→}: {
+    84→  service: (typeof services)[0];
+    85→  isActive: boolean;
+    86→  onClick: () => void;
+    87→  index: number;
+    88→}) {
+    89→  const Icon = service.icon;
+    90→  return (
+    91→    <motion.article
+    92→      className={`
+    93→        relative rounded-xl border cursor-pointer transition-all duration-300 overflow-hidden
+    94→        ${isActive
+    95→          ? 'bg-white border-[#5d2c86]/20 shadow-lg ring-1 ring-[#5d2c86]/10'
+    96→          : 'bg-white/70 border-gray-100 hover:border-[#5d2c86]/15 hover:shadow-md'
+    97→        }
+    98→      `}
+    99→      onClick={onClick}
+   100→      initial={{ opacity: 0, y: 15 }}
+   101→      whileInView={{ opacity: 1, y: 0 }}
+   102→      viewport={{ once: true }}
+   103→      transition={{ duration: 0.4, delay: index * 0.08 }}
+   104→      itemScope
+   105→      itemType="https://schema.org/Service"
+   106→      role="button"
+   107→      tabIndex={0}
+   108→      aria-expanded={isActive}
+   109→      aria-label={`${service.title} — ${service.stat} ${service.statLabel}`}
+   110→      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
+   111→    >
+   112→      {/* Top accent line */}
+   113→      <div className="h-[2px] bg-gradient-to-r from-transparent via-[#5d2c86] to-transparent opacity-20" />
+   114→
+   115→      <div className="p-4 flex items-start gap-3">
+   116→        {/* Icon */}
+   117→        <div className={`
+   118→          w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300
+   119→          ${isActive ? 'bg-[#5d2c86]' : 'bg-[#5d2c86]/8'}
+   120→        `}>
+   121→          <Icon className={`w-5 h-5 transition-colors duration-300 ${isActive ? 'text-white' : 'text-[#5d2c86]'}`} />
+   122→        </div>
+   123→
+   124→        {/* Content */}
+   125→        <div className="flex-1 min-w-0">
+   126→          <div className="flex items-center justify-between gap-2">
+   127→            <h3 className="text-sm font-bold text-[#1A1A1A] font-sans-body" itemProp="name">
+   128→              {service.title}
+   129→            </h3>
+   130→            <span className="text-xs font-bold font-serif-display text-[#D4AF37] whitespace-nowrap" itemProp="aggregateRating">
+   131→              {service.stat}
+   132→            </span>
+   133→          </div>
+   134→          <p className="text-[10px] text-gray-400 font-sans-body tracking-wide uppercase mt-0.5">
+   135→            {service.statLabel}
+   136→          </p>
+   137→
+   138→          {/* Expandable description */}
+   139→          <AnimatePresence>
+   140→            {isActive && (
+   141→              <motion.div
+   142→                initial={{ height: 0, opacity: 0 }}
+   143→                animate={{ height: 'auto', opacity: 1 }}
+   144→                exit={{ height: 0, opacity: 0 }}
+   145→                transition={{ duration: 0.3 }}
+   146→              >
+   147→                <p className="text-xs text-gray-500 leading-relaxed font-sans-body mt-2" itemProp="description">
+   148→                  {service.description}
+   149→                </p>
+   150→                <meta itemProp="keywords" content={service.keywords.join(', ')} />
+   151→              </motion.div>
+   152→            )}
+   153→          </AnimatePresence>
+   154→        </div>
+   155→      </div>
+   156→    </motion.article>
+   157→  );
+   158→}
+   159→
+   160→/* ═══════════════════════════════════════════════════════
+   161→   SEMI-CIRCLE INFOGRAPHIC (DESKTOP)
+   162→   ═══════════════════════════════════════════════════════ */
+   163→
+   164→function SemiCircleDesktop() {
+   165→  const containerRef = useRef<HTMLDivElement>(null);
+   166→  const isInView = useInView(containerRef, { once: true, margin: '-60px' });
+   167→  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+   168→
+   169→  const selectedService = activeIndex !== null ? services[activeIndex] : null;
+   170→
+   171→  // Position service nodes along the inner semi-circle arc (from -180° to 0° = top half)
+   172→  const nodePositions = useMemo(() => {
+   173→    return services.map((_, i) => {
+   174→      // Spread 6 nodes across the inner arc: angles from 180° to 0° (left to right)
+   175→      const angleDeg = 180 - (i * 180 / (services.length - 1));
+   176→      const angleRad = angleDeg * (Math.PI / 180);
+   177→      // Inner arc radius (for service icons)
+   178→      const innerR = 32; // % from center
+   179→      // Outer arc radius (for stat pills)
+   180→      const outerR = 44; // % from center
+   181→      return {
+   182→        service: {
+   183→          x: 50 + innerR * Math.cos(angleRad),
+   184→          y: 50 - innerR * Math.sin(angleRad), // flip Y for screen coords
+   185→        },
+   186→        stat: {
+   187→          x: 50 + outerR * Math.cos(angleRad),
+   188→          y: 50 - outerR * Math.sin(angleRad),
+   189→        },
+   190→        angleDeg,
+   191→      };
+   192→    });
+   193→  }, []);
+   194→
+   195→  return (
+   196→    <div ref={containerRef}>
+   197→      {/* ── SEMI-CIRCLE SVG + HTML OVERLAY ── */}
+   198→      <div className="relative w-full max-w-2xl mx-auto" style={{ paddingBottom: '52%' }}>
+   199→        {/* SVG layer: arcs, connectors, stats */}
+   200→        <svg
+   201→          className="absolute inset-0 w-full h-full pointer-events-none"
+   202→          viewBox="0 0 1000 520"
+   203→          preserveAspectRatio="xMidYMid meet"
+   204→          role="img"
+   205→          aria-label="Semi-circle infographic showing Akshar Foshan FF&E services with three layers: outer statistics ring, inner service categories ring, and center 360° support core"
+   206→        >
+   207→          <defs>
+   208→            {/* Gradient for outer arc */}
+   209→            <linearGradient id="outerArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+   210→              <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.1" />
+   211→              <stop offset="50%" stopColor="#D4AF37" stopOpacity="0.3" />
+   212→              <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.1" />
+   213→            </linearGradient>
+   214→            {/* Gradient for inner arc */}
+   215→            <linearGradient id="innerArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+   216→              <stop offset="0%" stopColor="#5d2c86" stopOpacity="0.08" />
+   217→              <stop offset="50%" stopColor="#5d2c86" stopOpacity="0.25" />
+   218→              <stop offset="100%" stopColor="#5d2c86" stopOpacity="0.08" />
+   219→            </linearGradient>
+   220→            {/* Subtle glow filter */}
+   221→            <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+   222→              <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
+   223→            </filter>
+   224→            {/* Purple glow */}
+   225→            <filter id="purpleGlow" x="-30%" y="-30%" width="160%" height="160%">
+   226→              <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
+   227→            </filter>
+   228→            {/* Core gradient */}
+   229→            <radialGradient id="coreGrad" cx="40%" cy="40%">
+   230→              <stop offset="0%" stopColor="#7d44a8" />
+   231→              <stop offset="100%" stopColor="#3d1c5a" />
+   232→            </radialGradient>
+   233→            {/* Filled semi-circle band — outer */}
+   234→            <linearGradient id="outerFillGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+   235→              <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.02" />
+   236→              <stop offset="50%" stopColor="#D4AF37" stopOpacity="0.06" />
+   237→              <stop offset="100%" stopColor="#D4AF37" stopOpacity="0.02" />
+   238→            </linearGradient>
+   239→            {/* Filled semi-circle band — inner */}
+   240→            <linearGradient id="innerFillGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+   241→              <stop offset="0%" stopColor="#5d2c86" stopOpacity="0.01" />
+   242→              <stop offset="50%" stopColor="#5d2c86" stopOpacity="0.04" />
+   243→              <stop offset="100%" stopColor="#5d2c86" stopOpacity="0.01" />
+   244→            </linearGradient>
+   245→          </defs>
+   246→
+   247→          {/* ═══ FILLED BAND — OUTER ═══ */}
+   248→          <motion.path
+   249→            d="M 100,500 A 400,400 0 0,1 900,500 L 900,500 A 400,400 0 0,0 100,500 Z"
+   250→            fill="url(#outerFillGrad)"
+   251→            initial={{ opacity: 0 }}
+   252→            animate={isInView ? { opacity: 1 } : {}}
+   253→            transition={{ duration: 1, delay: 0.3 }}
+   254→          />
+   255→
+   256→          {/* ═══ FILLED BAND — INNER ═══ */}
+   257→          <motion.path
+   258→            d="M 200,500 A 300,300 0 0,1 800,500 L 800,500 A 300,300 0 0,0 200,500 Z"
+   259→            fill="url(#innerFillGrad)"
+   260→            initial={{ opacity: 0 }}
+   261→            animate={isInView ? { opacity: 1 } : {}}
+   262→            transition={{ duration: 1, delay: 0.5 }}
+   263→          />
+   264→
+   265→          {/* ═══ OUTER ARC (Statistics) ═══ */}
+   266→          <motion.path
+   267→            d="M 100,500 A 400,400 0 0,1 900,500"
+   268→            fill="none"
+   269→            stroke="url(#outerArcGrad)"
+   270→            strokeWidth="2"
+   271→            strokeDasharray="8 4"
+   272→            initial={{ pathLength: 0, opacity: 0 }}
+   273→            animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
+   274→            transition={{ duration: 1.5, delay: 0.3, ease: 'easeOut' }}
+   275→          />
+   276→          {/* Outer arc glow */}
+   277→          <motion.path
+   278→            d="M 100,500 A 400,400 0 0,1 900,500"
+   279→            fill="none"
+   280→            stroke="#D4AF37"
+   281→            strokeWidth="6"
+   282→            opacity="0.06"
+   283→            filter="url(#softGlow)"
+   284→            initial={{ pathLength: 0 }}
+   285→            animate={isInView ? { pathLength: 1 } : {}}
+   286→            transition={{ duration: 1.5, delay: 0.3 }}
+   287→          />
+   288→
+   289→          {/* Outer arc label */}
+   290→          <motion.text
+   291→            x="500"
+   292→            y="78"
+   293→            textAnchor="middle"
+   294→            fill="#D4AF37"
+   295→            fontSize="11"
+   296→            fontFamily="var(--font-sans-body, system-ui)"
+   297→            fontWeight="700"
+   298→            letterSpacing="0.25em"
+   299→            opacity="0.5"
+   300→            initial={{ opacity: 0, y: 5 }}
+   301→            animate={isInView ? { opacity: 0.5, y: 0 } : {}}
+   302→            transition={{ duration: 0.6, delay: 1.8 }}
+   303→          >
+   304→            STATISTICS &amp; METRICS
+   305→          </motion.text>
+   306→
+   307→          {/* ═══ INNER ARC (Services) ═══ */}
+   308→          <motion.path
+   309→            d="M 200,500 A 300,300 0 0,1 800,500"
+   310→            fill="none"
+   311→            stroke="url(#innerArcGrad)"
+   312→            strokeWidth="2"
+   313→            initial={{ pathLength: 0, opacity: 0 }}
+   314→            animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
+   315→            transition={{ duration: 1.2, delay: 0.6, ease: 'easeOut' }}
+   316→          />
+   317→          {/* Inner arc glow */}
+   318→          <motion.path
+   319→            d="M 200,500 A 300,300 0 0,1 800,500"
+   320→            fill="none"
+   321→            stroke="#5d2c86"
+   322→            strokeWidth="5"
+   323→            opacity="0.05"
+   324→            filter="url(#softGlow)"
+   325→            initial={{ pathLength: 0 }}
+   326→            animate={isInView ? { pathLength: 1 } : {}}
+   327→            transition={{ duration: 1.2, delay: 0.6 }}
+   328→          />
+   329→
+   330→          {/* Inner arc label */}
+   331→          <motion.text
+   332→            x="500"
+   333→            y="218"
+   334→            textAnchor="middle"
+   335→            fill="#5d2c86"
+   336→            fontSize="10"
+   337→            fontFamily="var(--font-sans-body, system-ui)"
+   338→            fontWeight="700"
+   339→            letterSpacing="0.2em"
+   340→            opacity="0.3"
+   341→            initial={{ opacity: 0 }}
+   342→            animate={isInView ? { opacity: 0.3 } : {}}
+   343→            transition={{ duration: 0.6, delay: 2.0 }}
+   344→          >
+   345→            SERVICE CATEGORIES
+   346→          </motion.text>
+   347→
+   348→          {/* ═══ CONNECTOR LINES ═══ */}
+   349→          {nodePositions.map((pos, i) => {
+   350→            const sx = pos.service.x * 10;
+   351→            const sy = pos.service.y * 5.2;
+   352→            const ox = pos.stat.x * 10;
+   353→            const oy = pos.stat.y * 5.2;
+   354→            const isActive = activeIndex === i;
+   355→            return (
+   356→              <motion.line
+   357→                key={`conn-${i}`}
+   358→                x1={sx}
+   359→                y1={sy}
+   360→                x2={ox}
+   361→                y2={oy}
+   362→                stroke={isActive ? '#D4AF37' : '#5d2c86'}
+   363→                strokeWidth={isActive ? 1.5 : 0.6}
+   364→                strokeDasharray={isActive ? '4 3' : '2 4'}
+   365→                opacity={isActive ? 0.5 : 0.12}
+   366→                initial={{ pathLength: 0 }}
+   367→                animate={isInView ? { pathLength: 1 } : {}}
+   368→                transition={{ duration: 0.6, delay: 1.3 + i * 0.08 }}
+   369→              />
+   370→            );
+   371→          })}
+   372→
+   373→          {/* ═══ STAT NODES (OUTER) — SVG pills ═══ */}
+   374→          {services.map((service, i) => {
+   375→            const pos = nodePositions[i];
+   376→            const cx = pos.stat.x * 10;
+   377→            const cy = pos.stat.y * 5.2;
+   378→            const isActive = activeIndex === i;
+   379→            return (
+   380→              <g key={`stat-${i}`}>
+   381→                <motion.g
+   382→                  initial={{ scale: 0, opacity: 0 }}
+   383→                  animate={isInView ? { scale: 1, opacity: 1 } : {}}
+   384→                  transition={{ duration: 0.4, delay: 1.0 + i * 0.1 }}
+   385→                >
+   386→                  {/* Glow behind pill when active */}
+   387→                  {isActive && (
+   388→                    <rect
+   389→                      x={cx - 46}
+   390→                      y={cy - 17}
+   391→                      width="92"
+   392→                      height="34"
+   393→                      rx="17"
+   394→                      fill="rgba(212,175,55,0.15)"
+   395→                      filter="url(#softGlow)"
+   396→                    />
+   397→                  )}
+   398→                  {/* Stat pill background */}
+   399→                  <rect
+   400→                    x={cx - 44}
+   401→                    y={cy - 15}
+   402→                    width="88"
+   403→                    height="30"
+   404→                    rx="15"
+   405→                    fill={isActive ? 'rgba(212,175,55,0.12)' : 'rgba(255,255,255,0.9)'}
+   406→                    stroke={isActive ? 'rgba(212,175,55,0.5)' : 'rgba(212,175,55,0.18)'}
+   407→                    strokeWidth="1"
+   408→                  />
+   409→                  {/* Stat value */}
+   410→                  <text
+   411→                    x={cx - 6}
+   412→                    y={cy + 1}
+   413→                    textAnchor="middle"
+   414→                    dominantBaseline="middle"
+   415→                    fill={isActive ? '#D4AF37' : '#5d2c86'}
+   416→                    fontSize="14"
+   417→                    fontFamily="var(--font-serif-display, Georgia)"
+   418→                    fontWeight="700"
+   419→                  >
+   420→                    {service.stat}
+   421→                  </text>
+   422→                  {/* Stat label */}
+   423→                  <text
+   424→                    x={cx + 20}
+   425→                    y={cy + 1}
+   426→                    textAnchor="start"
+   427→                    dominantBaseline="middle"
+   428→                    fill="#9CA3AF"
+   429→                    fontSize="6.5"
+   430→                    fontFamily="var(--font-sans-body, system-ui)"
+   431→                    fontWeight="500"
+   432→                    letterSpacing="0.06em"
+   433→                  >
+   434→                    {service.statLabel}
+   435→                  </text>
+   436→                </motion.g>
+   437→              </g>
+   438→            );
+   439→          })}
+   440→
+   441→          {/* ═══ CENTER CORE ═══ */}
+   442→          <motion.g
+   443→            initial={{ scale: 0, opacity: 0 }}
+   444→            animate={isInView ? { scale: 1, opacity: 1 } : {}}
+   445→            transition={{ duration: 0.8, delay: 0.2, type: 'spring', stiffness: 80 }}
+   446→          >
+   447→            {/* Core glow */}
+   448→            <circle cx="500" cy="500" r="80" fill="#5d2c86" opacity="0.06" filter="url(#purpleGlow)" />
+   449→            {/* Core background */}
+   450→            <circle cx="500" cy="500" r="58" fill="url(#coreGrad)" stroke="#D4AF37" strokeWidth="1.5" opacity="0.95" />
+   451→            {/* Inner highlight */}
+   452→            <circle cx="490" cy="488" r="25" fill="rgba(255,255,255,0.06)" />
+   453→            {/* 360° text */}
+   454→            <text x="500" y="486" textAnchor="middle" dominantBaseline="middle" fill="#FFFFFF" fontSize="24" fontFamily="var(--font-serif-display, Georgia)" fontWeight="700">
+   455→              360°
+   456→            </text>
+   457→            {/* Divider line */}
+   458→            <line x1="478" y1="498" x2="522" y2="498" stroke="#D4AF37" strokeWidth="1.5" />
+   459→            {/* FF&E text */}
+   460→            <text x="500" y="516" textAnchor="middle" dominantBaseline="middle" fill="#D4AF37" fontSize="11" fontFamily="var(--font-sans-body, system-ui)" fontWeight="700" letterSpacing="0.2em">
+   461→              FF&amp;E
+   462→            </text>
+   463→            {/* SUPPORT text */}
+   464→            <text x="500" y="532" textAnchor="middle" dominantBaseline="middle" fill="rgba(255,255,255,0.65)" fontSize="9" fontFamily="var(--font-sans-body, system-ui)" fontWeight="500" letterSpacing="0.15em">
+   465→              SUPPORT
+   466→            </text>
+   467→          </motion.g>
+   468→
+   469→          {/* ═══ BASE LINE ═══ */}
+   470→          <motion.line
+   471→            x1="80"
+   472→            y1="500"
+   473→            x2="920"
+   474→            y2="500"
+   475→            stroke="#5d2c86"
+   476→            strokeWidth="0.5"
+   477→            opacity="0.08"
+   478→            initial={{ scaleX: 0 }}
+   479→            animate={isInView ? { scaleX: 1 } : {}}
+   480→            transition={{ duration: 1, delay: 0.2 }}
+   481→            style={{ transformOrigin: '500px 500px' }}
+   482→          />
+   483→        </svg>
+   484→
+   485→        {/* ── HTML OVERLAY for interactive service icon nodes ── */}
+   486→        {/* These are positioned using the same percentages as the SVG viewBox */}
+   487→        <div className="absolute inset-0" style={{ paddingBottom: '0' }}>
+   488→          {services.map((service, i) => {
+   489→            const pos = nodePositions[i];
+   490→            const Icon = service.icon;
+   491→            const isActive = activeIndex === i;
+   492→            // Convert SVG coordinates (0-1000 x, 0-520 y) to percentage
+   493→            const leftPct = (pos.service.x * 10) / 10; // already in %
+   494→            const topPct = (pos.service.y * 5.2) / 5.2; // already in %
+   495→            return (
+   496→              <motion.button
+   497→                key={`svc-btn-${i}`}
+   498→                className="absolute z-20 flex flex-col items-center cursor-pointer group"
+   499→                style={{
+   500→                  left: `${leftPct}%`,
+   501→                  top: `${topPct}%`,
+   502→                  transform: 'translate(-50%, -50%)',
+   503→                }}
+   504→                initial={{ scale: 0, opacity: 0 }}
+   505→                animate={isInView ? { scale: 1, opacity: 1 } : {}}
+   506→                transition={{ duration: 0.5, delay: 0.7 + i * 0.1, type: 'spring' }}
+   507→                onClick={() => setActiveIndex(isActive ? null : i)}
+   508→                aria-label={`${service.title} service category`}
+   509→                aria-expanded={isActive}
+   510→              >
+   511→                {/* Active glow ring */}
+   512→                {isActive && (
+   513→                  <motion.div
+   514→                    className="absolute rounded-full"
+   515→                    style={{
+   516→                      width: '56px',
+   517→                      height: '56px',
+   518→                      boxShadow: `0 0 20px ${service.color}40, 0 0 40px ${service.color}20`,
+   519→                    }}
+   520→                    animate={{ scale: [1, 1.2, 1], opacity: [0.6, 0, 0.6] }}
+   521→                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+   522→                  />
+   523→                )}
+   524→
+   525→                {/* Icon circle */}
+   526→                <div
+   527→                  className={`
+   528→                    w-11 h-11 sm:w-12 sm:h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center
+   529→                    border-2 shadow-md transition-all duration-300 backdrop-blur-sm
+   530→                    ${isActive
+   531→                      ? `bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] border-[#D4AF37] shadow-lg`
+   532→                      : 'bg-white/90 border-[#5d2c86]/20 hover:border-[#5d2c86]/40 hover:shadow-lg'
+   533→                    }
+   534→                  `}
+   535→                >
+   536→                  <Icon
+   537→                    className={`w-5 h-5 sm:w-5.5 sm:h-5.5 lg:w-6 lg:h-6 transition-colors duration-300 ${
+   538→                      isActive ? 'text-white' : 'text-[#5d2c86]'
+   539→                    }`}
+   540→                  />
+   541→                </div>
+   542→
+   543→                {/* Label */}
+   544→                <span
+   545→                  className={`
+   546→                    mt-1 text-[8px] sm:text-[9px] lg:text-[10px] font-sans-body font-bold tracking-wide text-center
+   547→                    transition-all duration-300 max-w-[60px] leading-tight
+   548→                    ${isActive ? 'text-[#5d2c86]' : 'text-gray-500'}
+   549→                  `}
+   550→                >
+   551→                  {service.shortTitle}
+   552→                </span>
+   553→              </motion.button>
+   554→            );
+   555→          })}
+   556→
+   557→          {/* ── Click targets for stat pills (transparent overlays) ── */}
+   558→          {services.map((service, i) => {
+   559→            const pos = nodePositions[i];
+   560→            const leftPct = pos.stat.x;
+   561→            const topPct = pos.stat.y;
+   562→            const isActive = activeIndex === i;
+   563→            return (
+   564→              <button
+   565→                key={`stat-btn-${i}`}
+   566→                className="absolute z-10 cursor-pointer"
+   567→                style={{
+   568→                  left: `${leftPct}%`,
+   569→                  top: `${topPct}%`,
+   570→                  transform: 'translate(-50%, -50%)',
+   571→                  width: '88px',
+   572→                  height: '30px',
+   573→                  background: 'transparent',
+   574→                  border: 'none',
+   575→                }}
+   576→                onClick={() => setActiveIndex(isActive ? null : i)}
+   577→                aria-label={`${service.title}: ${service.stat} ${service.statLabel}`}
+   578→              />
+   579→            );
+   580→          })}
+   581→        </div>
+   582→      </div>
+   583→
+   584→      {/* ── DETAIL PANEL ── */}
+   585→      <AnimatePresence>
+   586→        {selectedService && (
+   587→          <motion.div
+   588→            initial={{ opacity: 0, y: 20, height: 0 }}
+   589→            animate={{ opacity: 1, y: 0, height: 'auto' }}
+   590→            exit={{ opacity: 0, y: 10, height: 0 }}
+   591→            transition={{ duration: 0.35, ease: 'easeOut' }}
+   592→            className="mt-6 max-w-2xl mx-auto"
+   593→          >
+   594→            <article
+   595→              className="relative bg-white rounded-xl shadow-lg border border-[#5d2c86]/10 overflow-hidden"
+   596→              itemScope
+   597→              itemType="https://schema.org/Service"
+   598→            >
+   599→              <div className="h-1 bg-gradient-to-r from-[#5d2c86] via-[#D4AF37] to-[#5d2c86]" />
+   600→              <div className="p-5 flex items-start gap-4">
+   601→                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] flex items-center justify-center shrink-0 shadow-md">
+   602→                  <selectedService.icon className="w-6 h-6 text-white" />
+   603→                </div>
+   604→                <div className="flex-1">
+   605→                  <h3 className="text-lg font-bold text-[#1A1A1A] font-sans-body mb-1" itemProp="name">
+   606→                    {selectedService.title}
+   607→                  </h3>
+   608→                  <p className="text-sm text-gray-500 leading-relaxed font-sans-body mb-3" itemProp="description">
+   609→                    {selectedService.description}
+   610→                  </p>
+   611→                  <div className="flex items-center gap-4">
+   612→                    <span className="text-xl font-bold font-serif-display text-[#5d2c86]" itemProp="aggregateRating">
+   613→                      {selectedService.stat}
+   614→                    </span>
+   615→                    <span className="text-xs text-gray-400 font-sans-body uppercase tracking-wider">
+   616→                      {selectedService.statLabel}
+   617→                    </span>
+   618→                    <button
+   619→                      onClick={() => setActiveIndex(null)}
+   620→                      className="ml-auto text-xs text-[#5d2c86] hover:text-[#D4AF37] font-sans-body font-medium transition-colors"
+   621→                    >
+   622→                      ← Back
+   623→                    </button>
+   624→                  </div>
+   625→                  <meta itemProp="keywords" content={selectedService.keywords.join(', ')} />
+   626→                </div>
+   627→              </div>
+   628→            </article>
+   629→          </motion.div>
+   630→        )}
+   631→      </AnimatePresence>
+   632→    </div>
+   633→  );
+   634→}
+   635→
+   636→/* ═══════════════════════════════════════════════════════
+   637→   SEMI-CIRCLE INFOGRAPHIC (MOBILE/TABLET)
+   638→   Vertical stacked layout with progress arcs
+   639→   ═══════════════════════════════════════════════════════ */
+   640→
+   641→function SemiCircleMobile() {
+   642→  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+   643→
+   644→  return (
+   645→    <div className="space-y-3">
+   646→      {services.map((service, i) => (
+   647→        <ServiceCard
+   648→          key={service.shortTitle}
+   649→          service={service}
+   650→          isActive={activeIndex === i}
+   651→          onClick={() => setActiveIndex(activeIndex === i ? null : i)}
+   652→          index={i}
+   653→        />
+   654→      ))}
+   655→    </div>
+   656→  );
+   657→}
+   658→
+   659→/* ═══════════════════════════════════════════════════════
+   660→   MAIN EXPORT — Semi-circle with SEO/AEO/GEO markup
+   661→   ═══════════════════════════════════════════════════════ */
+   662→
+   663→export default function SemiCircleInfographic() {
+   664→  return (
+   665→    <div
+   666→      className="relative"
+   667→      itemScope
+   668→      itemType="https://schema.org/ItemList"
+   669→      aria-label="Akshar Foshan FF&E service categories and statistics"
+   670→    >
+   671→      {/* AEO: Direct answer-friendly content hidden but parseable */}
+   672→      <meta itemProp="name" content="Akshar Foshan FF&E Services" />
+   673→      <meta itemProp="description" content="Akshar Foshan provides 360° FF&E support covering casegoods, lighting, bathroom accessories, sourcing & logistics, quality control, and art & decor for hotels worldwide." />
+   674→      <meta itemProp="numberOfItems" content="6" />
+   675→
+   676→      {/* Hidden structured data for AEO/GEO crawlers */}
+   677→      <div className="sr-only">
+   678→        <h3>What does Akshar Foshan cover in FF&E?</h3>
+   679→        <p>
+   680→          Akshar Foshan provides comprehensive 360° FF&E support for hotels, covering six key areas:
+   681→          Casegoods & Upholstery (500+ projects), Lighting & Mirrors (120+ fixtures),
+   682→          Bathroom Accessories (8K+ rooms fitted), Sourcing & Logistics (21-day avg delivery),
+   683→          Quality Control (99.2% pass rate), and Art & Decor (340+ programs).
+   684→        </p>
+   685→        {services.map((service, i) => (
+   686→          <div key={service.shortTitle} itemProp="itemListElement" itemScope itemType="https://schema.org/ListItem">
+   687→            <meta itemProp="position" content={String(i + 1)} />
+   688→            <div itemScope itemType="https://schema.org/Service">
+   689→              <span itemProp="name">{service.title}</span>
+   690→              <span itemProp="description">{service.description}</span>
+   691→              <span itemProp="keywords">{service.keywords.join(', ')}</span>
+   692→            </div>
+   693→          </div>
+   694→        ))}
+   695→      </div>
+   696→
+   697→      {/* Desktop semi-circle infographic */}
+   698→      <div className="hidden md:block">
+   699→        <SemiCircleDesktop />
+   700→      </div>
+   701→
+   702→      {/* Mobile card layout */}
+   703→      <div className="md:hidden">
+   704→        <SemiCircleMobile />
+   705→      </div>
+   706→    </div>
+   707→  );
+   708→}
+   709→

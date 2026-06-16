@@ -1595,3 +1595,35 @@ Stage Summary:
 - Immersive features: particle canvas, mouse parallax, orbital ring animations, glow effects, spring animations
 - Responsive: Full 3D experience on desktop, simplified on mobile with card layout
 - All interactivity works: click nodes to see detail panel, hover effects, mobile card expand
+
+---
+Task ID: 9
+Agent: Main Agent
+Task: Redesign "What We Cover" section as 2D semi-circle infographic, responsive, SEO/AEO/GEO friendly
+
+Work Log:
+- Created new component `/home/z/my-project/src/components/sections/SemiCircleInfographic.tsx` replacing ConcentricCircles3D.tsx
+- Semi-circle dome shape with SVG arcs (outer: gold stats, inner: purple services, center: 360° core)
+- Hybrid SVG+HTML approach: SVG for arcs/connectors/stats, HTML overlay for Lucide icon nodes
+- 6 Service nodes with proper Lucide icons (Sofa, Lamp, Bath, Package, ShieldCheck, Frame)
+- 6 Stat pills positioned along outer arc with gold accent styling
+- Center core "360° FF&E SUPPORT" with gradient and glow effects
+- Connector lines between inner/outer nodes that highlight on active
+- Responsive: desktop shows semi-circle SVG, mobile shows card grid
+- SEO/AEO/GEO features:
+  - Schema.org ItemList + Service structured data
+  - Hidden AEO-friendly Q&A content for answer engines
+  - Keywords meta for each service (GEO optimization)
+  - Semantic HTML: <article>, <h3>, itemProp attributes
+  - ARIA labels, roles, keyboard navigation support
+  - aria-expanded on interactive elements
+- Updated ServicesSection.tsx: import SemiCircleInfographic, updated legend labels
+- Removed old ConcentricCircles3D.tsx import
+- Lint clean, server 200, all browser tests pass
+
+Stage Summary:
+- 2D semi-circle infographic is live and fully functional
+- Desktop: Beautiful dome shape with animated arcs, Lucide icons, stat pills, detail panel
+- Mobile: Clean card grid with expandable descriptions
+- SEO/AEO/GEO: Structured data, semantic HTML, keyword meta, answer-friendly hidden content
+- All interactive features verified: click nodes, detail panel, mobile cards

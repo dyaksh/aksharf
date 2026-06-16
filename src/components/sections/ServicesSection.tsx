@@ -4,7 +4,7 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { PenTool, Factory, CheckCircle, Truck } from 'lucide-react';
 import RevealOnScroll from '@/components/RevealOnScroll';
-import ConcentricCircles3D from '@/components/sections/ConcentricCircles3D';
+import SemiCircleInfographic from '@/components/sections/SemiCircleInfographic';
 
 /* ═══════════════════════════════════════════════════════
    DATA
@@ -130,26 +130,26 @@ export default function ServicesSection() {
       {/* ─── Gold Accent Separator ─── */}
       <GoldSeparator />
 
-      {/* ─────────────── 2. CONCENTRIC CIRCLES ─────────────── */}
+      {/* ─────────────── 2. SEMI-CIRCLE INFOGRAPHIC ─────────────── */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Ring labels legend */}
         <motion.div
-          className="flex flex-wrap items-center justify-center gap-6 mb-8"
+          className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-8"
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full border-2 border-dashed border-[#D4AF37]/50" />
+            <div className="w-3 h-1.5 rounded-full border border-dashed border-[#D4AF37]/50" />
             <span className="text-[10px] tracking-[0.15em] font-sans-body font-semibold text-gray-500 dark:text-gray-400 uppercase">
-              Outer Ring — Statistics
+              Outer Arc — Statistics
             </span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full border-2 border-[#5d2c86]/30" />
+            <div className="w-3 h-1.5 rounded-full border border-[#5d2c86]/30" />
             <span className="text-[10px] tracking-[0.15em] font-sans-body font-semibold text-gray-500 dark:text-gray-400 uppercase">
-              Inner Ring — Services
+              Inner Arc — Services
             </span>
           </div>
           <div className="flex items-center gap-2">
@@ -160,7 +160,7 @@ export default function ServicesSection() {
           </div>
         </motion.div>
 
-        <ConcentricCircles3D />
+        <SemiCircleInfographic />
       </div>
 
       {/* ─── Gold Accent Separator ─── */}
