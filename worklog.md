@@ -1562,3 +1562,36 @@ Stage Summary:
 - Interactive: hover highlights, click-to-select service, detail panel with back navigation
 - Responsive: Full radial diagram on desktop, card list on mobile
 - Brand colors maintained: purple #5d2c86, gold #D4AF37, cream #f8f3ed
+
+---
+Task ID: 8
+Agent: Main Agent
+Task: Redesign "What We Cover" section as 3D concentric circles with immersive animations
+
+Work Log:
+- Created new component `/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx` with:
+  - Particle canvas background with floating animated particles (purple + gold)
+  - 3D perspective tilt with mouse parallax on desktop (spring-animated rotateX/rotateY)
+  - SVG orbit rings with rotation animation (dashed gold outer, solid purple inner, decorative third ring)
+  - 6 Service nodes (inner ring) with icon circles, hover/active states, glow effects
+  - 6 Stat nodes (outer ring) with glassmorphism pills showing metrics
+  - Center core "360° FF&E SUPPORT" with animated conic shimmer, rotating rings, pulse glow
+  - SVG connector lines between inner and outer nodes
+  - Ring labels ("STATISTICS & METRICS", "SERVICE CATEGORIES")
+  - Mobile card layout fallback for small screens
+  - Desktop detail panel on node click
+- Updated `ServicesSection.tsx` to import and use `ConcentricCircles3D` instead of old flat component
+- Removed old `ConcentricCircles` function and unused `services` data from ServicesSection.tsx
+- Cleaned up unused imports (Sofa, Lamp, Bath, Package, ShieldCheck, Frame, useState, useEffect, AnimatePresence)
+- Fixed hydration mismatch by using `useMemo` with rounded position values
+- Fixed pointer-events issue: added `pointer-events-none` to decorative overlays and `pointer-events-auto` to interactive overlay
+- Lint passes clean, dev server returns 200
+
+Stage Summary:
+- 3D concentric circles infographic is now live with:
+  - OUTER RING: Statistics & Metrics (6 stat pills)
+  - INNER RING: Service Categories (6 icon nodes)
+  - CENTER CORE: 360° FF&E SUPPORT
+- Immersive features: particle canvas, mouse parallax, orbital ring animations, glow effects, spring animations
+- Responsive: Full 3D experience on desktop, simplified on mobile with card layout
+- All interactivity works: click nodes to see detail panel, hover effects, mobile card expand

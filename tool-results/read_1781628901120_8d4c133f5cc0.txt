@@ -1,0 +1,814 @@
+     1→     1→'use client';
+     2→     2→
+     3→     3→import { useRef, useState, useEffect, useCallback } from 'react';
+     4→     4→import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+     5→     5→import { Sofa, Lamp, Bath, Package, ShieldCheck, Frame, ArrowRight, PenTool, Factory, CheckCircle, Truck } from 'lucide-react';
+     6→     6→import RevealOnScroll from '@/components/RevealOnScroll';
+     7→     7→
+     8→     8→/* ═══════════════════════════════════════════════════════
+     9→     9→   DATA
+    10→    10→   ═══════════════════════════════════════════════════════ */
+    11→    11→
+    12→    12→const services = [
+    13→    13→  {
+    14→    14→    icon: Sofa,
+    15→    15→    title: 'Casegoods &\nUpholstery',
+    16→    16→    shortTitle: 'Casegoods',
+    17→    17→    description: 'Full range of hotel casegoods, headboards, desks, and upholstered seating crafted to brand specifications.',
+    18→    18→    stat: '500+',
+    19→    19→    statLabel: 'projects',
+    20→    20→    color: '#5d2c86',
+    21→    21→  },
+    22→    22→  {
+    23→    23→    icon: Lamp,
+    24→    24→    title: 'Lighting &\nMirrors',
+    25→    25→    shortTitle: 'Lighting',
+    26→    26→    description: 'Custom lighting solutions and mirrors designed to complement each property\'s unique aesthetic.',
+    27→    27→    stat: '120+',
+    28→    28→    statLabel: 'fixtures',
+    29→    29→    color: '#7d44a8',
+    30→    30→  },
+    31→    31→  {
+    32→    32→    icon: Bath,
+    33→    33→    title: 'Bathroom\nAccessories',
+    34→    34→    shortTitle: 'Bathroom',
+    35→    35→    description: 'Complete bathroom FF&E packages including vanities, accessories, and hardware.',
+    36→    36→    stat: '8K+',
+    37→    37→    statLabel: 'rooms fitted',
+    38→    38→    color: '#9b6bc4',
+    39→    39→  },
+    40→    40→  {
+    41→    41→    icon: Package,
+    42→    42→    title: 'Sourcing &\nLogistics',
+    43→    43→    shortTitle: 'Logistics',
+    44→    44→    description: 'End-to-end supply chain management from raw materials to on-site delivery and installation.',
+    45→    45→    stat: '21',
+    46→    46→    statLabel: 'day avg',
+    47→    47→    color: '#D4AF37',
+    48→    48→  },
+    49→    49→  {
+    50→    50→    icon: ShieldCheck,
+    51→    51→    title: 'Quality\nControl',
+    52→    52→    shortTitle: 'QC',
+    53→    53→    description: 'Rigorous inspection at every stage — from raw material through production to final packaging.',
+    54→    54→    stat: '99.2%',
+    55→    55→    statLabel: 'pass rate',
+    56→    56→    color: '#b8960e',
+    57→    57→  },
+    58→    58→  {
+    59→    59→    icon: Frame,
+    60→    60→    title: 'Art &\nDecor',
+    61→    61→    shortTitle: 'Decor',
+    62→    62→    description: 'Curated art programs and decorative accessories that bring each hotel\'s brand story to life.',
+    63→    63→    stat: '340+',
+    64→    64→    statLabel: 'programs',
+    65→    65→    color: '#8b7410',
+    66→    66→  },
+    67→    67→];
+    68→    68→
+    69→    69→const processSteps = [
+    70→    70→  { icon: PenTool, title: 'Design', description: 'Translate brand standards into precise FF&E specifications and technical drawings.' },
+    71→    71→  { icon: Factory, title: 'Manufacture', description: 'Mill, upholster, finish and assemble every piece in our Foshan workshops.' },
+    72→    72→  { icon: CheckCircle, title: 'QC', description: 'Multi-stage inspection from raw materials through production to final packaging.' },
+    73→    73→  { icon: Truck, title: 'Deliver', description: 'Consolidate, document and install on-site — FOB or DDP, one accountable team.' },
+    74→    74→];
+    75→    75→
+    76→    76→/* ═══════════════════════════════════════════════════════
+    77→    77→   CONCENTRIC CIRCLES COMPONENT
+    78→    78→   ═══════════════════════════════════════════════════════ */
+    79→    79→
+    80→    80→function ConcentricCircles() {
+    81→    81→  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    82→    82→  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+    83→    83→  const containerRef = useRef<HTMLDivElement>(null);
+    84→    84→  const isInView = useInView(containerRef, { once: true, margin: '-80px' });
+    85→    85→
+    86→    86→  // Selected service for detail panel
+    87→    87→  const selectedService = activeIndex !== null ? services[activeIndex] : null;
+    88→    88→
+    89→    89→  // Position 6 services evenly around the inner ring (starting from top, going clockwise)
+    90→    90→  const servicePositions = services.map((_, i) => {
+    91→    91→    const angle = (i * 60 - 90) * (Math.PI / 180); // Start from top (-90°)
+    92→    92→    return {
+    93→    93→      x: 50 + 30 * Math.cos(angle), // 30% radius from center
+    94→    94→      y: 50 + 30 * Math.sin(angle),
+    95→    95→    };
+    96→    96→  });
+    97→    97→
+    98→    98→  // Position 6 stats evenly around the outer ring (offset by 30° from services)
+    99→    99→  const statPositions = services.map((_, i) => {
+   100→   100→    const angle = (i * 60 - 90 + 30) * (Math.PI / 180); // Offset 30° from services
+   101→   101→    return {
+   102→   102→      x: 50 + 45 * Math.cos(angle), // 45% radius from center
+   103→   103→      y: 50 + 45 * Math.sin(angle),
+   104→   104→    };
+   105→   105→  });
+   106→   106→
+   107→   107→  return (
+   108→   108→    <div ref={containerRef} className="relative w-full max-w-3xl mx-auto">
+   109→   109→      {/* ── CONCENTRIC CIRCLES DIAGRAM ── */}
+   110→   110→      <div className="relative aspect-square w-full">
+   111→   111→        {/* Decorative background glow */}
+   112→   112→        <div
+   113→   113→          className="absolute inset-0 rounded-full pointer-events-none"
+   114→   114→          style={{
+   115→   115→            background: 'radial-gradient(circle at center, rgba(93,44,134,0.06) 0%, rgba(93,44,134,0.02) 40%, transparent 65%)',
+   116→   116→          }}
+   117→   117→          aria-hidden="true"
+   118→   118→        />
+   119→   119→
+   120→   120→        {/* ═══ OUTER RING ═══ */}
+   121→   121→        <motion.div
+   122→   122→          className="absolute rounded-full border-2 border-dashed border-[#D4AF37]/25 dark:border-[#D4AF37]/20"
+   123→   123→          style={{
+   124→   124→            top: '5%',
+   125→   125→            left: '5%',
+   126→   126→            right: '5%',
+   127→   127→            bottom: '5%',
+   128→   128→          }}
+   129→   129→          initial={{ scale: 0, opacity: 0 }}
+   130→   130→          animate={isInView ? { scale: 1, opacity: 1 } : {}}
+   131→   131→          transition={{ duration: 1.0, delay: 0.3, ease: 'easeOut' }}
+   132→   132→        >
+   133→   133→          {/* Outer ring label — top */}
+   134→   134→          <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#f8f3ed] dark:bg-[#121212] px-3">
+   135→   135→            <span className="text-[9px] tracking-[0.25em] font-sans-body font-bold text-[#D4AF37] whitespace-nowrap">
+   136→   136→              STATISTICS & METRICS
+   137→   137→            </span>
+   138→   138→          </div>
+   139→   139→        </motion.div>
+   140→   140→
+   141→   141→        {/* Outer ring glow pulse */}
+   142→   142→        <motion.div
+   143→   143→          className="absolute rounded-full pointer-events-none"
+   144→   144→          style={{
+   145→   145→            top: '5%',
+   146→   146→            left: '5%',
+   147→   147→            right: '5%',
+   148→   148→            bottom: '5%',
+   149→   149→            boxShadow: '0 0 30px rgba(212,175,55,0.08), inset 0 0 30px rgba(212,175,55,0.04)',
+   150→   150→          }}
+   151→   151→          initial={{ scale: 0, opacity: 0 }}
+   152→   152→          animate={isInView ? { scale: 1, opacity: [0, 1, 0.6, 1] } : {}}
+   153→   153→          transition={{ duration: 1.5, delay: 0.5 }}
+   154→   154→        />
+   155→   155→
+   156→   156→        {/* ═══ INNER SERVICE RING ═══ */}
+   157→   157→        <motion.div
+   158→   158→          className="absolute rounded-full border-2 border-[#5d2c86]/20 dark:border-[#7d44a8]/25"
+   159→   159→          style={{
+   160→   160→            top: '18%',
+   161→   161→            left: '18%',
+   162→   162→            right: '18%',
+   163→   163→            bottom: '18%',
+   164→   164→          }}
+   165→   165→          initial={{ scale: 0, opacity: 0 }}
+   166→   166→          animate={isInView ? { scale: 1, opacity: 1 } : {}}
+   167→   167→          transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
+   168→   168→        >
+   169→   169→          {/* Inner ring label — bottom */}
+   170→   170→          <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-[#f8f3ed] dark:bg-[#121212] px-3">
+   171→   171→            <span className="text-[9px] tracking-[0.25em] font-sans-body font-bold text-[#5d2c86] dark:text-[#7d44a8] whitespace-nowrap">
+   172→   172→              SERVICE CATEGORIES
+   173→   173→            </span>
+   174→   174→          </div>
+   175→   175→        </motion.div>
+   176→   176→
+   177→   177→        {/* Connector lines from inner services to outer stats */}
+   178→   178→        {services.map((_, i) => {
+   179→   179→          const innerPos = servicePositions[i];
+   180→   180→          const outerPos = statPositions[i];
+   181→   181→          return (
+   182→   182→            <motion.div
+   183→   183→              key={`connector-${i}`}
+   184→   184→              className="absolute pointer-events-none"
+   185→   185→              style={{
+   186→   186→                left: `${innerPos.x}%`,
+   187→   187→                top: `${innerPos.y}%`,
+   188→   188→                width: '1px',
+   189→   189→                height: '0px',
+   190→   190→                transformOrigin: '0 0',
+   191→   191→                transform: `rotate(${Math.atan2(outerPos.y - innerPos.y, outerPos.x - innerPos.x) * (180 / Math.PI)}deg)`,
+   192→   192→              }}
+   193→   193→              initial={{ height: 0, opacity: 0 }}
+   194→   194→              animate={isInView ? { height: '12%', opacity: 0.2 } : {}}
+   195→   195→              transition={{ duration: 0.6, delay: 1.2 + i * 0.1 }}
+   196→   196→            >
+   197→   197→              <div className="w-full h-full bg-gradient-to-b from-[#5d2c86]/30 to-[#D4AF37]/30" />
+   198→   198→            </motion.div>
+   199→   199→          );
+   200→   200→        })}
+   201→   201→
+   202→   202→        {/* ═══ STAT NODES (OUTER RING) ═══ */}
+   203→   203→        {services.map((service, i) => {
+   204→   204→          const pos = statPositions[i];
+   205→   205→          const isHovered = hoveredIndex === i;
+   206→   206→          const isActive = activeIndex === i;
+   207→   207→          return (
+   208→   208→            <motion.div
+   209→   209→              key={`stat-${i}`}
+   210→   210→              className="absolute z-20 cursor-pointer"
+   211→   211→              style={{
+   212→   212→                left: `${pos.x}%`,
+   213→   213→                top: `${pos.y}%`,
+   214→   214→                transform: 'translate(-50%, -50%)',
+   215→   215→              }}
+   216→   216→              initial={{ scale: 0, opacity: 0 }}
+   217→   217→              animate={isInView ? { scale: 1, opacity: 1 } : {}}
+   218→   218→              transition={{ duration: 0.5, delay: 1.0 + i * 0.1 }}
+   219→   219→              onMouseEnter={() => setHoveredIndex(i)}
+   220→   220→              onMouseLeave={() => setHoveredIndex(null)}
+   221→   221→              onClick={() => setActiveIndex(isActive ? null : i)}
+   222→   222→            >
+   223→   223→              <motion.div
+   224→   224→                className="relative flex flex-col items-center"
+   225→   225→                animate={{
+   226→   226→                  scale: isHovered || isActive ? 1.15 : 1,
+   227→   227→                }}
+   228→   228→                transition={{ duration: 0.3, type: 'spring', stiffness: 300, damping: 20 }}
+   229→   229→              >
+   230→   230→                {/* Stat pill */}
+   231→   231→                <div className={`
+   232→   232→                  px-3 py-1.5 rounded-full border backdrop-blur-sm shadow-md transition-all duration-300
+   233→   233→                  ${isActive
+   234→   234→                    ? 'bg-[#D4AF37]/15 border-[#D4AF37]/50 shadow-[0_0_15px_rgba(212,175,55,0.2)]'
+   235→   235→                    : isHovered
+   236→   236→                      ? 'bg-white/90 dark:bg-[#1E1E1E]/90 border-[#D4AF37]/30 shadow-[0_0_10px_rgba(212,175,55,0.1)]'
+   237→   237→                      : 'bg-white/80 dark:bg-[#1E1E1E]/80 border-[#D4AF37]/15'
+   238→   238→                  }
+   239→   239→                `}>
+   240→   240→                  <div className="flex items-baseline gap-1">
+   241→   241→                    <span className={`text-sm font-bold font-serif-display ${isActive ? 'text-[#D4AF37]' : 'text-[#5d2c86] dark:text-[#7d44a8]'}`}>
+   242→   242→                      {service.stat}
+   243→   243→                    </span>
+   244→   244→                    <span className="text-[8px] text-gray-400 dark:text-gray-500 font-sans-body tracking-wider uppercase">
+   245→   245→                      {service.statLabel}
+   246→   246→                    </span>
+   247→   247→                  </div>
+   248→   248→                </div>
+   249→   249→              </motion.div>
+   250→   250→            </motion.div>
+   251→   251→          );
+   252→   252→        })}
+   253→   253→
+   254→   254→        {/* ═══ SERVICE NODES (INNER RING) ═══ */}
+   255→   255→        {services.map((service, i) => {
+   256→   256→          const pos = servicePositions[i];
+   257→   257→          const Icon = service.icon;
+   258→   258→          const isHovered = hoveredIndex === i;
+   259→   259→          const isActive = activeIndex === i;
+   260→   260→          return (
+   261→   261→            <motion.div
+   262→   262→              key={`service-${i}`}
+   263→   263→              className="absolute z-30 cursor-pointer"
+   264→   264→              style={{
+   265→   265→                left: `${pos.x}%`,
+   266→   266→                top: `${pos.y}%`,
+   267→   267→                transform: 'translate(-50%, -50%)',
+   268→   268→              }}
+   269→   269→              initial={{ scale: 0, opacity: 0 }}
+   270→   270→              animate={isInView ? { scale: 1, opacity: 1 } : {}}
+   271→   271→              transition={{ duration: 0.5, delay: 0.8 + i * 0.12, type: 'spring' }}
+   272→   272→              onMouseEnter={() => setHoveredIndex(i)}
+   273→   273→              onMouseLeave={() => setHoveredIndex(null)}
+   274→   274→              onClick={() => setActiveIndex(isActive ? null : i)}
+   275→   275→            >
+   276→   276→              <motion.div
+   277→   277→                className="relative flex flex-col items-center"
+   278→   278→                animate={{
+   279→   279→                  scale: isHovered || isActive ? 1.12 : 1,
+   280→   280→                }}
+   281→   281→                transition={{ duration: 0.3, type: 'spring', stiffness: 300, damping: 20 }}
+   282→   282→              >
+   283→   283→                {/* Glow ring behind icon when active */}
+   284→   284→                {isActive && (
+   285→   285→                  <motion.div
+   286→   286→                    className="absolute inset-0 rounded-full"
+   287→   287→                    style={{
+   288→   288→                      boxShadow: `0 0 20px ${service.color}33, 0 0 40px ${service.color}15`,
+   289→   289→                    }}
+   290→   290→                    initial={{ scale: 0.8, opacity: 0 }}
+   291→   291→                    animate={{ scale: [1, 1.3, 1], opacity: [0.6, 0, 0.6] }}
+   292→   292→                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+   293→   293→                  />
+   294→   294→                )}
+   295→   295→
+   296→   296→                {/* Icon circle */}
+   297→   297→                <div className={`
+   298→   298→                  w-14 h-14 rounded-full flex items-center justify-center border-2 shadow-lg transition-all duration-300
+   299→   299→                  ${isActive
+   300→   300→                    ? `bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] border-[#D4AF37] shadow-xl`
+   301→   301→                    : isHovered
+   302→   302→                      ? 'bg-white dark:bg-[#1E1E1E] border-[#5d2c86]/40 dark:border-[#7d44a8]/40 shadow-lg'
+   303→   303→                      : 'bg-white dark:bg-[#1E1E1E] border-gray-200 dark:border-gray-700 shadow-md'
+   304→   304→                  }
+   305→   305→                `}>
+   306→   306→                  <Icon className={`w-6 h-6 transition-colors duration-300 ${
+   307→   307→                    isActive ? 'text-white' : 'text-[#5d2c86] dark:text-[#7d44a8]'
+   308→   308→                  }`} />
+   309→   309→                </div>
+   310→   310→
+   311→   311→                {/* Service label below icon */}
+   312→   312→                <div className={`
+   313→   313→                  mt-2 text-center transition-all duration-300
+   314→   314→                  ${isActive ? 'opacity-100' : isHovered ? 'opacity-100' : 'opacity-80'}
+   315→   315→                `}>
+   316→   316→                  <span className={`text-[10px] font-sans-body font-bold tracking-wide leading-tight block ${
+   317→   317→                    isActive ? 'text-[#5d2c86] dark:text-[#7d44a8]' : 'text-gray-600 dark:text-gray-300'
+   318→   318→                  }`}>
+   319→   319→                    {service.shortTitle}
+   320→   320→                  </span>
+   321→   321→                </div>
+   322→   322→              </motion.div>
+   323→   323→            </motion.div>
+   324→   324→          );
+   325→   325→        })}
+   326→   326→
+   327→   327→        {/* ═══ CENTER CORE ═══ */}
+   328→   328→        <motion.div
+   329→   329→          className="absolute z-40"
+   330→   330→          style={{
+   331→   331→            top: '50%',
+   332→   332→            left: '50%',
+   333→   333→            transform: 'translate(-50%, -50%)',
+   334→   334→          }}
+   335→   335→          initial={{ scale: 0, opacity: 0 }}
+   336→   336→          animate={isInView ? { scale: 1, opacity: 1 } : {}}
+   337→   337→          transition={{ duration: 0.8, delay: 0.4, type: 'spring', stiffness: 100 }}
+   338→   338→        >
+   339→   339→          <div className="relative">
+   340→   340→            {/* Rotating outer gold ring */}
+   341→   341→            <motion.div
+   342→   342→              className="absolute -inset-3 rounded-full border border-dashed border-[#D4AF37]/20"
+   343→   343→              animate={{ rotate: 360 }}
+   344→   344→              transition={{ duration: 40, repeat: Infinity, ease: 'linear' }}
+   345→   345→            />
+   346→   346→
+   347→   347→            {/* Counter-rotating inner ring */}
+   348→   348→            <motion.div
+   349→   349→              className="absolute -inset-1.5 rounded-full border border-[#5d2c86]/15 dark:border-[#7d44a8]/15"
+   350→   350→              animate={{ rotate: -360 }}
+   351→   351→              transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
+   352→   352→            />
+   353→   353→
+   354→   354→            {/* Main center circle */}
+   355→   355→            <div className="relative w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full bg-gradient-to-br from-[#5d2c86] via-[#5d2c86] to-[#3d1c5a] flex flex-col items-center justify-center shadow-2xl border-2 border-[#D4AF37]/30 overflow-hidden">
+   356→   356→              {/* Animated conic gradient shimmer */}
+   357→   357→              <motion.div
+   358→   358→                className="absolute inset-0 rounded-full"
+   359→   359→                style={{
+   360→   360→                  background: 'conic-gradient(from 0deg, transparent, rgba(212,175,55,0.15), transparent, rgba(212,175,55,0.1), transparent)',
+   361→   361→                }}
+   362→   362→                animate={{ rotate: 360 }}
+   363→   363→                transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+   364→   364→              />
+   365→   365→
+   366→   366→              {/* Content */}
+   367→   367→              <div className="relative z-10 text-center">
+   368→   368→                <span className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif-display text-white leading-none">
+   369→   369→                  360°
+   370→   370→                </span>
+   371→   371→                <div className="w-8 h-[1px] bg-[#D4AF37] mx-auto my-1" />
+   372→   372→                <span className="text-[8px] sm:text-[9px] tracking-[0.2em] font-sans-body font-bold text-[#D4AF37] uppercase">
+   373→   373→                  FF&E
+   374→   374→                </span>
+   375→   375→                <span className="text-[8px] sm:text-[9px] tracking-[0.15em] font-sans-body font-medium text-white/70 uppercase block mt-0.5">
+   376→   376→                  SUPPORT
+   377→   377→                </span>
+   378→   378→              </div>
+   379→   379→            </div>
+   380→   380→          </div>
+   381→   381→        </motion.div>
+   382→   382→
+   383→   383→        {/* ═══ HOVER/ACTIVE DETAIL TOOLTIP ═══ */}
+   384→   384→        <AnimatePresence>
+   385→   385→          {(hoveredIndex !== null || activeIndex !== null) && (() => {
+   386→   386→            const idx = activeIndex ?? hoveredIndex;
+   387→   387→            if (idx === null) return null;
+   388→   388→            const svc = services[idx];
+   389→   389→            const pos = servicePositions[idx];
+   390→   390→            // Position tooltip toward the center if node is on outside, or away
+   391→   391→            const isTop = pos.y < 50;
+   392→   392→            const isLeft = pos.x < 50;
+   393→   393→            return (
+   394→   394→              <motion.div
+   395→   395→                key={`tooltip-${idx}`}
+   396→   396→                className="absolute z-50 pointer-events-none"
+   397→   397→                style={{
+   398→   398→                  left: `${pos.x}%`,
+   399→   399→                  top: `${pos.y}%`,
+   400→   400→                  transform: `translate(${isLeft ? '10%' : '-110%'}, ${isTop ? '10%' : '-110%'})`,
+   401→   401→                }}
+   402→   402→                initial={{ opacity: 0, scale: 0.9 }}
+   403→   403→                animate={{ opacity: 1, scale: 1 }}
+   404→   404→                exit={{ opacity: 0, scale: 0.9 }}
+   405→   405→                transition={{ duration: 0.25 }}
+   406→   406→              >
+   407→   407→                <div className="bg-white/95 dark:bg-[#1E1E1E]/95 backdrop-blur-md rounded-xl shadow-xl border border-[#5d2c86]/10 dark:border-[#7d44a8]/10 p-4 w-56">
+   408→   408→                  <div className="flex items-center gap-2 mb-2">
+   409→   409→                    <svc.icon className="w-4 h-4 text-[#5d2c86] dark:text-[#7d44a8]" />
+   410→   410→                    <h4 className="text-sm font-bold text-[#1A1A1A] dark:text-white font-sans-body">
+   411→   411→                      {svc.title.replace('\n', ' ')}
+   412→   412→                    </h4>
+   413→   413→                  </div>
+   414→   414→                  <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-2">
+   415→   415→                    {svc.description}
+   416→   416→                  </p>
+   417→   417→                  <div className="flex items-baseline gap-1">
+   418→   418→                    <span className="text-lg font-bold font-serif-display text-[#5d2c86] dark:text-[#7d44a8]">{svc.stat}</span>
+   419→   419→                    <span className="text-[9px] text-gray-400 dark:text-gray-500 font-sans-body uppercase tracking-wider">{svc.statLabel}</span>
+   420→   420→                  </div>
+   421→   421→                </div>
+   422→   422→              </motion.div>
+   423→   423→            );
+   424→   424→          })()}
+   425→   425→        </AnimatePresence>
+   426→   426→      </div>
+   427→   427→
+   428→   428→      {/* ── MOBILE FALLBACK: Card Grid ── */}
+   429→   429→      <div className="sm:hidden mt-6 space-y-3">
+   430→   430→        {services.map((service, i) => {
+   431→   431→          const Icon = service.icon;
+   432→   432→          const isActive = activeIndex === i;
+   433→   433→          return (
+   434→   434→            <motion.button
+   435→   435→              key={`mobile-${i}`}
+   436→   436→              className={`w-full text-left rounded-xl p-4 border transition-all duration-300 ${
+   437→   437→                isActive
+   438→   438→                  ? 'bg-[#5d2c86]/5 dark:bg-[#7d44a8]/10 border-[#5d2c86]/20 dark:border-[#7d44a8]/20'
+   439→   439→                  : 'bg-white/80 dark:bg-[#1E1E1E]/80 border-gray-100 dark:border-gray-800'
+   440→   440→              }`}
+   441→   441→              onClick={() => setActiveIndex(isActive ? null : i)}
+   442→   442→              initial={{ opacity: 0, y: 10 }}
+   443→   443→              animate={{ opacity: 1, y: 0 }}
+   444→   444→              transition={{ delay: i * 0.08 }}
+   445→   445→            >
+   446→   446→              <div className="flex items-center gap-3">
+   447→   447→                <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 ${
+   448→   448→                  isActive ? 'bg-[#5d2c86]' : 'bg-[#5d2c86]/10 dark:bg-[#7d44a8]/10'
+   449→   449→                }`}>
+   450→   450→                  <Icon className={`w-5 h-5 ${isActive ? 'text-white' : 'text-[#5d2c86] dark:text-[#7d44a8]'}`} />
+   451→   451→                </div>
+   452→   452→                <div className="flex-1 min-w-0">
+   453→   453→                  <div className="flex items-center justify-between gap-2">
+   454→   454→                    <h4 className="text-sm font-bold text-[#1A1A1A] dark:text-white font-sans-body">
+   455→   455→                      {service.title.replace('\n', ' ')}
+   456→   456→                    </h4>
+   457→   457→                    <span className="text-xs font-bold font-serif-display text-[#D4AF37] whitespace-nowrap">
+   458→   458→                      {service.stat} {service.statLabel}
+   459→   459→                    </span>
+   460→   460→                  </div>
+   461→   461→                  {isActive && (
+   462→   462→                    <motion.p
+   463→   463→                      initial={{ height: 0, opacity: 0 }}
+   464→   464→                      animate={{ height: 'auto', opacity: 1 }}
+   465→   465→                      exit={{ height: 0, opacity: 0 }}
+   466→   466→                      className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mt-2"
+   467→   467→                    >
+   468→   468→                      {service.description}
+   469→   469→                    </motion.p>
+   470→   470→                  )}
+   471→   471→                </div>
+   472→   472→              </div>
+   473→   473→            </motion.button>
+   474→   474→          );
+   475→   475→        })}
+   476→   476→      </div>
+   477→   477→
+   478→   478→      {/* ── SELECTED SERVICE DETAIL PANEL (DESKTOP) ── */}
+   479→   479→      <AnimatePresence>
+   480→   480→        {selectedService && (
+   481→   481→          <motion.div
+   482→   482→            initial={{ opacity: 0, y: 20, height: 0 }}
+   483→   483→            animate={{ opacity: 1, y: 0, height: 'auto' }}
+   484→   484→            exit={{ opacity: 0, y: 10, height: 0 }}
+   485→   485→            transition={{ duration: 0.4, ease: 'easeOut' }}
+   486→   486→            className="mt-8 hidden sm:block"
+   487→   487→          >
+   488→   488→            <div className="relative bg-white dark:bg-[#1E1E1E] rounded-2xl shadow-lg border border-[#5d2c86]/10 dark:border-[#7d44a8]/15 overflow-hidden">
+   489→   489→              {/* Top accent bar */}
+   490→   490→              <div className="h-1 bg-gradient-to-r from-[#5d2c86] via-[#D4AF37] to-[#5d2c86]" />
+   491→   491→
+   492→   492→              <div className="p-6 flex flex-col sm:flex-row gap-6 items-start">
+   493→   493→                {/* Icon */}
+   494→   494→                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] flex items-center justify-center shrink-0 shadow-lg">
+   495→   495→                  <selectedService.icon className="w-7 h-7 text-white" />
+   496→   496→                </div>
+   497→   497→
+   498→   498→                {/* Text */}
+   499→   499→                <div className="flex-1">
+   500→   500→                  <h3 className="text-xl font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-2">
+   501→   501→                    {selectedService.title.replace('\n', ' ')}
+   502→   502→                  </h3>
+   503→   503→                  <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body mb-4">
+   504→   504→                    {selectedService.description}
+   505→   505→                  </p>
+   506→   506→
+   507→   507→                  {/* Stats row */}
+   508→   508→                  <div className="flex items-center gap-6">
+   509→   509→                    <div>
+   510→   510→                      <span className="text-2xl font-bold font-serif-display text-[#5d2c86] dark:text-[#7d44a8]">
+   511→   511→                        {selectedService.stat}
+   512→   512→                      </span>
+   513→   513→                      <span className="text-xs text-gray-400 dark:text-gray-500 font-sans-body ml-2 uppercase tracking-wider">
+   514→   514→                        {selectedService.statLabel}
+   515→   515→                      </span>
+   516→   516→                    </div>
+   517→   517→                    <button
+   518→   518→                      onClick={() => setActiveIndex(null)}
+   519→   519→                      className="text-xs text-[#5d2c86] dark:text-[#7d44a8] hover:text-[#D4AF37] font-sans-body font-medium transition-colors"
+   520→   520→                    >
+   521→   521→                      ← Back to overview
+   522→   522→                    </button>
+   523→   523→                  </div>
+   524→   524→                </div>
+   525→   525→              </div>
+   526→   526→            </div>
+   527→   527→          </motion.div>
+   528→   528→        )}
+   529→   529→      </AnimatePresence>
+   530→   530→    </div>
+   531→   531→  );
+   532→   532→}
+   533→   533→
+   534→   534→/* ═══════════════════════════════════════════════════════
+   535→   535→   GOLD ACCENT SEPARATOR
+   536→   536→   ═══════════════════════════════════════════════════════ */
+   537→   537→
+   538→   538→function GoldSeparator() {
+   539→   539→  const ref = useRef<HTMLDivElement>(null);
+   540→   540→  const isInView = useInView(ref, { once: true, margin: '-30px' });
+   541→   541→
+   542→   542→  return (
+   543→   543→    <div ref={ref} className="flex items-center justify-center py-6 lg:py-10" aria-hidden="true">
+   544→   544→      <motion.div
+   545→   545→        className="h-[1px] w-full max-w-xs"
+   546→   546→        style={{ background: 'linear-gradient(90deg, transparent, #D4AF37, #5d2c86, #D4AF37, transparent)' }}
+   547→   547→        initial={{ scaleX: 0, opacity: 0 }}
+   548→   548→        animate={isInView ? { scaleX: 1, opacity: 1 } : {}}
+   549→   549→        transition={{ duration: 1.2, ease: 'easeInOut' }}
+   550→   550→      />
+   551→   551→    </div>
+   552→   552→  );
+   553→   553→}
+   554→   554→
+   555→   555→/* ═══════════════════════════════════════════════════════
+   556→   556→   MAIN EXPORT
+   557→   557→   ═══════════════════════════════════════════════════════ */
+   558→   558→
+   559→   559→export default function ServicesSection() {
+   560→   560→  const sectionRef = useRef<HTMLDivElement>(null);
+   561→   561→  const isInView = useInView(sectionRef, { once: true, margin: '-100px' });
+   562→   562→  const processRef = useRef<HTMLDivElement>(null);
+   563→   563→  const isProcessInView = useInView(processRef, { once: true, margin: '-80px' });
+   564→   564→
+   565→   565→  // Word-by-word reveal heading
+   566→   566→  const headingWords = ['360°', 'FF&E', 'support,', 'under', 'one', 'roof.'];
+   567→   567→
+   568→   568→  return (
+   569→   569→    <section id="services" className="bg-[#f8f3ed] dark:bg-[#121212] relative overflow-hidden transition-colors duration-300" ref={sectionRef}>
+   570→   570→      {/* ─────────────── 1. CINEMATIC HERO BANNER ─────────────── */}
+   571→   571→      <div className="relative pt-16 lg:pt-24 pb-4 overflow-hidden">
+   572→   572→        {/* Background gradient */}
+   573→   573→        <div
+   574→   574→          className="absolute inset-0 pointer-events-none"
+   575→   575→          style={{ background: 'linear-gradient(180deg, rgba(248,243,237,0.95) 0%, rgba(248,243,237,0) 100%)' }}
+   576→   576→          aria-hidden="true"
+   577→   577→        />
+   578→   578→        <div
+   579→   579→          className="absolute inset-0 pointer-events-none hidden dark:block"
+   580→   580→          style={{ background: 'linear-gradient(180deg, rgba(18,18,18,0.95) 0%, rgba(18,18,18,0) 100%)' }}
+   581→   581→          aria-hidden="true"
+   582→   582→        />
+   583→   583→
+   584→   584→        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+   585→   585→          {/* Eyebrow */}
+   586→   586→          <motion.p
+   587→   587→            className="text-xs tracking-[0.3em] text-[#D4AF37] mb-5 font-sans-body font-semibold"
+   588→   588→            initial={{ opacity: 0, letterSpacing: '0.6em' }}
+   589→   589→            whileInView={{ opacity: 1, letterSpacing: '0.3em' }}
+   590→   590→            viewport={{ once: true }}
+   591→   591→            transition={{ duration: 1.0, ease: 'easeOut' }}
+   592→   592→          >
+   593→   593→            WHAT WE COVER
+   594→   594→          </motion.p>
+   595→   595→
+   596→   596→          {/* Word-by-word reveal heading */}
+   597→   597→          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-5">
+   598→   598→            {headingWords.map((word, i) => (
+   599→   599→              <motion.span
+   600→   600→                key={i}
+   601→   601→                className="inline-block mr-[0.25em]"
+   602→   602→                initial={{ opacity: 0, y: 25, filter: 'blur(6px)' }}
+   603→   603→                whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+   604→   604→                viewport={{ once: true }}
+   605→   605→                transition={{ duration: 0.6, delay: 0.3 + i * 0.12, ease: [0.25, 0.4, 0.25, 1] }}
+   606→   606→              >
+   607→   607→                {word === '360°' || word === 'FF&E' || word === 'support,' ? (
+   608→   608→                  <span className="text-[#5d2c86] dark:text-[#7d44a8]">{word}</span>
+   609→   609→                ) : word}
+   610→   610→              </motion.span>
+   611→   611→            ))}
+   612→   612→          </h2>
+   613→   613→
+   614→   614→          {/* Subtitle */}
+   615→   615→          <motion.p
+   616→   616→            className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl mx-auto font-sans-body mb-5"
+   617→   617→            initial={{ opacity: 0, y: 15 }}
+   618→   618→            whileInView={{ opacity: 1, y: 0 }}
+   619→   619→            viewport={{ once: true }}
+   620→   620→            transition={{ duration: 0.7, delay: 1.0 }}
+   621→   621→          >
+   622→   622→            From concept sketches to on-site install, every FF&E need is handled by our
+   623→   623→            integrated team — no gaps, no finger-pointing, just one accountable partner.
+   624→   624→          </motion.p>
+   625→   625→
+   626→   626→          {/* Animated gold line */}
+   627→   627→          <div className="flex items-center justify-center">
+   628→   628→            <motion.div
+   629→   629→              className="h-[2px] rounded-full"
+   630→   630→              style={{ background: 'linear-gradient(90deg, transparent, #D4AF37, #5d2c86, #D4AF37, transparent)' }}
+   631→   631→              initial={{ width: 0, opacity: 0 }}
+   632→   632→              whileInView={{ width: 120, opacity: 1 }}
+   633→   633→              viewport={{ once: true }}
+   634→   634→              transition={{ duration: 1.2, delay: 1.1, ease: 'easeInOut' }}
+   635→   635→            />
+   636→   636→          </div>
+   637→   637→        </div>
+   638→   638→      </div>
+   639→   639→
+   640→   640→      {/* ─── Gold Accent Separator ─── */}
+   641→   641→      <GoldSeparator />
+   642→   642→
+   643→   643→      {/* ─────────────── 2. CONCENTRIC CIRCLES ─────────────── */}
+   644→   644→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   645→   645→        {/* Ring labels legend */}
+   646→   646→        <motion.div
+   647→   647→          className="flex flex-wrap items-center justify-center gap-6 mb-8"
+   648→   648→          initial={{ opacity: 0, y: 15 }}
+   649→   649→          whileInView={{ opacity: 1, y: 0 }}
+   650→   650→          viewport={{ once: true }}
+   651→   651→          transition={{ duration: 0.6, delay: 0.2 }}
+   652→   652→        >
+   653→   653→          <div className="flex items-center gap-2">
+   654→   654→            <div className="w-3 h-3 rounded-full border-2 border-dashed border-[#D4AF37]/50" />
+   655→   655→            <span className="text-[10px] tracking-[0.15em] font-sans-body font-semibold text-gray-500 dark:text-gray-400 uppercase">
+   656→   656→              Outer Ring — Statistics
+   657→   657→            </span>
+   658→   658→          </div>
+   659→   659→          <div className="flex items-center gap-2">
+   660→   660→            <div className="w-3 h-3 rounded-full border-2 border-[#5d2c86]/30" />
+   661→   661→            <span className="text-[10px] tracking-[0.15em] font-sans-body font-semibold text-gray-500 dark:text-gray-400 uppercase">
+   662→   662→              Inner Ring — Services
+   663→   663→            </span>
+   664→   664→          </div>
+   665→   665→          <div className="flex items-center gap-2">
+   666→   666→            <div className="w-3 h-3 rounded-full bg-gradient-to-br from-[#5d2c86] to-[#3d1c5a] border border-[#D4AF37]/30" />
+   667→   667→            <span className="text-[10px] tracking-[0.15em] font-sans-body font-semibold text-gray-500 dark:text-gray-400 uppercase">
+   668→   668→              Core — 360° Support
+   669→   669→            </span>
+   670→   670→          </div>
+   671→   671→        </motion.div>
+   672→   672→
+   673→   673→        <ConcentricCircles />
+   674→   674→      </div>
+   675→   675→
+   676→   676→      {/* ─── Gold Accent Separator ─── */}
+   677→   677→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   678→   678→        <GoldSeparator />
+   679→   679→      </div>
+   680→   680→
+   681→   681→      {/* ─────────────── 3. PROCESS STEPS ─────────────── */}
+   682→   682→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 lg:pb-24">
+   683→   683→        <div ref={processRef}>
+   684→   684→          <div className="text-center mb-10">
+   685→   685→            <motion.p
+   686→   686→              className="text-xs tracking-[0.3em] text-[#D4AF37] mb-3 font-sans-body font-semibold"
+   687→   687→              initial={{ opacity: 0, letterSpacing: '0.6em' }}
+   688→   688→              whileInView={{ opacity: 1, letterSpacing: '0.3em' }}
+   689→   689→              viewport={{ once: true }}
+   690→   690→              transition={{ duration: 0.8 }}
+   691→   691→            >
+   692→   692→              OUR PROCESS
+   693→   693→            </motion.p>
+   694→   694→            <motion.h3
+   695→   695→              className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white"
+   696→   696→              initial={{ opacity: 0, y: 20 }}
+   697→   697→              whileInView={{ opacity: 1, y: 0 }}
+   698→   698→              viewport={{ once: true }}
+   699→   699→              transition={{ duration: 0.7, delay: 0.2 }}
+   700→   700→            >
+   701→   701→              Four steps.{' '}
+   702→   702→              <span className="text-[#5d2c86] dark:text-[#7d44a8]">Zero guesswork.</span>
+   703→   703→            </motion.h3>
+   704→   704→          </div>
+   705→   705→
+   706→   706→          {/* Desktop: Horizontal steps */}
+   707→   707→          <div className="hidden md:grid grid-cols-4 gap-0 relative">
+   708→   708→            {processSteps.map((step, index) => {
+   709→   709→              const Icon = step.icon;
+   710→   710→              return (
+   711→   711→                <RevealOnScroll key={step.title} direction="up" delay={index * 0.15} duration={0.6}>
+   712→   712→                  <div className="relative flex flex-col items-center text-center px-4 lg:px-6">
+   713→   713→                    {index < processSteps.length - 1 && (
+   714→   714→                      <div className="absolute top-8 lg:top-9 left-[calc(50%+28px)] right-0 z-0 flex items-center">
+   715→   715→                        <div className="w-full relative h-[2px]">
+   716→   716→                          <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700/50 rounded-full" />
+   717→   717→                          <motion.div
+   718→   718→                            className="absolute inset-y-0 left-0 rounded-full"
+   719→   719→                            style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37)' }}
+   720→   720→                            initial={{ scaleX: 0 }}
+   721→   721→                            animate={isProcessInView ? { scaleX: 1 } : {}}
+   722→   722→                            transition={{ duration: 1.0, delay: 0.8 + index * 0.25, ease: 'easeOut' }}
+   723→   723→                          />
+   724→   724→                          <motion.div
+   725→   725→                            className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"
+   726→   726→                            initial={{ left: '0%', opacity: 0 }}
+   727→   727→                            animate={isProcessInView ? { left: '90%', opacity: [0, 1, 1, 0] } : {}}
+   728→   728→                            transition={{ duration: 1.2, delay: 1.0 + index * 0.25, ease: 'easeInOut' }}
+   729→   729→                          />
+   730→   730→                        </div>
+   731→   731→                        <motion.div
+   732→   732→                          initial={{ opacity: 0 }}
+   733→   733→                          animate={isProcessInView ? { opacity: 0.6 } : {}}
+   734→   734→                          transition={{ delay: 1.8 + index * 0.25 }}
+   735→   735→                        >
+   736→   736→                          <div className="w-0 h-0 border-t-[4px] border-t-transparent border-b-[4px] border-b-transparent border-l-[6px] border-l-[#D4AF37] -ml-0.5" />
+   737→   737→                        </motion.div>
+   738→   738→                      </div>
+   739→   739→                    )}
+   740→   740→                    <div className="relative mb-4">
+   741→   741→                      <motion.div
+   742→   742→                        className="w-14 h-14 lg:w-[72px] lg:h-[72px] rounded-2xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 flex items-center justify-center shadow-sm relative z-10"
+   743→   743→                        initial={{ scale: 0.8, opacity: 0 }}
+   744→   744→                        whileInView={{ scale: 1, opacity: 1 }}
+   745→   745→                        viewport={{ once: true }}
+   746→   746→                        transition={{ duration: 0.5, delay: 0.3 + index * 0.15 }}
+   747→   747→                      >
+   748→   748→                        <Icon className="w-6 h-6 lg:w-7 lg:h-7 text-[#5d2c86] dark:text-[#7d44a8]" />
+   749→   749→                      </motion.div>
+   750→   750→                      <motion.div
+   751→   751→                        className="absolute inset-0 rounded-2xl"
+   752→   752→                        style={{ boxShadow: '0 0 20px rgba(212,175,55,0.3), 0 0 40px rgba(212,175,55,0.1)' }}
+   753→   753→                        initial={{ opacity: 0, scale: 0.9 }}
+   754→   754→                        animate={isProcessInView ? { opacity: [0, 0.6, 0], scale: [0.9, 1.15, 0.9] } : {}}
+   755→   755→                        transition={{ duration: 2.5, delay: 0.5 + index * 0.2, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }}
+   756→   756→                      />
+   757→   757→                    </div>
+   758→   758→                    <motion.span className="text-[10px] font-sans-body font-bold tracking-[0.2em] text-[#D4AF37] mb-2" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.4 + index * 0.15 }}>
+   759→   759→                      STEP 0{index + 1}
+   760→   760→                    </motion.span>
+   761→   761→                    <h4 className="text-sm lg:text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-2">{step.title}</h4>
+   762→   762→                    <p className="text-[11px] lg:text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body">{step.description}</p>
+   763→   763→                  </div>
+   764→   764→                </RevealOnScroll>
+   765→   765→              );
+   766→   766→            })}
+   767→   767→          </div>
+   768→   768→
+   769→   769→          {/* Mobile: Vertical steps */}
+   770→   770→          <div className="md:hidden flex flex-col">
+   771→   771→            {processSteps.map((step, index) => {
+   772→   772→              const Icon = step.icon;
+   773→   773→              return (
+   774→   774→                <RevealOnScroll key={step.title} direction="up" delay={index * 0.12} duration={0.5}>
+   775→   775→                  <div className="flex gap-4">
+   776→   776→                    <div className="flex flex-col items-center">
+   777→   777→                      <div className="relative">
+   778→   778→                        <div className="w-12 h-12 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 flex items-center justify-center shadow-sm relative z-10">
+   779→   779→                          <Icon className="w-5 h-5 text-[#5d2c86] dark:text-[#7d44a8]" />
+   780→   780→                        </div>
+   781→   781→                        <motion.div className="absolute inset-0 rounded-xl" style={{ boxShadow: '0 0 16px rgba(212,175,55,0.25)' }} initial={{ opacity: 0, scale: 0.9 }} animate={isProcessInView ? { opacity: [0, 0.5, 0], scale: [0.9, 1.1, 0.9] } : {}} transition={{ duration: 2.5, delay: 0.3 + index * 0.2, repeat: Infinity, repeatDelay: 2, ease: 'easeInOut' }} />
+   782→   782→                      </div>
+   783→   783→                      {index < processSteps.length - 1 && (
+   784→   784→                        <div className="relative w-[2px] h-10 my-1">
+   785→   785→                          <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700/50 rounded-full" />
+   786→   786→                          <motion.div className="absolute inset-x-0 top-0 bottom-0 rounded-full" style={{ background: 'linear-gradient(180deg, #5d2c86, #D4AF37)' }} initial={{ scaleY: 0 }} animate={isProcessInView ? { scaleY: 1 } : {}} transition={{ duration: 0.6, delay: 0.6 + index * 0.2 }} />
+   787→   787→                        </div>
+   788→   788→                      )}
+   789→   789→                    </div>
+   790→   790→                    <div className="pb-6">
+   791→   791→                      <span className="text-[9px] font-sans-body font-bold tracking-[0.2em] text-[#D4AF37]">STEP 0{index + 1}</span>
+   792→   792→                      <h4 className="text-sm font-bold text-[#1A1A1A] dark:text-white font-sans-body mt-0.5 mb-1">{step.title}</h4>
+   793→   793→                      <p className="text-xs text-gray-500 dark:text-gray-400 leading-relaxed font-sans-body">{step.description}</p>
+   794→   794→                    </div>
+   795→   795→                  </div>
+   796→   796→                </RevealOnScroll>
+   797→   797→              );
+   798→   798→            })}
+   799→   799→          </div>
+   800→   800→        </div>
+   801→   801→      </div>
+   802→   802→
+   803→   803→      {/* ─── Bottom Gold Accent Separator ─── */}
+   804→   804→      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   805→   805→        <GoldSeparator />
+   806→   806→      </div>
+   807→   807→
+   808→   808→      {/* Ambient decorative elements */}
+   809→   809→      <div className="absolute -top-10 -right-10 w-72 h-72 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(212,175,55,0.04) 0%, transparent 70%)' }} aria-hidden="true" />
+   810→   810→      <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(93,44,134,0.03) 0%, transparent 70%)' }} aria-hidden="true" />
+   811→   811→    </section>
+   812→   812→  );
+   813→   813→}
+   814→   814→
