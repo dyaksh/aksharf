@@ -18,14 +18,17 @@ import {
 } from 'lucide-react';
 
 // ─── Room data ───────────────────────────────────────────────────────
+// Uses AI-generated images when available (in /ai/ folder).
+// Falls back to distinct real images: catalog pages for BEFORE, room photos for AFTER.
 interface RoomData {
   id: string;
   label: string;
   sublabel: string;
   icon: React.ElementType;
-  before: string;
-  after: string;
-  fallbackAfter: string;
+  before: string;       // AI before (primary)
+  after: string;        // AI after (primary)
+  fallbackBefore: string; // Real catalog/factory image
+  fallbackAfter: string;  // Real furnished room photo
   description: string;
   specs: string[];
   accentColor: string;
@@ -39,6 +42,7 @@ const rooms: RoomData[] = [
     icon: Bed,
     before: '/images/room-transformation/ai/before-guest-room.png',
     after: '/images/room-transformation/ai/after-guest-room.png',
+    fallbackBefore: '/catalog-pages/page_7.png',
     fallbackAfter: '/images/room-transformation/room-1.png',
     description: 'Complete FF&E transformation — casegoods, headboard, seating, lighting & decor for a premium guest experience.',
     specs: ['Custom headboard & bed frame', 'Nightstands & dresser', 'Desk & task chair', 'Floor lamp & sconces', 'Art & accent pieces'],
@@ -51,6 +55,7 @@ const rooms: RoomData[] = [
     icon: DoorOpen,
     before: '/images/room-transformation/ai/before-suite.png',
     after: '/images/room-transformation/ai/after-suite.png',
+    fallbackBefore: '/catalog-pages/page_8.png',
     fallbackAfter: '/images/room-transformation/room-2.png',
     description: 'Full suite FF&E package — living area, bedroom zone, and workspace with bespoke furniture & ambient lighting.',
     specs: ['Upholstered sofa & armchairs', 'Console & coffee table', 'King headboard panel', 'Chandelier & pendants', 'Decorative mirrors & art'],
@@ -63,6 +68,7 @@ const rooms: RoomData[] = [
     icon: Bath,
     before: '/images/room-transformation/ai/before-bathroom.png',
     after: '/images/room-transformation/ai/after-bathroom.png',
+    fallbackBefore: '/catalog-pages/page_12.png',
     fallbackAfter: '/images/room-transformation/room-3.png',
     description: 'Elegant bathroom FF&E — vanities, mirrors, towel accessories, and hardware crafted for durability & style.',
     specs: ['Vanity unit & basin', 'Framed mirror', 'Towel rack & hooks', 'Soap dispenser & tray', 'Vanity lighting'],
@@ -75,6 +81,7 @@ const rooms: RoomData[] = [
     icon: Sofa,
     before: '/images/room-transformation/ai/before-lobby.png',
     after: '/images/room-transformation/ai/after-lobby.png',
+    fallbackBefore: '/catalog-pages/page_20.png',
     fallbackAfter: '/images/room-transformation/room-4.png',
     description: 'Grand lobby FF&E — statement seating, reception desk, lighting installations, and curated art for an unforgettable welcome.',
     specs: ['Reception desk & credenza', 'Lobby seating ensemble', 'Statement chandelier', 'Planters & accent tables', 'Feature wall art'],
@@ -87,6 +94,7 @@ const rooms: RoomData[] = [
     icon: Utensils,
     before: '/images/room-transformation/ai/before-dining.png',
     after: '/images/room-transformation/ai/after-dining.png',
+    fallbackBefore: '/catalog-pages/page_28.png',
     fallbackAfter: '/images/room-transformation/room-5.png',
     description: 'Restaurant & banquet FF&E — dining tables, chairs, buffet stations, and atmospheric lighting solutions.',
     specs: ['Dining tables & chairs', 'Buffet & server stations', 'Pendant & ambient lighting', 'Upholstered banquettes', 'Decorative partitions'],
@@ -99,6 +107,7 @@ const rooms: RoomData[] = [
     icon: Lamp,
     before: '/images/room-transformation/ai/before-lighting.png',
     after: '/images/room-transformation/ai/after-lighting.png',
+    fallbackBefore: '/catalog-pages/page_32.png',
     fallbackAfter: '/images/room-transformation/room-6.png',
     description: 'Comprehensive lighting FF&E — chandeliers, sconces, pendants, and task lighting designed for hospitality spaces.',
     specs: ['Chandeliers & pendants', 'Wall sconces & vanity lights', 'Table & floor lamps', 'LED accent lighting', 'Custom fixture design'],
@@ -106,42 +115,55 @@ const rooms: RoomData[] = [
   },
 ];
 
-// ─── Image with fallback ──────────────────────────────────────────────
-function FallbackImage({
-  src,
+// ─── Smart image with dual fallback ──────────────────────────────────
+// Tries AI image first, falls back to a different real image
+function SmartImage({
+  primarySrc,
   fallbackSrc,
   alt,
   className,
   draggable,
-  applyBeforeEffect = false,
+  isBefore = false,
 }: {
-  src: string;
+  primarySrc: string;
   fallbackSrc: string;
   alt: string;
   className?: string;
   draggable?: boolean;
-  applyBeforeEffect?: boolean;
+  isBefore?: boolean;
 }) {
-  const [imgSrc, setImgSrc] = useState(src);
-  const [useFallback, setUseFallback] = useState(false);
+  const [imgSrc, setImgSrc] = useState(fallbackSrc);
+  const [isAi, setIsAi] = useState(false);
 
+  // Check if AI image exists; fall back to catalog/room image
   useEffect(() => {
-    // Check if image exists by trying to load it
+    let cancelled = false;
     const img = new Image();
-    img.onload = () => setImgSrc(src);
-    img.onerror = () => {
-      setImgSrc(fallbackSrc);
-      setUseFallback(true);
+    img.onload = () => {
+      if (!cancelled) {
+        setImgSrc(primarySrc);
+        setIsAi(true);
+      }
     };
-    img.src = src;
-  }, [src, fallbackSrc]);
+    img.onerror = () => {
+      if (!cancelled) {
+        setImgSrc(fallbackSrc);
+        setIsAi(false);
+      }
+    };
+    img.src = primarySrc;
+    return () => { cancelled = true; };
+  }, [primarySrc, fallbackSrc]);
 
   return (
     <img
       src={imgSrc}
       alt={alt}
-      className={`${className || ''} ${useFallback && applyBeforeEffect ? 'grayscale brightness-[0.6] contrast-[1.1] sepia-[0.15]' : ''}`}
+      className={className || ''}
       draggable={draggable}
+      style={isBefore && !isAi ? {
+        filter: 'grayscale(1) brightness(0.55) contrast(1.15) sepia(0.2)',
+      } : undefined}
     />
   );
 }
@@ -150,12 +172,14 @@ function FallbackImage({
 function ComparisonSlider({
   beforeSrc,
   afterSrc,
+  fallbackBeforeSrc,
   fallbackAfterSrc,
   roomLabel,
   accentColor,
 }: {
   beforeSrc: string;
   afterSrc: string;
+  fallbackBeforeSrc: string;
   fallbackAfterSrc: string;
   roomLabel: string;
   accentColor: string;
@@ -228,9 +252,8 @@ function ComparisonSlider({
       if (!startTime) startTime = time;
       const elapsed = time - startTime;
       const progress = Math.min(elapsed / duration, 1);
-      // Ease in-out sine
       const eased = 0.5 - 0.5 * Math.cos(progress * Math.PI);
-      setPosition(15 + eased * 70); // Slide from 15% to 85%
+      setPosition(15 + eased * 70);
       if (progress < 1) {
         frame = requestAnimationFrame(animate);
       }
@@ -258,8 +281,8 @@ function ComparisonSlider({
     >
       {/* After image (full, underneath) */}
       <div className="absolute inset-0">
-        <FallbackImage
-          src={afterSrc}
+        <SmartImage
+          primarySrc={afterSrc}
           fallbackSrc={fallbackAfterSrc}
           alt={`${roomLabel} — after Akshar Foshan FF&E furnishing`}
           className="w-full h-full object-cover"
@@ -267,27 +290,23 @@ function ComparisonSlider({
         />
         {/* Subtle warm vignette on after side */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: `radial-gradient(ellipse at 70% 50%, transparent 40%, rgba(0,0,0,0.15) 100%)`
+          background: 'radial-gradient(ellipse at 70% 50%, transparent 40%, rgba(0,0,0,0.12) 100%)',
         }} />
       </div>
 
-      {/* Before image (clipped from left via clip-path) — REAL before photo */}
+      {/* Before image (clipped from left via clip-path) */}
       <div
         className="absolute inset-0"
         style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
       >
-        <FallbackImage
-          src={beforeSrc}
-          fallbackSrc={fallbackAfterSrc}
-          alt={`${roomLabel} — before FF&E installation (empty shell)`}
+        <SmartImage
+          primarySrc={beforeSrc}
+          fallbackSrc={fallbackBeforeSrc}
+          alt={`${roomLabel} — before FF&E installation`}
           className="w-full h-full object-cover"
           draggable={false}
-          applyBeforeEffect={true}
+          isBefore={true}
         />
-        {/* Subtle dark overlay for depth contrast */}
-        <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'linear-gradient(135deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.05) 100%)',
-        }} />
       </div>
 
       {/* BEFORE / AFTER labels */}
@@ -332,7 +351,7 @@ function ComparisonSlider({
         </div>
       </div>
 
-      {/* Drag hint (shows initially, fades after interaction) */}
+      {/* Drag hint */}
       <AnimatePresence>
         {!hasInteracted && (
           <motion.div
@@ -393,6 +412,7 @@ function FullscreenModal({
         <ComparisonSlider
           beforeSrc={room.before}
           afterSrc={room.after}
+          fallbackBeforeSrc={room.fallbackBefore}
           fallbackAfterSrc={room.fallbackAfter}
           roomLabel={room.label}
           accentColor={room.accentColor}
@@ -423,7 +443,6 @@ export default function BeforeAfterSection() {
   const [activeRoom, setActiveRoom] = useState(0);
   const [fullscreenRoom, setFullscreenRoom] = useState<RoomData | null>(null);
   const [direction, setDirection] = useState(0);
-  const sliderContainerRef = useRef<HTMLDivElement>(null);
 
   const currentRoom = rooms[activeRoom];
 
@@ -442,7 +461,6 @@ export default function BeforeAfterSection() {
     setActiveRoom((prev) => (prev - 1 + rooms.length) % rooms.length);
   }, []);
 
-  // Keyboard navigation
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') goNext();
@@ -611,7 +629,7 @@ export default function BeforeAfterSection() {
         {/* ── Main Content Area ── */}
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 lg:gap-8 items-start">
           {/* Comparison Slider */}
-          <div className="relative" ref={sliderContainerRef}>
+          <div className="relative">
             {/* Prev/Next buttons */}
             <button
               onClick={goPrev}
@@ -651,6 +669,7 @@ export default function BeforeAfterSection() {
                 <ComparisonSlider
                   beforeSrc={currentRoom.before}
                   afterSrc={currentRoom.after}
+                  fallbackBeforeSrc={currentRoom.fallbackBefore}
                   fallbackAfterSrc={currentRoom.fallbackAfter}
                   roomLabel={currentRoom.label}
                   accentColor={currentRoom.accentColor}
