@@ -4,29 +4,32 @@ import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-// ─── Comparison data ─────────────────────────────────────────────────
+// ─── Comparison data — all before/after pairs are from the SAME room category ───
+// Guest Room pages: 1, 11, 13, 19, 27, 41, 42, 43
+// Lobby pages: 3, 9, 17, 18, 25, 26, 33, 34, 39, 40
+// Suite pages: 8, 10, 15, 21, 23, 29, 31, 35, 37
 const comparisons = [
   {
     label: 'Guest Room',
-    before: '/catalog-pages/page_5.png',
+    before: '/catalog-pages/page_1.png',
     after: '/catalog-pages/page_11.png',
   },
   {
-    label: 'Bathroom',
+    label: 'Lobby',
     before: '/catalog-pages/page_3.png',
-    after: '/catalog-pages/page_20.png',
+    after: '/catalog-pages/page_17.png',
   },
   {
-    label: 'Lobby',
-    before: '/catalog-pages/page_1.png',
-    after: '/catalog-pages/page_30.png',
+    label: 'Suite',
+    before: '/catalog-pages/page_8.png',
+    after: '/catalog-pages/page_10.png',
   },
 ];
 
 // ─── Corner bracket SVG ──────────────────────────────────────────────
 function CornerBrackets() {
   const size = 28;
-  const stroke = '#D4AF37';
+  const stroke = '#5d2c86';
   const sw = 2;
   const len = 20;
 
@@ -73,7 +76,7 @@ function CornerBrackets() {
 }
 
 // ─── Comparison Slider ───────────────────────────────────────────────
-function ComparisonSlider({ beforeSrc, afterSrc }: { beforeSrc: string; afterSrc: string }) {
+function ComparisonSlider({ beforeSrc, afterSrc, beforeLabel, afterLabel }: { beforeSrc: string; afterSrc: string; beforeLabel: string; afterLabel: string }) {
   const [position, setPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
@@ -139,7 +142,7 @@ function ComparisonSlider({ beforeSrc, afterSrc }: { beforeSrc: string; afterSrc
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
       role="slider"
-      aria-label="Before and after comparison slider"
+      aria-label={`${beforeLabel} and ${afterLabel} comparison slider`}
       aria-valuemin={0}
       aria-valuemax={100}
       aria-valuenow={Math.round(position)}
@@ -148,7 +151,7 @@ function ComparisonSlider({ beforeSrc, afterSrc }: { beforeSrc: string; afterSrc
       <div className="absolute inset-0">
         <img
           src={afterSrc}
-          alt="After FF&E furnishing"
+          alt={`${afterLabel} — after FF&E furnishing`}
           className="w-full h-full object-cover"
           draggable={false}
         />
@@ -161,7 +164,7 @@ function ComparisonSlider({ beforeSrc, afterSrc }: { beforeSrc: string; afterSrc
       >
         <img
           src={beforeSrc}
-          alt="Before FF&E furnishing"
+          alt={`${beforeLabel} — before FF&E furnishing`}
           className="w-full h-full object-cover grayscale"
           draggable={false}
         />
@@ -171,7 +174,7 @@ function ComparisonSlider({ beforeSrc, afterSrc }: { beforeSrc: string; afterSrc
 
       {/* BEFORE / AFTER labels */}
       <div className="absolute top-4 left-4 z-10 pointer-events-none">
-        <span className="inline-block px-3 py-1 text-[10px] sm:text-xs font-bold tracking-[0.2em] text-white bg-black/50 backdrop-blur-sm rounded">
+        <span className="inline-block px-3 py-1 text-[10px] sm:text-xs font-bold tracking-[0.2em] text-white bg-[#000]/50 backdrop-blur-sm rounded">
           BEFORE
         </span>
       </div>
@@ -186,14 +189,14 @@ function ComparisonSlider({ beforeSrc, afterSrc }: { beforeSrc: string; afterSrc
         className="absolute top-0 bottom-0 z-20 pointer-events-none"
         style={{ left: `${position}%`, transform: 'translateX(-50%)' }}
       >
-        {/* Vertical gold line */}
-        <div className="w-[2px] h-full bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.4)]" />
+        {/* Vertical line */}
+        <div className="w-[2px] h-full bg-[#5d2c86] shadow-[0_0_8px_rgba(93,44,134,0.5)]" />
 
         {/* Handle circle */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto">
-          <div className="w-12 h-12 rounded-full bg-[#5d2c86] border-[3px] border-[#D4AF37] flex items-center justify-center shadow-lg shadow-black/40 hover:scale-110 transition-transform duration-200">
-            <ChevronLeft className="w-4 h-4 text-[#D4AF37] -mr-1" />
-            <ChevronRight className="w-4 h-4 text-[#D4AF37] -ml-1" />
+          <div className="w-12 h-12 rounded-full bg-[#5d2c86] border-[3px] border-[#FFF] flex items-center justify-center shadow-lg shadow-black/40 hover:scale-110 transition-transform duration-200">
+            <ChevronLeft className="w-4 h-4 text-white -mr-1" />
+            <ChevronRight className="w-4 h-4 text-white -ml-1" />
           </div>
         </div>
       </div>
@@ -208,14 +211,14 @@ export default function BeforeAfterSection() {
   return (
     <section
       id="showcase"
-      className="relative py-20 lg:py-32 bg-[#1A1A1A] overflow-hidden"
+      className="relative py-16 lg:py-24 bg-[#000] overflow-hidden"
     >
       {/* Subtle background pattern */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            'radial-gradient(circle at 1px 1px, rgba(212,175,55,0.04) 1px, transparent 0)',
+            'radial-gradient(circle at 1px 1px, rgba(93,44,134,0.06) 1px, transparent 0)',
           backgroundSize: '32px 32px',
         }}
         aria-hidden="true"
@@ -231,16 +234,16 @@ export default function BeforeAfterSection() {
       <div
         className="absolute -bottom-48 -right-48 w-96 h-96 rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(212,175,55,0.08) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(93,44,134,0.08) 0%, transparent 70%)',
         }}
       />
 
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-5xl mx-auto px-5 sm:px-6 lg:px-8">
         {/* ── Section Header ── */}
-        <div className="text-center mb-10 lg:mb-14">
+        <div className="text-center mb-10 lg:mb-12">
           {/* Eyebrow */}
           <motion.p
-            className="text-xs tracking-[0.3em] text-[#D4AF37] mb-4 font-sans-body font-semibold"
+            className="text-xs tracking-[0.3em] text-[#5d2c86] mb-4 font-sans-body font-semibold"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -257,12 +260,12 @@ export default function BeforeAfterSection() {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            See the <span className="text-[#D4AF37] italic">difference</span>
+            See the <span className="text-[#5d2c86] italic">difference</span>
           </motion.h2>
 
           {/* Subtext */}
           <motion.p
-            className="mt-4 text-base text-gray-400 max-w-xl mx-auto font-sans-body leading-relaxed"
+            className="mt-4 text-base text-[#FFF]/40 max-w-xl mx-auto font-sans-body leading-relaxed"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -276,7 +279,7 @@ export default function BeforeAfterSection() {
           <motion.div
             className="mx-auto mt-6 w-20 h-[2px]"
             style={{
-              background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+              background: 'linear-gradient(90deg, transparent, #5d2c86, transparent)',
             }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -299,16 +302,16 @@ export default function BeforeAfterSection() {
               onClick={() => setActiveTab(i)}
               className={`relative pb-2 text-sm sm:text-base font-sans-body font-semibold tracking-wider uppercase transition-colors duration-300 ${
                 activeTab === i
-                  ? 'text-[#D4AF37]'
-                  : 'text-gray-500 hover:text-gray-300'
+                  ? 'text-[#5d2c86]'
+                  : 'text-[#FFF]/30 hover:text-[#FFF]/60'
               }`}
             >
               {comp.label}
-              {/* Gold underline for active tab */}
+              {/* Underline for active tab */}
               {activeTab === i && (
                 <motion.div
                   layoutId="activeTab-underline"
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#D4AF37]"
+                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#5d2c86]"
                   transition={{ type: 'spring', stiffness: 400, damping: 30 }}
                 />
               )}
@@ -339,6 +342,8 @@ export default function BeforeAfterSection() {
               <ComparisonSlider
                 beforeSrc={comparisons[activeTab].before}
                 afterSrc={comparisons[activeTab].after}
+                beforeLabel={comparisons[activeTab].label}
+                afterLabel={comparisons[activeTab].label}
               />
             </motion.div>
           </AnimatePresence>
@@ -346,7 +351,7 @@ export default function BeforeAfterSection() {
 
         {/* ── Drag hint ── */}
         <motion.p
-          className="text-center mt-5 text-xs text-gray-500 font-sans-body tracking-wider"
+          className="text-center mt-5 text-xs text-[#FFF]/25 font-sans-body tracking-wider"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -360,7 +365,7 @@ export default function BeforeAfterSection() {
           className="mt-12 lg:mt-16 mx-auto w-full max-w-2xl h-[1px]"
           style={{
             background:
-              'linear-gradient(90deg, transparent, rgba(212,175,55,0.2) 30%, rgba(212,175,55,0.2) 70%, transparent)',
+              'linear-gradient(90deg, transparent, rgba(93,44,134,0.3) 30%, rgba(93,44,134,0.3) 70%, transparent)',
           }}
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}
