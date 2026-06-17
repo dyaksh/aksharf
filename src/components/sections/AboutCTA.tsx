@@ -77,7 +77,7 @@ export default function AboutCTA() {
             <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-2xl shadow-black/30">
               <motion.div style={{ y: imageY }} className="relative w-full h-full">
                 <Image
-                  src="/images/about/about-small.jpeg"
+                  src="/images/about/about-small.png"
                   alt="Akshar Foshan manufacturing excellence"
                   fill
                   className="object-cover"

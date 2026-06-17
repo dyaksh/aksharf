@@ -34,7 +34,7 @@ import {
 /* ── Brand Tokens ────────────────────────────────────────────── */
 const PURPLE = '#5d2c86';
 const CREAM = '#f8f3ed';
-const GOLD = '#D4AF37';
+const GOLD = '#5d2c86';
 const DARK = '#1A1A1A';
 
 /* ── Animation Variants ──────────────────────────────────────── */
@@ -152,56 +152,49 @@ const timelineEvents = [
     year: '2010',
     title: 'The Foundation',
     description: 'Established in Foshan with a vision to redefine hospitality FF&E manufacturing.',
-    image: '/images/about/about-1.jpeg',
+    image: '/images/about/about-1.png',
   },
   {
     year: '2013',
     title: 'First Major Contract',
     description: 'Secured our first international hotel brand partnership, setting the standard for excellence.',
-    image: '/images/about/about-2.jpeg',
+    image: '/images/about/about-2.png',
   },
   {
     year: '2016',
     title: 'Facility Expansion',
     description: 'Expanded to 8 manufacturing facilities with dedicated upholstery and casegoods lines.',
-    image: '/images/about/about-5.jpeg',
+    image: '/images/about/about-3.png',
   },
   {
     year: '2019',
     title: 'Global Reach',
     description: 'Delivered projects across 5 continents, earning trust from the world\'s top hotel brands.',
-    image: '/images/about/about-8.jpeg',
+    image: '/images/about/about-4.png',
   },
   {
     year: '2022',
     title: 'Innovation Hub',
     description: 'Launched our R&D center for advanced material testing and sustainable manufacturing.',
-    image: '/images/about/about-11.jpeg',
+    image: '/images/about/about-5.png',
   },
   {
     year: '2025',
     title: 'The Future',
     description: 'Continuing to push boundaries with 13+ facilities and an unwavering commitment to craft.',
-    image: '/images/about/about-14.jpeg',
+    image: '/images/about/about-6.png',
   },
 ];
 
 /* ── Cinematic Gallery Data (enhanced) ───────────────────────── */
 const galleryImages = [
-  { src: '/images/about/about-1.jpeg', alt: 'Akshar Foshan manufacturing facility', aspect: 'landscape', span: '' },
-  { src: '/images/about/about-2.jpeg', alt: 'Artisan crafting hotel furniture', aspect: 'portrait', span: 'row-span-2' },
-  { src: '/images/about/about-3.jpeg', alt: 'Finished hotel room installation', aspect: 'landscape', span: '' },
-  { src: '/images/about/about-4.jpeg', alt: 'Production line detail', aspect: 'portrait', span: 'row-span-2' },
-  { src: '/images/about/about-5.jpeg', alt: 'Quality inspection station', aspect: 'landscape', span: '' },
-  { src: '/images/about/about-6.jpeg', alt: 'Material warehouse overview', aspect: 'square', span: '' },
-  { src: '/images/about/about-7.jpeg', alt: 'Upholstery workshop interior', aspect: 'landscape', span: '' },
-  { src: '/images/about/about-8.jpeg', alt: 'Quality control center', aspect: 'portrait', span: 'row-span-2' },
-  { src: '/images/about/about-9.jpeg', alt: 'Production floor panoramic', aspect: 'square', span: '' },
-  { src: '/images/about/about-10.jpeg', alt: 'Raw material storage', aspect: 'landscape', span: '' },
-  { src: '/images/about/about-11.jpeg', alt: 'Raw material selection process', aspect: 'portrait', span: 'row-span-2' },
-  { src: '/images/about/about-12.jpeg', alt: 'Precision CNC machining', aspect: 'landscape', span: '' },
-  { src: '/images/about/about-13.jpeg', alt: 'Multi-point quality inspection', aspect: 'square', span: '' },
-  { src: '/images/about/about-14.jpeg', alt: 'Global logistics and shipping', aspect: 'landscape', span: '' },
+  { src: '/images/about/about-1.png', alt: 'Akshar Foshan manufacturing facility', aspect: 'landscape', span: '' },
+  { src: '/images/about/about-2.png', alt: 'Artisan crafting hotel furniture', aspect: 'portrait', span: 'row-span-2' },
+  { src: '/images/about/about-3.png', alt: 'Finished hotel room installation', aspect: 'landscape', span: '' },
+  { src: '/images/about/about-4.png', alt: 'Production line detail', aspect: 'portrait', span: 'row-span-2' },
+  { src: '/images/about/about-5.png', alt: 'Quality inspection station', aspect: 'landscape', span: '' },
+  { src: '/images/about/about-6.png', alt: 'Material warehouse overview', aspect: 'square', span: '' },
+  { src: '/images/about/about-7.png', alt: 'Upholstery workshop interior', aspect: 'landscape', span: '' },
 ];
 
 /* ── Our Journey Narrative Data ──────────────────────────────── */
@@ -209,19 +202,19 @@ const journeyBlocks = [
   {
     title: 'Rooted in Craft',
     text: 'In the heart of Foshan — China\'s furniture capital — our founders envisioned a manufacturing partner that global hotel brands could trust implicitly. Not just for products, but for the entire FF&E ecosystem.',
-    image: '/images/about/about-1.jpeg',
+    image: '/images/about/about-1.png',
     quote: 'Every great hotel room begins with a promise: that the furniture will endure, delight, and inspire.',
   },
   {
     title: 'Scaled with Precision',
     text: 'From a single workshop to 13+ specialized facilities, each expansion was deliberate — adding capacity without compromising the artisanal quality our clients demand. Vertical integration means every material, joint, and finish is under our control.',
-    image: '/images/about/about-5.jpeg',
+    image: '/images/about/about-5.png',
     quote: 'Scale without control is chaos. We chose scale through mastery.',
   },
   {
     title: 'Delivered Worldwide',
     text: 'Today, our furniture graces hotel rooms across five continents. From the deserts of the Middle East to the coastlines of Southeast Asia, our logistics network ensures every piece arrives on-spec and on-time.',
-    image: '/images/about/about-14.jpeg',
+    image: '/images/about/about-7.png',
     quote: 'The distance from Foshan to a hotel room in Dubai is measured not in kilometers, but in standards.',
   },
 ];
@@ -232,25 +225,25 @@ const manufacturingSteps = [
     icon: Hammer,
     title: 'Raw Material Selection',
     desc: 'Sourcing premium hardwoods, fabrics, and metals from certified suppliers.',
-    image: '/images/about/about-11.jpeg',
+    image: '/images/about/about-4.png',
   },
   {
     icon: Cog,
     title: 'Precision Manufacturing',
     desc: 'CNC machining, hand-finishing, and upholstery by skilled artisans.',
-    image: '/images/about/about-12.jpeg',
+    image: '/images/about/about-3.png',
   },
   {
     icon: Eye,
     title: 'Quality Assurance',
     desc: 'Multi-point inspection protocol aligned with brand standards.',
-    image: '/images/about/about-13.jpeg',
+    image: '/images/about/about-6.png',
   },
   {
     icon: Globe2,
     title: 'Global Logistics',
     desc: 'Containerized shipping, customs coordination, and on-site delivery.',
-    image: '/images/about/about-14.jpeg',
+    image: '/images/about/about-7.png',
   },
 ];
 
@@ -292,9 +285,9 @@ function GoldLineSeparator({ delay = 0 }: { delay?: number }) {
         animate={isInView ? 'visible' : 'hidden'}
         className="flex items-center gap-3"
       >
-        <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-transparent to-[#D4AF37]/40" />
-        <div className="w-2 h-2 rounded-full border border-[#D4AF37]/60" />
-        <div className="w-24 sm:w-40 h-px bg-gradient-to-r from-[#D4AF37]/40 to-transparent" />
+        <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-transparent to-[#5d2c86]/40" />
+        <div className="w-2 h-2 rounded-full border border-[#5d2c86]/60" />
+        <div className="w-24 sm:w-40 h-px bg-gradient-to-r from-[#5d2c86]/40 to-transparent" />
       </motion.div>
     </div>
   );
@@ -600,7 +593,7 @@ function ValueCard({
       className="group relative"
     >
       <TiltCard className="h-full">
-        <div className="relative bg-white dark:bg-[#1a1a1a] rounded-2xl p-6 sm:p-8 border border-gray-100 dark:border-gray-800 hover:border-transparent transition-all duration-500 hover:shadow-2xl hover:shadow-[#5d2c86]/8 dark:hover:shadow-[#D4AF37]/8 overflow-hidden h-full">
+        <div className="relative bg-white dark:bg-[#1a1a1a] rounded-2xl p-6 sm:p-8 border border-gray-100 dark:border-gray-800 hover:border-transparent transition-all duration-500 hover:shadow-2xl hover:shadow-[#5d2c86]/8 dark:hover:shadow-[#5d2c86]/8 overflow-hidden h-full">
           {/* Accent gradient on hover */}
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
@@ -646,14 +639,13 @@ function WorkshopGallery() {
   const [canScrollRight, setCanScrollRight] = useState(true);
 
   const workshopImages = [
-    { src: '/images/about/about-7.jpeg', alt: 'Upholstery workshop', label: 'Upholstery' },
-    { src: '/images/about/about-8.jpeg', alt: 'Quality control station', label: 'Quality Control' },
-    { src: '/images/about/about-9.jpeg', alt: 'Production floor', label: 'Production' },
-    { src: '/images/about/about-10.jpeg', alt: 'Material warehouse', label: 'Warehouse' },
-    { src: '/images/about/about-4.jpeg', alt: 'Assembly line', label: 'Assembly' },
-    { src: '/images/about/about-6.jpeg', alt: 'Finishing department', label: 'Finishing' },
-    { src: '/images/about/about-3.jpeg', alt: 'Installation team', label: 'Installation' },
-    { src: '/images/about/about-5.jpeg', alt: 'Packing and shipping', label: 'Logistics' },
+    { src: '/images/about/about-1.png', alt: 'Upholstery workshop', label: 'Upholstery' },
+    { src: '/images/about/about-2.png', alt: 'Quality control station', label: 'Quality Control' },
+    { src: '/images/about/about-3.png', alt: 'Production floor', label: 'Production' },
+    { src: '/images/about/about-4.png', alt: 'Material warehouse', label: 'Warehouse' },
+    { src: '/images/about/about-5.png', alt: 'Assembly line', label: 'Assembly' },
+    { src: '/images/about/about-6.png', alt: 'Finishing department', label: 'Finishing' },
+    { src: '/images/about/about-7.png', alt: 'Installation team', label: 'Installation' },
   ];
 
   const checkScroll = useCallback(() => {
@@ -680,7 +672,7 @@ function WorkshopGallery() {
           className="absolute left-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 dark:bg-[#1a1a1a]/90 shadow-lg flex items-center justify-center hover:bg-white dark:hover:bg-[#1a1a1a] transition-colors"
           aria-label="Scroll left"
         >
-          <ChevronLeft className="w-5 h-5 text-[#5d2c86] dark:text-[#D4AF37]" />
+          <ChevronLeft className="w-5 h-5 text-[#5d2c86] dark:text-[#5d2c86]" />
         </button>
       )}
       {canScrollRight && (
@@ -689,7 +681,7 @@ function WorkshopGallery() {
           className="absolute right-2 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white/90 dark:bg-[#1a1a1a]/90 shadow-lg flex items-center justify-center hover:bg-white dark:hover:bg-[#1a1a1a] transition-colors"
           aria-label="Scroll right"
         >
-          <ChevronRight className="w-5 h-5 text-[#5d2c86] dark:text-[#D4AF37]" />
+          <ChevronRight className="w-5 h-5 text-[#5d2c86] dark:text-[#5d2c86]" />
         </button>
       )}
 
@@ -718,7 +710,7 @@ function WorkshopGallery() {
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/70 via-transparent to-transparent" />
               {/* Gold accent bottom border on hover */}
-              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#D4AF37] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#5d2c86] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               {/* Corner brackets on hover */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
                 <CornerBrackets size={20} inset={4} />
@@ -728,7 +720,7 @@ function WorkshopGallery() {
                 <span className="text-white text-sm font-serif-display font-semibold">
                   {img.label}
                 </span>
-                <span className="text-[#D4AF37] text-[10px] tracking-[0.15em] uppercase font-sans-body font-bold">
+                <span className="text-[#5d2c86] text-[10px] tracking-[0.15em] uppercase font-sans-body font-bold">
                   {String(i + 1).padStart(2, '0')}
                 </span>
               </div>
@@ -798,10 +790,10 @@ function TimelineItem({
         <div className="relative">
           {/* Year badge */}
           <div className="inline-flex items-center gap-2 mb-3">
-            <div className="w-8 h-8 rounded-full bg-[#D4AF37]/15 flex items-center justify-center">
-              <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
+            <div className="w-8 h-8 rounded-full bg-[#5d2c86]/15 flex items-center justify-center">
+              <Clock className="w-3.5 h-3.5 text-[#5d2c86]" />
             </div>
-            <span className="text-[#D4AF37] text-sm font-sans-body font-bold tracking-[0.15em]">
+            <span className="text-[#5d2c86] text-sm font-sans-body font-bold tracking-[0.15em]">
               {event.year}
             </span>
           </div>
@@ -826,7 +818,7 @@ function TimelineItem({
             {event.description}
           </motion.p>
           {/* Decorative line */}
-          <div className="w-12 h-px bg-[#5d2c86]/20 dark:bg-[#D4AF37]/20 mt-4" />
+          <div className="w-12 h-px bg-[#5d2c86]/20 dark:bg-[#5d2c86]/20 mt-4" />
         </div>
       </div>
     </motion.div>
@@ -870,10 +862,10 @@ function JourneyBlock({
         >
           {/* Section number */}
           <div className="flex items-center gap-3 mb-5">
-            <span className="text-[#D4AF37] text-xs font-sans-body font-bold tracking-[0.2em]">
+            <span className="text-[#5d2c86] text-xs font-sans-body font-bold tracking-[0.2em]">
               {String(index + 1).padStart(2, '0')}
             </span>
-            <div className="w-8 h-px bg-[#D4AF37]/40" />
+            <div className="w-8 h-px bg-[#5d2c86]/40" />
           </div>
 
           <h3 className="text-2xl sm:text-3xl lg:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-5">
@@ -885,17 +877,17 @@ function JourneyBlock({
           </p>
 
           {/* Pull quote */}
-          <div className="relative pl-6 border-l-2 border-[#D4AF37]/30 py-2">
-            <Quote className="absolute -left-3 -top-1 w-5 h-5 text-[#D4AF37]/60 bg-white dark:bg-[#0f0f0f] rounded-full" />
-            <p className="text-sm sm:text-base text-[#5d2c86] dark:text-[#D4AF37]/80 font-serif-display italic leading-relaxed">
+          <div className="relative pl-6 border-l-2 border-[#5d2c86]/30 py-2">
+            <Quote className="absolute -left-3 -top-1 w-5 h-5 text-[#5d2c86]/60 bg-white dark:bg-[#0f0f0f] rounded-full" />
+            <p className="text-sm sm:text-base text-[#5d2c86] dark:text-[#5d2c86]/80 font-serif-display italic leading-relaxed">
               {block.quote}
             </p>
           </div>
 
           {/* Gold accent line */}
           <div className="mt-6 flex items-center gap-2">
-            <div className="w-6 h-px bg-[#D4AF37]" />
-            <ArrowRight className="w-3 h-3 text-[#D4AF37]" />
+            <div className="w-6 h-px bg-[#5d2c86]" />
+            <ArrowRight className="w-3 h-3 text-[#5d2c86]" />
           </div>
         </motion.div>
       </div>
@@ -935,8 +927,8 @@ function JourneyBlock({
           </motion.div>
 
           {/* Decorative accent */}
-          <div className="absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 border-[#D4AF37]/20 rounded-br-2xl pointer-events-none" aria-hidden="true" />
-          <div className="absolute -top-3 -left-3 w-20 h-20 border-t-2 border-l-2 border-[#D4AF37]/20 rounded-tl-2xl pointer-events-none" aria-hidden="true" />
+          <div className="absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 border-[#5d2c86]/20 rounded-br-2xl pointer-events-none" aria-hidden="true" />
+          <div className="absolute -top-3 -left-3 w-20 h-20 border-t-2 border-l-2 border-[#5d2c86]/20 rounded-tl-2xl pointer-events-none" aria-hidden="true" />
         </motion.div>
       </div>
     </motion.div>
@@ -994,7 +986,7 @@ export default function AboutSection() {
               <motion.p
                 variants={blurToFocus}
                 custom={0}
-                className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+                className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#5d2c86] mb-4 font-sans-body"
               >
                 Our Story
               </motion.p>
@@ -1004,7 +996,7 @@ export default function AboutSection() {
                 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-6"
               >
                 From Foshan to the{' '}
-                <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">
+                <span className="text-[#5d2c86] dark:text-[#5d2c86] italic">
                   world&apos;s finest hotels
                 </span>
               </motion.h2>
@@ -1014,7 +1006,7 @@ export default function AboutSection() {
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
-                className="w-16 h-[2px] bg-[#D4AF37] mb-6 origin-left"
+                className="w-16 h-[2px] bg-[#5d2c86] mb-6 origin-left"
               />
               <motion.p
                 variants={blurToFocus}
@@ -1052,15 +1044,15 @@ export default function AboutSection() {
                 custom={0.4}
                 className="flex flex-wrap gap-4"
               >
-                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#D4AF37]">
+                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#5d2c86]">
                   <Award className="w-4 h-4" />
                   <span>ISO 9001 Certified</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#D4AF37]">
+                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#5d2c86]">
                   <Factory className="w-4 h-4" />
                   <span>13+ Manufacturing Facilities</span>
                 </div>
-                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#D4AF37]">
+                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#5d2c86]">
                   <Globe2 className="w-4 h-4" />
                   <span>5+ Continents Served</span>
                 </div>
@@ -1083,7 +1075,7 @@ export default function AboutSection() {
                   className="col-span-2 relative rounded-2xl overflow-hidden aspect-[16/10] shadow-xl group"
                 >
                   <ParallaxImage
-                    src="/images/about/about-hero.jpeg"
+                    src="/images/about/about-hero.png"
                     alt="Akshar Foshan manufacturing facility exterior"
                     speed={0.12}
                   />
@@ -1105,7 +1097,7 @@ export default function AboutSection() {
                   className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-lg group"
                 >
                   <ParallaxImage
-                    src="/images/about/about-2.jpeg"
+                    src="/images/about/about-2.png"
                     alt="Craftsman working on hotel furniture details"
                     speed={0.1}
                   />
@@ -1124,12 +1116,12 @@ export default function AboutSection() {
                   className="relative rounded-2xl overflow-hidden aspect-[4/5] shadow-lg group"
                 >
                   <ParallaxImage
-                    src="/images/about/about-3.jpeg"
+                    src="/images/about/about-3.png"
                     alt="Finished hotel room furniture installation"
                     speed={0.1}
                   />
                   {/* Gold accent badge */}
-                  <div className="absolute bottom-3 left-3 bg-[#D4AF37] text-[#1A1A1A] text-[10px] tracking-[0.15em] uppercase font-bold px-3 py-1.5 rounded-full font-sans-body">
+                  <div className="absolute bottom-3 left-3 bg-[#5d2c86] text-[#1A1A1A] text-[10px] tracking-[0.15em] uppercase font-bold px-3 py-1.5 rounded-full font-sans-body">
                     Est. 2010
                   </div>
                   {/* Gold border glow on hover */}
@@ -1146,7 +1138,7 @@ export default function AboutSection() {
                 <div
                   className="absolute -bottom-4 -left-4 w-24 h-24 rounded-full opacity-10 pointer-events-none"
                   style={{
-                    background: 'radial-gradient(circle, #D4AF37, transparent)',
+                    background: 'radial-gradient(circle, #5d2c86, transparent)',
                   }}
                   aria-hidden="true"
                 />
@@ -1190,7 +1182,7 @@ export default function AboutSection() {
             <motion.p
               variants={blurToFocus}
               custom={0}
-              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#5d2c86] mb-4 font-sans-body"
             >
               What Drives Us
             </motion.p>
@@ -1200,7 +1192,7 @@ export default function AboutSection() {
               className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight"
             >
               Values that define{' '}
-              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">every piece</span>
+              <span className="text-[#5d2c86] dark:text-[#5d2c86] italic">every piece</span>
             </motion.h2>
           </motion.div>
 
@@ -1221,7 +1213,7 @@ export default function AboutSection() {
       <div className="py-20 lg:py-28 bg-white dark:bg-[#0f0f0f] relative">
         {/* Decorative diagonal line */}
         <div
-          className="absolute top-0 right-0 w-px h-40 bg-gradient-to-b from-[#D4AF37]/30 to-transparent pointer-events-none"
+          className="absolute top-0 right-0 w-px h-40 bg-gradient-to-b from-[#5d2c86]/30 to-transparent pointer-events-none"
           aria-hidden="true"
         />
 
@@ -1235,7 +1227,7 @@ export default function AboutSection() {
             <motion.p
               variants={blurToFocus}
               custom={0}
-              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#5d2c86] mb-4 font-sans-body"
             >
               Visual Journey
             </motion.p>
@@ -1245,7 +1237,7 @@ export default function AboutSection() {
               className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-4"
             >
               Inside our{' '}
-              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">world</span>
+              <span className="text-[#5d2c86] dark:text-[#5d2c86] italic">world</span>
             </motion.h2>
             <motion.p
               variants={blurToFocus}
@@ -1267,7 +1259,7 @@ export default function AboutSection() {
             onClick={() => openLightbox(0)}
           >
             <ParallaxImage
-              src="/images/about/about-hero.jpeg"
+              src="/images/about/about-hero.png"
               alt="Akshar Foshan panoramic manufacturing overview"
               speed={0.12}
               className="w-full h-full"
@@ -1287,7 +1279,7 @@ export default function AboutSection() {
             </div>
             {/* Hero overlay text */}
             <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8">
-              <p className="text-[#D4AF37] text-[10px] sm:text-xs tracking-[0.2em] uppercase font-sans-body font-bold mb-1">Gallery</p>
+              <p className="text-[#5d2c86] text-[10px] sm:text-xs tracking-[0.2em] uppercase font-sans-body font-bold mb-1">Gallery</p>
               <p className="text-white text-lg sm:text-xl font-serif-display font-bold">The Art of Manufacturing</p>
             </div>
             {/* Expand icon */}
@@ -1342,7 +1334,7 @@ export default function AboutSection() {
             <motion.p
               variants={blurToFocus}
               custom={0}
-              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#5d2c86] mb-4 font-sans-body"
             >
               Our Workshop
             </motion.p>
@@ -1352,7 +1344,7 @@ export default function AboutSection() {
               className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-4"
             >
               Where craftsmanship{' '}
-              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">comes alive</span>
+              <span className="text-[#5d2c86] dark:text-[#5d2c86] italic">comes alive</span>
             </motion.h2>
             <motion.p
               variants={blurToFocus}
@@ -1376,7 +1368,7 @@ export default function AboutSection() {
       <div className="py-20 lg:py-28 bg-white dark:bg-[#0f0f0f] relative">
         {/* Decorative side line */}
         <div
-          className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/10 to-transparent pointer-events-none hidden lg:block"
+          className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#5d2c86]/10 to-transparent pointer-events-none hidden lg:block"
           aria-hidden="true"
         />
 
@@ -1390,7 +1382,7 @@ export default function AboutSection() {
             <motion.p
               variants={blurToFocus}
               custom={0}
-              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#5d2c86] mb-4 font-sans-body"
             >
               Our Journey
             </motion.p>
@@ -1400,7 +1392,7 @@ export default function AboutSection() {
               className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-4"
             >
               A story of{' '}
-              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">craft & conviction</span>
+              <span className="text-[#5d2c86] dark:text-[#5d2c86] italic">craft & conviction</span>
             </motion.h2>
             <motion.p
               variants={blurToFocus}
@@ -1426,11 +1418,11 @@ export default function AboutSection() {
                       transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                       className="flex items-center gap-4"
                     >
-                      <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-transparent to-[#D4AF37]/30" />
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]/50" />
-                      <div className="w-8 h-px bg-[#D4AF37]/20" />
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]/50" />
-                      <div className="w-16 sm:w-24 h-px bg-gradient-to-l from-transparent to-[#D4AF37]/30" />
+                      <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-transparent to-[#5d2c86]/30" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#5d2c86]/50" />
+                      <div className="w-8 h-px bg-[#5d2c86]/20" />
+                      <div className="w-1.5 h-1.5 rounded-full bg-[#5d2c86]/50" />
+                      <div className="w-16 sm:w-24 h-px bg-gradient-to-l from-transparent to-[#5d2c86]/30" />
                     </motion.div>
                   </div>
                 )}
@@ -1449,7 +1441,7 @@ export default function AboutSection() {
       <div className="py-20 lg:py-28 bg-[#f8f3ed] dark:bg-[#141414] relative">
         {/* Central timeline line */}
         <div
-          className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/15 to-transparent pointer-events-none hidden lg:block"
+          className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#5d2c86]/15 to-transparent pointer-events-none hidden lg:block"
           aria-hidden="true"
         />
 
@@ -1463,7 +1455,7 @@ export default function AboutSection() {
             <motion.p
               variants={blurToFocus}
               custom={0}
-              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#5d2c86] mb-4 font-sans-body"
             >
               Our Heritage
             </motion.p>
@@ -1473,7 +1465,7 @@ export default function AboutSection() {
               className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-4"
             >
               A legacy in{' '}
-              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">the making</span>
+              <span className="text-[#5d2c86] dark:text-[#5d2c86] italic">the making</span>
             </motion.h2>
             <motion.p
               variants={blurToFocus}
@@ -1502,7 +1494,7 @@ export default function AboutSection() {
       <div className="py-20 lg:py-28 bg-white dark:bg-[#0f0f0f] relative">
         {/* Background decorative line */}
         <div
-          className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/20 to-transparent pointer-events-none hidden lg:block"
+          className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#5d2c86]/20 to-transparent pointer-events-none hidden lg:block"
           aria-hidden="true"
         />
 
@@ -1516,7 +1508,7 @@ export default function AboutSection() {
             <motion.p
               variants={blurToFocus}
               custom={0}
-              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#5d2c86] mb-4 font-sans-body"
             >
               Our Process
             </motion.p>
@@ -1526,7 +1518,7 @@ export default function AboutSection() {
               className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight"
             >
               From raw material to{' '}
-              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">perfect delivery</span>
+              <span className="text-[#5d2c86] dark:text-[#5d2c86] italic">perfect delivery</span>
             </motion.h2>
           </motion.div>
 
@@ -1553,7 +1545,7 @@ export default function AboutSection() {
                     />
                     <div className="absolute inset-0 bg-[#5d2c86]/20" />
                     {/* Step number */}
-                    <div className="absolute top-2 left-2 w-7 h-7 rounded-full bg-[#D4AF37] flex items-center justify-center text-[#1A1A1A] text-xs font-bold font-serif-display">
+                    <div className="absolute top-2 left-2 w-7 h-7 rounded-full bg-[#5d2c86] flex items-center justify-center text-[#1A1A1A] text-xs font-bold font-serif-display">
                       {i + 1}
                     </div>
                     {/* Corner brackets */}
@@ -1564,7 +1556,7 @@ export default function AboutSection() {
                   {/* Step content */}
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
-                      <step.icon className="w-4 h-4 text-[#5d2c86] dark:text-[#D4AF37]" />
+                      <step.icon className="w-4 h-4 text-[#5d2c86] dark:text-[#5d2c86]" />
                       <h4 className="text-base sm:text-lg font-bold font-serif-display text-[#1A1A1A] dark:text-white">
                         {step.title}
                       </h4>
@@ -1599,7 +1591,7 @@ export default function AboutSection() {
             >
               <div className="relative rounded-2xl overflow-hidden aspect-[4/3] shadow-2xl group">
                 <ParallaxImage
-                  src="/images/about/about-hero.jpeg"
+                  src="/images/about/about-hero.png"
                   alt="Akshar Foshan team and manufacturing overview"
                   className="w-full h-full"
                   speed={0.14}
@@ -1624,8 +1616,8 @@ export default function AboutSection() {
                 className="absolute -bottom-5 -right-2 sm:-right-6 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-xl p-4 sm:p-5 border border-gray-100 dark:border-gray-800"
               >
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#D4AF37]/15 flex items-center justify-center">
-                    <Users className="w-5 h-5 text-[#D4AF37]" />
+                  <div className="w-10 h-10 rounded-full bg-[#5d2c86]/15 flex items-center justify-center">
+                    <Users className="w-5 h-5 text-[#5d2c86]" />
                   </div>
                   <div>
                     <p className="text-2xl font-bold font-serif-display text-[#1A1A1A] dark:text-white">
@@ -1637,7 +1629,7 @@ export default function AboutSection() {
               </motion.div>
               {/* Decorative corner accent */}
               <div
-                className="absolute -top-3 -left-3 w-16 h-16 border-t-2 border-l-2 border-[#D4AF37]/30 rounded-tl-2xl pointer-events-none"
+                className="absolute -top-3 -left-3 w-16 h-16 border-t-2 border-l-2 border-[#5d2c86]/30 rounded-tl-2xl pointer-events-none"
                 aria-hidden="true"
               />
             </motion.div>
@@ -1652,7 +1644,7 @@ export default function AboutSection() {
               <motion.p
                 variants={blurToFocus}
                 custom={0}
-                className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+                className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#5d2c86] mb-4 font-sans-body"
               >
                 Scale & Expertise
               </motion.p>
@@ -1661,7 +1653,7 @@ export default function AboutSection() {
                 custom={0.1}
                 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight mb-6"
               >
-                Built by <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">hands that know</span>
+                Built by <span className="text-[#5d2c86] dark:text-[#5d2c86] italic">hands that know</span>
               </motion.h2>
               <motion.p
                 variants={blurToFocus}
@@ -1692,7 +1684,7 @@ export default function AboutSection() {
                     viewport={{ once: true }}
                     className="bg-white dark:bg-[#1a1a1a] rounded-xl p-4 sm:p-5 border border-gray-100 dark:border-gray-800 group"
                   >
-                    <stat.icon className="w-5 h-5 text-[#5d2c86] dark:text-[#D4AF37] mb-2" />
+                    <stat.icon className="w-5 h-5 text-[#5d2c86] dark:text-[#5d2c86] mb-2" />
                     <p className="text-xl sm:text-2xl font-bold font-serif-display text-[#1A1A1A] dark:text-white">
                       <AnimatedCounter target={stat.value} suffix={stat.suffix} />
                     </p>
@@ -1719,7 +1711,7 @@ export default function AboutSection() {
           ═══════════════════════════════════════════════════════════ */}
       <div className="relative h-[50vh] sm:h-[60vh] overflow-hidden">
         <ParallaxImage
-          src="/images/about/about-small.jpeg"
+          src="/images/about/about-small.png"
           alt="Akshar Foshan finished hotel interior showcase"
           className="w-full h-full"
           speed={0.2}
@@ -1739,7 +1731,7 @@ export default function AboutSection() {
             <motion.div
               variants={fadeUp}
               custom={0}
-              className="w-12 h-px bg-[#D4AF37] mx-auto mb-6"
+              className="w-12 h-px bg-[#5d2c86] mx-auto mb-6"
             />
             <motion.blockquote
               variants={blurToFocus}
@@ -1752,14 +1744,14 @@ export default function AboutSection() {
             <motion.p
               variants={fadeUp}
               custom={0.25}
-              className="text-sm tracking-[0.15em] text-[#D4AF37] font-sans-body uppercase"
+              className="text-sm tracking-[0.15em] text-[#5d2c86] font-sans-body uppercase"
             >
               Akshar Foshan Leadership
             </motion.p>
             <motion.div
               variants={fadeUp}
               custom={0.3}
-              className="w-12 h-px bg-[#D4AF37] mx-auto mt-6"
+              className="w-12 h-px bg-[#5d2c86] mx-auto mt-6"
             />
             {/* Corner brackets around the quote */}
             <div className="absolute inset-0 pointer-events-none" style={{ margin: '-8px' }}>

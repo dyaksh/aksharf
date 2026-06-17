@@ -658,7 +658,7 @@ export default function HeroSection() {
                 style={{ border: '3px solid #5d2c86', y: prefersReduced ? undefined : floatingImageY1 }}
               >
                 <img
-                  src="/images/about/about-8.jpeg"
+                  src="/images/about/about-4.png"
                   alt="Akshar Foshan luxury hotel project"
                   className="w-full h-full object-cover"
                 />

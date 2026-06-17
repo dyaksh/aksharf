@@ -125,7 +125,7 @@ function AboutPage() {
         </div>
         <div className="relative h-[40vh] sm:h-[55vh] lg:h-[60vh] overflow-hidden">
           <Image
-            src="/images/about/about-hero.jpeg"
+            src="/images/about/about-hero.png"
             alt="About Akshar Foshan — Manufacturing Excellence"
             fill
             className="object-cover"
