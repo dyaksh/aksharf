@@ -1983,9 +1983,9 @@ Work Log:
 - [06:11 UTC] Cron retry #2: still 429, 0/12 images, ~40 min since first attempt
 - [06:21 UTC] Cron retry #3: still 429, 0/12 images, ~50 min since first attempt
 - [06:31 UTC] Cron retry #4: still 429, 0/12 images, ~1 hour since first attempt — likely hourly/daily quota
+- [06:41 UTC] Cron retry #5: still 429, 0/12 images, ~70 min — confirmed daily quota, stopping retries until next day
 
 Stage Summary:
-- 0/12 AI images generated — all blocked by persistent 429 rate limit (60+ min, likely hourly/daily quota)
-- Scripts ready for retry: scripts/generate-room-images.mjs (batch), scripts/gen-one.mjs (SDK), scripts/single-gen.sh (CLI)
-- Cron job continues to retry every ~10 min
-- Next step: retry when rate limit window expires
+- 0/12 AI images generated — blocked by daily API rate limit (429), all retries from ~22:07 UTC exhausted
+- Scripts ready: scripts/generate-room-images.mjs, scripts/gen-one.mjs, scripts/single-gen.sh
+- NOTE: Cron should skip retries until rate limit resets (likely next UTC day boundary)
