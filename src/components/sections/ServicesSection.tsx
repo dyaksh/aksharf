@@ -7,8 +7,7 @@ import RevealOnScroll from '@/components/RevealOnScroll';
 import SemiCircleInfographic from '@/components/sections/SemiCircleInfographic';
 
 /* ═══════════════════════════════════════════════════════
-   DATA
-   Allowed colors: #5d2c86, #f8f3ed, #FFF, #000
+   DATA — Allowed colors: #5d2c86, #f8f3ed, #FFF, #000
    ═══════════════════════════════════════════════════════ */
 
 const processSteps = [
@@ -17,27 +16,6 @@ const processSteps = [
   { icon: CheckCircle, title: 'QC', description: 'Multi-stage inspection from raw materials through production to final packaging.' },
   { icon: Truck, title: 'Deliver', description: 'Consolidate, document and install on-site — FOB or DDP, one accountable team.' },
 ];
-
-/* ═══════════════════════════════════════════════════════
-   PURPLE ACCENT SEPARATOR
-   ═══════════════════════════════════════════════════════ */
-
-function PurpleSeparator() {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: '-30px' });
-
-  return (
-    <div ref={ref} className="flex items-center justify-center py-6 lg:py-8" aria-hidden="true">
-      <motion.div
-        className="h-[1px] w-full max-w-xs"
-        style={{ background: 'linear-gradient(90deg, transparent, #5d2c86, #000, #5d2c86, transparent)' }}
-        initial={{ scaleX: 0, opacity: 0 }}
-        animate={isInView ? { scaleX: 1, opacity: 1 } : {}}
-        transition={{ duration: 1.2, ease: 'easeInOut' }}
-      />
-    </div>
-  );
-}
 
 /* ═══════════════════════════════════════════════════════
    MAIN EXPORT
@@ -49,22 +27,13 @@ export default function ServicesSection() {
   const processRef = useRef<HTMLDivElement>(null);
   const isProcessInView = useInView(processRef, { once: true, margin: '-80px' });
 
-  // Word-by-word reveal heading
   const headingWords = ['360°', 'FF&E', 'support,', 'under', 'one', 'roof.'];
 
   return (
     <section id="services" className="bg-[#f8f3ed] relative overflow-hidden" ref={sectionRef}>
-      {/* ─────────────── 1. HERO BANNER ─────────────── */}
-      <div className="relative pt-14 lg:pt-20 pb-6 overflow-hidden">
-        {/* Background gradient */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{ background: 'linear-gradient(180deg, rgba(248,243,237,0.95) 0%, rgba(248,243,237,0) 100%)' }}
-          aria-hidden="true"
-        />
-
+      {/* ─────────────── 1. HEADER ─────────────── */}
+      <div className="relative pt-14 lg:pt-20 pb-8">
         <div className="relative max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 text-center">
-          {/* Eyebrow */}
           <motion.p
             className="text-xs tracking-[0.3em] text-[#5d2c86] mb-4 font-sans-body font-semibold"
             initial={{ opacity: 0, letterSpacing: '0.6em' }}
@@ -75,7 +44,6 @@ export default function ServicesSection() {
             WHAT WE COVER
           </motion.p>
 
-          {/* Word-by-word reveal heading */}
           <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold font-serif-display text-[#000] mb-4">
             {headingWords.map((word, i) => (
               <motion.span
@@ -93,9 +61,8 @@ export default function ServicesSection() {
             ))}
           </h2>
 
-          {/* Subtitle */}
           <motion.p
-            className="text-sm text-[#000]/45 leading-relaxed max-w-xl mx-auto font-sans-body mb-5"
+            className="text-sm text-[#000]/45 leading-relaxed max-w-xl mx-auto font-sans-body mb-6"
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -110,7 +77,7 @@ export default function ServicesSection() {
             <motion.div
               className="h-[2px] rounded-full bg-[#5d2c86]"
               initial={{ width: 0, opacity: 0 }}
-              whileInView={{ width: 120, opacity: 1 }}
+              whileInView={{ width: 80, opacity: 0.4 }}
               viewport={{ once: true }}
               transition={{ duration: 1.2, delay: 1.1, ease: 'easeInOut' }}
             />
@@ -118,45 +85,16 @@ export default function ServicesSection() {
         </div>
       </div>
 
-      {/* ─── Purple Accent Separator ─── */}
-      <PurpleSeparator />
-
       {/* ─────────────── 2. SEMI-CIRCLE INFOGRAPHIC ─────────────── */}
       <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-        {/* Ring labels legend */}
-        <motion.div
-          className="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-6"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-        >
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-1.5 rounded-full border border-dashed border-[#5d2c86]/40" />
-            <span className="text-[10px] tracking-[0.15em] font-sans-body font-semibold text-[#000]/40 uppercase">
-              Outer Arc — Statistics
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-1.5 rounded-full border border-[#5d2c86]/25" />
-            <span className="text-[10px] tracking-[0.15em] font-sans-body font-semibold text-[#000]/40 uppercase">
-              Inner Arc — Services
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full bg-[#5d2c86] border border-[#5d2c86]/40" />
-            <span className="text-[10px] tracking-[0.15em] font-sans-body font-semibold text-[#000]/40 uppercase">
-              Core — 360° Support
-            </span>
-          </div>
-        </motion.div>
-
         <SemiCircleInfographic />
       </div>
 
-      {/* ─── Purple Accent Separator ─── */}
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-        <PurpleSeparator />
+      {/* ─── Separator ─── */}
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-8 lg:py-12">
+        <div className="flex items-center justify-center">
+          <div className="h-[1px] w-full max-w-xs" style={{ background: 'linear-gradient(90deg, transparent, #5d2c86/30, transparent)' }} />
+        </div>
       </div>
 
       {/* ─────────────── 3. PROCESS STEPS ─────────────── */}
@@ -200,12 +138,6 @@ export default function ServicesSection() {
                             initial={{ scaleX: 0 }}
                             animate={isProcessInView ? { scaleX: 1 } : {}}
                             transition={{ duration: 1.0, delay: 0.8 + index * 0.25, ease: 'easeOut' }}
-                          />
-                          <motion.div
-                            className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#5d2c86] shadow-[0_0_6px_rgba(93,44,134,0.4)]"
-                            initial={{ left: '0%', opacity: 0 }}
-                            animate={isProcessInView ? { left: '90%', opacity: [0, 1, 1, 0] } : {}}
-                            transition={{ duration: 1.2, delay: 1.0 + index * 0.25, ease: 'easeInOut' }}
                           />
                         </div>
                         <motion.div
@@ -280,12 +212,7 @@ export default function ServicesSection() {
         </div>
       </div>
 
-      {/* ─── Bottom Purple Accent Separator ─── */}
-      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
-        <PurpleSeparator />
-      </div>
-
-      {/* Ambient decorative elements */}
+      {/* Ambient decorations */}
       <div className="absolute -top-10 -right-10 w-72 h-72 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(93,44,134,0.04) 0%, transparent 70%)' }} aria-hidden="true" />
       <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(93,44,134,0.03) 0%, transparent 70%)' }} aria-hidden="true" />
     </section>

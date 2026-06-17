@@ -1829,3 +1829,29 @@ Stage Summary:
 - Client section now shows the user's actual client logo image
 - Simple, clean design matching user's reference
 - Image path: /public/images/clients-reference.png
+
+---
+Task ID: 16
+Agent: Main Agent
+Task: Fix "What We Cover" section - semi-circle infographic layout
+
+Work Log:
+- Rewrote SemiCircleInfographic.tsx with cleaner SVG structure
+- Fixed viewBox from 1000x520 to 1000x500 and paddingBottom from 52% to 50% for proper semi-circle aspect ratio
+- Adjusted node positions: innerR 32→28%, outerR 44→42% for better spacing
+- Fixed y-coordinate calculation from 5.2 to 5.0 for proper SVG mapping
+- Adjusted inner arc radius from 300→280 to better match service node positions
+- Simplified code: removed complex ring legend overlay from parent, reduced to simple separator
+- Cleaned ServicesSection.tsx: removed 3 PurpleSeparator components, replaced with single subtle gradient line
+- Removed excessive purple accent separators that cluttered the layout
+- Kept core functionality: interactive service nodes, stat pills, detail panel on click
+- All colors remain #5d2c86, #f8f3ed, #FFF, #000 only
+- Lint passes clean
+
+Stage Summary:
+- What We Cover section now has proper semi-circle layout with correct aspect ratio
+- Service icons properly positioned along the inner arc
+- Stat pills positioned along outer arc with connector lines
+- 360° FF&E core visible at center-bottom of semi-circle
+- Cleaner visual hierarchy with fewer distracting separators
+- Mobile card layout works as before
