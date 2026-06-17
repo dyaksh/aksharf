@@ -23,7 +23,9 @@ interface RoomData {
   label: string;
   sublabel: string;
   icon: React.ElementType;
+  before: string;
   after: string;
+  fallbackAfter: string;
   description: string;
   specs: string[];
   accentColor: string;
@@ -35,7 +37,9 @@ const rooms: RoomData[] = [
     label: 'Guest Room',
     sublabel: 'Standard & Deluxe',
     icon: Bed,
-    after: '/images/room-transformation/room-1.png',
+    before: '/images/room-transformation/ai/before-guest-room.png',
+    after: '/images/room-transformation/ai/after-guest-room.png',
+    fallbackAfter: '/images/room-transformation/room-1.png',
     description: 'Complete FF&E transformation — casegoods, headboard, seating, lighting & decor for a premium guest experience.',
     specs: ['Custom headboard & bed frame', 'Nightstands & dresser', 'Desk & task chair', 'Floor lamp & sconces', 'Art & accent pieces'],
     accentColor: '#5d2c86',
@@ -45,7 +49,9 @@ const rooms: RoomData[] = [
     label: 'Executive Suite',
     sublabel: 'Luxury Living Space',
     icon: DoorOpen,
-    after: '/images/room-transformation/room-2.png',
+    before: '/images/room-transformation/ai/before-suite.png',
+    after: '/images/room-transformation/ai/after-suite.png',
+    fallbackAfter: '/images/room-transformation/room-2.png',
     description: 'Full suite FF&E package — living area, bedroom zone, and workspace with bespoke furniture & ambient lighting.',
     specs: ['Upholstered sofa & armchairs', 'Console & coffee table', 'King headboard panel', 'Chandelier & pendants', 'Decorative mirrors & art'],
     accentColor: '#7d44a8',
@@ -55,7 +61,9 @@ const rooms: RoomData[] = [
     label: 'Bathroom',
     sublabel: 'Vanity & Accessories',
     icon: Bath,
-    after: '/images/room-transformation/room-3.png',
+    before: '/images/room-transformation/ai/before-bathroom.png',
+    after: '/images/room-transformation/ai/after-bathroom.png',
+    fallbackAfter: '/images/room-transformation/room-3.png',
     description: 'Elegant bathroom FF&E — vanities, mirrors, towel accessories, and hardware crafted for durability & style.',
     specs: ['Vanity unit & basin', 'Framed mirror', 'Towel rack & hooks', 'Soap dispenser & tray', 'Vanity lighting'],
     accentColor: '#9b6ec5',
@@ -65,7 +73,9 @@ const rooms: RoomData[] = [
     label: 'Lobby & Reception',
     sublabel: 'First Impression',
     icon: Sofa,
-    after: '/images/room-transformation/room-4.png',
+    before: '/images/room-transformation/ai/before-lobby.png',
+    after: '/images/room-transformation/ai/after-lobby.png',
+    fallbackAfter: '/images/room-transformation/room-4.png',
     description: 'Grand lobby FF&E — statement seating, reception desk, lighting installations, and curated art for an unforgettable welcome.',
     specs: ['Reception desk & credenza', 'Lobby seating ensemble', 'Statement chandelier', 'Planters & accent tables', 'Feature wall art'],
     accentColor: '#5d2c86',
@@ -75,7 +85,9 @@ const rooms: RoomData[] = [
     label: 'Dining Area',
     sublabel: 'Restaurant & Banquet',
     icon: Utensils,
-    after: '/images/room-transformation/room-5.png',
+    before: '/images/room-transformation/ai/before-dining.png',
+    after: '/images/room-transformation/ai/after-dining.png',
+    fallbackAfter: '/images/room-transformation/room-5.png',
     description: 'Restaurant & banquet FF&E — dining tables, chairs, buffet stations, and atmospheric lighting solutions.',
     specs: ['Dining tables & chairs', 'Buffet & server stations', 'Pendant & ambient lighting', 'Upholstered banquettes', 'Decorative partitions'],
     accentColor: '#7d44a8',
@@ -85,20 +97,66 @@ const rooms: RoomData[] = [
     label: 'Lighting Design',
     sublabel: 'Ambient & Task',
     icon: Lamp,
-    after: '/images/room-transformation/room-6.png',
+    before: '/images/room-transformation/ai/before-lighting.png',
+    after: '/images/room-transformation/ai/after-lighting.png',
+    fallbackAfter: '/images/room-transformation/room-6.png',
     description: 'Comprehensive lighting FF&E — chandeliers, sconces, pendants, and task lighting designed for hospitality spaces.',
     specs: ['Chandeliers & pendants', 'Wall sconces & vanity lights', 'Table & floor lamps', 'LED accent lighting', 'Custom fixture design'],
     accentColor: '#9b6ec5',
   },
 ];
 
+// ─── Image with fallback ──────────────────────────────────────────────
+function FallbackImage({
+  src,
+  fallbackSrc,
+  alt,
+  className,
+  draggable,
+  applyBeforeEffect = false,
+}: {
+  src: string;
+  fallbackSrc: string;
+  alt: string;
+  className?: string;
+  draggable?: boolean;
+  applyBeforeEffect?: boolean;
+}) {
+  const [imgSrc, setImgSrc] = useState(src);
+  const [useFallback, setUseFallback] = useState(false);
+
+  useEffect(() => {
+    // Check if image exists by trying to load it
+    const img = new Image();
+    img.onload = () => setImgSrc(src);
+    img.onerror = () => {
+      setImgSrc(fallbackSrc);
+      setUseFallback(true);
+    };
+    img.src = src;
+  }, [src, fallbackSrc]);
+
+  return (
+    <img
+      src={imgSrc}
+      alt={alt}
+      className={`${className || ''} ${useFallback && applyBeforeEffect ? 'grayscale brightness-[0.6] contrast-[1.1] sepia-[0.15]' : ''}`}
+      draggable={draggable}
+    />
+  );
+}
+
 // ─── Comparison Slider ───────────────────────────────────────────────
 function ComparisonSlider({
+  beforeSrc,
   afterSrc,
+  fallbackAfterSrc,
   roomLabel,
   accentColor,
 }: {
+  beforeSrc: string;
   afterSrc: string;
+  fallbackAfterSrc: string;
   roomLabel: string;
   accentColor: string;
 }) {
@@ -200,8 +258,9 @@ function ComparisonSlider({
     >
       {/* After image (full, underneath) */}
       <div className="absolute inset-0">
-        <img
+        <FallbackImage
           src={afterSrc}
+          fallbackSrc={fallbackAfterSrc}
           alt={`${roomLabel} — after Akshar Foshan FF&E furnishing`}
           className="w-full h-full object-cover"
           draggable={false}
@@ -212,24 +271,22 @@ function ComparisonSlider({
         }} />
       </div>
 
-      {/* Before image (clipped from left via clip-path) */}
+      {/* Before image (clipped from left via clip-path) — REAL before photo */}
       <div
         className="absolute inset-0"
         style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
       >
-        <img
-          src={afterSrc}
+        <FallbackImage
+          src={beforeSrc}
+          fallbackSrc={fallbackAfterSrc}
           alt={`${roomLabel} — before FF&E installation (empty shell)`}
-          className="w-full h-full object-cover grayscale brightness-[0.6] contrast-[1.1] sepia-[0.15]"
+          className="w-full h-full object-cover"
           draggable={false}
+          applyBeforeEffect={true}
         />
-        {/* Construction/demolition overlay */}
+        {/* Subtle dark overlay for depth contrast */}
         <div className="absolute inset-0 pointer-events-none" style={{
-          background: 'linear-gradient(135deg, rgba(80,70,60,0.35) 0%, rgba(40,35,30,0.25) 100%)',
-        }} />
-        {/* Cross-hatch pattern for "under construction" feel */}
-        <div className="absolute inset-0 pointer-events-none opacity-[0.04]" style={{
-          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 2px, #000 2px, #000 3px)`,
+          background: 'linear-gradient(135deg, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.05) 100%)',
         }} />
       </div>
 
@@ -334,7 +391,9 @@ function FullscreenModal({
 
       <div className="w-full max-w-6xl">
         <ComparisonSlider
+          beforeSrc={room.before}
           afterSrc={room.after}
+          fallbackAfterSrc={room.fallbackAfter}
           roomLabel={room.label}
           accentColor={room.accentColor}
         />
@@ -590,7 +649,9 @@ export default function BeforeAfterSection() {
                 transition={{ duration: 0.45, ease: [0.25, 0.4, 0.25, 1] }}
               >
                 <ComparisonSlider
+                  beforeSrc={currentRoom.before}
                   afterSrc={currentRoom.after}
+                  fallbackAfterSrc={currentRoom.fallbackAfter}
                   roomLabel={currentRoom.label}
                   accentColor={currentRoom.accentColor}
                 />

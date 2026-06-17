@@ -1881,3 +1881,53 @@ Stage Summary:
 - Before/after slider with auto-animation and CSS-based "before" effect
 - Fullscreen modal, room specs panel, and stats bar added
 - All tests passing - section is fully functional
+
+---
+Task ID: 9
+Agent: Main Agent
+Task: Replace CSS-filtered before/after images with AI-generated realistic room transformation images
+
+Work Log:
+- Updated BeforeAfterSection component to use separate `before` and `after` image paths instead of same image with CSS filters
+- Added `before`, `after`, and `fallbackAfter` fields to room data
+- Created FallbackImage component that gracefully handles missing AI-generated images by falling back to existing room images
+- When AI before image is not available, falls back to after image with CSS grayscale/brightness/sepia filters applied
+- Created image generation scripts for all 12 images (6 before + 6 after):
+  - before/after-guest-room (empty construction shell → fully furnished guest room)
+  - before/after-suite (bare suite → luxury executive suite)
+  - before/after-bathroom (unfinished bathroom → elegant vanity setup)
+  - before/after-lobby (empty space → grand reception)
+  - before/after-dining (bare restaurant → elegant dining)
+  - before/after-lighting (dark corridor → beautifully lit)
+- AI image generation APIs were rate-limited (429 errors) during this session
+- Set up persistent generation script that can be re-run or scheduled via cron
+- All code changes verified with lint check (no errors)
+- Agent-browser testing confirms section works with fallback images
+
+Stage Summary:
+- Component now properly supports separate before/after images
+- Fallback mechanism ensures section still looks good while AI images generate
+- Rate limit prevented immediate image generation - needs to be retried when API resets
+- gen-single-image.sh script created for incremental generation (one image per run)
+
+---
+Task ID: 10
+Agent: Main Agent
+Task: Set up automated image generation retry via cron and finalize fallback system
+
+Work Log:
+- Created gen-single-image.sh script that generates one missing image at a time
+- Created cron job (ID: 212860) that runs every 10 minutes to retry AI image generation
+- Each cron run generates at most 1-2 images to avoid rate limits
+- FallbackImage component ensures section renders properly while AI images are pending
+- When AI before image does not exist yet, falls back to after image with CSS filter effects
+- When AI after image does not exist yet, falls back to original room transformation images
+- All component code working correctly, tested with agent-browser
+- No lint errors, no console errors
+
+Stage Summary:
+- Room Transformation section fully functional with fallback system
+- AI image generation will happen automatically via cron when API rate limits reset
+- Component uses FallbackImage that tries AI image first then falls back to existing room image
+- Before images get CSS filter effects when using fallback to simulate construction look
+

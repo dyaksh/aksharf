@@ -1,0 +1,764 @@
+     1→'use client';
+     2→
+     3→import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+     4→import { motion, AnimatePresence } from 'framer-motion';
+     5→import {
+     6→  ChevronLeft,
+     7→  ChevronRight,
+     8→  Bed,
+     9→  Bath,
+    10→  Lamp,
+    11→  Sofa,
+    12→  Utensils,
+    13→  DoorOpen,
+    14→  Maximize2,
+    15→  X,
+    16→  MoveHorizontal,
+    17→  Sparkles,
+    18→} from 'lucide-react';
+    19→
+    20→// ─── Room data ───────────────────────────────────────────────────────
+    21→interface RoomData {
+    22→  id: string;
+    23→  label: string;
+    24→  sublabel: string;
+    25→  icon: React.ElementType;
+    26→  after: string;
+    27→  description: string;
+    28→  specs: string[];
+    29→  accentColor: string;
+    30→}
+    31→
+    32→const rooms: RoomData[] = [
+    33→  {
+    34→    id: 'guest-room',
+    35→    label: 'Guest Room',
+    36→    sublabel: 'Standard & Deluxe',
+    37→    icon: Bed,
+    38→    after: '/images/room-transformation/room-1.png',
+    39→    description: 'Complete FF&E transformation — casegoods, headboard, seating, lighting & decor for a premium guest experience.',
+    40→    specs: ['Custom headboard & bed frame', 'Nightstands & dresser', 'Desk & task chair', 'Floor lamp & sconces', 'Art & accent pieces'],
+    41→    accentColor: '#5d2c86',
+    42→  },
+    43→  {
+    44→    id: 'suite',
+    45→    label: 'Executive Suite',
+    46→    sublabel: 'Luxury Living Space',
+    47→    icon: DoorOpen,
+    48→    after: '/images/room-transformation/room-2.png',
+    49→    description: 'Full suite FF&E package — living area, bedroom zone, and workspace with bespoke furniture & ambient lighting.',
+    50→    specs: ['Upholstered sofa & armchairs', 'Console & coffee table', 'King headboard panel', 'Chandelier & pendants', 'Decorative mirrors & art'],
+    51→    accentColor: '#7d44a8',
+    52→  },
+    53→  {
+    54→    id: 'bathroom',
+    55→    label: 'Bathroom',
+    56→    sublabel: 'Vanity & Accessories',
+    57→    icon: Bath,
+    58→    after: '/images/room-transformation/room-3.png',
+    59→    description: 'Elegant bathroom FF&E — vanities, mirrors, towel accessories, and hardware crafted for durability & style.',
+    60→    specs: ['Vanity unit & basin', 'Framed mirror', 'Towel rack & hooks', 'Soap dispenser & tray', 'Vanity lighting'],
+    61→    accentColor: '#9b6ec5',
+    62→  },
+    63→  {
+    64→    id: 'lobby',
+    65→    label: 'Lobby & Reception',
+    66→    sublabel: 'First Impression',
+    67→    icon: Sofa,
+    68→    after: '/images/room-transformation/room-4.png',
+    69→    description: 'Grand lobby FF&E — statement seating, reception desk, lighting installations, and curated art for an unforgettable welcome.',
+    70→    specs: ['Reception desk & credenza', 'Lobby seating ensemble', 'Statement chandelier', 'Planters & accent tables', 'Feature wall art'],
+    71→    accentColor: '#5d2c86',
+    72→  },
+    73→  {
+    74→    id: 'dining',
+    75→    label: 'Dining Area',
+    76→    sublabel: 'Restaurant & Banquet',
+    77→    icon: Utensils,
+    78→    after: '/images/room-transformation/room-5.png',
+    79→    description: 'Restaurant & banquet FF&E — dining tables, chairs, buffet stations, and atmospheric lighting solutions.',
+    80→    specs: ['Dining tables & chairs', 'Buffet & server stations', 'Pendant & ambient lighting', 'Upholstered banquettes', 'Decorative partitions'],
+    81→    accentColor: '#7d44a8',
+    82→  },
+    83→  {
+    84→    id: 'lighting',
+    85→    label: 'Lighting Design',
+    86→    sublabel: 'Ambient & Task',
+    87→    icon: Lamp,
+    88→    after: '/images/room-transformation/room-6.png',
+    89→    description: 'Comprehensive lighting FF&E — chandeliers, sconces, pendants, and task lighting designed for hospitality spaces.',
+    90→    specs: ['Chandeliers & pendants', 'Wall sconces & vanity lights', 'Table & floor lamps', 'LED accent lighting', 'Custom fixture design'],
+    91→    accentColor: '#9b6ec5',
+    92→  },
+    93→];
+    94→
+    95→// ─── Comparison Slider ───────────────────────────────────────────────
+    96→function ComparisonSlider({
+    97→  afterSrc,
+    98→  roomLabel,
+    99→  accentColor,
+   100→}: {
+   101→  afterSrc: string;
+   102→  roomLabel: string;
+   103→  accentColor: string;
+   104→}) {
+   105→  const [position, setPosition] = useState(50);
+   106→  const [hasInteracted, setHasInteracted] = useState(false);
+   107→  const containerRef = useRef<HTMLDivElement>(null);
+   108→  const isDragging = useRef(false);
+   109→
+   110→  const updatePosition = useCallback((clientX: number) => {
+   111→    const container = containerRef.current;
+   112→    if (!container) return;
+   113→    const rect = container.getBoundingClientRect();
+   114→    const x = clientX - rect.left;
+   115→    const pct = Math.min(Math.max((x / rect.width) * 100, 0), 100);
+   116→    setPosition(pct);
+   117→    if (!hasInteracted) setHasInteracted(true);
+   118→  }, [hasInteracted]);
+   119→
+   120→  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+   121→    e.preventDefault();
+   122→    isDragging.current = true;
+   123→    updatePosition(e.clientX);
+   124→  }, [updatePosition]);
+   125→
+   126→  useEffect(() => {
+   127→    const handleMouseMove = (e: MouseEvent) => {
+   128→      if (!isDragging.current) return;
+   129→      updatePosition(e.clientX);
+   130→    };
+   131→    const handleMouseUp = () => {
+   132→      isDragging.current = false;
+   133→    };
+   134→    window.addEventListener('mousemove', handleMouseMove);
+   135→    window.addEventListener('mouseup', handleMouseUp);
+   136→    return () => {
+   137→      window.removeEventListener('mousemove', handleMouseMove);
+   138→      window.removeEventListener('mouseup', handleMouseUp);
+   139→    };
+   140→  }, [updatePosition]);
+   141→
+   142→  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+   143→    isDragging.current = true;
+   144→    updatePosition(e.touches[0].clientX);
+   145→  }, [updatePosition]);
+   146→
+   147→  useEffect(() => {
+   148→    const handleTouchMove = (e: TouchEvent) => {
+   149→      if (!isDragging.current) return;
+   150→      updatePosition(e.touches[0].clientX);
+   151→    };
+   152→    const handleTouchEnd = () => {
+   153→      isDragging.current = false;
+   154→    };
+   155→    window.addEventListener('touchmove', handleTouchMove, { passive: true });
+   156→    window.addEventListener('touchend', handleTouchEnd);
+   157→    return () => {
+   158→      window.removeEventListener('touchmove', handleTouchMove);
+   159→      window.removeEventListener('touchend', handleTouchEnd);
+   160→    };
+   161→  }, [updatePosition]);
+   162→
+   163→  // Auto-animate slider on mount
+   164→  useEffect(() => {
+   165→    if (hasInteracted) return;
+   166→    let frame: number;
+   167→    let startTime: number | null = null;
+   168→    const duration = 3000;
+   169→    const animate = (time: number) => {
+   170→      if (!startTime) startTime = time;
+   171→      const elapsed = time - startTime;
+   172→      const progress = Math.min(elapsed / duration, 1);
+   173→      // Ease in-out sine
+   174→      const eased = 0.5 - 0.5 * Math.cos(progress * Math.PI);
+   175→      setPosition(15 + eased * 70); // Slide from 15% to 85%
+   176→      if (progress < 1) {
+   177→        frame = requestAnimationFrame(animate);
+   178→      }
+   179→    };
+   180→    const timeout = setTimeout(() => {
+   181→      frame = requestAnimationFrame(animate);
+   182→    }, 1200);
+   183→    return () => {
+   184→      clearTimeout(timeout);
+   185→      cancelAnimationFrame(frame);
+   186→    };
+   187→  }, [hasInteracted, afterSrc]);
+   188→
+   189→  return (
+   190→    <div
+   191→      ref={containerRef}
+   192→      className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-xl overflow-hidden cursor-col-resize select-none shadow-2xl shadow-black/50"
+   193→      onMouseDown={handleMouseDown}
+   194→      onTouchStart={handleTouchStart}
+   195→      role="slider"
+   196→      aria-label={`${roomLabel} before and after comparison slider`}
+   197→      aria-valuemin={0}
+   198→      aria-valuemax={100}
+   199→      aria-valuenow={Math.round(position)}
+   200→    >
+   201→      {/* After image (full, underneath) */}
+   202→      <div className="absolute inset-0">
+   203→        <img
+   204→          src={afterSrc}
+   205→          alt={`${roomLabel} — after Akshar Foshan FF&E furnishing`}
+   206→          className="w-full h-full object-cover"
+   207→          draggable={false}
+   208→        />
+   209→        {/* Subtle warm vignette on after side */}
+   210→        <div className="absolute inset-0 pointer-events-none" style={{
+   211→          background: `radial-gradient(ellipse at 70% 50%, transparent 40%, rgba(0,0,0,0.15) 100%)`
+   212→        }} />
+   213→      </div>
+   214→
+   215→      {/* Before image (clipped from left via clip-path) */}
+   216→      <div
+   217→        className="absolute inset-0"
+   218→        style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
+   219→      >
+   220→        <img
+   221→          src={afterSrc}
+   222→          alt={`${roomLabel} — before FF&E installation (empty shell)`}
+   223→          className="w-full h-full object-cover grayscale brightness-[0.6] contrast-[1.1] sepia-[0.15]"
+   224→          draggable={false}
+   225→        />
+   226→        {/* Construction/demolition overlay */}
+   227→        <div className="absolute inset-0 pointer-events-none" style={{
+   228→          background: 'linear-gradient(135deg, rgba(80,70,60,0.35) 0%, rgba(40,35,30,0.25) 100%)',
+   229→        }} />
+   230→        {/* Cross-hatch pattern for "under construction" feel */}
+   231→        <div className="absolute inset-0 pointer-events-none opacity-[0.04]" style={{
+   232→          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 2px, #000 2px, #000 3px)`,
+   233→        }} />
+   234→      </div>
+   235→
+   236→      {/* BEFORE / AFTER labels */}
+   237→      <div className="absolute top-4 left-4 z-10 pointer-events-none">
+   238→        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] sm:text-xs font-bold tracking-[0.2em] text-white/90 bg-black/50 backdrop-blur-md rounded-md border border-white/10">
+   239→          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
+   240→          BEFORE
+   241→        </span>
+   242→      </div>
+   243→      <div className="absolute top-4 right-4 z-10 pointer-events-none">
+   244→        <span className="inline-flex items-center gap-1.5 px-3 py-1.5 text-[10px] sm:text-xs font-bold tracking-[0.2em] text-white bg-[#5d2c86]/80 backdrop-blur-md rounded-md border border-[#7d44a8]/30">
+   245→          <Sparkles className="w-3 h-3" />
+   246→          AFTER
+   247→        </span>
+   248→      </div>
+   249→
+   250→      {/* Slider divider line */}
+   251→      <div
+   252→        className="absolute top-0 bottom-0 z-20 pointer-events-none"
+   253→        style={{ left: `${position}%`, transform: 'translateX(-50%)' }}
+   254→      >
+   255→        {/* Glow line */}
+   256→        <div className="absolute inset-y-0 -left-[6px] w-[14px]" style={{
+   257→          background: `linear-gradient(180deg, transparent, ${accentColor}40, ${accentColor}, ${accentColor}40, transparent)`,
+   258→          filter: 'blur(2px)',
+   259→        }} />
+   260→        {/* Sharp line */}
+   261→        <div className="w-[2px] h-full bg-white/90 shadow-[0_0_12px_rgba(255,255,255,0.3)]" />
+   262→
+   263→        {/* Handle circle */}
+   264→        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-auto">
+   265→          <div
+   266→            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center shadow-lg shadow-black/50 hover:scale-110 transition-transform duration-200 border-[3px] border-white/90"
+   267→            style={{ background: `linear-gradient(135deg, ${accentColor}, ${accentColor}dd)` }}
+   268→          >
+   269→            <div className="flex items-center">
+   270→              <ChevronLeft className="w-4 h-4 text-white/80 -mr-1" />
+   271→              <div className="w-[1px] h-5 bg-white/30 mx-0" />
+   272→              <ChevronRight className="w-4 h-4 text-white/80 -ml-1" />
+   273→            </div>
+   274→          </div>
+   275→        </div>
+   276→      </div>
+   277→
+   278→      {/* Drag hint (shows initially, fades after interaction) */}
+   279→      <AnimatePresence>
+   280→        {!hasInteracted && (
+   281→          <motion.div
+   282→            className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 pointer-events-none"
+   283→            initial={{ opacity: 0, y: 10 }}
+   284→            animate={{ opacity: 1, y: 0 }}
+   285→            exit={{ opacity: 0, y: 10 }}
+   286→            transition={{ duration: 0.4, delay: 2 }}
+   287→          >
+   288→            <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
+   289→              <MoveHorizontal className="w-4 h-4 text-white/60" />
+   290→              <span className="text-xs text-white/60 tracking-wider font-medium">DRAG TO COMPARE</span>
+   291→            </div>
+   292→          </motion.div>
+   293→        )}
+   294→      </AnimatePresence>
+   295→    </div>
+   296→  );
+   297→}
+   298→
+   299→// ─── Fullscreen Modal ────────────────────────────────────────────────
+   300→function FullscreenModal({
+   301→  room,
+   302→  onClose,
+   303→}: {
+   304→  room: RoomData;
+   305→  onClose: () => void;
+   306→}) {
+   307→  useEffect(() => {
+   308→    const handleKey = (e: KeyboardEvent) => {
+   309→      if (e.key === 'Escape') onClose();
+   310→    };
+   311→    window.addEventListener('keydown', handleKey);
+   312→    document.body.style.overflow = 'hidden';
+   313→    return () => {
+   314→      window.removeEventListener('keydown', handleKey);
+   315→      document.body.style.overflow = '';
+   316→    };
+   317→  }, [onClose]);
+   318→
+   319→  return (
+   320→    <motion.div
+   321→      className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4"
+   322→      initial={{ opacity: 0 }}
+   323→      animate={{ opacity: 1 }}
+   324→      exit={{ opacity: 0 }}
+   325→      transition={{ duration: 0.3 }}
+   326→    >
+   327→      <button
+   328→        onClick={onClose}
+   329→        className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors"
+   330→        aria-label="Close fullscreen view"
+   331→      >
+   332→        <X className="w-5 h-5 text-white" />
+   333→      </button>
+   334→
+   335→      <div className="w-full max-w-6xl">
+   336→        <ComparisonSlider
+   337→          afterSrc={room.after}
+   338→          roomLabel={room.label}
+   339→          accentColor={room.accentColor}
+   340→        />
+   341→      </div>
+   342→    </motion.div>
+   343→  );
+   344→}
+   345→
+   346→// ─── Room Spec Item ──────────────────────────────────────────────────
+   347→function SpecItem({ text, accentColor, delay }: { text: string; accentColor: string; delay: number }) {
+   348→  return (
+   349→    <motion.li
+   350→      className="flex items-center gap-2 text-sm text-white/70 font-sans-body"
+   351→      initial={{ opacity: 0, x: -10 }}
+   352→      whileInView={{ opacity: 1, x: 0 }}
+   353→      viewport={{ once: true }}
+   354→      transition={{ duration: 0.4, delay }}
+   355→    >
+   356→      <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: accentColor }} />
+   357→      {text}
+   358→    </motion.li>
+   359→  );
+   360→}
+   361→
+   362→// ─── Main Section ────────────────────────────────────────────────────
+   363→export default function BeforeAfterSection() {
+   364→  const [activeRoom, setActiveRoom] = useState(0);
+   365→  const [fullscreenRoom, setFullscreenRoom] = useState<RoomData | null>(null);
+   366→  const [direction, setDirection] = useState(0);
+   367→  const sliderContainerRef = useRef<HTMLDivElement>(null);
+   368→
+   369→  const currentRoom = rooms[activeRoom];
+   370→
+   371→  const goToRoom = useCallback((index: number) => {
+   372→    setDirection(index > activeRoom ? 1 : -1);
+   373→    setActiveRoom(index);
+   374→  }, [activeRoom]);
+   375→
+   376→  const goNext = useCallback(() => {
+   377→    setDirection(1);
+   378→    setActiveRoom((prev) => (prev + 1) % rooms.length);
+   379→  }, []);
+   380→
+   381→  const goPrev = useCallback(() => {
+   382→    setDirection(-1);
+   383→    setActiveRoom((prev) => (prev - 1 + rooms.length) % rooms.length);
+   384→  }, []);
+   385→
+   386→  // Keyboard navigation
+   387→  useEffect(() => {
+   388→    const handleKey = (e: KeyboardEvent) => {
+   389→      if (e.key === 'ArrowRight') goNext();
+   390→      if (e.key === 'ArrowLeft') goPrev();
+   391→    };
+   392→    window.addEventListener('keydown', handleKey);
+   393→    return () => window.removeEventListener('keydown', handleKey);
+   394→  }, [goNext, goPrev]);
+   395→
+   396→  const slideVariants = useMemo(() => ({
+   397→    enter: (dir: number) => ({
+   398→      x: dir > 0 ? 80 : -80,
+   399→      opacity: 0,
+   400→      scale: 0.96,
+   401→    }),
+   402→    center: {
+   403→      x: 0,
+   404→      opacity: 1,
+   405→      scale: 1,
+   406→    },
+   407→    exit: (dir: number) => ({
+   408→      x: dir > 0 ? -80 : 80,
+   409→      opacity: 0,
+   410→      scale: 0.96,
+   411→    }),
+   412→  }), []);
+   413→
+   414→  return (
+   415→    <section
+   416→      id="showcase"
+   417→      className="relative py-16 lg:py-24 bg-[#0a0a0a] overflow-hidden"
+   418→    >
+   419→      {/* Background grid pattern */}
+   420→      <div
+   421→        className="absolute inset-0 pointer-events-none"
+   422→        style={{
+   423→          backgroundImage:
+   424→            'radial-gradient(circle at 1px 1px, rgba(93,44,134,0.05) 1px, transparent 0)',
+   425→          backgroundSize: '40px 40px',
+   426→        }}
+   427→        aria-hidden="true"
+   428→      />
+   429→
+   430→      {/* Decorative gradient orbs */}
+   431→      <div
+   432→        className="absolute -top-64 -left-64 w-[500px] h-[500px] rounded-full pointer-events-none"
+   433→        style={{
+   434→          background: 'radial-gradient(circle, rgba(93,44,134,0.1) 0%, transparent 70%)',
+   435→        }}
+   436→      />
+   437→      <div
+   438→        className="absolute -bottom-64 -right-64 w-[500px] h-[500px] rounded-full pointer-events-none"
+   439→        style={{
+   440→          background: 'radial-gradient(circle, rgba(125,68,168,0.08) 0%, transparent 70%)',
+   441→        }}
+   442→      />
+   443→
+   444→      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+   445→        {/* ── Section Header ── */}
+   446→        <div className="text-center mb-10 lg:mb-14">
+   447→          {/* HS Badge */}
+   448→          <motion.div
+   449→            className="inline-flex items-center gap-2 mb-6"
+   450→            initial={{ opacity: 0, y: 20 }}
+   451→            whileInView={{ opacity: 1, y: 0 }}
+   452→            viewport={{ once: true }}
+   453→            transition={{ duration: 0.6 }}
+   454→          >
+   455→            <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-[#5d2c86]/40 bg-[#5d2c86]/10 backdrop-blur-sm">
+   456→              <div className="w-6 h-6 rounded bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] flex items-center justify-center">
+   457→                <span className="text-[10px] font-black text-white tracking-wider">HS</span>
+   458→              </div>
+   459→              <span className="text-xs font-semibold tracking-[0.2em] text-[#7d44a8]">HOSPITALITY SUITE</span>
+   460→            </div>
+   461→          </motion.div>
+   462→
+   463→          {/* Eyebrow */}
+   464→          <motion.p
+   465→            className="text-xs tracking-[0.3em] text-[#5d2c86] mb-4 font-sans-body font-semibold"
+   466→            initial={{ opacity: 0, y: 20 }}
+   467→            whileInView={{ opacity: 1, y: 0 }}
+   468→            viewport={{ once: true }}
+   469→            transition={{ duration: 0.6, delay: 0.1 }}
+   470→          >
+   471→            ROOM TRANSFORMATION
+   472→          </motion.p>
+   473→
+   474→          {/* Heading */}
+   475→          <motion.h2
+   476→            className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-white leading-tight"
+   477→            initial={{ opacity: 0, y: 30 }}
+   478→            whileInView={{ opacity: 1, y: 0 }}
+   479→            viewport={{ once: true }}
+   480→            transition={{ duration: 0.8, delay: 0.2 }}
+   481→          >
+   482→            See the <span className="text-[#5d2c86] italic">difference</span>
+   483→          </motion.h2>
+   484→
+   485→          {/* Subtext */}
+   486→          <motion.p
+   487→            className="mt-4 text-base text-white/40 max-w-2xl mx-auto font-sans-body leading-relaxed"
+   488→            initial={{ opacity: 0, y: 20 }}
+   489→            whileInView={{ opacity: 1, y: 0 }}
+   490→            viewport={{ once: true }}
+   491→            transition={{ duration: 0.6, delay: 0.3 }}
+   492→          >
+   493→            From bare walls to breathtaking spaces — experience the dramatic impact
+   494→            of our FF&amp;E solutions through interactive before &amp; after comparisons.
+   495→          </motion.p>
+   496→
+   497→          {/* Decorative separator */}
+   498→          <motion.div
+   499→            className="mx-auto mt-6 w-20 h-[2px]"
+   500→            style={{
+   501→              background: 'linear-gradient(90deg, transparent, #5d2c86, transparent)',
+   502→            }}
+   503→            initial={{ scaleX: 0 }}
+   504→            whileInView={{ scaleX: 1 }}
+   505→            viewport={{ once: true }}
+   506→            transition={{ duration: 0.8, delay: 0.5 }}
+   507→          />
+   508→        </div>
+   509→
+   510→        {/* ── Room Navigation Tabs ── */}
+   511→        <motion.div
+   512→          className="mb-8 lg:mb-10"
+   513→          initial={{ opacity: 0, y: 20 }}
+   514→          whileInView={{ opacity: 1, y: 0 }}
+   515→          viewport={{ once: true }}
+   516→          transition={{ duration: 0.6, delay: 0.4 }}
+   517→        >
+   518→          <div className="flex items-center justify-center gap-1 sm:gap-2 flex-wrap">
+   519→            {rooms.map((room, i) => {
+   520→              const Icon = room.icon;
+   521→              const isActive = i === activeRoom;
+   522→              return (
+   523→                <button
+   524→                  key={room.id}
+   525→                  onClick={() => goToRoom(i)}
+   526→                  className={`
+   527→                    group relative flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2.5 rounded-lg
+   528→                    transition-all duration-300 text-xs sm:text-sm font-medium
+   529→                    ${isActive
+   530→                      ? 'bg-[#5d2c86] text-white shadow-lg shadow-[#5d2c86]/30'
+   531→                      : 'bg-white/5 text-white/50 hover:bg-white/10 hover:text-white/80 border border-white/5 hover:border-white/10'
+   532→                    }
+   533→                  `}
+   534→                  aria-label={`View ${room.label} transformation`}
+   535→                  aria-pressed={isActive}
+   536→                >
+   537→                  <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 transition-colors duration-300 ${isActive ? 'text-white' : 'text-white/40 group-hover:text-white/70'}`} />
+   538→                  <span className="hidden sm:inline">{room.label}</span>
+   539→                  {isActive && (
+   540→                    <motion.div
+   541→                      className="absolute inset-0 rounded-lg border border-[#7d44a8]/50"
+   542→                      layoutId="activeRoomTab"
+   543→                      transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+   544→                    />
+   545→                  )}
+   546→                </button>
+   547→              );
+   548→            })}
+   549→          </div>
+   550→        </motion.div>
+   551→
+   552→        {/* ── Main Content Area ── */}
+   553→        <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 lg:gap-8 items-start">
+   554→          {/* Comparison Slider */}
+   555→          <div className="relative" ref={sliderContainerRef}>
+   556→            {/* Prev/Next buttons */}
+   557→            <button
+   558→              onClick={goPrev}
+   559→              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-black/60 transition-all duration-300 hover:border-white/20 group"
+   560→              aria-label="Previous room"
+   561→            >
+   562→              <ChevronLeft className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+   563→            </button>
+   564→            <button
+   565→              onClick={goNext}
+   566→              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-30 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 backdrop-blur-md border border-white/10 flex items-center justify-center hover:bg-black/60 transition-all duration-300 hover:border-white/20 group"
+   567→              aria-label="Next room"
+   568→            >
+   569→              <ChevronRight className="w-5 h-5 text-white/70 group-hover:text-white transition-colors" />
+   570→            </button>
+   571→
+   572→            {/* Fullscreen button */}
+   573→            <button
+   574→              onClick={() => setFullscreenRoom(currentRoom)}
+   575→              className="absolute top-4 left-1/2 -translate-x-1/2 z-30 w-8 h-8 rounded-full bg-black/30 backdrop-blur-sm border border-white/10 flex items-center justify-center hover:bg-black/50 transition-all duration-300 group"
+   576→              aria-label="View fullscreen"
+   577→            >
+   578→              <Maximize2 className="w-3.5 h-3.5 text-white/50 group-hover:text-white/80" />
+   579→            </button>
+   580→
+   581→            {/* Animated slider */}
+   582→            <AnimatePresence mode="wait" custom={direction}>
+   583→              <motion.div
+   584→                key={currentRoom.id}
+   585→                custom={direction}
+   586→                variants={slideVariants}
+   587→                initial="enter"
+   588→                animate="center"
+   589→                exit="exit"
+   590→                transition={{ duration: 0.45, ease: [0.25, 0.4, 0.25, 1] }}
+   591→              >
+   592→                <ComparisonSlider
+   593→                  afterSrc={currentRoom.after}
+   594→                  roomLabel={currentRoom.label}
+   595→                  accentColor={currentRoom.accentColor}
+   596→                />
+   597→              </motion.div>
+   598→            </AnimatePresence>
+   599→
+   600→            {/* Room counter */}
+   601→            <div className="absolute bottom-4 left-4 z-30">
+   602→              <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/40 backdrop-blur-md border border-white/10">
+   603→                <span className="text-xs font-bold text-[#5d2c86]">{String(activeRoom + 1).padStart(2, '0')}</span>
+   604→                <span className="text-xs text-white/30">/</span>
+   605→                <span className="text-xs text-white/40">{String(rooms.length).padStart(2, '0')}</span>
+   606→              </div>
+   607→            </div>
+   608→
+   609→            {/* Progress dots */}
+   610→            <div className="absolute bottom-4 right-4 z-30 flex items-center gap-1.5">
+   611→              {rooms.map((_, i) => (
+   612→                <button
+   613→                  key={i}
+   614→                  onClick={() => goToRoom(i)}
+   615→                  className={`transition-all duration-300 rounded-full ${
+   616→                    i === activeRoom
+   617→                      ? 'w-6 h-1.5 bg-[#5d2c86]'
+   618→                      : 'w-1.5 h-1.5 bg-white/20 hover:bg-white/40'
+   619→                  }`}
+   620→                  aria-label={`Go to room ${i + 1}`}
+   621→                />
+   622→              ))}
+   623→            </div>
+   624→          </div>
+   625→
+   626→          {/* Room Details Panel */}
+   627→          <AnimatePresence mode="wait">
+   628→            <motion.div
+   629→              key={currentRoom.id}
+   630→              initial={{ opacity: 0, x: 20 }}
+   631→              animate={{ opacity: 1, x: 0 }}
+   632→              exit={{ opacity: 0, x: -20 }}
+   633→              transition={{ duration: 0.4, ease: [0.25, 0.4, 0.25, 1] }}
+   634→              className="hidden lg:block"
+   635→            >
+   636→              <div className="rounded-xl border border-white/[0.06] bg-white/[0.03] backdrop-blur-sm p-6 space-y-5">
+   637→                {/* Room title */}
+   638→                <div>
+   639→                  <div className="flex items-center gap-2 mb-2">
+   640→                    <div
+   641→                      className="w-8 h-8 rounded-lg flex items-center justify-center"
+   642→                      style={{ background: `${currentRoom.accentColor}20` }}
+   643→                    >
+   644→                      {(() => {
+   645→                        const Icon = currentRoom.icon;
+   646→                        return <Icon className="w-4 h-4" style={{ color: currentRoom.accentColor }} />;
+   647→                      })()}
+   648→                    </div>
+   649→                    <div>
+   650→                      <h3 className="text-lg font-bold font-serif-display text-white">{currentRoom.label}</h3>
+   651→                      <p className="text-[10px] tracking-[0.15em] text-white/30 uppercase">{currentRoom.sublabel}</p>
+   652→                    </div>
+   653→                  </div>
+   654→                </div>
+   655→
+   656→                {/* Description */}
+   657→                <p className="text-sm text-white/50 font-sans-body leading-relaxed">
+   658→                  {currentRoom.description}
+   659→                </p>
+   660→
+   661→                {/* Divider */}
+   662→                <div className="h-px w-full" style={{
+   663→                  background: `linear-gradient(90deg, ${currentRoom.accentColor}40, transparent)`,
+   664→                }} />
+   665→
+   666→                {/* FF&E Specs */}
+   667→                <div>
+   668→                  <h4 className="text-xs font-semibold tracking-[0.15em] text-white/40 mb-3 uppercase">FF&amp;E Included</h4>
+   669→                  <ul className="space-y-2">
+   670→                    {currentRoom.specs.map((spec, i) => (
+   671→                      <SpecItem key={spec} text={spec} accentColor={currentRoom.accentColor} delay={0.1 + i * 0.05} />
+   672→                    ))}
+   673→                  </ul>
+   674→                </div>
+   675→
+   676→                {/* CTA */}
+   677→                <button
+   678→                  className="w-full py-3 rounded-lg text-sm font-semibold tracking-wider transition-all duration-300 hover:shadow-lg"
+   679→                  style={{
+   680→                    background: `linear-gradient(135deg, ${currentRoom.accentColor}, ${currentRoom.accentColor}cc)`,
+   681→                    color: '#fff',
+   682→                    boxShadow: `0 4px 20px ${currentRoom.accentColor}30`,
+   683→                  }}
+   684→                  onClick={() => setFullscreenRoom(currentRoom)}
+   685→                >
+   686→                  VIEW FULL SCREEN
+   687→                </button>
+   688→              </div>
+   689→            </motion.div>
+   690→          </AnimatePresence>
+   691→        </div>
+   692→
+   693→        {/* Mobile room info */}
+   694→        <AnimatePresence mode="wait">
+   695→          <motion.div
+   696→            key={`mobile-${currentRoom.id}`}
+   697→            initial={{ opacity: 0, y: 10 }}
+   698→            animate={{ opacity: 1, y: 0 }}
+   699→            exit={{ opacity: 0, y: -10 }}
+   700→            transition={{ duration: 0.3 }}
+   701→            className="lg:hidden mt-5 p-4 rounded-xl border border-white/[0.06] bg-white/[0.02]"
+   702→          >
+   703→            <div className="flex items-center gap-2 mb-2">
+   704→              {(() => {
+   705→                const Icon = currentRoom.icon;
+   706→                return <Icon className="w-4 h-4 text-[#5d2c86]" />;
+   707→              })()}
+   708→              <h3 className="text-base font-bold font-serif-display text-white">{currentRoom.label}</h3>
+   709→              <span className="text-[10px] tracking-[0.1em] text-white/30 uppercase ml-auto">{currentRoom.sublabel}</span>
+   710→            </div>
+   711→            <p className="text-xs text-white/40 font-sans-body leading-relaxed">
+   712→              {currentRoom.description}
+   713→            </p>
+   714→          </motion.div>
+   715→        </AnimatePresence>
+   716→
+   717→        {/* ── Bottom stats bar ── */}
+   718→        <motion.div
+   719→          className="mt-10 lg:mt-14 grid grid-cols-2 sm:grid-cols-4 gap-4"
+   720→          initial={{ opacity: 0, y: 20 }}
+   721→          whileInView={{ opacity: 1, y: 0 }}
+   722→          viewport={{ once: true }}
+   723→          transition={{ duration: 0.6, delay: 0.6 }}
+   724→        >
+   725→          {[
+   726→            { value: '240+', label: 'Hotel Brands' },
+   727→            { value: '13+', label: 'Manufacturing Facilities' },
+   728→            { value: '5K+', label: 'FF&E Products' },
+   729→            { value: '98%', label: 'On-Time Delivery' },
+   730→          ].map((stat) => (
+   731→            <div key={stat.label} className="text-center p-4 rounded-xl border border-white/[0.04] bg-white/[0.02]">
+   732→              <p className="text-xl sm:text-2xl font-bold font-serif-display text-[#5d2c86]">{stat.value}</p>
+   733→              <p className="text-[10px] sm:text-xs text-white/30 tracking-wider mt-1 font-sans-body">{stat.label}</p>
+   734→            </div>
+   735→          ))}
+   736→        </motion.div>
+   737→
+   738→        {/* ── Bottom decorative bar ── */}
+   739→        <motion.div
+   740→          className="mt-12 lg:mt-16 mx-auto w-full max-w-2xl h-[1px]"
+   741→          style={{
+   742→            background:
+   743→              'linear-gradient(90deg, transparent, rgba(93,44,134,0.3) 30%, rgba(93,44,134,0.3) 70%, transparent)',
+   744→          }}
+   745→          initial={{ scaleX: 0 }}
+   746→          whileInView={{ scaleX: 1 }}
+   747→          viewport={{ once: true }}
+   748→          transition={{ duration: 1.2, ease: 'easeOut' }}
+   749→        />
+   750→      </div>
+   751→
+   752→      {/* Fullscreen Modal */}
+   753→      <AnimatePresence>
+   754→        {fullscreenRoom && (
+   755→          <FullscreenModal
+   756→            room={fullscreenRoom}
+   757→            onClose={() => setFullscreenRoom(null)}
+   758→          />
+   759→        )}
+   760→      </AnimatePresence>
+   761→    </section>
+   762→  );
+   763→}
+   764→
