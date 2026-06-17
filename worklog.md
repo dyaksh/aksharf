@@ -1809,3 +1809,23 @@ Stage Summary:
 - Home page gets the transparent/blended hero effect
 - Non-home pages get solid white navbar immediately for readability
 - Color palette: #5d2c86, #f8f3ed, #FFF, #000 only
+
+---
+Task ID: 15
+Agent: Main Agent
+Task: Update client section with user's actual client logos image
+
+Work Log:
+- User uploaded their actual client logo banner image (1623x256 PNG with all hospitality brand logos)
+- Replaced the old PartnersTrust.tsx that used individual brand-logo images with a clean single-banner approach
+- Now displays the user's uploaded image directly as the client logo banner
+- Clean layout: header ("Our Clients") + white card with the banner image
+- Responsive: image scales to fit container width, maintains aspect ratio
+- Removed old individual brand-logo image references (brand-logo-3 through brand-logo-10)
+- Kept colors: #5d2c86 for header accent, #f8f3ed for background, white for card
+- Lint passes clean
+
+Stage Summary:
+- Client section now shows the user's actual client logo image
+- Simple, clean design matching user's reference
+- Image path: /public/images/clients-reference.png
