@@ -18,26 +18,34 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeHash, setActiveHash] = useState('#home');
+  const [currentPage, setCurrentPage] = useState('home');
 
-  // Track active section based on URL hash
+  // Track current page and hash
   useEffect(() => {
-    const updateHash = () => {
-      const hash = window.location.hash || '#home';
-      setActiveHash(hash);
+    const updateState = () => {
+      const hash = window.location.hash.replace('#', '') || 'home';
+      setActiveHash('#' + hash);
+      setCurrentPage(hash);
     };
-    updateHash();
-    window.addEventListener('hashchange', updateHash);
-    return () => window.removeEventListener('hashchange', updateHash);
+    updateState();
+    window.addEventListener('hashchange', updateState);
+    return () => window.removeEventListener('hashchange', updateState);
   }, []);
+
+  // Only home page gets transparent navbar; other pages always show solid
+  const isHomePage = currentPage === 'home';
 
   // Scroll background change - smooth blend
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 40);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Force scrolled state on non-home pages
+  const shouldShowSolid = !isHomePage || isScrolled;
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -58,9 +66,9 @@ export default function Header() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-700 ease-out ${
-        isScrolled
-          ? 'bg-white/90 backdrop-blur-2xl shadow-[0_1px_0_rgba(93,44,134,0.08)]'
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
+        shouldShowSolid
+          ? 'bg-white/95 backdrop-blur-2xl shadow-[0_1px_0_rgba(0,0,0,0.06)]'
           : 'bg-transparent'
       }`}
     >
@@ -91,14 +99,18 @@ export default function Header() {
               />
             </motion.div>
             <div>
-              <h1 className={`text-lg font-bold leading-tight font-sans-body transition-colors duration-500 ${
-                isScrolled ? 'text-[#1A1A1A]' : 'text-white'
-              }`}>
+              <h1
+                className={`text-lg font-bold leading-tight font-sans-body transition-colors duration-500 ${
+                  shouldShowSolid ? 'text-[#1A1A1A]' : 'text-white'
+                }`}
+              >
                 Akshar Foshan
               </h1>
-              <p className={`text-[10px] tracking-[0.2em] font-sans-body transition-colors duration-500 ${
-                isScrolled ? 'text-gray-400' : 'text-white/60'
-              }`}>
+              <p
+                className={`text-[10px] tracking-[0.2em] font-sans-body transition-colors duration-500 ${
+                  shouldShowSolid ? 'text-gray-400' : 'text-white/60'
+                }`}
+              >
                 HOSPITALITY FF&amp;E
               </p>
             </div>
@@ -114,10 +126,10 @@ export default function Header() {
                   onClick={() => handleNavClick(link.href)}
                   className={`relative text-sm font-medium transition-all duration-300 font-sans-body px-4 py-2 rounded-full ${
                     isActive
-                      ? isScrolled
+                      ? shouldShowSolid
                         ? 'text-[#5d2c86] bg-[#5d2c86]/8'
                         : 'text-white bg-white/15 backdrop-blur-sm'
-                      : isScrolled
+                      : shouldShowSolid
                         ? 'text-gray-500 hover:text-[#5d2c86] hover:bg-[#5d2c86]/5'
                         : 'text-white/70 hover:text-white hover:bg-white/10'
                   }`}
@@ -126,7 +138,9 @@ export default function Header() {
                   {isActive && (
                     <motion.div
                       layoutId="activeNav"
-                      className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-0.5 rounded-full bg-[#5d2c86]"
+                      className={`absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-5 h-[3px] rounded-full ${
+                        shouldShowSolid ? 'bg-[#5d2c86]' : 'bg-white'
+                      }`}
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
@@ -140,7 +154,7 @@ export default function Header() {
             <Button
               onClick={() => handleNavClick('#contact')}
               className={`rounded-full px-6 font-sans-body text-sm shadow-md hover:shadow-lg transition-all duration-300 ${
-                isScrolled
+                shouldShowSolid
                   ? 'bg-[#5d2c86] hover:bg-[#7d44a8] text-white'
                   : 'bg-white/15 backdrop-blur-sm hover:bg-white/25 text-white border border-white/30'
               }`}
@@ -153,7 +167,7 @@ export default function Header() {
           <div className="flex items-center gap-1 md:hidden">
             <button
               className={`p-2 relative z-50 transition-colors duration-300 ${
-                isScrolled ? 'text-[#1A1A1A]' : 'text-white'
+                shouldShowSolid ? 'text-[#1A1A1A]' : 'text-white'
               }`}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}

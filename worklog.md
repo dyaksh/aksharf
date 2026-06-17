@@ -1786,3 +1786,26 @@ Stage Summary:
 - All gold (#D4AF37) colors removed from: Header, PartnersTrust, BeforeAfterSection, FloatingNav, SectionDivider, page.tsx
 - Page compiles and loads successfully (200 status)
 - Color palette strictly enforced: #5d2c86, #f8f3ed, #FFF, #000 only
+
+---
+Task ID: 14
+Agent: Main Agent
+Task: Fix navbar - visibility issues across pages
+
+Work Log:
+- Identified critical bug: navbar used transparent bg + white text on ALL pages, but Portfolio/Services/Contact pages have light backgrounds making text invisible
+- Added currentPage state tracking via hash change listener
+- Implemented shouldShowSolid logic: only home page gets transparent navbar, all other pages show solid white bg immediately
+- Active indicator dot changes color: purple on solid bg, white on transparent bg
+- Logo, text, and CTA button all respond to shouldShowSolid state
+- Smooth 500ms transition between transparent and solid states
+- Home page: transparent at top → white/blur on scroll (scrollY > 40)
+- Other pages: always solid white/blur navbar from start
+- All gold (#D4AF37) colors remain removed from navbar
+- Lint passes clean
+
+Stage Summary:
+- Navbar now properly visible on all pages (Home, About, Portfolio, Services, Contact)
+- Home page gets the transparent/blended hero effect
+- Non-home pages get solid white navbar immediately for readability
+- Color palette: #5d2c86, #f8f3ed, #FFF, #000 only
