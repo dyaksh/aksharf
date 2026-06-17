@@ -1977,9 +1977,12 @@ Work Log:
 - Attempted batch script (generate-room-images.mjs) → timed out at 10 min, 0 images generated
 - API rate limit window appears to be long (>5 minutes), all 12 images still pending
 - Scheduled cron job to retry generation when rate limit clears
+- [06:01 UTC] Cron retry #1: still 429 rate limit, 0/12 images, API not yet recovered
+- Created scripts/single-gen.sh for CLI-based single image generation with retry
+- Rate limit has persisted for 30+ minutes across multiple retry attempts
 
 Stage Summary:
-- 0/12 AI images generated — all blocked by persistent 429 rate limit
-- Scripts ready for retry: scripts/generate-room-images.mjs (batch) and scripts/gen-one.mjs (single)
-- Cron job scheduled for retry
-- Next step: re-run generation when rate limit clears
+- 0/12 AI images generated — all blocked by persistent 429 rate limit (30+ min duration)
+- Scripts ready for retry: scripts/generate-room-images.mjs (batch), scripts/gen-one.mjs (SDK), scripts/single-gen.sh (CLI)
+- Cron job continues to retry
+- Next step: retry when rate limit window expires (may need 1+ hours)
