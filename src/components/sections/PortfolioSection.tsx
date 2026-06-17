@@ -15,6 +15,8 @@ import {
   ArrowRight,
   Sparkles,
   Keyboard,
+  Building2,
+  Lamp,
 } from 'lucide-react';
 import {
   Dialog,
@@ -41,58 +43,118 @@ interface CategoryDef {
 const categories: CategoryDef[] = [
   { key: 'all', label: 'All', icon: ZoomIn },
   { key: 'bedroom', label: 'Bedroom', icon: Bed },
-  { key: 'headboard', label: 'Headboard', icon: Sofa },
+  { key: 'lobby', label: 'Lobby', icon: Building2 },
   { key: 'sofa', label: 'Sofa & Seating', icon: Armchair },
   { key: 'table', label: 'Table & Desk', icon: Table },
   { key: 'cabinet', label: 'Cabinet & Storage', icon: Box },
+  { key: 'headboard', label: 'Headboard', icon: Sofa },
+  { key: 'lighting', label: 'Lighting', icon: Lamp },
 ];
 
+/* ── Portfolio Items — properly categorized based on VLM image analysis ── */
 const portfolioItems: PortfolioItem[] = [
-  // ── Bedroom Sets (room renderings showing full bedrooms) ──
-  { id: 'cat-01', category: 'bedroom', name: 'Beds & Lamp Collection', image: '/images/portfolio/catalog-01.jpg' },
-  { id: 'cat-11', category: 'bedroom', name: 'Guest Room Furniture Set', image: '/images/portfolio/catalog-11.jpg' },
-  { id: 'cat-13', category: 'bedroom', name: 'Bedroom & Wardrobe Set', image: '/images/portfolio/catalog-13.jpg' },
-  { id: 'cat-15', category: 'bedroom', name: 'Room Furniture Collection', image: '/images/portfolio/catalog-15.jpg' },
-  { id: 'cat-19', category: 'bedroom', name: 'Guest Room Bed & Desk', image: '/images/portfolio/catalog-19.jpg' },
-  { id: 'cat-21', category: 'bedroom', name: 'Bed & Sofa Set', image: '/images/portfolio/catalog-21.jpg' },
-  { id: 'cat-23', category: 'bedroom', name: 'Extended Stay Room Set', image: '/images/portfolio/catalog-23.jpg' },
-  { id: 'cat-27', category: 'bedroom', name: 'Full Room Package', image: '/images/portfolio/catalog-27.jpg' },
-  { id: 'cat-29', category: 'bedroom', name: 'Bed & Sofa Suite', image: '/images/portfolio/catalog-29.jpg' },
-  { id: 'cat-31', category: 'bedroom', name: 'Suite Furniture Set', image: '/images/portfolio/catalog-31.jpg' },
-  { id: 'cat-35', category: 'bedroom', name: 'Sofa & Bedroom Set', image: '/images/portfolio/catalog-35.jpg' },
-  { id: 'cat-37', category: 'bedroom', name: 'Complete Suite Package', image: '/images/portfolio/catalog-37.jpg' },
-  { id: 'cat-43', category: 'bedroom', name: 'Classic Bedroom Set', image: '/images/portfolio/catalog-43.jpg' },
+  // ── Bedroom Sets (16 items) ──
+  { id: 'cat-01', category: 'bedroom', name: 'Modern Hotel Bedroom Set', image: '/images/portfolio/catalog-01.jpg' },
+  { id: 'cat-11', category: 'bedroom', name: 'Modern Hotel Bedroom Suite', image: '/images/portfolio/catalog-11.jpg' },
+  { id: 'cat-13', category: 'bedroom', name: 'Holiday Inn Express Bed Set', image: '/images/portfolio/catalog-13.jpg' },
+  { id: 'cat-15', category: 'bedroom', name: 'Studio Suite Room', image: '/images/portfolio/catalog-15.jpg' },
+  { id: 'cat-16', category: 'bedroom', name: 'Candlewood Suite Furniture', image: '/images/portfolio/catalog-16.jpg' },
+  { id: 'cat-19', category: 'bedroom', name: 'Modern Hotel Bed', image: '/images/portfolio/catalog-19.jpg' },
+  { id: 'cat-20', category: 'bedroom', name: 'Fairfield Inn Bedroom Set', image: '/images/portfolio/catalog-20.jpg' },
+  { id: 'cat-21', category: 'bedroom', name: 'SpringHill Suites Bedroom', image: '/images/portfolio/catalog-21.jpg' },
+  { id: 'cat-23', category: 'bedroom', name: 'Two Queen Beds Suite', image: '/images/portfolio/catalog-23.jpg' },
+  { id: 'cat-27', category: 'bedroom', name: 'Hampton Hotel Room Suite', image: '/images/portfolio/catalog-27.jpg' },
+  { id: 'cat-29', category: 'bedroom', name: 'Modern Suite Bed', image: '/images/portfolio/catalog-29.jpg' },
+  { id: 'cat-31', category: 'bedroom', name: 'Modern Hotel Bed', image: '/images/portfolio/catalog-31.jpg' },
+  { id: 'cat-35', category: 'bedroom', name: 'Modern Hotel Room', image: '/images/portfolio/catalog-35.jpg' },
+  { id: 'cat-37', category: 'bedroom', name: 'Modern Hotel Bedroom', image: '/images/portfolio/catalog-37.jpg' },
+  { id: 'cat-41', category: 'bedroom', name: 'Modern Hotel Room', image: '/images/portfolio/catalog-41.jpg' },
+  { id: 'cat-43', category: 'bedroom', name: 'Classic Bedroom Suite', image: '/images/portfolio/catalog-43.jpg' },
 
-  // ── Headboard Spec Pages (individual headboard products with specs) ──
-  { id: 'cat-12', category: 'headboard', name: 'King & Queen Headboard, Desk, Sleeper Sofa', image: '/images/portfolio/catalog-12.jpg' },
-  { id: 'cat-14', category: 'headboard', name: 'King & Queen Headboard, Chaise Lounge', image: '/images/portfolio/catalog-14.jpg' },
-  { id: 'cat-16', category: 'headboard', name: 'King Headboard, TV Panel, Lounge Chair', image: '/images/portfolio/catalog-16.jpg' },
-  { id: 'cat-20', category: 'headboard', name: 'Double Queen Headboard, Ottoman Bench', image: '/images/portfolio/catalog-20.jpg' },
-  { id: 'cat-22', category: 'headboard', name: 'King Headboard, Wardrobe, Dry Bar', image: '/images/portfolio/catalog-22.jpg' },
-  { id: 'cat-24', category: 'headboard', name: 'King Headboard, Nightstand, Vanity', image: '/images/portfolio/catalog-24.jpg' },
-  { id: 'cat-28', category: 'headboard', name: 'King Headboard, C-Table, Luggage Bench', image: '/images/portfolio/catalog-28.jpg' },
-  { id: 'cat-30', category: 'headboard', name: 'King Headboard, Ottoman, Kitchenette', image: '/images/portfolio/catalog-30.jpg' },
-  { id: 'cat-32', category: 'headboard', name: 'King Headboard, Nesting Table, Vanity', image: '/images/portfolio/catalog-32.jpg' },
-  { id: 'cat-36', category: 'headboard', name: 'King Headboard, Closet Unit, Vanity', image: '/images/portfolio/catalog-36.jpg' },
-  { id: 'cat-38', category: 'headboard', name: 'King Headboard, TV Panel, Lounge Chair', image: '/images/portfolio/catalog-38.jpg' },
-  { id: 'cat-42', category: 'headboard', name: 'King Headboard, Desk Set, Lounge Chair', image: '/images/portfolio/catalog-42.jpg' },
-  { id: 'cat-44', category: 'headboard', name: 'King Headboard, Functional Sofa, Ottoman', image: '/images/portfolio/catalog-44.jpg' },
+  // ── Lobby / Common Area (13 items) ──
+  { id: 'cat-02', category: 'lobby', name: 'Akshar Hospitality Building', image: '/images/portfolio/catalog-02.jpg' },
+  { id: 'cat-03', category: 'lobby', name: 'Reception Desk Unit', image: '/images/portfolio/catalog-03.jpg' },
+  { id: 'cat-09', category: 'lobby', name: 'Holiday Inn Exterior', image: '/images/portfolio/catalog-09.jpg' },
+  { id: 'cat-10', category: 'lobby', name: 'Candlewood Suites Building', image: '/images/portfolio/catalog-10.jpg' },
+  { id: 'cat-17', category: 'lobby', name: 'Marriott Hotel Lobby', image: '/images/portfolio/catalog-17.jpg' },
+  { id: 'cat-18', category: 'lobby', name: 'Marriott Hotel Entrance', image: '/images/portfolio/catalog-18.jpg' },
+  { id: 'cat-25', category: 'lobby', name: 'Hotel Lobby View', image: '/images/portfolio/catalog-25.jpg' },
+  { id: 'cat-26', category: 'lobby', name: 'Hilton Hotel Building', image: '/images/portfolio/catalog-26.jpg' },
+  { id: 'cat-33', category: 'lobby', name: 'Hotel Common Space', image: '/images/portfolio/catalog-33.jpg' },
+  { id: 'cat-34', category: 'lobby', name: 'Hotel Lobby Seating', image: '/images/portfolio/catalog-34.jpg' },
+  { id: 'cat-39', category: 'lobby', name: 'Hotel Lobby Area', image: '/images/portfolio/catalog-39.jpg' },
+  { id: 'cat-40', category: 'lobby', name: 'LaQuinta Hotel Building', image: '/images/portfolio/catalog-40.jpg' },
+  { id: 'cat-45', category: 'lobby', name: 'Hotel Brand Logos Display', image: '/images/portfolio/catalog-45.jpg' },
+
+  // ── Cabinet / Storage (6 items) ──
+  { id: 'cat-04', category: 'cabinet', name: 'Custom Wood Storage Unit', image: '/images/portfolio/catalog-04.jpg' },
+  { id: 'cat-06', category: 'cabinet', name: 'Modular Storage Units', image: '/images/portfolio/catalog-06.jpg' },
+  { id: 'cat-22', category: 'cabinet', name: 'Wooden Wardrobe', image: '/images/portfolio/catalog-22.jpg' },
+  { id: 'cat-24', category: 'cabinet', name: 'Dresser Cabinet', image: '/images/portfolio/catalog-24.jpg' },
+  { id: 'cat-32', category: 'cabinet', name: 'Wooden Dresser Unit', image: '/images/portfolio/catalog-32.jpg' },
+  { id: 'cat-38', category: 'cabinet', name: 'Wooden Cabinet Unit', image: '/images/portfolio/catalog-38.jpg' },
+
+  // ── Headboard (3 items) ──
+  { id: 'cat-12', category: 'headboard', name: 'King Headboard with Desk', image: '/images/portfolio/catalog-12.jpg' },
+  { id: 'cat-14', category: 'headboard', name: 'King Headboard with Chaise', image: '/images/portfolio/catalog-14.jpg' },
+  { id: 'cat-42', category: 'headboard', name: 'Upholstered Headboard', image: '/images/portfolio/catalog-42.jpg' },
+
+  // ── Table / Desk (3 catalog + 4 product items) ──
+  { id: 'cat-08', category: 'table', name: 'Hotel Brand Catalog', image: '/images/portfolio/catalog-08.jpg' },
+  { id: 'cat-28', category: 'table', name: 'C-Table', image: '/images/portfolio/catalog-28.jpg' },
+  { id: 'cat-36', category: 'table', name: 'Desk with Metal Frame', image: '/images/portfolio/catalog-36.jpg' },
+  { id: 'tbl-1', category: 'table', name: 'Worktable', image: '/images/portfolio/table/table-1.jpeg' },
+  { id: 'tbl-2', category: 'table', name: 'Worktable', image: '/images/portfolio/table/table-2.png' },
+  { id: 'tbl-3', category: 'table', name: 'Catalog Table', image: '/images/portfolio/table/table-3.png' },
+  { id: 'cup-1', category: 'table', name: 'Workshop Table', image: '/images/portfolio/cupboard/cupboard-1.png' },
+
+  // ── Sofa / Seating (2 catalog + 4 product items) ──
+  { id: 'cat-30', category: 'sofa', name: 'Sleeper Sofa', image: '/images/portfolio/catalog-30.jpg' },
+  { id: 'cat-44', category: 'sofa', name: 'Functional Sofa', image: '/images/portfolio/catalog-44.jpg' },
+  { id: 'sof-1', category: 'sofa', name: 'Lounge Seating', image: '/images/portfolio/sofa/sofa-1.jpeg' },
+  { id: 'sof-2', category: 'sofa', name: 'Club Chair', image: '/images/portfolio/sofa/sofa-2.jpeg' },
+  { id: 'sof-3', category: 'sofa', name: 'Loveseat', image: '/images/portfolio/sofa/sofa-3.png' },
+  { id: 'sof-4', category: 'sofa', name: 'Sofa Bed', image: '/images/portfolio/sofa/sofa-4.png' },
+  { id: 'chr-1', category: 'sofa', name: 'Accent Chair', image: '/images/portfolio/chairs/chair-1.jpeg' },
+  { id: 'chr-2', category: 'sofa', name: 'Side Chair', image: '/images/portfolio/chairs/chair-2.jpeg' },
+  { id: 'chr-3', category: 'sofa', name: 'Upholstered Chair', image: '/images/portfolio/chairs/chair-3.png' },
+
+  // ── Lighting (2 items from lamp folder) ──
+  { id: 'lmp-1', category: 'lighting', name: 'Table Lamp', image: '/images/portfolio/lamp/lamp-1.png' },
+  { id: 'lmp-2', category: 'lighting', name: 'Floor Lamp', image: '/images/portfolio/lamp/lamp-2.png' },
 ];
 
 /* ── Varying heights for Pinterest masonry effect ──────────── */
 const heightClasses: Record<string, string> = {
-  // Bedroom items — varied for Pinterest look
+  // Bedroom — varied for Pinterest look
   'cat-01': 'aspect-[4/3]',  'cat-11': 'aspect-[3/4]',  'cat-13': 'aspect-square',
-  'cat-15': 'aspect-[4/5]',  'cat-19': 'aspect-[3/4]',  'cat-21': 'aspect-[4/3]',
-  'cat-23': 'aspect-square', 'cat-27': 'aspect-[3/4]',  'cat-29': 'aspect-[4/5]',
-  'cat-31': 'aspect-[4/3]',  'cat-35': 'aspect-square', 'cat-37': 'aspect-[3/4]',
-  'cat-43': 'aspect-[4/5]',
-  // Headboard spec items — taller portrait cards for spec sheets
-  'cat-12': 'aspect-[3/4]',  'cat-14': 'aspect-[4/5]',  'cat-16': 'aspect-[3/4]',
-  'cat-20': 'aspect-square', 'cat-22': 'aspect-[4/5]',  'cat-24': 'aspect-[3/4]',
-  'cat-28': 'aspect-square', 'cat-30': 'aspect-[4/5]',  'cat-32': 'aspect-[3/4]',
-  'cat-36': 'aspect-square', 'cat-38': 'aspect-[4/5]',  'cat-42': 'aspect-[3/4]',
-  'cat-44': 'aspect-[4/5]',
+  'cat-15': 'aspect-[4/5]',  'cat-16': 'aspect-[3/4]',  'cat-19': 'aspect-[4/3]',
+  'cat-20': 'aspect-square', 'cat-21': 'aspect-[3/4]',  'cat-23': 'aspect-[4/5]',
+  'cat-27': 'aspect-[4/3]',  'cat-29': 'aspect-square', 'cat-31': 'aspect-[3/4]',
+  'cat-35': 'aspect-[4/5]',  'cat-37': 'aspect-[4/3]',  'cat-41': 'aspect-square',
+  'cat-43': 'aspect-[3/4]',
+  // Lobby — varied
+  'cat-02': 'aspect-[3/4]',  'cat-03': 'aspect-square', 'cat-09': 'aspect-[4/3]',
+  'cat-10': 'aspect-[4/5]',  'cat-17': 'aspect-[3/4]',  'cat-18': 'aspect-square',
+  'cat-25': 'aspect-[4/3]',  'cat-26': 'aspect-[4/5]',  'cat-33': 'aspect-[3/4]',
+  'cat-34': 'aspect-square', 'cat-39': 'aspect-[4/5]',  'cat-40': 'aspect-[4/3]',
+  'cat-45': 'aspect-square',
+  // Cabinet
+  'cat-04': 'aspect-[3/4]',  'cat-06': 'aspect-[4/5]',  'cat-22': 'aspect-square',
+  'cat-24': 'aspect-[3/4]',  'cat-32': 'aspect-[4/5]',  'cat-38': 'aspect-square',
+  // Headboard
+  'cat-12': 'aspect-[3/4]',  'cat-14': 'aspect-[4/5]',  'cat-42': 'aspect-[3/4]',
+  // Table
+  'cat-08': 'aspect-square', 'cat-28': 'aspect-[3/4]',  'cat-36': 'aspect-[4/5]',
+  'tbl-1': 'aspect-square',  'tbl-2': 'aspect-[3/4]',  'tbl-3': 'aspect-[4/5]',
+  'cup-1': 'aspect-square',
+  // Sofa
+  'cat-30': 'aspect-[3/4]',  'cat-44': 'aspect-[4/5]',
+  'sof-1': 'aspect-square',  'sof-2': 'aspect-[3/4]',  'sof-3': 'aspect-[4/5]',
+  'sof-4': 'aspect-square',
+  'chr-1': 'aspect-[3/4]',  'chr-2': 'aspect-[4/5]',  'chr-3': 'aspect-square',
+  // Lighting
+  'lmp-1': 'aspect-square',  'lmp-2': 'aspect-[3/4]',
 };
 
 /* ── Count items per category ──────────────────────────────── */
@@ -166,7 +228,7 @@ function ParticleBurst({ active, onDone }: { active: boolean; onDone: () => void
           style={{
             width: p.size,
             height: p.size,
-            backgroundColor: '#D4AF37',
+            backgroundColor: '#5d2c86',
           }}
         />
       ))}
@@ -399,7 +461,7 @@ function Lightbox({
                     onClick={() => navigateTo(idx)}
                     className={`transition-all duration-300 rounded-full ${
                       idx === currentIndex
-                        ? 'w-6 h-2 bg-[#D4AF37]'
+                        ? 'w-6 h-2 bg-[#5d2c86]'
                         : 'w-2 h-2 bg-white/30 hover:bg-white/50'
                     }`}
                     aria-label={`Go to image ${idx + 1}`}
@@ -437,8 +499,8 @@ function MasonryItem({
     const rect = cardRef.current.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
-    const tiltX = (y - 0.5) * -10; // max 5deg
-    const tiltY = (x - 0.5) * 10;  // max 5deg
+    const tiltX = (y - 0.5) * -10;
+    const tiltY = (x - 0.5) * 10;
     setTilt({ x: tiltX, y: tiltY });
   }, []);
 
@@ -483,7 +545,7 @@ function MasonryItem({
         {/* Subtle dark gradient at bottom for text readability */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-        {/* Gold shimmer sweep on hover */}
+        {/* Shimmer sweep on hover */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute inset-0 -translate-x-full group-hover:animate-[shimmerSweep_0.8s_ease-in-out] bg-gradient-to-br from-transparent via-white/15 to-transparent skew-x-[-20deg]" />
         </div>
@@ -505,18 +567,18 @@ function MasonryItem({
           </div>
         </div>
 
-        {/* Gold border on hover */}
-        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ boxShadow: 'inset 0 0 0 2px rgba(212,175,55,0.5)' }} />
+        {/* Purple border on hover */}
+        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ boxShadow: 'inset 0 0 0 2px rgba(93,44,134,0.5)' }} />
       </div>
 
       {/* Pinterest-style caption below image */}
       <div className="px-1 pt-2.5 pb-1">
-        <h3 className="text-sm sm:text-base font-serif-display font-semibold text-[#2d1b4e] dark:text-white leading-snug line-clamp-2 group-hover:text-[#5d2c86] dark:group-hover:text-[#D4AF37] transition-colors duration-300">
+        <h3 className="text-sm sm:text-base font-serif-display font-semibold text-[#000] leading-snug line-clamp-2 group-hover:text-[#5d2c86] transition-colors duration-300">
           {item.name}
         </h3>
         <div className="flex items-center gap-1.5 mt-1">
-          <CategoryIcon className="w-3 h-3 text-[#5d2c86]/50 dark:text-[#D4AF37]/60" />
-          <span className="text-[10px] tracking-wider uppercase text-[#5d2c86]/50 dark:text-white/40 font-sans-body font-medium">
+          <CategoryIcon className="w-3 h-3 text-[#5d2c86]/50" />
+          <span className="text-[10px] tracking-wider uppercase text-[#5d2c86]/50 font-sans-body font-medium">
             {categoryLabel}
           </span>
         </div>
@@ -602,7 +664,7 @@ export default function PortfolioSection() {
         <div
           className="absolute inset-0 opacity-[0.06] pointer-events-none"
           style={{
-            backgroundImage: `radial-gradient(circle, #D4AF37 1px, transparent 1px)`,
+            backgroundImage: `radial-gradient(circle, #FFF 1px, transparent 1px)`,
             backgroundSize: '32px 32px',
           }}
         />
@@ -616,19 +678,19 @@ export default function PortfolioSection() {
                 45deg,
                 transparent,
                 transparent 80px,
-                rgba(212,175,55,0.3) 80px,
-                rgba(212,175,55,0.3) 81px
+                rgba(93,44,134,0.3) 80px,
+                rgba(93,44,134,0.3) 81px
               )`,
             }}
           />
         </div>
 
-        {/* Animated gold line reveal */}
+        {/* Animated purple line reveal */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={isInView ? { scaleX: 1 } : {}}
           transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94], delay: 0.2 }}
-          className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent origin-center"
+          className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#5d2c86] to-transparent origin-center"
         />
 
         <div className="relative z-10 text-center px-4 py-16 sm:py-20 lg:py-24">
@@ -637,7 +699,7 @@ export default function PortfolioSection() {
             initial={{ opacity: 0, letterSpacing: '0.1em' }}
             animate={isInView ? { opacity: 1, letterSpacing: '0.35em' } : {}}
             transition={{ duration: 1.0, ease: 'easeOut', delay: 0.3 }}
-            className="text-[11px] sm:text-xs text-[#D4AF37] uppercase mb-4 sm:mb-5 font-sans-body font-medium"
+            className="text-[11px] sm:text-xs text-[#FFF]/70 uppercase mb-4 sm:mb-5 font-sans-body font-medium"
           >
             {eyebrowText}
           </motion.p>
@@ -661,21 +723,21 @@ export default function PortfolioSection() {
             ))}
           </h2>
 
-          {/* Animated gold line below heading */}
+          {/* Animated line below heading */}
           <motion.div
             initial={{ scaleX: 0, opacity: 0 }}
             animate={isInView ? { scaleX: 1, opacity: 1 } : {}}
             transition={{ duration: 1.0, ease: [0.25, 0.46, 0.45, 0.94], delay: 1.0 }}
-            className="mt-6 sm:mt-8 mx-auto w-24 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent origin-center"
+            className="mt-6 sm:mt-8 mx-auto w-24 h-[2px] bg-gradient-to-r from-transparent via-[#FFF]/40 to-transparent origin-center"
           />
         </div>
 
-        {/* Bottom gold accent line */}
+        {/* Bottom accent line */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={isInView ? { scaleX: 1 } : {}}
           transition={{ duration: 1.2, ease: [0.25, 0.46, 0.45, 0.94], delay: 1.2 }}
-          className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent origin-center"
+          className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#5d2c86]/40 to-transparent origin-center"
         />
       </div>
 
@@ -690,14 +752,14 @@ export default function PortfolioSection() {
           }}
         />
 
-        {/* Gold accent line between sections */}
+        {/* Accent line between sections */}
         <motion.div
           initial={{ scaleX: 0 }}
           animate={isInView ? { scaleX: 1 } : {}}
           transition={{ duration: 0.8, delay: 1.4, ease: 'easeOut' }}
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12"
         >
-          <div className="w-full h-px bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+          <div className="w-full h-px bg-gradient-to-r from-transparent via-[#5d2c86]/30 to-transparent" />
         </motion.div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -709,7 +771,7 @@ export default function PortfolioSection() {
             transition={{ duration: 0.5, delay: 1.5, ease: 'easeOut' }}
             className="mb-10 sm:mb-14"
           >
-            <div className="relative flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide justify-start sm:justify-center px-1">
+            <div className="relative flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide justify-start sm:justify-center px-1 flex-wrap">
               {categories.filter(cat => cat.key === 'all' || getCategoryCount(cat.key) > 0).map((cat) => {
                 const isActive = activeCategory === cat.key;
                 const Icon = cat.icon;
@@ -724,20 +786,20 @@ export default function PortfolioSection() {
                         ${
                           isActive
                             ? 'bg-[#5d2c86] text-white shadow-lg shadow-[#5d2c86]/25 scale-105'
-                            : 'bg-white text-gray-500 hover:text-[#5d2c86] hover:bg-white hover:shadow-md border border-gray-200/80'
+                            : 'bg-white text-[#000]/45 hover:text-[#5d2c86] hover:bg-white hover:shadow-md border border-[#000]/8'
                         }
                       `}
                       aria-pressed={isActive}
                       aria-label={`Filter by ${cat.label}`}
                     >
-                      <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-gray-400'}`} />
+                      <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-[#000]/30'}`} />
                       <span>{cat.label}</span>
                       {/* Count badge */}
                       <span
                         className={`ml-0.5 text-[10px] font-semibold px-1.5 py-0.5 rounded-full min-w-[18px] text-center ${
                           isActive
                             ? 'bg-white/20 text-white'
-                            : 'bg-gray-100 text-gray-400'
+                            : 'bg-[#000]/5 text-[#000]/30'
                         }`}
                       >
                         {count}
@@ -754,17 +816,6 @@ export default function PortfolioSection() {
                   </div>
                 );
               })}
-
-              {/* Animated underline that slides between active categories */}
-              <motion.div
-                layoutId="categoryUnderline"
-                className="absolute -bottom-1 h-[2px] bg-[#D4AF37] rounded-full"
-                style={{
-                  left: 0,
-                  width: 0,
-                }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              />
             </div>
           </motion.div>
 
@@ -796,20 +847,20 @@ export default function PortfolioSection() {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center py-20 text-gray-400 font-sans-body"
+              className="text-center py-20 text-[#000]/30 font-sans-body"
             >
               No items in this category yet.
             </motion.div>
           )}
 
-          {/* ── Gold accent line between sections ────────────── */}
+          {/* ── Accent line between sections ────────────── */}
           <motion.div
             initial={{ scaleX: 0 }}
             animate={isInView ? { scaleX: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
             className="mt-16 sm:mt-20"
           >
-            <div className="w-full h-px bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+            <div className="w-full h-px bg-gradient-to-r from-transparent via-[#5d2c86]/20 to-transparent" />
           </motion.div>
 
           {/* ── Request Custom CTA ──────────────────────────────── */}
@@ -821,17 +872,17 @@ export default function PortfolioSection() {
           >
             <div className="relative overflow-hidden rounded-2xl p-8 sm:p-10 lg:p-12 text-center">
               {/* Purple gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[#5d2c86] via-[#5d2c86] to-[#3d1c56]" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#5d2c86] via-[#5d2c86] to-[#000]" />
 
               {/* Animated border effect */}
               <div className="absolute inset-0 rounded-2xl pointer-events-none">
-                <div className="absolute inset-0 rounded-2xl border border-[#D4AF37]/20" />
+                <div className="absolute inset-0 rounded-2xl border border-[#FFF]/15" />
                 <motion.div
                   animate={{ rotate: 360 }}
                   transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
                   className="absolute -inset-[1px] rounded-2xl pointer-events-none"
                   style={{
-                    background: `conic-gradient(from 0deg, transparent 0%, transparent 75%, rgba(212,175,55,0.4) 85%, transparent 100%)`,
+                    background: `conic-gradient(from 0deg, transparent 0%, transparent 75%, rgba(93,44,134,0.6) 85%, transparent 100%)`,
                     mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
                     maskComposite: 'exclude',
                     WebkitMaskComposite: 'xor',
@@ -844,7 +895,7 @@ export default function PortfolioSection() {
               <div
                 className="absolute inset-0 opacity-[0.04] pointer-events-none"
                 style={{
-                  backgroundImage: `radial-gradient(circle, #D4AF37 1px, transparent 1px)`,
+                  backgroundImage: `radial-gradient(circle, #FFF 1px, transparent 1px)`,
                   backgroundSize: '24px 24px',
                 }}
               />
@@ -855,9 +906,9 @@ export default function PortfolioSection() {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={isInView ? { opacity: 1, scale: 1 } : {}}
                   transition={{ duration: 0.5, delay: 0.7 }}
-                  className="w-14 h-14 rounded-full bg-[#D4AF37]/15 border border-[#D4AF37]/30 flex items-center justify-center mx-auto mb-5"
+                  className="w-14 h-14 rounded-full bg-[#FFF]/10 border border-[#FFF]/20 flex items-center justify-center mx-auto mb-5"
                 >
-                  <Sparkles className="w-6 h-6 text-[#D4AF37]" />
+                  <Sparkles className="w-6 h-6 text-[#FFF]" />
                 </motion.div>
 
                 <h3 className="text-2xl sm:text-3xl font-serif-display font-bold text-white mb-3">
@@ -869,7 +920,7 @@ export default function PortfolioSection() {
 
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#D4AF37] hover:bg-[#c9a230] text-[#2d1b4e] font-sans-body font-semibold text-sm sm:text-base transition-all duration-300 hover:shadow-[0_0_24px_rgba(212,175,55,0.4)] hover:scale-105 group"
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#FFF] hover:bg-[#f8f3ed] text-[#5d2c86] font-sans-body font-semibold text-sm sm:text-base transition-all duration-300 hover:shadow-[0_0_24px_rgba(93,44,134,0.3)] hover:scale-105 group"
                 >
                   Request Custom Piece
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -929,7 +980,7 @@ export default function PortfolioSection() {
           scrollbar-width: none;
         }
 
-        /* Gold shimmer sweep keyframe */
+        /* Shimmer sweep keyframe */
         @keyframes shimmerSweep {
           0% {
             transform: translateX(-100%) skewX(-20deg);

@@ -1714,3 +1714,53 @@ Stage Summary:
 - ALL gold/yellow color removed — only #5d2c86, #f8f3ed, #FFF, #000 used
 - Slider, tabs, and all interactive elements verified working via agent-browser
 - Lint passes clean
+
+---
+Task ID: 12
+Agent: Main Agent
+Task: Fix portfolio section — properly categorize images, add all images, remove gold/yellow colors
+
+Work Log:
+- Analyzed ALL 45 catalog images using VLM to categorize by room type
+- Discovered original portfolio had only 2 visible categories (Bedroom, Headboard) with 26 items
+- 3 category tabs were empty (Sofa & Seating, Table & Desk, Cabinet & Storage) because product images weren't added
+- 19 catalog images were unused
+- All subfolder product images (bed/, sofa/, chairs/, table/, cabinet/, cupboard/, lamp/) were unused
+- VLM analysis revealed subfolder images are often miscategorized (e.g., chair-1.jpeg is actually a table)
+- Recategorized ALL images based on VLM analysis:
+  - Bedroom: 16 items (catalog-01, 11, 13, 15, 16, 19, 20, 21, 23, 27, 29, 31, 35, 37, 41, 43)
+  - Lobby: 13 items (catalog-02, 03, 09, 10, 17, 18, 25, 26, 33, 34, 39, 40, 45)
+  - Cabinet: 6 items (catalog-04, 06, 22, 24, 32, 38)
+  - Headboard: 3 items (catalog-12, 14, 42)
+  - Table/Desk: 7 items (catalog-08, 28, 36 + table/ + cupboard/)
+  - Sofa/Seating: 9 items (catalog-30, 44 + sofa/ + chairs/)
+  - Lighting: 2 items (lamp/)
+- Added new categories: Lobby, Lighting (with Building2 and Lamp icons)
+- Fixed Sofa & Seating item names (were incorrectly named "Worktable"/"Hotel Bed"/"Catalog Table")
+- Fixed duplicate headboard names (both were "King Headboard Spec Sheet" → differentiated)
+- Removed ALL gold/yellow (#D4AF37) colors from PortfolioSection:
+  - Particle burst: gold → purple #5d2c86
+  - Lightbox progress dots: gold → purple
+  - Header eyebrow: gold → white/70
+  - Top/bottom accent lines: gold → purple
+  - Background patterns: gold dots → white dots
+  - Diagonal lines: gold → purple
+  - Category underline: gold → purple
+  - Accent separators: gold → purple
+  - CTA button: gold bg → white bg with purple text
+  - CTA sparkle icon: gold → white
+  - CTA border effect: gold conic-gradient → purple
+  - Card hover border: gold → purple
+  - Card caption hover: gold → purple
+- Total portfolio items: 26 → 56 (more than doubled)
+- Category filter bar now wraps on mobile (flex-wrap)
+- Agent-browser verified: all 8 tabs working, counts match, images categorized correctly, no gold colors
+
+Stage Summary:
+- Portfolio section now shows 56 items across 8 categories
+- All images properly categorized based on actual content (VLM analysis)
+- Previously empty categories (Sofa & Seating, Table & Desk) now populated
+- New categories added (Lobby, Lighting)
+- ALL gold/yellow color removed from PortfolioSection.tsx
+- Duplicate names and misnamed items fixed
+- Lint passes clean

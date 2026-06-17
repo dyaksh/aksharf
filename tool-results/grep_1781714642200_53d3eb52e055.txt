@@ -1,0 +1,252 @@
+/home/z/my-project/src/app/page.tsx:147:          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/60 to-transparent" />
+/home/z/my-project/src/app/page.tsx:159:                  className="w-12 h-[2px] bg-[#D4AF37] mb-6 origin-left"
+/home/z/my-project/src/app/page.tsx:161:                <p className="text-xs sm:text-sm tracking-[0.3em] text-[#D4AF37] mb-4 font-sans-body font-semibold">OUR STORY</p>
+/home/z/my-project/src/app/page.tsx:163:                  About <span className="text-[#D4AF37] italic">Akshar Foshan</span>
+/home/z/my-project/src/app/page.tsx:172:                  className="w-24 h-[2px] bg-[#D4AF37]/40 mt-6 origin-left"
+/home/z/my-project/src/components/ScrollProgress.tsx:40:          background: 'linear-gradient(90deg, #5d2c86 0%, #7d44a8 25%, #D4AF37 70%, #E8CC6E 100%)',
+/home/z/my-project/src/app/globals.css:49:  --color-brand-gold: #D4AF37;
+/home/z/my-project/src/app/globals.css:268:  background: linear-gradient(135deg, #5d2c86, #D4AF37);
+/home/z/my-project/src/app/globals.css:285:  background: linear-gradient(90deg, #D4AF37, #5d2c86);
+/home/z/my-project/src/app/globals.css:351:  background: conic-gradient(from var(--conic-angle), #5d2c86, #D4AF37, #5d2c86, #D4AF37, #5d2c86);
+/home/z/my-project/src/app/globals.css:385:    background: linear-gradient(135deg, #5d2c86, #D4AF37);
+/home/z/my-project/src/app/globals.css:444:  background: linear-gradient(90deg, #5d2c86, #D4AF37, #5d2c86, #D4AF37);
+/home/z/my-project/src/app/globals.css:579:  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='10' fill='none' stroke='%23D4AF37' stroke-width='1.5'/%3E%3Ccircle cx='12' cy='12' r='3' fill='%23D4AF37'/%3E%3C/svg%3E") 12 12, pointer;
+/home/z/my-project/src/app/globals.css:675:  background: linear-gradient(90deg, #D4AF37, #5d2c86);
+/home/z/my-project/src/app/globals.css:718:  outline: 2px solid #D4AF37;
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:144:        className="absolute inset-0 rounded-full border-2 border-[#D4AF37]/30"
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:161:          border-2 border-[#D4AF37] bg-[#5d2c86]
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:222:            hover:border-[#D4AF37]/40 dark:hover:border-[#D4AF37]/30
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:232:              background: 'linear-gradient(90deg, #5d2c86, #D4AF37, #5d2c86)',
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:242:          <span className="inline-block text-[10px] font-semibold tracking-wider text-[#D4AF37] bg-[#D4AF37]/10 dark:bg-[#D4AF37]/15 rounded-full px-2.5 py-0.5 mb-2 font-sans-body">
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:328:                  background: 'linear-gradient(180deg, #5d2c86, #D4AF37)',
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:351:            hover:border-[#D4AF37]/40 dark:hover:border-[#D4AF37]/30
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:363:              background: 'linear-gradient(90deg, #5d2c86, #D4AF37, #5d2c86)',
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:373:            <span className="text-[10px] font-semibold tracking-wider text-[#D4AF37] bg-[#D4AF37]/10 dark:bg-[#D4AF37]/15 rounded-full px-2.5 py-0.5 font-sans-body">
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:450:            className="text-xs tracking-[0.3em] text-[#D4AF37] mb-4 font-sans-body font-semibold"
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:466:            <span className="text-[#D4AF37] italic">completion</span>
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:485:                'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:507:                    'linear-gradient(90deg, #5d2c86, #D4AF37 50%, #5d2c86)',
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:541:                    'linear-gradient(90deg, #5d2c86, #D4AF37 50%, #5d2c86)',
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:585:            <div className="inline-flex items-center gap-2.5 bg-white dark:bg-[#1E1E1E] border border-[#D4AF37]/30 dark:border-[#D4AF37]/20 rounded-full px-6 py-3 shadow-sm">
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:586:              <Clock className="w-4 h-4 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/ProjectTimeline.tsx:588:                <span className="text-[#D4AF37]">21 days</span> average lead
+/home/z/my-project/src/components/sections/HeroSection.tsx:29:        className="w-20 h-20 border-2 border-[#D4AF37]/30 dark:border-[#D4AF37]/20 rounded-md"
+/home/z/my-project/src/components/sections/HeroSection.tsx:36:          className="absolute inset-2 border border-[#D4AF37]/15 dark:border-[#D4AF37]/10 rounded-sm"
+/home/z/my-project/src/components/sections/HeroSection.tsx:58:        stroke="#D4AF37"
+/home/z/my-project/src/components/sections/HeroSection.tsx:67:        stroke="#D4AF37"
+/home/z/my-project/src/components/sections/HeroSection.tsx:110:          background: 'radial-gradient(circle, #D4AF37 0%, rgba(212,175,55,0.5) 100%)',
+/home/z/my-project/src/components/sections/HeroSection.tsx:193:    const colors = ['#D4AF37', '#5d2c86'];
+/home/z/my-project/src/components/sections/HeroSection.tsx:336:      <span className="text-[#D4AF37] italic">
+/home/z/my-project/src/components/sections/HeroSection.tsx:359:            className="absolute -bottom-1 left-0 h-[2px] bg-[#D4AF37]"
+/home/z/my-project/src/components/sections/HeroSection.tsx:403:          background: 'linear-gradient(135deg, #5d2c86, #D4AF37)',
+/home/z/my-project/src/components/sections/HeroSection.tsx:530:                className="h-[1px] bg-gradient-to-r from-transparent to-[#D4AF37] shrink-0"
+/home/z/my-project/src/components/sections/HeroSection.tsx:595:                  className="border-[#D4AF37]/50 text-[#D4AF37] hover:bg-[#D4AF37]/10 rounded-full px-6 min-h-12 font-sans-body text-sm font-medium whitespace-nowrap transition-colors duration-300"
+/home/z/my-project/src/components/sections/HeroSection.tsx:640:                    className="absolute bottom-4 left-4 bg-black/75 backdrop-blur-sm text-white px-5 py-3 rounded-lg border-l-[3px] border-[#D4AF37] shadow-lg"
+/home/z/my-project/src/components/sections/HeroSection.tsx:646:                      NOW MANUFACTURING — <span className="font-bold text-[#D4AF37]">240 KEYS</span>
+/home/z/my-project/src/components/sections/HeroSection.tsx:673:                style={{ border: '3px solid #D4AF37', y: prefersReduced ? undefined : floatingImageY2 }}
+/home/z/my-project/src/components/sections/AboutCTA.tsx:32:          backgroundImage: 'radial-gradient(circle, #D4AF37 1px, transparent 1px)',
+/home/z/my-project/src/components/sections/AboutCTA.tsx:47:            background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+/home/z/my-project/src/components/sections/AboutCTA.tsx:61:            background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+/home/z/my-project/src/components/sections/AboutCTA.tsx:94:              className="absolute -top-2 -left-2 w-10 h-10 border-t-2 border-l-2 border-[#D4AF37]/40 rounded-tl-xl pointer-events-none"
+/home/z/my-project/src/components/sections/AboutCTA.tsx:98:              className="absolute -bottom-2 -right-2 w-10 h-10 border-b-2 border-r-2 border-[#D4AF37]/40 rounded-br-xl pointer-events-none"
+/home/z/my-project/src/components/sections/AboutCTA.tsx:111:                <div className="w-8 h-8 rounded-full bg-[#D4AF37]/15 flex items-center justify-center">
+/home/z/my-project/src/components/sections/AboutCTA.tsx:112:                  <Shield className="w-4 h-4 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/AboutCTA.tsx:138:              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+/home/z/my-project/src/components/sections/AboutCTA.tsx:151:              <span className="text-[#D4AF37] italic">Driven by Craft</span>
+/home/z/my-project/src/components/sections/AboutCTA.tsx:159:              className="w-16 h-[2px] bg-[#D4AF37] mb-6 origin-left"
+/home/z/my-project/src/components/sections/AboutCTA.tsx:200:                  <stat.icon className="w-4 h-4 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/AboutCTA.tsx:218:                className="group inline-flex items-center gap-2 bg-[#D4AF37] text-[#1A1A1A] font-semibold font-sans-body px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base hover:bg-[#c9a02e] transition-all duration-300 hover:shadow-lg hover:shadow-[#D4AF37]/20"
+/home/z/my-project/src/components/sections/ProcessSection.tsx:68:              background: 'linear-gradient(90deg, #5d2c86, #D4AF37)',
+/home/z/my-project/src/components/sections/ProcessSection.tsx:76:            className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#D4AF37] shadow-[0_0_6px_rgba(212,175,55,0.6)]"
+/home/z/my-project/src/components/sections/ProcessSection.tsx:88:          <div className="w-0 h-0 border-t-[5px] border-t-transparent border-b-[5px] border-b-transparent border-l-[7px] border-l-[#D4AF37] -ml-1" />
+/home/z/my-project/src/components/sections/ProcessSection.tsx:106:            background: 'linear-gradient(180deg, #5d2c86, #D4AF37)',
+/home/z/my-project/src/components/sections/ProcessSection.tsx:115:        className="w-2.5 h-2.5 rounded-full bg-[#D4AF37] shadow-[0_0_8px_rgba(212,175,55,0.5)] -mt-1"
+/home/z/my-project/src/components/sections/ProcessSection.tsx:131:            ? 'border-[#D4AF37] bg-[#D4AF37] shadow-[0_0_10px_rgba(212,175,55,0.4)]'
+/home/z/my-project/src/components/sections/ProcessSection.tsx:143:              ? 'linear-gradient(90deg, #D4AF37, #5d2c86/30)'
+/home/z/my-project/src/components/sections/ProcessSection.tsx:236:            style={{ background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)' }}
+/home/z/my-project/src/components/sections/ProcessSection.tsx:260:                      <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37, #5d2c86)' }} />
+/home/z/my-project/src/components/sections/ProcessSection.tsx:263:                      <div className="absolute left-0 top-4 bottom-4 w-[3px] rounded-r-full bg-[#D4AF37] opacity-0 group-hover:opacity-100 transition-all duration-500 group-hover:top-2 group-hover:bottom-2" />
+/home/z/my-project/src/components/sections/ProcessSection.tsx:278:                      <div className="absolute inset-0 bg-gradient-to-br from-[#5d2c86]/[0.02] to-[#D4AF37]/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+/home/z/my-project/src/components/sections/ProcessSection.tsx:317:                          style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37)' }}
+/home/z/my-project/src/components/sections/ProcessSection.tsx:325:                          style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37)' }}
+/home/z/my-project/src/components/sections/ProcessSection.tsx:344:                      <div className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37, #5d2c86)' }} />
+/home/z/my-project/src/components/sections/ProcessSection.tsx:387:                          style={{ background: 'linear-gradient(90deg, #5d2c86, #D4AF37)' }}
+/home/z/my-project/src/components/sections/BrandMarquee.tsx:43:          border border-[#5d2c86]/15 dark:border-[#D4AF37]/25
+/home/z/my-project/src/components/sections/BrandMarquee.tsx:47:          hover:border-[#5d2c86]/40 dark:hover:border-[#D4AF37]/50
+/home/z/my-project/src/components/sections/BrandMarquee.tsx:55:            text-[#5d2c86]/75 dark:text-[#D4AF37]/80
+/home/z/my-project/src/components/sections/BrandMarquee.tsx:58:            group-hover:text-[#5d2c86] dark:group-hover:text-[#D4AF37]
+/home/z/my-project/src/components/sections/BrandMarquee.tsx:84:      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#5d2c86]/10 dark:via-[#D4AF37]/10 to-transparent" />
+/home/z/my-project/src/components/sections/BrandMarquee.tsx:85:      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#5d2c86]/10 dark:via-[#D4AF37]/10 to-transparent" />
+/home/z/my-project/src/components/sections/BrandMarquee.tsx:98:              text-[#D4AF37] dark:text-[#D4AF37]
+/home/z/my-project/src/components/sections/BrandMarquee.tsx:106:            <span className="block h-px w-8 sm:w-12 bg-[#D4AF37]/40 dark:bg-[#D4AF37]/30" />
+/home/z/my-project/src/components/sections/BrandMarquee.tsx:107:            <span className="block w-1.5 h-1.5 rounded-full bg-[#D4AF37]/60 dark:bg-[#D4AF37]/50" />
+/home/z/my-project/src/components/sections/BrandMarquee.tsx:108:            <span className="block h-px w-8 sm:w-12 bg-[#D4AF37]/40 dark:bg-[#D4AF37]/30" />
+/home/z/my-project/src/components/sections/ChatWidget.tsx:151:                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#D4AF37] border border-[#5d2c86]" />
+/home/z/my-project/src/components/sections/ChatWidget.tsx:163:                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#D4AF37] border border-[#5d2c86]" />
+/home/z/my-project/src/components/sections/ChatWidget.tsx:210:                  <div className="w-14 h-14 rounded-full bg-[#5d2c86]/10 dark:bg-[#D4AF37]/15 flex items-center justify-center mb-4">
+/home/z/my-project/src/components/sections/ChatWidget.tsx:211:                    <CheckCircle className="w-7 h-7 text-[#5d2c86] dark:text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/ChatWidget.tsx:352:            <div className="absolute right-[-6px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[6px] border-l-[#D4AF37]" />
+/home/z/my-project/src/components/sections/ChatWidget.tsx:406:              className="absolute inset-0 rounded-full border-2 border-[#D4AF37]"
+/home/z/my-project/src/components/sections/FAQSection.tsx:89:              ? 'bg-gradient-to-b from-[#5d2c86] via-[#D4AF37] to-[#5d2c86] dark:from-[#7d44a8] dark:via-[#D4AF37] dark:to-[#7d44a8]'
+/home/z/my-project/src/components/sections/FAQSection.tsx:90:              : 'bg-gray-200 dark:bg-gray-700 group-hover:bg-[#D4AF37]/50 dark:group-hover:bg-[#D4AF37]/30'
+/home/z/my-project/src/components/sections/FAQSection.tsx:105:                ? 'text-[#5d2c86] dark:text-[#D4AF37]'
+/home/z/my-project/src/components/sections/FAQSection.tsx:106:                : 'text-[#1A1A1A] dark:text-gray-200 group-hover:text-[#5d2c86] dark:group-hover:text-[#D4AF37]'
+/home/z/my-project/src/components/sections/FAQSection.tsx:157:                <div className="flex-shrink-0 w-[3px] rounded-full bg-gradient-to-b from-[#5d2c86] via-[#5d2c86]/60 to-[#D4AF37]/40 dark:from-[#7d44a8] dark:via-[#7d44a8]/60 dark:to-[#D4AF37]/40" />
+/home/z/my-project/src/components/sections/FAQSection.tsx:272:            className="mx-auto mt-6 h-[2px] w-16 rounded-full bg-gradient-to-r from-[#5d2c86] via-[#D4AF37] to-[#5d2c86]"
+/home/z/my-project/src/components/sections/FAQSection.tsx:378:              className="text-sm text-[#5d2c86] dark:text-[#D4AF37] font-semibold font-sans-body hover:underline underline-offset-2 transition-colors"
+/home/z/my-project/src/components/sections/FAQSection.tsx:397:              className="text-[#5d2c86] dark:text-[#D4AF37] font-semibold hover:underline underline-offset-2 transition-colors"
+/home/z/my-project/src/components/sections/StatsTicker.tsx:57:        <Icon className="w-5 h-5 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/StatsTicker.tsx:62:          <span className="text-[#D4AF37]">{stat.suffix}</span>
+/home/z/my-project/src/components/sections/StatsTicker.tsx:70:        <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]/40 ml-8 lg:ml-12" />
+/home/z/my-project/src/components/sections/StatsTicker.tsx:84:      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+/home/z/my-project/src/components/sections/StatsTicker.tsx:85:      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+/home/z/my-project/src/components/sections/StatsTicker.tsx:96:                  <Icon className="w-5 h-5 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/StatsTicker.tsx:101:                    <span className="text-[#D4AF37]">{stat.suffix}</span>
+/home/z/my-project/src/components/sections/StatsTicker.tsx:107:                <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]/40 ml-8 lg:ml-12" />
+/home/z/my-project/src/components/sections/SectionDivider.tsx:37:  if (fromLight && !toLight) return '#D4AF37'; // light-to-dark: gold
+/home/z/my-project/src/components/sections/SectionDivider.tsx:40:  return '#D4AF37'; // dark-to-dark: gold
+/home/z/my-project/src/components/sections/SectionDivider.tsx:49:  const secondaryColor = accentColor === '#D4AF37' ? '#5d2c86' : '#D4AF37';
+/home/z/my-project/src/components/3d/CinematicParticles.tsx:72:  color = '#D4AF37',
+/home/z/my-project/src/components/3d/PortfolioScene.tsx:10:const GOLD = '#D4AF37';
+/home/z/my-project/src/components/sections/Footer.tsx:114:      <div className="h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
+/home/z/my-project/src/components/sections/Footer.tsx:128:              <circle cx="2" cy="2" r="1" fill="#D4AF37" />
+/home/z/my-project/src/components/sections/Footer.tsx:173:                  className="flex items-center gap-2 text-xs text-white/50 font-sans-body hover:text-[#D4AF37] transition-colors group"
+/home/z/my-project/src/components/sections/Footer.tsx:176:                    <Phone className="w-3 h-3 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/Footer.tsx:182:                  className="flex items-center gap-2 text-xs text-white/50 font-sans-body hover:text-[#D4AF37] transition-colors group"
+/home/z/my-project/src/components/sections/Footer.tsx:185:                    <Mail className="w-3 h-3 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/Footer.tsx:191:                    <MapPin className="w-3 h-3 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/Footer.tsx:226:                <Diamond className="w-3 h-3 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/Footer.tsx:236:                      className="text-sm text-white/40 hover:text-[#D4AF37] font-sans-body transition-colors relative group flex items-center gap-2"
+/home/z/my-project/src/components/sections/Footer.tsx:238:                      <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#D4AF37] transition-colors" />
+/home/z/my-project/src/components/sections/Footer.tsx:240:                      <span className="absolute -bottom-0.5 left-3 w-0 h-[1px] bg-[#D4AF37] group-hover:w-[calc(100%-12px)] transition-all duration-300" />
+/home/z/my-project/src/components/sections/Footer.tsx:254:                <Package className="w-3 h-3 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/Footer.tsx:264:                      className="text-sm text-white/40 hover:text-[#D4AF37] font-sans-body transition-colors relative group flex items-center gap-2"
+/home/z/my-project/src/components/sections/Footer.tsx:266:                      <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#D4AF37] transition-colors" />
+/home/z/my-project/src/components/sections/Footer.tsx:268:                      <span className="absolute -bottom-0.5 left-3 w-0 h-[1px] bg-[#D4AF37] group-hover:w-[calc(100%-12px)] transition-all duration-300" />
+/home/z/my-project/src/components/sections/Footer.tsx:282:                <Shield className="w-3 h-3 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/Footer.tsx:292:                      className="text-sm text-white/40 hover:text-[#D4AF37] font-sans-body transition-colors relative group flex items-center gap-2"
+/home/z/my-project/src/components/sections/Footer.tsx:294:                      <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#D4AF37] transition-colors" />
+/home/z/my-project/src/components/sections/Footer.tsx:296:                      <span className="absolute -bottom-0.5 left-3 w-0 h-[1px] bg-[#D4AF37] group-hover:w-[calc(100%-12px)] transition-all duration-300" />
+/home/z/my-project/src/components/sections/Footer.tsx:310:                <Mail className="w-3.5 h-3.5 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/Footer.tsx:326:                    className="rounded-lg font-sans-body text-xs h-9 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/50 transition-all duration-300"
+/home/z/my-project/src/components/sections/Footer.tsx:400:              <span className="text-xs text-white/30 font-sans-body hover:text-[#D4AF37] cursor-pointer transition-colors">
+/home/z/my-project/src/components/sections/Footer.tsx:403:              <span className="text-xs text-white/30 font-sans-body hover:text-[#D4AF37] cursor-pointer transition-colors">
+/home/z/my-project/src/components/sections/Footer.tsx:413:              className="group flex items-center gap-1.5 text-xs text-white/30 font-sans-body hover:text-[#D4AF37] transition-colors duration-300"
+/home/z/my-project/src/components/sections/Footer.tsx:423:      <div className="h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+/home/z/my-project/src/components/3d/AboutScene.tsx:11:const GOLD = '#D4AF37';
+/home/z/my-project/src/components/3d/HeroScene.tsx:10:const GOLD = '#D4AF37';
+/home/z/my-project/src/components/sections/PartnersTrust.tsx:103:      <div className="w-14 h-14 rounded-2xl bg-[#5d2c86]/10 dark:bg-[#D4AF37]/10 flex items-center justify-center mb-3">
+/home/z/my-project/src/components/sections/PartnersTrust.tsx:104:        <Icon className="w-6 h-6 text-[#5d2c86] dark:text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/PartnersTrust.tsx:107:        <span aria-hidden="true">{count}<span className="text-[#D4AF37]">{suffix}</span></span>
+/home/z/my-project/src/components/sections/PartnersTrust.tsx:166:          <p className="font-sans-body text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4">
+/home/z/my-project/src/components/sections/PartnersTrust.tsx:171:            <span className="text-[#D4AF37] italic">finest brands</span>
+/home/z/my-project/src/components/sections/PartnersTrust.tsx:198:                  hover:border-[#D4AF37]/60 dark:hover:border-[#D4AF37]/50
+/home/z/my-project/src/components/sections/PartnersTrust.tsx:199:                  hover:shadow-lg hover:shadow-[#D4AF37]/10
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:46:    color: '#D4AF37',
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:72:function ParticleCanvas({ color1 = '#5d2c86', color2 = '#D4AF37' }: { color1?: string; color2?: string }) {
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:330:              ? 'bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] border-[#D4AF37] shadow-[0_0_30px_rgba(93,44,134,0.4)]'
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:399:              ? 'bg-[#D4AF37]/15 border-[#D4AF37]/50 shadow-[0_0_20px_rgba(212,175,55,0.25)]'
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:401:                ? 'bg-white/90 dark:bg-[#1E1E1E]/90 border-[#D4AF37]/30 shadow-[0_0_12px_rgba(212,175,55,0.15)]'
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:402:                : 'bg-white/70 dark:bg-[#1E1E1E]/70 border-[#D4AF37]/15 shadow-sm'
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:409:              isActive ? 'text-[#D4AF37]' : 'text-[#5d2c86] dark:text-[#7d44a8]'
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:445:          className="absolute -inset-4 sm:-inset-5 lg:-inset-6 rounded-full border-2 border-dashed border-[#D4AF37]/25 pointer-events-none"
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:470:        <div className="relative w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-full flex flex-col items-center justify-center overflow-hidden shadow-2xl border-2 border-[#D4AF37]/30">
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:496:            className="absolute inset-0 rounded-full border border-[#D4AF37]/20 pointer-events-none"
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:510:            <div className="w-10 h-[1.5px] bg-[#D4AF37] mx-auto my-1.5 sm:my-2" />
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:511:            <span className="text-[9px] sm:text-[10px] lg:text-xs tracking-[0.2em] font-sans-body font-bold text-[#D4AF37] uppercase">
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:616:              <OrbitRing radius={outerRadius} color="#D4AF37" dashArray="8 6" opacity={0.25} rotateSpeed={80} strokeWidth={1.5} />
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:618:              <OrbitRing radius={outerRadius} color="#D4AF37" opacity={0.06} rotateSpeed={80} strokeWidth={8} />
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:624:              <OrbitRing radius={outerRadius + 20} color="#D4AF37" dashArray="2 12" opacity={0.1} rotateSpeed={120} reverse strokeWidth={0.8} />
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:703:                      stroke={isActiveConn ? '#D4AF37' : '#5d2c86'}
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:726:                <span className="text-[8px] sm:text-[9px] tracking-[0.25em] font-sans-body font-bold text-[#D4AF37]/60 whitespace-nowrap">
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:776:                    <span className="text-xs font-bold font-serif-display text-[#D4AF37] whitespace-nowrap">
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:808:              <div className="h-1 bg-gradient-to-r from-[#5d2c86] via-[#D4AF37] to-[#5d2c86]" />
+/home/z/my-project/src/components/sections/ConcentricCircles3D.tsx:837:                      className="text-xs text-[#5d2c86] hover:text-[#D4AF37] font-sans-body font-medium transition-colors"
+/home/z/my-project/src/components/sections/ContactSection.tsx:71:    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-[#5d2c86]/5 via-[#f8f3ed] to-[#D4AF37]/5 dark:from-[#5d2c86]/10 dark:via-[#1E1E1E] dark:to-[#D4AF37]/5 border border-gray-200 dark:border-gray-700">
+/home/z/my-project/src/components/sections/ContactSection.tsx:161:        <circle cx="445" cy="95" r="35" fill="#D4AF37" opacity="0.06" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:162:        <circle cx="445" cy="95" r="20" fill="#D4AF37" opacity="0.12" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:163:        <circle cx="445" cy="95" r="8" fill="#D4AF37" opacity="0.4">
+/home/z/my-project/src/components/sections/ContactSection.tsx:183:            fill="#D4AF37"
+/home/z/my-project/src/components/sections/ContactSection.tsx:190:        <line x1="445" y1="85" x2="130" y2="90" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.2">
+/home/z/my-project/src/components/sections/ContactSection.tsx:193:        <line x1="445" y1="85" x2="310" y2="65" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.2">
+/home/z/my-project/src/components/sections/ContactSection.tsx:196:        <line x1="445" y1="85" x2="510" y2="240" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.15">
+/home/z/my-project/src/components/sections/ContactSection.tsx:218:          <p className="text-[10px] font-medium text-[#D4AF37] font-sans-body">Foshan HQ</p>
+/home/z/my-project/src/components/sections/ContactSection.tsx:224:      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37]" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:287:  const confettiColors = ['#D4AF37', '#F0C040', '#E5B830', '#5d2c86', '#7d44a8', '#8B5CF6', '#D4AF37', '#F5D060'];
+/home/z/my-project/src/components/sections/ContactSection.tsx:456:                    className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md border-l-[3px] border-l-[#D4AF37] hover:border-l-[#5d2c86] dark:border-l-[#D4AF37] dark:hover:border-l-[#7d44a8] transition-all duration-300 group cursor-pointer"
+/home/z/my-project/src/components/sections/ContactSection.tsx:462:                    <div className="w-11 h-11 rounded-xl bg-[#D4AF37]/5 dark:bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/10 dark:group-hover:bg-[#D4AF37]/20 transition-colors duration-300 shrink-0">
+/home/z/my-project/src/components/sections/ContactSection.tsx:463:                      <Icon className="w-5 h-5 text-[#D4AF37] group-hover:scale-110 transition-transform duration-300" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:541:                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37]" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:549:                    <span className="text-xs font-medium font-sans-body" style={{ color: formProgress.percentage === 100 ? '#22c55e' : formProgress.percentage >= 50 ? '#D4AF37' : '#9ca3af' }}>
+/home/z/my-project/src/components/sections/ContactSection.tsx:559:                          : 'linear-gradient(to right, #5d2c86, #D4AF37)',
+/home/z/my-project/src/components/sections/ContactSection.tsx:602:                        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#D4AF37]/20 to-[#F0C040]/10 flex items-center justify-center ring-2 ring-[#D4AF37]/30">
+/home/z/my-project/src/components/sections/ContactSection.tsx:613:                            <CheckCircle className="w-12 h-12 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:623:                          <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:674:                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+/home/z/my-project/src/components/sections/ContactSection.tsx:679:                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:705:                        className={`rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)] ${
+/home/z/my-project/src/components/sections/ContactSection.tsx:714:                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:750:                      className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+/home/z/my-project/src/components/sections/ContactSection.tsx:755:                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:781:                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+/home/z/my-project/src/components/sections/ContactSection.tsx:786:                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:810:                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+/home/z/my-project/src/components/sections/ContactSection.tsx:815:                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:840:                      className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+/home/z/my-project/src/components/sections/ContactSection.tsx:845:                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:869:                        <SelectTrigger className="w-full rounded-xl font-sans-body h-10 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus:ring-[#D4AF37]/40 focus:border-[#D4AF37]/60 dark:focus:ring-[#D4AF37]/30 dark:focus:border-[#D4AF37]/50 transition-all duration-300">
+/home/z/my-project/src/components/sections/ContactSection.tsx:884:                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:902:                        <SelectTrigger className="w-full rounded-xl font-sans-body h-10 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus:ring-[#D4AF37]/40 focus:border-[#D4AF37]/60 dark:focus:ring-[#D4AF37]/30 dark:focus:border-[#D4AF37]/50 transition-all duration-300">
+/home/z/my-project/src/components/sections/ContactSection.tsx:917:                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:939:                      className="rounded-xl min-h-[120px] font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+/home/z/my-project/src/components/sections/ContactSection.tsx:944:                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:993:                    <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/10 dark:bg-[#D4AF37]/15 px-3 py-1.5 rounded-full">
+/home/z/my-project/src/components/sections/ContactSection.tsx:994:                      <Clock className="w-3 h-3 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/ContactSection.tsx:995:                      <span className="text-[10px] font-medium text-[#D4AF37] font-sans-body">
+/home/z/my-project/src/components/sections/ContactSection.tsx:1056:                  className="p-3 rounded-xl bg-gradient-to-br from-[#5d2c86]/5 to-[#D4AF37]/5 dark:from-[#5d2c86]/10 dark:to-[#D4AF37]/5 border border-gray-100 dark:border-gray-800 mt-1"
+/home/z/my-project/src/components/sections/FloatingNav.tsx:59:                  <span className="rounded-md px-2.5 py-1 bg-white dark:bg-[#2A2A2A] text-[#5d2c86] dark:text-[#D4AF37] font-sans-body text-[10px] tracking-wider font-medium shadow-sm border border-gray-200/50 dark:border-white/10">
+/home/z/my-project/src/components/sections/FloatingNav.tsx:79:                  <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] mr-1.5 shrink-0" />
+/home/z/my-project/src/components/sections/FloatingNav.tsx:92:              className={`flex items-center justify-center rounded-lg px-2.5 py-1.5 text-[10px] tracking-wider transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] ${
+/home/z/my-project/src/components/sections/AboutSection.tsx:37:const GOLD = '#D4AF37';
+/home/z/my-project/src/components/sections/AboutSection.tsx:295:        <div className="w-16 sm:w-24 h-px bg-gradient-to-r from-transparent to-[#D4AF37]/40" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:296:        <div className="w-2 h-2 rounded-full border border-[#D4AF37]/60" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:297:        <div className="w-24 sm:w-40 h-px bg-gradient-to-r from-[#D4AF37]/40 to-transparent" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:603:        <div className="relative bg-white dark:bg-[#1a1a1a] rounded-2xl p-6 sm:p-8 border border-gray-100 dark:border-gray-800 hover:border-transparent transition-all duration-500 hover:shadow-2xl hover:shadow-[#5d2c86]/8 dark:hover:shadow-[#D4AF37]/8 overflow-hidden h-full">
+/home/z/my-project/src/components/sections/AboutSection.tsx:683:          <ChevronLeft className="w-5 h-5 text-[#5d2c86] dark:text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:692:          <ChevronRight className="w-5 h-5 text-[#5d2c86] dark:text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:721:              <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#D4AF37] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:731:                <span className="text-[#D4AF37] text-[10px] tracking-[0.15em] uppercase font-sans-body font-bold">
+/home/z/my-project/src/components/sections/AboutSection.tsx:801:            <div className="w-8 h-8 rounded-full bg-[#D4AF37]/15 flex items-center justify-center">
+/home/z/my-project/src/components/sections/AboutSection.tsx:802:              <Clock className="w-3.5 h-3.5 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:804:            <span className="text-[#D4AF37] text-sm font-sans-body font-bold tracking-[0.15em]">
+/home/z/my-project/src/components/sections/AboutSection.tsx:829:          <div className="w-12 h-px bg-[#5d2c86]/20 dark:bg-[#D4AF37]/20 mt-4" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:873:            <span className="text-[#D4AF37] text-xs font-sans-body font-bold tracking-[0.2em]">
+/home/z/my-project/src/components/sections/AboutSection.tsx:876:            <div className="w-8 h-px bg-[#D4AF37]/40" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:888:          <div className="relative pl-6 border-l-2 border-[#D4AF37]/30 py-2">
+/home/z/my-project/src/components/sections/AboutSection.tsx:889:            <Quote className="absolute -left-3 -top-1 w-5 h-5 text-[#D4AF37]/60 bg-white dark:bg-[#0f0f0f] rounded-full" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:890:            <p className="text-sm sm:text-base text-[#5d2c86] dark:text-[#D4AF37]/80 font-serif-display italic leading-relaxed">
+/home/z/my-project/src/components/sections/AboutSection.tsx:897:            <div className="w-6 h-px bg-[#D4AF37]" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:898:            <ArrowRight className="w-3 h-3 text-[#D4AF37]" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:938:          <div className="absolute -bottom-3 -right-3 w-20 h-20 border-b-2 border-r-2 border-[#D4AF37]/20 rounded-br-2xl pointer-events-none" aria-hidden="true" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:939:          <div className="absolute -top-3 -left-3 w-20 h-20 border-t-2 border-l-2 border-[#D4AF37]/20 rounded-tl-2xl pointer-events-none" aria-hidden="true" />
+/home/z/my-project/src/components/sections/AboutSection.tsx:997:                className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+/home/z/my-project/src/components/sections/AboutSection.tsx:1007:                <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">
+/home/z/my-project/src/components/sections/AboutSection.tsx:1017:                className="w-16 h-[2px] bg-[#D4AF37] mb-6 origin-left"
+/home/z/my-project/src/components/sections/AboutSection.tsx:1055:                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#D4AF37]">
+/home/z/my-project/src/components/sections/AboutSection.tsx:1059:                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#D4AF37]">
+/home/z/my-project/src/components/sections/AboutSection.tsx:1063:                <div className="flex items-center gap-2 text-sm font-sans-body text-[#5d2c86] dark:text-[#D4AF37]">
+/home/z/my-project/src/components/sections/AboutSection.tsx:1132:                  <div className="absolute bottom-3 left-3 bg-[#D4AF37] text-[#1A1A1A] text-[10px] tracking-[0.15em] uppercase font-bold px-3 py-1.5 rounded-full font-sans-body">
+/home/z/my-project/src/components/sections/AboutSection.tsx:1149:                    background: 'radial-gradient(circle, #D4AF37, transparent)',
+/home/z/my-project/src/components/sections/AboutSection.tsx:1193:              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+/home/z/my-project/src/components/sections/AboutSection.tsx:1203:              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">every piece</span>
+/home/z/my-project/src/components/sections/AboutSection.tsx:1224:          className="absolute top-0 right-0 w-px h-40 bg-gradient-to-b from-[#D4AF37]/30 to-transparent pointer-events-none"
+/home/z/my-project/src/components/sections/AboutSection.tsx:1238:              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+/home/z/my-project/src/components/sections/AboutSection.tsx:1248:              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">world</span>
+/home/z/my-project/src/components/sections/AboutSection.tsx:1290:              <p className="text-[#D4AF37] text-[10px] sm:text-xs tracking-[0.2em] uppercase font-sans-body font-bold mb-1">Gallery</p>
+/home/z/my-project/src/components/sections/AboutSection.tsx:1345:              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+/home/z/my-project/src/components/sections/AboutSection.tsx:1355:              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">comes alive</span>
+/home/z/my-project/src/components/sections/AboutSection.tsx:1379:          className="absolute left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#D4AF37]/10 to-transparent pointer-events-none hidden lg:block"
+/home/z/my-project/src/components/sections/AboutSection.tsx:1393:              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+/home/z/my-project/src/components/sections/AboutSection.tsx:1403:              <span className="text-[#5d2c86] dark:text-[#D4AF37] italic">craft & conviction</span>
+
+[Showing results with pagination = limit: 250]
