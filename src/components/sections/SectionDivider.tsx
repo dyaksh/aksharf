@@ -31,22 +31,14 @@ function getAccentColor(fromBg: string, toBg: string): string {
     return (r * 299 + g * 587 + b * 114) / 1000 > 128;
   };
 
-  const fromLight = isLight(fromBg);
-  const toLight = isLight(toBg);
-
-  if (fromLight && !toLight) return '#D4AF37'; // light-to-dark: gold
-  if (!fromLight && toLight) return '#5d2c86'; // dark-to-light: purple
-  if (fromLight && toLight) return '#5d2c86'; // light-to-light: purple
-  return '#D4AF37'; // dark-to-dark: gold
+  // Always use purple (#5d2c86) as accent
+  return '#5d2c86';
 }
 
 export default function SectionDivider({ fromBg, toBg, variant = 'wave' }: SectionDividerProps) {
   const path = dividerPaths[variant];
   const accentPath = accentPaths[variant];
   const accentColor = getAccentColor(fromBg, toBg);
-
-  // Secondary accent color (opposite of primary)
-  const secondaryColor = accentColor === '#D4AF37' ? '#5d2c86' : '#D4AF37';
 
   return (
     <div
@@ -98,21 +90,6 @@ export default function SectionDivider({ fromBg, toBg, variant = 'wave' }: Secti
           whileInView={{ pathLength: 1, opacity: 1 }}
           viewport={{ once: true, margin: '-20px' }}
           transition={{ duration: 1.5, ease: 'easeInOut' }}
-        />
-
-        {/* Subtle secondary line offset - opposite color */}
-        <motion.path
-          d={accentPath}
-          stroke={secondaryColor}
-          strokeWidth={1}
-          strokeOpacity={0.2}
-          fill="none"
-          strokeLinecap="round"
-          transform="translate(0, 8)"
-          initial={{ pathLength: 0, opacity: 0 }}
-          whileInView={{ pathLength: 1, opacity: 0.2 }}
-          viewport={{ once: true, margin: '-20px' }}
-          transition={{ duration: 1.8, ease: 'easeInOut', delay: 0.3 }}
         />
 
         {/* Decorative dots at wave peaks */}

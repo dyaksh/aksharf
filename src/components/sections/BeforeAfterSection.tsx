@@ -1,28 +1,15 @@
 'use client';
 
 import { useState, useRef, useCallback, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-// ─── Comparison data — all before/after pairs are from the SAME room category ───
-// Guest Room pages: 1, 11, 13, 19, 27, 41, 42, 43
-// Lobby pages: 3, 9, 17, 18, 25, 26, 33, 34, 39, 40
-// Suite pages: 8, 10, 15, 21, 23, 29, 31, 35, 37
+// ─── Comparison data ───
 const comparisons = [
   {
     label: 'Guest Room',
     before: '/catalog-pages/page_1.png',
     after: '/catalog-pages/page_11.png',
-  },
-  {
-    label: 'Lobby',
-    before: '/catalog-pages/page_3.png',
-    after: '/catalog-pages/page_17.png',
-  },
-  {
-    label: 'Suite',
-    before: '/catalog-pages/page_8.png',
-    after: '/catalog-pages/page_10.png',
   },
 ];
 
@@ -206,8 +193,6 @@ function ComparisonSlider({ beforeSrc, afterSrc, beforeLabel, afterLabel }: { be
 
 // ─── Main Section ────────────────────────────────────────────────────
 export default function BeforeAfterSection() {
-  const [activeTab, setActiveTab] = useState(0);
-
   return (
     <section
       id="showcase"
@@ -288,38 +273,7 @@ export default function BeforeAfterSection() {
           />
         </div>
 
-        {/* ── Tab Navigation ── */}
-        <motion.div
-          className="flex items-center justify-center gap-6 sm:gap-8 mb-8 lg:mb-10"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          {comparisons.map((comp, i) => (
-            <button
-              key={comp.label}
-              onClick={() => setActiveTab(i)}
-              className={`relative pb-2 text-sm sm:text-base font-sans-body font-semibold tracking-wider uppercase transition-colors duration-300 ${
-                activeTab === i
-                  ? 'text-[#5d2c86]'
-                  : 'text-[#FFF]/30 hover:text-[#FFF]/60'
-              }`}
-            >
-              {comp.label}
-              {/* Underline for active tab */}
-              {activeTab === i && (
-                <motion.div
-                  layoutId="activeTab-underline"
-                  className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#5d2c86]"
-                  transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                />
-              )}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* ── Comparison Container with Corner Brackets ── */}
+        {/* ── Comparison Container ── */}
         <motion.div
           className="relative"
           initial={{ opacity: 0, y: 20 }}
@@ -330,23 +284,13 @@ export default function BeforeAfterSection() {
           {/* Corner brackets */}
           <CornerBrackets />
 
-          {/* Comparison slider with fade transition */}
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeTab}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.4, ease: 'easeInOut' }}
-            >
-              <ComparisonSlider
-                beforeSrc={comparisons[activeTab].before}
-                afterSrc={comparisons[activeTab].after}
-                beforeLabel={comparisons[activeTab].label}
-                afterLabel={comparisons[activeTab].label}
-              />
-            </motion.div>
-          </AnimatePresence>
+          {/* Comparison slider */}
+          <ComparisonSlider
+            beforeSrc={comparisons[0].before}
+            afterSrc={comparisons[0].after}
+            beforeLabel={comparisons[0].label}
+            afterLabel={comparisons[0].label}
+          />
         </motion.div>
 
         {/* ── Drag hint ── */}

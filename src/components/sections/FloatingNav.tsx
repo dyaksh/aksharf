@@ -34,7 +34,7 @@ export default function FloatingNav() {
 
   return (
     <nav
-      className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col items-stretch gap-1 rounded-2xl p-2 bg-white/80 dark:bg-[#1A1A1A]/80 backdrop-blur-xl border border-gray-200/50 dark:border-white/10 shadow-lg"
+      className="fixed right-4 top-1/2 -translate-y-1/2 z-40 hidden lg:flex flex-col items-stretch gap-1 rounded-2xl p-2 bg-white/80 backdrop-blur-xl border border-gray-200/50 shadow-lg"
       aria-label="Section navigation"
     >
       {sections.map((section) => {
@@ -54,16 +54,15 @@ export default function FloatingNav() {
                   exit={{ opacity: 0, x: 8 }}
                   transition={{ duration: 0.2, ease: 'easeOut' }}
                 >
-                  {/* Connecting line */}
-                  <div className="w-3 h-[1px] bg-[#5d2c86]/30 dark:bg-[#7d44a8]/30" />
-                  <span className="rounded-md px-2.5 py-1 bg-white dark:bg-[#2A2A2A] text-[#5d2c86] dark:text-[#D4AF37] font-sans-body text-[10px] tracking-wider font-medium shadow-sm border border-gray-200/50 dark:border-white/10">
+                  <div className="w-3 h-[1px] bg-[#5d2c86]/30" />
+                  <span className="rounded-md px-2.5 py-1 bg-white text-[#5d2c86] font-sans-body text-[10px] tracking-wider font-medium shadow-sm border border-gray-200/50">
                     {section.label}
                   </span>
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* Active item tooltip with gold dot */}
+            {/* Active item tooltip */}
             <AnimatePresence>
               {isActive && !isHovered && (
                 <motion.div
@@ -73,10 +72,8 @@ export default function FloatingNav() {
                   exit={{ opacity: 0, x: 8 }}
                   transition={{ duration: 0.2, ease: 'easeOut' }}
                 >
-                  {/* Connecting line */}
-                  <div className="w-3 h-[1px] bg-[#5d2c86]/40 dark:bg-[#7d44a8]/40" />
-                  {/* Gold dot indicator */}
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] mr-1.5 shrink-0" />
+                  <div className="w-3 h-[1px] bg-[#5d2c86]/40" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#5d2c86] mr-1.5 shrink-0" />
                   <span className="rounded-md px-2.5 py-1 bg-[#5d2c86] text-white font-sans-body text-[10px] tracking-wider font-bold shadow-sm">
                     {section.label}
                   </span>
@@ -89,10 +86,10 @@ export default function FloatingNav() {
               onClick={() => scrollToSection(section.id)}
               onMouseEnter={() => setHoveredItem(section.id)}
               onMouseLeave={() => setHoveredItem(null)}
-              className={`flex items-center justify-center rounded-lg px-2.5 py-1.5 text-[10px] tracking-wider transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] ${
+              className={`flex items-center justify-center rounded-lg px-2.5 py-1.5 text-[10px] tracking-wider transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#5d2c86] ${
                 isActive
                   ? 'bg-[#5d2c86] text-white font-bold'
-                  : 'text-gray-400 hover:text-[#5d2c86] dark:hover:text-[#7d44a8] hover:bg-[#5d2c86]/5 dark:hover:bg-[#7d44a8]/5 font-medium'
+                  : 'text-gray-400 hover:text-[#5d2c86] hover:bg-[#5d2c86]/5 font-medium'
               }`}
               aria-label={`Navigate to ${section.label} section`}
               aria-current={isActive ? 'true' : undefined}

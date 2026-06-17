@@ -23,7 +23,6 @@ import Footer from '@/components/sections/Footer';
 import FloatingNav from '@/components/sections/FloatingNav';
 import ChatWidget from '@/components/sections/ChatWidget';
 import WhatsAppFloat from '@/components/sections/WhatsAppFloat';
-import SectionDivider from '@/components/sections/SectionDivider';
 import PageTransition from '@/components/PageTransition';
 import ScrollProgress from '@/components/ScrollProgress';
 import SEOHead from '@/components/SEOHead';
@@ -94,21 +93,13 @@ function HomePageContent() {
     >
       <div aria-label="Hero section"><HeroSection /></div>
       <ServicesMarquee />
-      <SectionDivider fromBg="#5d2c86" toBg="#FFFFFF" variant="curve" />
       <div aria-label="Partners and trust section"><PartnersTrust /></div>
-      <SectionDivider fromBg="#FFFFFF" toBg="#3d1c5a" variant="wave" />
       <div aria-label="About call to action"><AboutCTA /></div>
-      <SectionDivider fromBg="#3d1c5a" toBg="#f8f3ed" variant="wave" />
       <div aria-label="Process section"><ProcessSection /></div>
-      <SectionDivider fromBg="#f8f3ed" toBg="#FFFFFF" variant="curve" />
       <div aria-label="Services section"><ServicesSection /></div>
-      <SectionDivider fromBg="#f8f3ed" toBg="#1A1A1A" variant="angled" />
       <div aria-label="Before and after showcase"><BeforeAfterSection /></div>
-      <SectionDivider fromBg="#1A1A1A" toBg="#FFFFFF" variant="angled" />
       <div aria-label="Testimonials section"><TestimonialsSection /></div>
-      <SectionDivider fromBg="#FFFFFF" toBg="#f8f3ed" variant="curve" />
       <div aria-label="FAQ section"><FAQSection /></div>
-      <SectionDivider fromBg="#f8f3ed" toBg="#3d1c5a" variant="wave" />
       <div aria-label="Call to action section"><CTASection /></div>
     </motion.div>
   );
@@ -143,8 +134,8 @@ function AboutPage() {
           />
           <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86]/85 via-[#5d2c86]/55 to-[#5d2c86]/20" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/40 to-transparent" />
-          {/* Cinematic gold gradient line at bottom for visual storytelling */}
-          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/60 to-transparent" />
+          {/* Cinematic purple gradient line at bottom for visual storytelling */}
+          <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#5d2c86]/60 to-transparent" />
           <div className="absolute inset-0 flex items-center">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
               <motion.div
@@ -156,11 +147,11 @@ function AboutPage() {
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
-                  className="w-12 h-[2px] bg-[#D4AF37] mb-6 origin-left"
+                  className="w-12 h-[2px] bg-[#5d2c86] mb-6 origin-left"
                 />
-                <p className="text-xs sm:text-sm tracking-[0.3em] text-[#D4AF37] mb-4 font-sans-body font-semibold">OUR STORY</p>
+                <p className="text-xs sm:text-sm tracking-[0.3em] text-white/80 mb-4 font-sans-body font-semibold">OUR STORY</p>
                 <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold font-serif-display text-white leading-tight mb-4">
-                  About <span className="text-[#D4AF37] italic">Akshar Foshan</span>
+                  About <span className="text-[#5d2c86] italic">Akshar Foshan</span>
                 </h1>
                 <p className="mt-2 text-base sm:text-lg lg:text-xl text-white/80 max-w-xl font-sans-body leading-relaxed">
                   Crafting excellence in hospitality FF&amp;E from Foshan to the world.
@@ -169,7 +160,7 @@ function AboutPage() {
                   initial={{ scaleX: 0 }}
                   animate={{ scaleX: 1 }}
                   transition={{ duration: 0.6, delay: 0.5 }}
-                  className="w-24 h-[2px] bg-[#D4AF37]/40 mt-6 origin-left"
+                  className="w-24 h-[2px] bg-[#5d2c86]/40 mt-6 origin-left"
                 />
               </motion.div>
             </div>
@@ -218,9 +209,7 @@ function ServicesPage() {
       transition={{ duration: 0.4, ease: 'easeOut' }}
     >
       <ServicesSection />
-      <SectionDivider fromBg="#f8f3ed" toBg="#1A1A1A" variant="angled" />
       <BeforeAfterSection />
-      <SectionDivider fromBg="#1A1A1A" toBg="#3d1c5a" variant="wave" />
       <CTASection />
     </motion.div>
   );

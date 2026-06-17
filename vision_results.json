@@ -1,0 +1,21 @@
+{
+  "bed/bed-1.png": "reception desk",
+  "bed/bed-2.png": "bed",
+  "sofa/sofa-1.jpeg": "worktable",
+  "sofa/sofa-2.jpeg": "worktable",
+  "sofa/sofa-3.png": "desk",
+  "sofa/sofa-4.png": "FAILED",
+  "chairs/chair-1.jpeg": "FAILED",
+  "chairs/chair-2.jpeg": "worktable",
+  "chairs/chair-3.png": "table",
+  "table/table-1.jpeg": "Cabinet (or Desk)",
+  "table/table-2.png": "Cabinet",
+  "table/table-3.png": "no furniture shown",
+  "cabinet/cabinet-1.png": "Cabinet",
+  "cupboard/cupboard-1.png": "workshop table",
+  "lamp/lamp-1.png": "Hotel building",
+  "lamp/lamp-2.png": "Candlewood Suites",
+  "catalog-04.jpg": "multiple, industrial machinery in use",
+  "catalog-06.jpg": "multiple; factory workshop scenes",
+  "catalog-12.jpg": "multiple; product gallery with various items"
+}

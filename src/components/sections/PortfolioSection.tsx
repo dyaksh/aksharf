@@ -15,7 +15,6 @@ import {
   ArrowRight,
   Sparkles,
   Keyboard,
-  Building2,
   Lamp,
 } from 'lucide-react';
 import {
@@ -42,119 +41,54 @@ interface CategoryDef {
 
 const categories: CategoryDef[] = [
   { key: 'all', label: 'All', icon: ZoomIn },
-  { key: 'bedroom', label: 'Bedroom', icon: Bed },
-  { key: 'lobby', label: 'Lobby', icon: Building2 },
+  { key: 'headboard', label: 'Headboard', icon: Bed },
   { key: 'sofa', label: 'Sofa & Seating', icon: Armchair },
   { key: 'table', label: 'Table & Desk', icon: Table },
   { key: 'cabinet', label: 'Cabinet & Storage', icon: Box },
-  { key: 'headboard', label: 'Headboard', icon: Sofa },
   { key: 'lighting', label: 'Lighting', icon: Lamp },
 ];
 
-/* ── Portfolio Items — properly categorized based on VLM image analysis ── */
+/* ── Portfolio Items — SINGLE PRODUCT images only (no combined catalog pages) ── */
+const P = '/images/portfolio/products';
+
 const portfolioItems: PortfolioItem[] = [
-  // ── Bedroom Sets (16 items) ──
-  { id: 'cat-01', category: 'bedroom', name: 'Modern Hotel Bedroom Set', image: '/images/portfolio/catalog-01.jpg' },
-  { id: 'cat-11', category: 'bedroom', name: 'Modern Hotel Bedroom Suite', image: '/images/portfolio/catalog-11.jpg' },
-  { id: 'cat-13', category: 'bedroom', name: 'Holiday Inn Express Bed Set', image: '/images/portfolio/catalog-13.jpg' },
-  { id: 'cat-15', category: 'bedroom', name: 'Studio Suite Room', image: '/images/portfolio/catalog-15.jpg' },
-  { id: 'cat-16', category: 'bedroom', name: 'Candlewood Suite Furniture', image: '/images/portfolio/catalog-16.jpg' },
-  { id: 'cat-19', category: 'bedroom', name: 'Modern Hotel Bed', image: '/images/portfolio/catalog-19.jpg' },
-  { id: 'cat-20', category: 'bedroom', name: 'Fairfield Inn Bedroom Set', image: '/images/portfolio/catalog-20.jpg' },
-  { id: 'cat-21', category: 'bedroom', name: 'SpringHill Suites Bedroom', image: '/images/portfolio/catalog-21.jpg' },
-  { id: 'cat-23', category: 'bedroom', name: 'Two Queen Beds Suite', image: '/images/portfolio/catalog-23.jpg' },
-  { id: 'cat-27', category: 'bedroom', name: 'Hampton Hotel Room Suite', image: '/images/portfolio/catalog-27.jpg' },
-  { id: 'cat-29', category: 'bedroom', name: 'Modern Suite Bed', image: '/images/portfolio/catalog-29.jpg' },
-  { id: 'cat-31', category: 'bedroom', name: 'Modern Hotel Bed', image: '/images/portfolio/catalog-31.jpg' },
-  { id: 'cat-35', category: 'bedroom', name: 'Modern Hotel Room', image: '/images/portfolio/catalog-35.jpg' },
-  { id: 'cat-37', category: 'bedroom', name: 'Modern Hotel Bedroom', image: '/images/portfolio/catalog-37.jpg' },
-  { id: 'cat-41', category: 'bedroom', name: 'Modern Hotel Room', image: '/images/portfolio/catalog-41.jpg' },
-  { id: 'cat-43', category: 'bedroom', name: 'Classic Bedroom Suite', image: '/images/portfolio/catalog-43.jpg' },
+  // ── Headboard (2 items) ──
+  { id: 'hb-1', category: 'headboard', name: 'Upholstered Velvet Headboard', image: `${P}/headboard-1.png` },
+  { id: 'ns-1', category: 'headboard', name: 'Nightstand with Headboard Set', image: `${P}/nightstand-1.png` },
 
-  // ── Lobby / Common Area (13 items) ──
-  { id: 'cat-02', category: 'lobby', name: 'Akshar Hospitality Building', image: '/images/portfolio/catalog-02.jpg' },
-  { id: 'cat-03', category: 'lobby', name: 'Reception Desk Unit', image: '/images/portfolio/catalog-03.jpg' },
-  { id: 'cat-09', category: 'lobby', name: 'Holiday Inn Exterior', image: '/images/portfolio/catalog-09.jpg' },
-  { id: 'cat-10', category: 'lobby', name: 'Candlewood Suites Building', image: '/images/portfolio/catalog-10.jpg' },
-  { id: 'cat-17', category: 'lobby', name: 'Marriott Hotel Lobby', image: '/images/portfolio/catalog-17.jpg' },
-  { id: 'cat-18', category: 'lobby', name: 'Marriott Hotel Entrance', image: '/images/portfolio/catalog-18.jpg' },
-  { id: 'cat-25', category: 'lobby', name: 'Hotel Lobby View', image: '/images/portfolio/catalog-25.jpg' },
-  { id: 'cat-26', category: 'lobby', name: 'Hilton Hotel Building', image: '/images/portfolio/catalog-26.jpg' },
-  { id: 'cat-33', category: 'lobby', name: 'Hotel Common Space', image: '/images/portfolio/catalog-33.jpg' },
-  { id: 'cat-34', category: 'lobby', name: 'Hotel Lobby Seating', image: '/images/portfolio/catalog-34.jpg' },
-  { id: 'cat-39', category: 'lobby', name: 'Hotel Lobby Area', image: '/images/portfolio/catalog-39.jpg' },
-  { id: 'cat-40', category: 'lobby', name: 'LaQuinta Hotel Building', image: '/images/portfolio/catalog-40.jpg' },
-  { id: 'cat-45', category: 'lobby', name: 'Hotel Brand Logos Display', image: '/images/portfolio/catalog-45.jpg' },
+  // ── Sofa & Seating (2 items) ──
+  { id: 'sf-1', category: 'sofa', name: 'Modern Hotel Sofa', image: `${P}/sofa-1.png` },
+  { id: 'ch-1', category: 'sofa', name: 'Lounge Accent Chair', image: `${P}/chair-1.png` },
 
-  // ── Cabinet / Storage (6 items) ──
-  { id: 'cat-04', category: 'cabinet', name: 'Custom Wood Storage Unit', image: '/images/portfolio/catalog-04.jpg' },
-  { id: 'cat-06', category: 'cabinet', name: 'Modular Storage Units', image: '/images/portfolio/catalog-06.jpg' },
-  { id: 'cat-22', category: 'cabinet', name: 'Wooden Wardrobe', image: '/images/portfolio/catalog-22.jpg' },
-  { id: 'cat-24', category: 'cabinet', name: 'Dresser Cabinet', image: '/images/portfolio/catalog-24.jpg' },
-  { id: 'cat-32', category: 'cabinet', name: 'Wooden Dresser Unit', image: '/images/portfolio/catalog-32.jpg' },
-  { id: 'cat-38', category: 'cabinet', name: 'Wooden Cabinet Unit', image: '/images/portfolio/catalog-38.jpg' },
+  // ── Table & Desk (3 items) ──
+  { id: 'dk-1', category: 'table', name: 'Walnut Writing Desk', image: `${P}/desk-1.png` },
+  { id: 'ct-1', category: 'table', name: 'C-Table Nesting Side Table', image: `${P}/ctable-1.png` },
+  { id: 'bn-1', category: 'table', name: 'Luggage Bench', image: `${P}/bench-1.png` },
 
-  // ── Headboard (3 items) ──
-  { id: 'cat-12', category: 'headboard', name: 'King Headboard with Desk', image: '/images/portfolio/catalog-12.jpg' },
-  { id: 'cat-14', category: 'headboard', name: 'King Headboard with Chaise', image: '/images/portfolio/catalog-14.jpg' },
-  { id: 'cat-42', category: 'headboard', name: 'Upholstered Headboard', image: '/images/portfolio/catalog-42.jpg' },
+  // ── Cabinet & Storage (4 items) ──
+  { id: 'dr-1', category: 'cabinet', name: 'Walnut Dresser Chest', image: `${P}/dresser-1.png` },
+  { id: 'wr-1', category: 'cabinet', name: 'Wardrobe Closet', image: `${P}/wardrobe-1.png` },
+  { id: 'tv-1', category: 'cabinet', name: 'TV Console Media Unit', image: `${P}/tv-console-1.png` },
+  { id: 'ot-1', category: 'cabinet', name: 'Ottoman Storage Bench', image: `${P}/ottoman-1.png` },
 
-  // ── Table / Desk (3 catalog + 4 product items) ──
-  { id: 'cat-08', category: 'table', name: 'Hotel Brand Catalog', image: '/images/portfolio/catalog-08.jpg' },
-  { id: 'cat-28', category: 'table', name: 'C-Table', image: '/images/portfolio/catalog-28.jpg' },
-  { id: 'cat-36', category: 'table', name: 'Desk with Metal Frame', image: '/images/portfolio/catalog-36.jpg' },
-  { id: 'tbl-1', category: 'table', name: 'Worktable', image: '/images/portfolio/table/table-1.jpeg' },
-  { id: 'tbl-2', category: 'table', name: 'Worktable', image: '/images/portfolio/table/table-2.png' },
-  { id: 'tbl-3', category: 'table', name: 'Catalog Table', image: '/images/portfolio/table/table-3.png' },
-  { id: 'cup-1', category: 'table', name: 'Workshop Table', image: '/images/portfolio/cupboard/cupboard-1.png' },
-
-  // ── Sofa / Seating (2 catalog + 4 product items) ──
-  { id: 'cat-30', category: 'sofa', name: 'Sleeper Sofa', image: '/images/portfolio/catalog-30.jpg' },
-  { id: 'cat-44', category: 'sofa', name: 'Functional Sofa', image: '/images/portfolio/catalog-44.jpg' },
-  { id: 'sof-1', category: 'sofa', name: 'Lounge Seating', image: '/images/portfolio/sofa/sofa-1.jpeg' },
-  { id: 'sof-2', category: 'sofa', name: 'Club Chair', image: '/images/portfolio/sofa/sofa-2.jpeg' },
-  { id: 'sof-3', category: 'sofa', name: 'Loveseat', image: '/images/portfolio/sofa/sofa-3.png' },
-  { id: 'sof-4', category: 'sofa', name: 'Sofa Bed', image: '/images/portfolio/sofa/sofa-4.png' },
-  { id: 'chr-1', category: 'sofa', name: 'Accent Chair', image: '/images/portfolio/chairs/chair-1.jpeg' },
-  { id: 'chr-2', category: 'sofa', name: 'Side Chair', image: '/images/portfolio/chairs/chair-2.jpeg' },
-  { id: 'chr-3', category: 'sofa', name: 'Upholstered Chair', image: '/images/portfolio/chairs/chair-3.png' },
-
-  // ── Lighting (2 items from lamp folder) ──
-  { id: 'lmp-1', category: 'lighting', name: 'Table Lamp', image: '/images/portfolio/lamp/lamp-1.png' },
-  { id: 'lmp-2', category: 'lighting', name: 'Floor Lamp', image: '/images/portfolio/lamp/lamp-2.png' },
+  // ── Lighting (3 items) ──
+  { id: 'lm-1', category: 'lighting', name: 'Fabric Shade Table Lamp', image: `${P}/lamp-1.png` },
+  { id: 'lm-2', category: 'lighting', name: 'Brass Floor Lamp', image: `${P}/lamp-2.png` },
+  { id: 'mr-1', category: 'lighting', name: 'Decorative Wall Mirror', image: `${P}/mirror-1.png` },
 ];
 
 /* ── Varying heights for Pinterest masonry effect ──────────── */
 const heightClasses: Record<string, string> = {
-  // Bedroom — varied for Pinterest look
-  'cat-01': 'aspect-[4/3]',  'cat-11': 'aspect-[3/4]',  'cat-13': 'aspect-square',
-  'cat-15': 'aspect-[4/5]',  'cat-16': 'aspect-[3/4]',  'cat-19': 'aspect-[4/3]',
-  'cat-20': 'aspect-square', 'cat-21': 'aspect-[3/4]',  'cat-23': 'aspect-[4/5]',
-  'cat-27': 'aspect-[4/3]',  'cat-29': 'aspect-square', 'cat-31': 'aspect-[3/4]',
-  'cat-35': 'aspect-[4/5]',  'cat-37': 'aspect-[4/3]',  'cat-41': 'aspect-square',
-  'cat-43': 'aspect-[3/4]',
-  // Lobby — varied
-  'cat-02': 'aspect-[3/4]',  'cat-03': 'aspect-square', 'cat-09': 'aspect-[4/3]',
-  'cat-10': 'aspect-[4/5]',  'cat-17': 'aspect-[3/4]',  'cat-18': 'aspect-square',
-  'cat-25': 'aspect-[4/3]',  'cat-26': 'aspect-[4/5]',  'cat-33': 'aspect-[3/4]',
-  'cat-34': 'aspect-square', 'cat-39': 'aspect-[4/5]',  'cat-40': 'aspect-[4/3]',
-  'cat-45': 'aspect-square',
-  // Cabinet
-  'cat-04': 'aspect-[3/4]',  'cat-06': 'aspect-[4/5]',  'cat-22': 'aspect-square',
-  'cat-24': 'aspect-[3/4]',  'cat-32': 'aspect-[4/5]',  'cat-38': 'aspect-square',
   // Headboard
-  'cat-12': 'aspect-[3/4]',  'cat-14': 'aspect-[4/5]',  'cat-42': 'aspect-[3/4]',
-  // Table
-  'cat-08': 'aspect-square', 'cat-28': 'aspect-[3/4]',  'cat-36': 'aspect-[4/5]',
-  'tbl-1': 'aspect-square',  'tbl-2': 'aspect-[3/4]',  'tbl-3': 'aspect-[4/5]',
-  'cup-1': 'aspect-square',
+  'hb-1': 'aspect-[3/4]', 'ns-1': 'aspect-[4/5]',
   // Sofa
-  'cat-30': 'aspect-[3/4]',  'cat-44': 'aspect-[4/5]',
-  'sof-1': 'aspect-square',  'sof-2': 'aspect-[3/4]',  'sof-3': 'aspect-[4/5]',
-  'sof-4': 'aspect-square',
-  'chr-1': 'aspect-[3/4]',  'chr-2': 'aspect-[4/5]',  'chr-3': 'aspect-square',
+  'sf-1': 'aspect-[4/5]', 'ch-1': 'aspect-[3/4]',
+  // Table
+  'dk-1': 'aspect-[3/4]', 'ct-1': 'aspect-[4/5]', 'bn-1': 'aspect-square',
+  // Cabinet
+  'dr-1': 'aspect-[3/4]', 'wr-1': 'aspect-[4/5]', 'tv-1': 'aspect-square', 'ot-1': 'aspect-[4/5]',
   // Lighting
-  'lmp-1': 'aspect-square',  'lmp-2': 'aspect-[3/4]',
+  'lm-1': 'aspect-square', 'lm-2': 'aspect-[3/4]', 'mr-1': 'aspect-[4/5]',
 };
 
 /* ── Count items per category ──────────────────────────────── */
