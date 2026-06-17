@@ -1962,3 +1962,24 @@ Stage Summary:
 - AI image paths are pre-configured; SmartImage auto-detects when AI images become available
 - Background generation script ready: bash scripts/bg-generate-images.sh
 - All lint checks pass, no console errors
+
+---
+Task ID: 9
+Agent: Main Agent (cron job 212860)
+Task: Generate 12 AI before/after room transformation images via z-ai CLI/SDK
+
+Work Log:
+- Checked /home/z/my-project/public/images/room-transformation/ai/ — directory exists but empty (0 images)
+- Created scripts/generate-room-images.mjs — batch generation with exponential backoff (30s, 60s, 120s, 240s)
+- Created scripts/gen-one.mjs — single image generation script for individual retries
+- Attempted CLI: `z-ai image -p "..." -o "..." -s 1344x768` → 429 rate limit
+- Attempted SDK (gen-one.mjs) with 4 retries and 15-45s delays → all 429 rate limit
+- Attempted batch script (generate-room-images.mjs) → timed out at 10 min, 0 images generated
+- API rate limit window appears to be long (>5 minutes), all 12 images still pending
+- Scheduled cron job to retry generation when rate limit clears
+
+Stage Summary:
+- 0/12 AI images generated — all blocked by persistent 429 rate limit
+- Scripts ready for retry: scripts/generate-room-images.mjs (batch) and scripts/gen-one.mjs (single)
+- Cron job scheduled for retry
+- Next step: re-run generation when rate limit clears
