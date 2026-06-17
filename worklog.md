@@ -1981,9 +1981,10 @@ Work Log:
 - Created scripts/single-gen.sh for CLI-based single image generation with retry
 - Rate limit has persisted for 30+ minutes across multiple retry attempts
 - [06:11 UTC] Cron retry #2: still 429, 0/12 images, ~40 min since first attempt
+- [06:21 UTC] Cron retry #3: still 429, 0/12 images, ~50 min since first attempt
 
 Stage Summary:
-- 0/12 AI images generated — all blocked by persistent 429 rate limit (40+ min duration)
+- 0/12 AI images generated — all blocked by persistent 429 rate limit (50+ min duration)
 - Scripts ready for retry: scripts/generate-room-images.mjs (batch), scripts/gen-one.mjs (SDK), scripts/single-gen.sh (CLI)
 - Cron job continues to retry every ~10 min
 - Next step: retry when rate limit window expires
