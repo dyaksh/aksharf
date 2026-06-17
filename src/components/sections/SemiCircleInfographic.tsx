@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState, useMemo } from 'react';
+import { useRef, useState, useCallback } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { Sofa, Lamp, Bath, Package, ShieldCheck, Frame } from 'lucide-react';
 
@@ -61,413 +61,290 @@ const services = [
 ];
 
 /* ═══════════════════════════════════════════════════════
-   SERVICE CARD — mobile/tablet
+   ANIMATED GLOWING BORDER CARD (Desktop)
    ═══════════════════════════════════════════════════════ */
 
-function ServiceCard({
+function GlowCard({
   service,
-  isActive,
-  onClick,
   index,
+  isActive,
+  onToggle,
 }: {
   service: (typeof services)[0];
-  isActive: boolean;
-  onClick: () => void;
   index: number;
+  isActive: boolean;
+  onToggle: () => void;
 }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [isHovered, setIsHovered] = useState(false);
   const Icon = service.icon;
-  return (
-    <motion.article
-      className={`relative rounded-xl border cursor-pointer transition-all duration-300 overflow-hidden ${
-        isActive
-          ? 'bg-white border-[#5d2c86]/25 shadow-lg ring-1 ring-[#5d2c86]/15'
-          : 'bg-white/70 border-[#000]/8 hover:border-[#5d2c86]/20 hover:shadow-md'
-      }`}
-      onClick={onClick}
-      initial={{ opacity: 0, y: 15 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: index * 0.08 }}
-      role="button"
-      tabIndex={0}
-      aria-expanded={isActive}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } }}
-    >
-      <div className="p-4 flex items-start gap-3">
-        <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-300 ${
-          isActive ? 'bg-[#5d2c86]' : 'bg-[#5d2c86]/8'
-        }`}>
-          <Icon className={`w-5 h-5 transition-colors duration-300 ${isActive ? 'text-white' : 'text-[#5d2c86]'}`} />
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center justify-between gap-2">
-            <h3 className="text-sm font-bold text-[#000] font-sans-body">{service.title}</h3>
-            <span className="text-xs font-bold font-serif-display text-[#5d2c86] whitespace-nowrap">{service.stat}</span>
-          </div>
-          <p className="text-[10px] text-[#000]/40 font-sans-body tracking-wide uppercase mt-0.5">
-            {service.statLabel}
-          </p>
-          <AnimatePresence>
-            {isActive && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-              >
-                <p className="text-xs text-[#000]/55 leading-relaxed font-sans-body mt-2">{service.description}</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
-    </motion.article>
-  );
-}
 
-/* ═══════════════════════════════════════════════════════
-   SEMI-CIRCLE INFOGRAPHIC (DESKTOP)
-   ═══════════════════════════════════════════════════════ */
-
-function SemiCircleDesktop() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(containerRef, { once: true, margin: '-60px' });
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  const selectedService = activeIndex !== null ? services[activeIndex] : null;
-
-  // Position service nodes along a semi-circle arc
-  const nodePositions = useMemo(() => {
-    return services.map((_, i) => {
-      const angleDeg = 180 - (i * 180 / (services.length - 1));
-      const angleRad = angleDeg * (Math.PI / 180);
-      const innerR = 28; // % from center for service icons
-      const outerR = 42; // % from center for stat pills
-      return {
-        service: {
-          x: 50 + innerR * Math.cos(angleRad),
-          y: 50 - innerR * Math.sin(angleRad),
-        },
-        stat: {
-          x: 50 + outerR * Math.cos(angleRad),
-          y: 50 - outerR * Math.sin(angleRad),
-        },
-        angleDeg,
-      };
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    setMousePos({
+      x: e.clientX - rect.left,
+      y: e.clientY - rect.top,
     });
   }, []);
 
   return (
-    <div ref={containerRef} className="py-4">
-      {/* Semi-circle container with proper aspect ratio */}
-      <div className="relative w-full max-w-3xl mx-auto" style={{ paddingBottom: '50%' }}>
-        {/* SVG layer */}
-        <svg
-          className="absolute inset-0 w-full h-full"
-          viewBox="0 0 1000 500"
-          preserveAspectRatio="xMidYMid meet"
-          role="img"
-          aria-label="Semi-circle infographic showing FF&E services"
-        >
-          <defs>
-            <linearGradient id="outerArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#5d2c86" stopOpacity="0.06" />
-              <stop offset="50%" stopColor="#5d2c86" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#5d2c86" stopOpacity="0.06" />
-            </linearGradient>
-            <linearGradient id="innerArcGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#5d2c86" stopOpacity="0.08" />
-              <stop offset="50%" stopColor="#5d2c86" stopOpacity="0.35" />
-              <stop offset="100%" stopColor="#5d2c86" stopOpacity="0.08" />
-            </linearGradient>
-            <radialGradient id="coreGrad" cx="40%" cy="40%">
-              <stop offset="0%" stopColor="#5d2c86" />
-              <stop offset="100%" stopColor="#3d1c5a" />
-            </radialGradient>
-            <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="3" />
-            </filter>
-            <filter id="purpleGlow" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="8" />
-            </filter>
-          </defs>
-
-          {/* Base line */}
-          <motion.line
-            x1="80" y1="500" x2="920" y2="500"
-            stroke="#5d2c86" strokeWidth="1" opacity="0.12"
-            initial={{ scaleX: 0 }}
-            animate={isInView ? { scaleX: 1 } : {}}
-            transition={{ duration: 1, delay: 0.2 }}
-            style={{ transformOrigin: '500px 500px' }}
-          />
-
-          {/* Outer arc (Statistics ring) */}
-          <motion.path
-            d="M 100,500 A 400,400 0 0,1 900,500"
-            fill="none"
-            stroke="url(#outerArcGrad)"
-            strokeWidth="2"
-            strokeDasharray="8 4"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
-            transition={{ duration: 1.5, delay: 0.3, ease: 'easeOut' }}
-          />
-          <motion.path
-            d="M 100,500 A 400,400 0 0,1 900,500"
-            fill="none" stroke="#5d2c86" strokeWidth="6" opacity="0.06"
-            filter="url(#softGlow)"
-            initial={{ pathLength: 0 }}
-            animate={isInView ? { pathLength: 1 } : {}}
-            transition={{ duration: 1.5, delay: 0.3 }}
-          />
-
-          {/* Inner arc (Services ring) */}
-          <motion.path
-            d="M 220,500 A 280,280 0 0,1 780,500"
-            fill="none"
-            stroke="url(#innerArcGrad)"
-            strokeWidth="2"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={isInView ? { pathLength: 1, opacity: 1 } : {}}
-            transition={{ duration: 1.2, delay: 0.6, ease: 'easeOut' }}
-          />
-          <motion.path
-            d="M 220,500 A 280,280 0 0,1 780,500"
-            fill="none" stroke="#5d2c86" strokeWidth="5" opacity="0.05"
-            filter="url(#softGlow)"
-            initial={{ pathLength: 0 }}
-            animate={isInView ? { pathLength: 1 } : {}}
-            transition={{ duration: 1.2, delay: 0.6 }}
-          />
-
-          {/* Connector lines */}
-          {nodePositions.map((pos, i) => {
-            const sx = pos.service.x * 10;
-            const sy = pos.service.y * 5;
-            const ox = pos.stat.x * 10;
-            const oy = pos.stat.y * 5;
-            const isActive = activeIndex === i;
-            return (
-              <motion.line
-                key={`conn-${i}`}
-                x1={sx} y1={sy} x2={ox} y2={oy}
-                stroke="#5d2c86"
-                strokeWidth={isActive ? 1.5 : 0.6}
-                strokeDasharray={isActive ? '4 3' : '2 4'}
-                opacity={isActive ? 0.5 : 0.12}
-                initial={{ pathLength: 0 }}
-                animate={isInView ? { pathLength: 1 } : {}}
-                transition={{ duration: 0.6, delay: 1.3 + i * 0.08 }}
-              />
-            );
-          })}
-
-          {/* Stat pills on outer arc */}
-          {services.map((service, i) => {
-            const pos = nodePositions[i];
-            const cx = pos.stat.x * 10;
-            const cy = pos.stat.y * 5;
-            const isActive = activeIndex === i;
-            return (
-              <g key={`stat-${i}`}>
-                <motion.g
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                  transition={{ duration: 0.4, delay: 1.0 + i * 0.1 }}
-                >
-                  {isActive && (
-                    <rect x={cx - 46} y={cy - 17} width="92" height="34" rx="17"
-                      fill="rgba(93,44,134,0.15)" filter="url(#softGlow)" />
-                  )}
-                  <rect x={cx - 44} y={cy - 15} width="88" height="30" rx="15"
-                    fill={isActive ? 'rgba(93,44,134,0.08)' : 'rgba(255,255,255,0.9)'}
-                    stroke={isActive ? 'rgba(93,44,134,0.4)' : 'rgba(93,44,134,0.15)'}
-                    strokeWidth="1" />
-                  <text x={cx - 6} y={cy + 1} textAnchor="middle" dominantBaseline="middle"
-                    fill="#5d2c86" fontSize="14"
-                    fontFamily="var(--font-serif-display, Georgia)" fontWeight="700">
-                    {service.stat}
-                  </text>
-                  <text x={cx + 20} y={cy + 1} textAnchor="start" dominantBaseline="middle"
-                    fill="#000" opacity="0.35" fontSize="6.5"
-                    fontFamily="var(--font-sans-body, system-ui)" fontWeight="500" letterSpacing="0.06em">
-                    {service.statLabel}
-                  </text>
-                </motion.g>
-              </g>
-            );
-          })}
-
-          {/* Center core */}
-          <motion.g
-            initial={{ scale: 0, opacity: 0 }}
-            animate={isInView ? { scale: 1, opacity: 1 } : {}}
-            transition={{ duration: 0.8, delay: 0.2, type: 'spring', stiffness: 80 }}
-          >
-            <circle cx="500" cy="500" r="80" fill="#5d2c86" opacity="0.08" filter="url(#purpleGlow)" />
-            <circle cx="500" cy="500" r="55" fill="url(#coreGrad)" stroke="#5d2c86" strokeWidth="1.5" opacity="0.95" />
-            <circle cx="490" cy="488" r="25" fill="rgba(255,255,255,0.06)" />
-            <text x="500" y="486" textAnchor="middle" dominantBaseline="middle"
-              fill="#FFF" fontSize="24" fontFamily="var(--font-serif-display, Georgia)" fontWeight="700">
-              360°
-            </text>
-            <line x1="478" y1="498" x2="522" y2="498" stroke="#FFF" strokeWidth="1" opacity="0.3" />
-            <text x="500" y="516" textAnchor="middle" dominantBaseline="middle"
-              fill="#FFF" fontSize="11" fontFamily="var(--font-sans-body, system-ui)" fontWeight="700" letterSpacing="0.2em">
-              FF&amp;E
-            </text>
-            <text x="500" y="532" textAnchor="middle" dominantBaseline="middle"
-              fill="rgba(255,255,255,0.6)" fontSize="9" fontFamily="var(--font-sans-body, system-ui)" fontWeight="500" letterSpacing="0.15em">
-              SUPPORT
-            </text>
-          </motion.g>
-
-          {/* Ring labels */}
-          <motion.text x="500" y="68" textAnchor="middle" fill="#5d2c86" fontSize="10"
-            fontFamily="var(--font-sans-body, system-ui)" fontWeight="700" letterSpacing="0.25em" opacity="0"
-            initial={{ opacity: 0 }} animate={isInView ? { opacity: 0.45 } : {}}>
-            STATISTICS
-          </motion.text>
-          <motion.text x="500" y="210" textAnchor="middle" fill="#5d2c86" fontSize="9"
-            fontFamily="var(--font-sans-body, system-ui)" fontWeight="700" letterSpacing="0.2em" opacity="0"
-            initial={{ opacity: 0 }} animate={isInView ? { opacity: 0.3 } : {}}>
-            SERVICES
-          </motion.text>
-        </svg>
-
-        {/* Interactive service icon buttons */}
-        <div className="absolute inset-0">
-          {services.map((service, i) => {
-            const pos = nodePositions[i];
-            const Icon = service.icon;
-            const isActive = activeIndex === i;
-            const leftPct = pos.service.x;
-            const topPct = pos.service.y;
-            return (
-              <motion.button
-                key={`svc-btn-${i}`}
-                className="absolute z-20 flex flex-col items-center cursor-pointer group"
-                style={{
-                  left: `${leftPct}%`,
-                  top: `${topPct}%`,
-                  transform: 'translate(-50%, -50%)',
-                }}
-                initial={{ scale: 0, opacity: 0 }}
-                animate={isInView ? { scale: 1, opacity: 1 } : {}}
-                transition={{ duration: 0.5, delay: 0.7 + i * 0.1, type: 'spring' }}
-                onClick={() => setActiveIndex(isActive ? null : i)}
-                aria-label={`${service.title} service category`}
-              >
-                {isActive && (
-                  <motion.div
-                    className="absolute rounded-full"
-                    style={{ width: '56px', height: '56px', boxShadow: '0 0 20px rgba(93,44,134,0.35)' }}
-                    animate={{ scale: [1, 1.2, 1], opacity: [0.6, 0, 0.6] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
-                  />
-                )}
-                <div className={`w-12 h-12 lg:w-14 lg:h-14 rounded-full flex items-center justify-center
-                  border-2 shadow-md transition-all duration-300 backdrop-blur-sm
-                  ${isActive
-                    ? 'bg-[#5d2c86] border-[#5d2c86] shadow-lg'
-                    : 'bg-white/90 border-[#5d2c86]/20 hover:border-[#5d2c86]/50 hover:shadow-lg'
-                  }`}>
-                  <Icon className={`w-5 h-5 lg:w-6 lg:h-6 transition-colors duration-300 ${
-                    isActive ? 'text-white' : 'text-[#5d2c86]'
-                  }`} />
-                </div>
-                <span className={`mt-1.5 text-[9px] lg:text-[10px] font-sans-body font-bold tracking-wide text-center
-                  transition-all duration-300 max-w-[70px] leading-tight
-                  ${isActive ? 'text-[#5d2c86]' : 'text-[#000]/45'}
-                `}>
-                  {service.shortTitle}
-                </span>
-              </motion.button>
-            );
-          })}
-
-          {/* Stat pill click targets */}
-          {services.map((service, i) => {
-            const pos = nodePositions[i];
-            const isActive = activeIndex === i;
-            return (
-              <button
-                key={`stat-btn-${i}`}
-                className="absolute z-10 cursor-pointer"
-                style={{
-                  left: `${pos.stat.x}%`,
-                  top: `${pos.stat.y}%`,
-                  transform: 'translate(-50%, -50%)',
-                  width: '88px', height: '30px',
-                  background: 'transparent', border: 'none',
-                }}
-                onClick={() => setActiveIndex(isActive ? null : i)}
-                aria-label={`${service.title}: ${service.stat} ${service.statLabel}`}
-              />
-            );
-          })}
-        </div>
+    <motion.div
+      ref={cardRef}
+      className={`relative group cursor-pointer rounded-2xl overflow-hidden ${
+        isActive ? 'z-10' : 'z-0'
+      }`}
+      initial={{ opacity: 0, y: 40, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{
+        duration: 0.6,
+        delay: index * 0.1,
+        ease: [0.25, 0.4, 0.25, 1],
+      }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={onToggle}
+      role="button"
+      tabIndex={0}
+      aria-expanded={isActive}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onToggle();
+        }
+      }}
+    >
+      {/* Animated glow border effect */}
+      <div className="absolute inset-0 rounded-2xl pointer-events-none z-0">
+        <div
+          className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+          style={{
+            background: isActive
+              ? `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(93,44,134,0.25), transparent 60%)`
+              : `radial-gradient(300px circle at ${mousePos.x}px ${mousePos.y}px, rgba(93,44,134,0.12), transparent 60%)`,
+          }}
+        />
       </div>
 
-      {/* Detail panel */}
-      <AnimatePresence>
-        {selectedService && (
+      {/* Border glow */}
+      <div
+        className={`absolute inset-0 rounded-2xl transition-all duration-500 pointer-events-none ${
+          isActive
+            ? 'shadow-[0_0_0_2px_#5d2c86,0_8px_30px_rgba(93,44,134,0.15)]'
+            : isHovered
+              ? 'shadow-[0_0_0_1px_rgba(93,44,134,0.3),0_4px_16px_rgba(93,44,134,0.08)]'
+              : 'shadow-[0_0_0_1px_rgba(0,0,0,0.06)]'
+        }`}
+      />
+
+      {/* Card content */}
+      <div className={`relative z-10 p-5 sm:p-6 transition-all duration-500 ${
+        isActive ? 'bg-white' : 'bg-white/80 group-hover:bg-white'
+      }`}>
+        {/* Top row: icon + stat */}
+        <div className="flex items-start justify-between mb-4">
           <motion.div
-            initial={{ opacity: 0, y: 20, height: 0 }}
-            animate={{ opacity: 1, y: 0, height: 'auto' }}
-            exit={{ opacity: 0, y: 10, height: 0 }}
-            transition={{ duration: 0.35, ease: 'easeOut' }}
-            className="mt-8 max-w-2xl mx-auto"
+            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 ${
+              isActive
+                ? 'bg-[#5d2c86] shadow-lg shadow-[#5d2c86]/20'
+                : 'bg-[#5d2c86]/8 group-hover:bg-[#5d2c86]/12 group-hover:shadow-md'
+            }`}
+            whileHover={{ scale: 1.05 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 20 }}
           >
-            <article className="relative bg-white rounded-xl shadow-lg border border-[#5d2c86]/10 overflow-hidden">
-              <div className="h-1 bg-[#5d2c86]" />
-              <div className="p-5 sm:p-6 flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#5d2c86] flex items-center justify-center shrink-0 shadow-md">
-                  <selectedService.icon className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-[#000] font-sans-body mb-1">{selectedService.title}</h3>
-                  <p className="text-sm text-[#000]/55 leading-relaxed font-sans-body mb-3">{selectedService.description}</p>
-                  <div className="flex items-center gap-4">
-                    <span className="text-xl font-bold font-serif-display text-[#5d2c86]">{selectedService.stat}</span>
-                    <span className="text-xs text-[#000]/35 font-sans-body uppercase tracking-wider">{selectedService.statLabel}</span>
-                    <button
-                      onClick={() => setActiveIndex(null)}
-                      className="ml-auto text-xs text-[#5d2c86] hover:text-[#000] font-sans-body font-medium transition-colors"
-                    >
-                      ← Back
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </article>
+            <Icon className={`w-5 h-5 transition-colors duration-500 ${
+              isActive ? 'text-white' : 'text-[#5d2c86]'
+            }`} />
           </motion.div>
+
+          <div className="text-right">
+            <p className={`text-2xl font-bold font-serif-display transition-colors duration-300 ${
+              isActive ? 'text-[#5d2c86]' : 'text-[#5d2c86]/70 group-hover:text-[#5d2c86]'
+            }`}>
+              {service.stat}
+            </p>
+            <p className="text-[10px] text-[#000]/35 font-sans-body uppercase tracking-wider mt-0.5">
+              {service.statLabel}
+            </p>
+          </div>
+        </div>
+
+        {/* Title */}
+        <h3 className={`text-sm font-bold font-sans-body transition-colors duration-300 mb-1 ${
+          isActive ? 'text-[#000]' : 'text-[#000]/80 group-hover:text-[#000]'
+        }`}>
+          {service.title}
+        </h3>
+
+        {/* Animated progress bar */}
+        <div className="h-[2px] rounded-full bg-[#5d2c86]/8 overflow-hidden mb-3">
+          <motion.div
+            className="h-full rounded-full bg-[#5d2c86]"
+            initial={{ width: 0 }}
+            whileInView={{ width: isActive ? '100%' : '40%' }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 + index * 0.1, ease: 'easeOut' }}
+          />
+        </div>
+
+        {/* Description - expands on active */}
+        <AnimatePresence>
+          {isActive && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
+            >
+              <p className="text-[13px] text-[#000]/55 leading-relaxed font-sans-body pt-1">
+                {service.description}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Hover indicator */}
+        {!isActive && (
+          <div className="flex items-center gap-1.5 mt-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="w-1 h-1 rounded-full bg-[#5d2c86]" />
+            <span className="text-[10px] text-[#5d2c86] font-sans-body font-medium tracking-wide">
+              Click to explore
+            </span>
+          </div>
         )}
-      </AnimatePresence>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ═══════════════════════════════════════════════════════
+   360° CENTER ORB (background decorative element)
+   ═══════════════════════════════════════════════════════ */
+
+function CenterOrb() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: '-60px' });
+
+  return (
+    <div ref={ref} className="relative flex items-center justify-center py-8 mb-6">
+      {/* Rotating ring */}
+      <motion.div
+        className="absolute w-40 h-40 sm:w-48 sm:h-48 rounded-full border border-[#5d2c86]/10"
+        initial={{ rotate: 0, scale: 0.8, opacity: 0 }}
+        animate={isInView ? { rotate: 360, scale: 1, opacity: 1 } : {}}
+        transition={{ rotate: { duration: 30, repeat: Infinity, ease: 'linear' }, scale: { duration: 1 }, opacity: { duration: 1 } }}
+      >
+        {/* Dots on the ring */}
+        {[0, 60, 120, 180, 240, 300].map((deg) => (
+          <div
+            key={deg}
+            className="absolute w-2 h-2 rounded-full bg-[#5d2c86]/25"
+            style={{
+              top: '50%',
+              left: '50%',
+              transform: `rotate(${deg}deg) translateY(-50%) translateX(-50%)`,
+              transformOrigin: '0 0',
+            }}
+          />
+        ))}
+      </motion.div>
+
+      {/* Inner pulsing circle */}
+      <motion.div
+        className="absolute w-24 h-24 sm:w-28 sm:h-28 rounded-full bg-[#5d2c86]/5"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={isInView ? { scale: [0.9, 1.05, 0.9], opacity: [0.5, 0.8, 0.5] } : {}}
+        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+      />
+
+      {/* Center text */}
+      <motion.div
+        className="relative z-10 text-center"
+        initial={{ scale: 0, opacity: 0 }}
+        animate={isInView ? { scale: 1, opacity: 1 } : {}}
+        transition={{ duration: 0.8, delay: 0.3, type: 'spring', stiffness: 100 }}
+      >
+        <p className="text-3xl sm:text-4xl font-bold font-serif-display text-[#5d2c86]">360°</p>
+        <p className="text-[9px] tracking-[0.25em] font-sans-body font-bold text-[#5d2c86]/60 mt-0.5">
+          FF&E SUPPORT
+        </p>
+      </motion.div>
     </div>
   );
 }
 
 /* ═══════════════════════════════════════════════════════
-   MOBILE CARD LAYOUT
+   MOBILE CARD (simpler)
    ═══════════════════════════════════════════════════════ */
 
-function SemiCircleMobile() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+function MobileCard({
+  service,
+  index,
+  isActive,
+  onToggle,
+}: {
+  service: (typeof services)[0];
+  index: number;
+  isActive: boolean;
+  onToggle: () => void;
+}) {
+  const Icon = service.icon;
 
   return (
-    <div className="space-y-3">
-      {services.map((service, i) => (
-        <ServiceCard
-          key={service.shortTitle}
-          service={service}
-          isActive={activeIndex === i}
-          onClick={() => setActiveIndex(activeIndex === i ? null : i)}
-          index={i}
-        />
-      ))}
-    </div>
+    <motion.div
+      className={`relative rounded-xl overflow-hidden cursor-pointer transition-all duration-300 ${
+        isActive
+          ? 'shadow-lg shadow-[#5d2c86]/10'
+          : 'shadow-sm hover:shadow-md'
+      }`}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.4, delay: index * 0.08 }}
+      onClick={onToggle}
+    >
+      {/* Active border */}
+      <div className={`absolute inset-0 rounded-xl pointer-events-none transition-all duration-300 ${
+        isActive
+          ? 'shadow-[inset_0_0_0_2px_#5d2c86]'
+          : 'shadow-[inset_0_0_0_1px_rgba(0,0,0,0.06)]'
+      }`} />
+
+      <div className={`p-4 ${isActive ? 'bg-white' : 'bg-white/80'}`}>
+        <div className="flex items-center gap-3">
+          <div className={`w-10 h-10 rounded-lg flex items-center justify-center shrink-0 transition-all duration-300 ${
+            isActive ? 'bg-[#5d2c86]' : 'bg-[#5d2c86]/8'
+          }`}>
+            <Icon className={`w-5 h-5 transition-colors duration-300 ${isActive ? 'text-white' : 'text-[#5d2c86]'}`} />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-sm font-bold text-[#000] font-sans-body">{service.title}</h3>
+            <div className="flex items-center gap-2 mt-0.5">
+              <span className="text-sm font-bold font-serif-display text-[#5d2c86]">{service.stat}</span>
+              <span className="text-[10px] text-[#000]/35 font-sans-body uppercase tracking-wider">{service.statLabel}</span>
+            </div>
+          </div>
+        </div>
+        <AnimatePresence>
+          {isActive && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+            >
+              <p className="text-xs text-[#000]/55 leading-relaxed font-sans-body mt-3 pl-[52px]">
+                {service.description}
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
   );
 }
 
@@ -476,6 +353,8 @@ function SemiCircleMobile() {
    ═══════════════════════════════════════════════════════ */
 
 export default function SemiCircleInfographic() {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
   return (
     <div className="relative" aria-label="Akshar Foshan FF&E service categories and statistics">
       {/* SEO structured data */}
@@ -489,11 +368,34 @@ export default function SemiCircleInfographic() {
         </p>
       </div>
 
+      {/* Desktop: 3x2 Grid with center orb */}
       <div className="hidden md:block">
-        <SemiCircleDesktop />
+        <CenterOrb />
+        <div className="grid grid-cols-3 gap-4 lg:gap-5">
+          {services.map((service, i) => (
+            <GlowCard
+              key={service.shortTitle}
+              service={service}
+              index={i}
+              isActive={activeIndex === i}
+              onToggle={() => setActiveIndex(activeIndex === i ? null : i)}
+            />
+          ))}
+        </div>
       </div>
-      <div className="md:hidden">
-        <SemiCircleMobile />
+
+      {/* Mobile: Stacked cards */}
+      <div className="md:hidden space-y-3">
+        <CenterOrb />
+        {services.map((service, i) => (
+          <MobileCard
+            key={service.shortTitle}
+            service={service}
+            index={i}
+            isActive={activeIndex === i}
+            onToggle={() => setActiveIndex(activeIndex === i ? null : i)}
+          />
+        ))}
       </div>
     </div>
   );
