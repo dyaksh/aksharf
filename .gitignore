@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
 # dependencies
 node_modules
 /.pnp
@@ -24,31 +22,50 @@ node_modules
 .DS_Store
 *.pem
 
-# debug
+# debug logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+*.log
 
-# env files (can opt-in for committing if needed)
+# env files
 .env*
+!.env.example
 
 # vercel
 .vercel
 
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-local-*
+
+# Dev/agent directories
 .claude
 .z-ai-config
-*.log
-dev.log
-dev.out.log
-test
-prompt
-
-server.log
-# Skills directory
 /skills/
+/upload/
+/download/
+/tool-results/
+/agent-ctx/
+/scripts/
+/examples/
+/mini-services/
+/.zscripts/
+
+# Database
+/db/
+*.db
+*.db-journal
+
+# AI-generated images (generated at runtime)
+/public/images/room-transformation/ai/
+
+# Dev/QA artifacts
+qa-*.png
+vision_results.*
+analyze_*
+batch_*
+generate-products*
+worklog.md
+Caddyfile

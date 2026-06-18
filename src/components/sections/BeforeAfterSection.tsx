@@ -18,17 +18,14 @@ import {
 } from 'lucide-react';
 
 // ─── Room data ───────────────────────────────────────────────────────
-// Uses AI-generated images when available (in /ai/ folder).
-// Falls back to distinct real room photos for both BEFORE and AFTER.
+// Uses distinct room photos for before/after comparison.
 interface RoomData {
   id: string;
   label: string;
   sublabel: string;
   icon: React.ElementType;
-  before: string;       // AI before (primary)
-  after: string;        // AI after (primary)
-  fallbackBefore: string; // Real room photo (different from after)
-  fallbackAfter: string;  // Real furnished room photo
+  before: string;       // Before image (unfurnished/different room)
+  after: string;        // After image (furnished)
   description: string;
   specs: string[];
   accentColor: string;
@@ -40,10 +37,8 @@ const rooms: RoomData[] = [
     label: 'Guest Room',
     sublabel: 'Standard & Deluxe',
     icon: Bed,
-    before: '/images/room-transformation/ai/before-guest-room.png',
-    after: '/images/room-transformation/ai/after-guest-room.png',
-    fallbackBefore: '/images/room-transformation/room-7.png',
-    fallbackAfter: '/images/room-transformation/room-1.png',
+    before: '/images/room-transformation/room-7.png',
+    after: '/images/room-transformation/room-1.png',
     description: 'Complete FF&E transformation — casegoods, headboard, seating, lighting & decor for a premium guest experience.',
     specs: ['Custom headboard & bed frame', 'Nightstands & dresser', 'Desk & task chair', 'Floor lamp & sconces', 'Art & accent pieces'],
     accentColor: '#5d2c86',
@@ -53,10 +48,8 @@ const rooms: RoomData[] = [
     label: 'Executive Suite',
     sublabel: 'Luxury Living Space',
     icon: DoorOpen,
-    before: '/images/room-transformation/ai/before-suite.png',
-    after: '/images/room-transformation/ai/after-suite.png',
-    fallbackBefore: '/images/room-transformation/room-8.png',
-    fallbackAfter: '/images/room-transformation/room-2.png',
+    before: '/images/room-transformation/room-8.png',
+    after: '/images/room-transformation/room-2.png',
     description: 'Full suite FF&E package — living area, bedroom zone, and workspace with bespoke furniture & ambient lighting.',
     specs: ['Upholstered sofa & armchairs', 'Console & coffee table', 'King headboard panel', 'Chandelier & pendants', 'Decorative mirrors & art'],
     accentColor: '#7d44a8',
@@ -66,10 +59,8 @@ const rooms: RoomData[] = [
     label: 'Bathroom',
     sublabel: 'Vanity & Accessories',
     icon: Bath,
-    before: '/images/room-transformation/ai/before-bathroom.png',
-    after: '/images/room-transformation/ai/after-bathroom.png',
-    fallbackBefore: '/images/room-transformation/room-9.png',
-    fallbackAfter: '/images/room-transformation/room-3.png',
+    before: '/images/room-transformation/room-9.png',
+    after: '/images/room-transformation/room-3.png',
     description: 'Elegant bathroom FF&E — vanities, mirrors, towel accessories, and hardware crafted for durability & style.',
     specs: ['Vanity unit & basin', 'Framed mirror', 'Towel rack & hooks', 'Soap dispenser & tray', 'Vanity lighting'],
     accentColor: '#9b6ec5',
@@ -79,10 +70,8 @@ const rooms: RoomData[] = [
     label: 'Lobby & Reception',
     sublabel: 'First Impression',
     icon: Sofa,
-    before: '/images/room-transformation/ai/before-lobby.png',
-    after: '/images/room-transformation/ai/after-lobby.png',
-    fallbackBefore: '/images/room-transformation/room-10.png',
-    fallbackAfter: '/images/room-transformation/room-4.png',
+    before: '/images/room-transformation/room-10.png',
+    after: '/images/room-transformation/room-4.png',
     description: 'Grand lobby FF&E — statement seating, reception desk, lighting installations, and curated art for an unforgettable welcome.',
     specs: ['Reception desk & credenza', 'Lobby seating ensemble', 'Statement chandelier', 'Planters & accent tables', 'Feature wall art'],
     accentColor: '#5d2c86',
@@ -92,10 +81,8 @@ const rooms: RoomData[] = [
     label: 'Dining Area',
     sublabel: 'Restaurant & Banquet',
     icon: Utensils,
-    before: '/images/room-transformation/ai/before-dining.png',
-    after: '/images/room-transformation/ai/after-dining.png',
-    fallbackBefore: '/images/room-transformation/room-11.png',
-    fallbackAfter: '/images/room-transformation/room-5.png',
+    before: '/images/room-transformation/room-11.png',
+    after: '/images/room-transformation/room-5.png',
     description: 'Restaurant & banquet FF&E — dining tables, chairs, buffet stations, and atmospheric lighting solutions.',
     specs: ['Dining tables & chairs', 'Buffet & server stations', 'Pendant & ambient lighting', 'Upholstered banquettes', 'Decorative partitions'],
     accentColor: '#7d44a8',
@@ -105,10 +92,8 @@ const rooms: RoomData[] = [
     label: 'Lighting Design',
     sublabel: 'Ambient & Task',
     icon: Lamp,
-    before: '/images/room-transformation/ai/before-lighting.png',
-    after: '/images/room-transformation/ai/after-lighting.png',
-    fallbackBefore: '/images/room-transformation/room-12.png',
-    fallbackAfter: '/images/room-transformation/room-6.png',
+    before: '/images/room-transformation/room-12.png',
+    after: '/images/room-transformation/room-6.png',
     description: 'Comprehensive lighting FF&E — chandeliers, sconces, pendants, and task lighting designed for hospitality spaces.',
     specs: ['Chandeliers & pendants', 'Wall sconces & vanity lights', 'Table & floor lamps', 'LED accent lighting', 'Custom fixture design'],
     accentColor: '#9b6ec5',
