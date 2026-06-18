@@ -43,7 +43,7 @@ const services = [
     description: 'End-to-end supply chain management from raw materials to on-site delivery and installation.',
     stat: '21',
     statLabel: 'day avg',
-    color: '#D4AF37',
+    color: '#9b6ec5',
   },
   {
     icon: ShieldCheck,
@@ -69,7 +69,7 @@ const services = [
    PARTICLE CANVAS — ambient floating particles
    ═══════════════════════════════════════════════════════ */
 
-function ParticleCanvas({ color1 = '#5d2c86', color2 = '#D4AF37' }: { color1?: string; color2?: string }) {
+function ParticleCanvas({ color1 = '#5d2c86', color2 = '#9b6ec5' }: { color1?: string; color2?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animRef = useRef<number>(0);
 
@@ -327,7 +327,7 @@ function ServiceNode({
           border-2 shadow-lg transition-all duration-300 backdrop-blur-md
           ${
             isActive
-              ? 'bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] border-[#D4AF37] shadow-[0_0_30px_rgba(93,44,134,0.4)]'
+              ? 'bg-gradient-to-br from-[#5d2c86] to-[#7d44a8] border-[#9b6ec5] shadow-[0_0_30px_rgba(93,44,134,0.4)]'
               : isHovered
                 ? 'bg-white/90 dark:bg-[#1E1E1E]/90 border-[#5d2c86]/50 shadow-[0_0_20px_rgba(93,44,134,0.2)]'
                 : 'bg-white/80 dark:bg-[#1E1E1E]/80 border-gray-200/80 dark:border-gray-700/60 shadow-md'
@@ -396,17 +396,17 @@ function StatNode({
           px-3 py-1.5 sm:px-4 sm:py-2 rounded-full border backdrop-blur-md shadow-md transition-all duration-300
           ${
             isActive
-              ? 'bg-[#D4AF37]/15 border-[#D4AF37]/50 shadow-[0_0_20px_rgba(212,175,55,0.25)]'
+              ? 'bg-[#9b6ec5]/15 border-[#9b6ec5]/50 shadow-[0_0_20px_rgba(125,68,168,0.25)]'
               : isHovered
-                ? 'bg-white/90 dark:bg-[#1E1E1E]/90 border-[#D4AF37]/30 shadow-[0_0_12px_rgba(212,175,55,0.15)]'
-                : 'bg-white/70 dark:bg-[#1E1E1E]/70 border-[#D4AF37]/15 shadow-sm'
+                ? 'bg-white/90 dark:bg-[#1E1E1E]/90 border-[#9b6ec5]/30 shadow-[0_0_12px_rgba(125,68,168,0.15)]'
+                : 'bg-white/70 dark:bg-[#1E1E1E]/70 border-[#9b6ec5]/15 shadow-sm'
           }
         `}
       >
         <div className="flex items-baseline gap-1">
           <span
             className={`text-sm sm:text-base lg:text-lg font-bold font-serif-display ${
-              isActive ? 'text-[#D4AF37]' : 'text-[#5d2c86] dark:text-[#7d44a8]'
+              isActive ? 'text-[#9b6ec5]' : 'text-[#5d2c86] dark:text-[#7d44a8]'
             }`}
           >
             {service.stat}
@@ -440,9 +440,9 @@ function CenterCore({ isInView }: { isInView: boolean }) {
       transition={{ duration: 1.2, delay: 0.3, type: 'spring', stiffness: 80, damping: 15 }}
     >
       <div className="relative">
-        {/* Outer rotating ring — dashed gold */}
+        {/* Outer rotating ring — dashed accent */}
         <motion.div
-          className="absolute -inset-4 sm:-inset-5 lg:-inset-6 rounded-full border-2 border-dashed border-[#D4AF37]/25 pointer-events-none"
+          className="absolute -inset-4 sm:-inset-5 lg:-inset-6 rounded-full border-2 border-dashed border-[#9b6ec5]/25 pointer-events-none"
           animate={{ rotate: 360 }}
           transition={{ duration: 50, repeat: Infinity, ease: 'linear' }}
           style={{ transform: 'perspective(600px) rotateX(60deg)' }}
@@ -467,7 +467,7 @@ function CenterCore({ isInView }: { isInView: boolean }) {
         />
 
         {/* Main center sphere */}
-        <div className="relative w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-full flex flex-col items-center justify-center overflow-hidden shadow-2xl border-2 border-[#D4AF37]/30">
+        <div className="relative w-28 h-28 sm:w-36 sm:h-36 lg:w-44 lg:h-44 rounded-full flex flex-col items-center justify-center overflow-hidden shadow-2xl border-2 border-[#9b6ec5]/30">
           {/* Gradient background */}
           <div className="absolute inset-0 bg-gradient-to-br from-[#5d2c86] via-[#5d2c86] to-[#3d1c5a] pointer-events-none" />
 
@@ -476,7 +476,7 @@ function CenterCore({ isInView }: { isInView: boolean }) {
             className="absolute inset-0 rounded-full pointer-events-none"
             style={{
               background:
-                'conic-gradient(from 0deg, transparent, rgba(212,175,55,0.2), transparent, rgba(212,175,55,0.1), transparent)',
+                'conic-gradient(from 0deg, transparent, rgba(125,68,168,0.2), transparent, rgba(125,68,168,0.1), transparent)',
             }}
             animate={{ rotate: 360 }}
             transition={{ duration: 6, repeat: Infinity, ease: 'linear' }}
@@ -493,7 +493,7 @@ function CenterCore({ isInView }: { isInView: boolean }) {
 
           {/* Pulse ring */}
           <motion.div
-            className="absolute inset-0 rounded-full border border-[#D4AF37]/20 pointer-events-none"
+            className="absolute inset-0 rounded-full border border-[#9b6ec5]/20 pointer-events-none"
             animate={{ scale: [1, 1.3, 1], opacity: [0.5, 0, 0.5] }}
             transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
           />
@@ -502,13 +502,13 @@ function CenterCore({ isInView }: { isInView: boolean }) {
           <div className="relative z-10 text-center">
             <motion.span
               className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-white leading-none block"
-              animate={{ textShadow: ['0 0 10px rgba(212,175,55,0.3)', '0 0 25px rgba(212,175,55,0.6)', '0 0 10px rgba(212,175,55,0.3)'] }}
+              animate={{ textShadow: ['0 0 10px rgba(125,68,168,0.3)', '0 0 25px rgba(125,68,168,0.6)', '0 0 10px rgba(125,68,168,0.3)'] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             >
               360°
             </motion.span>
-            <div className="w-10 h-[1.5px] bg-[#D4AF37] mx-auto my-1.5 sm:my-2" />
-            <span className="text-[9px] sm:text-[10px] lg:text-xs tracking-[0.2em] font-sans-body font-bold text-[#D4AF37] uppercase">
+            <div className="w-10 h-[1.5px] bg-[#9b6ec5] mx-auto my-1.5 sm:my-2" />
+            <span className="text-[9px] sm:text-[10px] lg:text-xs tracking-[0.2em] font-sans-body font-bold text-[#9b6ec5] uppercase">
               FF&E
             </span>
             <span className="text-[8px] sm:text-[9px] lg:text-[10px] tracking-[0.15em] font-sans-body font-medium text-white/70 uppercase block mt-0.5">
@@ -613,15 +613,15 @@ export default function ConcentricCircles3D() {
             {/* ── 3D ORBIT RINGS (SVG) ── */}
             <div className="absolute inset-0 pointer-events-none" style={{ transform: 'perspective(800px) rotateX(60deg)', transformStyle: 'preserve-3d' }} aria-hidden="true">
               {/* Outer ring — stats */}
-              <OrbitRing radius={outerRadius} color="#D4AF37" dashArray="8 6" opacity={0.25} rotateSpeed={80} strokeWidth={1.5} />
+              <OrbitRing radius={outerRadius} color="#9b6ec5" dashArray="8 6" opacity={0.25} rotateSpeed={80} strokeWidth={1.5} />
               {/* Outer ring glow */}
-              <OrbitRing radius={outerRadius} color="#D4AF37" opacity={0.06} rotateSpeed={80} strokeWidth={8} />
+              <OrbitRing radius={outerRadius} color="#9b6ec5" opacity={0.06} rotateSpeed={80} strokeWidth={8} />
               {/* Inner ring — services */}
               <OrbitRing radius={innerRadius} color="#5d2c86" opacity={0.2} rotateSpeed={55} reverse strokeWidth={1.5} />
               {/* Inner ring glow */}
               <OrbitRing radius={innerRadius} color="#5d2c86" opacity={0.05} rotateSpeed={55} reverse strokeWidth={6} />
               {/* Extra decorative ring */}
-              <OrbitRing radius={outerRadius + 20} color="#D4AF37" dashArray="2 12" opacity={0.1} rotateSpeed={120} reverse strokeWidth={0.8} />
+              <OrbitRing radius={outerRadius + 20} color="#9b6ec5" dashArray="2 12" opacity={0.1} rotateSpeed={120} reverse strokeWidth={0.8} />
             </div>
 
             {/* ═══ FLAT OVERLAY — Service & Stat nodes positioned normally ═══ */}
@@ -700,7 +700,7 @@ export default function ConcentricCircles3D() {
                       y1={pos.inner.y}
                       x2={pos.outer.x}
                       y2={pos.outer.y}
-                      stroke={isActiveConn ? '#D4AF37' : '#5d2c86'}
+                      stroke={isActiveConn ? '#9b6ec5' : '#5d2c86'}
                       strokeWidth={isActiveConn ? 0.3 : 0.15}
                       strokeDasharray="1 2"
                       opacity={isActiveConn ? 0.6 : 0.15}
@@ -723,7 +723,7 @@ export default function ConcentricCircles3D() {
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.6, delay: 1.8 }}
               >
-                <span className="text-[8px] sm:text-[9px] tracking-[0.25em] font-sans-body font-bold text-[#D4AF37]/60 whitespace-nowrap">
+                <span className="text-[8px] sm:text-[9px] tracking-[0.25em] font-sans-body font-bold text-[#9b6ec5]/60 whitespace-nowrap">
                   STATISTICS & METRICS
                 </span>
               </motion.div>
@@ -773,7 +773,7 @@ export default function ConcentricCircles3D() {
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
                     <h4 className="text-sm font-bold text-[#1A1A1A] font-sans-body">{service.title}</h4>
-                    <span className="text-xs font-bold font-serif-display text-[#D4AF37] whitespace-nowrap">
+                    <span className="text-xs font-bold font-serif-display text-[#9b6ec5] whitespace-nowrap">
                       {service.stat} {service.statLabel}
                     </span>
                   </div>
@@ -805,7 +805,7 @@ export default function ConcentricCircles3D() {
           >
             <div className="relative bg-white/95 dark:bg-[#1E1E1E]/95 backdrop-blur-md rounded-2xl shadow-xl border border-[#5d2c86]/10 overflow-hidden">
               {/* Top accent bar */}
-              <div className="h-1 bg-gradient-to-r from-[#5d2c86] via-[#D4AF37] to-[#5d2c86]" />
+              <div className="h-1 bg-gradient-to-r from-[#5d2c86] via-[#9b6ec5] to-[#5d2c86]" />
 
               <div className="p-6 flex flex-col sm:flex-row gap-6 items-start">
                 {/* Icon */}
@@ -834,7 +834,7 @@ export default function ConcentricCircles3D() {
                     </div>
                     <button
                       onClick={() => setActiveIndex(null)}
-                      className="text-xs text-[#5d2c86] hover:text-[#D4AF37] font-sans-body font-medium transition-colors"
+                      className="text-xs text-[#5d2c86] hover:text-[#9b6ec5] font-sans-body font-medium transition-colors"
                     >
                       ← Back to overview
                     </button>

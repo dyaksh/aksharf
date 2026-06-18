@@ -22,10 +22,10 @@ export default function ServicesMarquee() {
       className="relative bg-[#5d2c86] dark:bg-[#3d1c5a] overflow-hidden py-4"
       aria-label="Akshar Foshan services marquee"
     >
-      {/* Subtle gold line at top */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent" />
-      {/* Subtle gold line at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent" />
+      {/* Subtle accent line at top */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#9b6ec5]/40 to-transparent" />
+      {/* Subtle accent line at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#9b6ec5]/40 to-transparent" />
 
       <div className="flex whitespace-nowrap">
         <motion.div
@@ -42,9 +42,9 @@ export default function ServicesMarquee() {
               key={`${service}-${i}`}
               className="inline-flex items-center gap-3 text-white/80 font-sans-body text-xs sm:text-sm tracking-[0.15em] font-medium"
             >
-              <span className="text-[#D4AF37] text-[8px]">◆</span>
+              <span className="text-[#9b6ec5] text-[8px]">◆</span>
               {service}
-              <span className="text-[#D4AF37]/50 text-[8px]">◆</span>
+              <span className="text-[#9b6ec5]/50 text-[8px]">◆</span>
             </span>
           ))}
         </motion.div>

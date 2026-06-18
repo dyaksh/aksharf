@@ -47,8 +47,8 @@ export default function CookieConsent() {
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         >
           <div className="relative w-full max-w-2xl rounded-2xl border border-white/10 bg-gradient-to-r from-[#1A1A1A] to-[#2D1B42] backdrop-blur-xl shadow-2xl p-5 md:p-6">
-            {/* Gold top border accent */}
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/40 to-transparent" />
+            {/* Accent top border accent */}
+            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#9b6ec5]/40 to-transparent" />
             {/* Close button */}
             <button
               onClick={handleClose}
@@ -60,15 +60,15 @@ export default function CookieConsent() {
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               {/* Cookie icon */}
-              <div className="shrink-0 w-10 h-10 rounded-xl bg-[#D4AF37]/20 border border-[#D4AF37]/30 flex items-center justify-center">
-                <Cookie className="w-5 h-5 text-[#D4AF37]" />
+              <div className="shrink-0 w-10 h-10 rounded-xl bg-[#9b6ec5]/20 border border-[#9b6ec5]/30 flex items-center justify-center">
+                <Cookie className="w-5 h-5 text-[#9b6ec5]" />
               </div>
 
               {/* Text */}
               <div className="flex-1 pr-6 sm:pr-0">
                 <p className="text-sm text-white leading-relaxed">
                   We use cookies to enhance your experience. By continuing to visit this site you agree to our use of cookies.{' '}
-                  <a href="/privacy-policy" className="text-[#D4AF37] hover:text-[#D4AF37]/80 underline underline-offset-2 transition-colors">Privacy Policy</a>
+                  <a href="/privacy-policy" className="text-[#9b6ec5] hover:text-[#9b6ec5]/80 underline underline-offset-2 transition-colors">Privacy Policy</a>
                 </p>
               </div>
 

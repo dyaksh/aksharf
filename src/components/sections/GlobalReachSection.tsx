@@ -199,15 +199,15 @@ function SupplyChainVisual() {
         role="img"
       >
         <defs>
-          {/* Gold gradient for Foshan origin point */}
+          {/* Accent gradient for Foshan origin point */}
           <radialGradient id="originGlow" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor="#D4AF37" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#D4AF37" stopOpacity="0" />
+            <stop offset="0%" stopColor="#9b6ec5" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#9b6ec5" stopOpacity="0" />
           </radialGradient>
           {/* Purple gradient for route lines */}
           <linearGradient id="routeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#5d2c86" />
-            <stop offset="100%" stopColor="#D4AF37" />
+            <stop offset="100%" stopColor="#9b6ec5" />
           </linearGradient>
           {/* Glow filter for origin */}
           <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
@@ -309,7 +309,7 @@ function SupplyChainVisual() {
               cx={dest.x}
               cy={dest.y}
               r="3"
-              fill="#D4AF37"
+              fill="#9b6ec5"
               initial={{ scale: 0, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
               viewport={{ once: true }}
@@ -341,7 +341,7 @@ function SupplyChainVisual() {
                 x={coords.x}
                 y={coords.y + 22}
                 textAnchor="middle"
-                className="text-[9px] font-sans-body fill-[#D4AF37]"
+                className="text-[9px] font-sans-body fill-[#9b6ec5]"
               >
                 {dest.deliveryTime}
               </text>
@@ -374,7 +374,7 @@ function SupplyChainVisual() {
           cy={centerY}
           r="12"
           fill="none"
-          stroke="#D4AF37"
+          stroke="#9b6ec5"
           strokeWidth="1.5"
           strokeOpacity="0.3"
           initial={{ scale: 0 }}
@@ -401,7 +401,7 @@ function SupplyChainVisual() {
           cx={centerX}
           cy={centerY}
           r="7"
-          fill="#D4AF37"
+          fill="#9b6ec5"
           filter="url(#glow)"
           initial={{ scale: 0 }}
           whileInView={{ scale: 1 }}
@@ -453,14 +453,14 @@ function MobileSupplyChainVisual() {
       {/* Central Foshan point */}
       <div className="flex flex-col items-center">
         <div className="relative">
-          <div className="w-16 h-16 rounded-full bg-[#5d2c86]/10 flex items-center justify-center border-2 border-[#D4AF37]">
-            <div className="w-8 h-8 rounded-full bg-[#D4AF37] flex items-center justify-center">
+          <div className="w-16 h-16 rounded-full bg-[#5d2c86]/10 flex items-center justify-center border-2 border-[#9b6ec5]">
+            <div className="w-8 h-8 rounded-full bg-[#9b6ec5] flex items-center justify-center">
               <span className="text-[8px] font-bold text-[#5d2c86] font-sans-body tracking-wider">FSH</span>
             </div>
           </div>
           {/* Pulsing ring */}
           <motion.div
-            className="absolute inset-0 rounded-full border-2 border-[#D4AF37]/30"
+            className="absolute inset-0 rounded-full border-2 border-[#9b6ec5]/30"
             animate={{ scale: [1, 1.4, 1], opacity: [0.5, 0, 0.5] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
           />
@@ -483,9 +483,9 @@ function MobileSupplyChainVisual() {
           >
             {/* Connecting line */}
             <div className="flex items-center gap-2 flex-shrink-0">
-              <div className="w-3 h-3 rounded-full bg-[#D4AF37]" />
+              <div className="w-3 h-3 rounded-full bg-[#9b6ec5]" />
               <motion.div
-                className="h-[2px] bg-gradient-to-r from-[#D4AF37] to-[#5d2c86]/30 w-12"
+                className="h-[2px] bg-gradient-to-r from-[#9b6ec5] to-[#5d2c86]/30 w-12"
                 initial={{ scaleX: 0 }}
                 whileInView={{ scaleX: 1 }}
                 viewport={{ once: true }}
@@ -499,7 +499,7 @@ function MobileSupplyChainVisual() {
               <span className="text-xs font-semibold text-[#1A1A1A] dark:text-white font-sans-body">
                 {route.name}
               </span>
-              <span className="text-[10px] text-[#D4AF37] font-sans-body font-medium">
+              <span className="text-[10px] text-[#9b6ec5] font-sans-body font-medium">
                 {route.time}
               </span>
             </div>
@@ -525,10 +525,10 @@ function StatCard({ stat, index }: { stat: typeof stats[number]; index: number }
       transition={{ duration: 0.6, delay: index * 0.12, ease: 'easeOut' }}
     >
       {/* Top accent line */}
-      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       {/* Hover overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#5d2c86]/[0.02] to-[#D4AF37]/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#5d2c86]/[0.02] to-[#9b6ec5]/[0.02] opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
 
       <div className="relative">
         <div className="flex items-center gap-3 mb-3">
@@ -540,7 +540,7 @@ function StatCard({ stat, index }: { stat: typeof stats[number]; index: number }
 
         <p className={`text-3xl lg:text-4xl font-bold font-serif-display text-[#1A1A1A] dark:text-white ${isComplete ? 'count-glow' : ''}`}>
           {count}
-          <span className="text-[#D4AF37]">{stat.suffix}</span>
+          <span className="text-[#9b6ec5]">{stat.suffix}</span>
         </p>
 
         <p className="text-xs tracking-widest text-gray-400 dark:text-gray-500 mt-2 font-sans-body uppercase">
@@ -562,13 +562,13 @@ function DestinationCard({
 }) {
   return (
     <motion.div
-      className="flex items-center gap-3 bg-white/70 dark:bg-[#1E1E1E]/70 backdrop-blur-sm rounded-lg px-4 py-3 border border-gray-100 dark:border-gray-800 hover:border-[#D4AF37]/30 dark:hover:border-[#D4AF37]/20 transition-colors duration-300"
+      className="flex items-center gap-3 bg-white/70 dark:bg-[#1E1E1E]/70 backdrop-blur-sm rounded-lg px-4 py-3 border border-gray-100 dark:border-gray-800 hover:border-[#9b6ec5]/30 dark:hover:border-[#9b6ec5]/20 transition-colors duration-300"
       initial={{ opacity: 0, x: 20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
     >
-      <div className="w-2 h-2 rounded-full bg-[#D4AF37] flex-shrink-0" />
+      <div className="w-2 h-2 rounded-full bg-[#9b6ec5] flex-shrink-0" />
       <div className="flex-1 min-w-0">
         <p className="text-sm font-semibold text-[#1A1A1A] dark:text-white font-sans-body truncate">
           {destination.name}
@@ -578,7 +578,7 @@ function DestinationCard({
         </p>
       </div>
       <div className="flex items-center gap-1 flex-shrink-0">
-        <Clock className="w-3 h-3 text-[#D4AF37]" />
+        <Clock className="w-3 h-3 text-[#9b6ec5]" />
         <span className="text-xs font-bold text-[#5d2c86] dark:text-[#7d44a8] font-sans-body">
           {destination.deliveryTime}
         </span>
@@ -610,7 +610,7 @@ export default function GlobalReachSection() {
       <div
         className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full pointer-events-none"
         style={{
-          background: 'radial-gradient(circle, rgba(212,175,55,0.03) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(125,68,168,0.03) 0%, transparent 70%)',
         }}
       />
 
@@ -637,7 +637,7 @@ export default function GlobalReachSection() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             From Foshan{' '}
-            <span className="text-[#D4AF37] italic">to the World</span>
+            <span className="text-[#9b6ec5] italic">to the World</span>
           </motion.h2>
 
           {/* Subtext */}
@@ -656,7 +656,7 @@ export default function GlobalReachSection() {
           <motion.div
             className="mx-auto mt-6 w-20 h-[2px]"
             style={{
-              background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+              background: 'linear-gradient(90deg, transparent, #9b6ec5, transparent)',
             }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -711,7 +711,7 @@ export default function GlobalReachSection() {
         <motion.div
           className="mt-12 lg:mt-16 mx-auto w-full max-w-2xl h-[1px]"
           style={{
-            background: 'linear-gradient(90deg, transparent, rgba(93,44,134,0.15) 20%, rgba(212,175,55,0.15) 80%, transparent)',
+            background: 'linear-gradient(90deg, transparent, rgba(93,44,134,0.15) 20%, rgba(125,68,168,0.15) 80%, transparent)',
           }}
           initial={{ scaleX: 0 }}
           whileInView={{ scaleX: 1 }}

@@ -7,7 +7,7 @@ import * as THREE from 'three';
 
 /* ─────────────── Color constants ─────────────── */
 const PURPLE = '#5d2c86';
-const GOLD = '#D4AF37';
+const ACCENT = '#9b6ec5';
 const CREAM = '#f8f3ed';
 
 /* ─────────────── Floating Crystal ─────────────── */
@@ -162,9 +162,9 @@ function ParticleField() {
   const colors = useMemo(() => {
     const cols = new Float32Array(count * 3);
     const purple = new THREE.Color(PURPLE);
-    const gold = new THREE.Color(GOLD);
+    const accent = new THREE.Color(ACCENT);
     const cream = new THREE.Color(CREAM);
-    const palette = [purple, gold, cream];
+    const palette = [purple, accent, cream];
 
     for (let i = 0; i < count; i++) {
       const c = palette[Math.floor(Math.random() * palette.length)];
@@ -234,14 +234,14 @@ function SceneContent() {
       <directionalLight
         position={[5, 5, 5]}
         intensity={0.6}
-        color={GOLD}
+        color={ACCENT}
       />
       <directionalLight
         position={[-3, 3, 2]}
         intensity={0.3}
         color={PURPLE}
       />
-      <pointLight position={[0, 2, 4]} intensity={0.8} color={GOLD} distance={12} />
+      <pointLight position={[0, 2, 4]} intensity={0.8} color={ACCENT} distance={12} />
       <pointLight position={[-4, -1, 3]} intensity={0.4} color={PURPLE} distance={10} />
 
       {/* Particle field background */}
@@ -251,7 +251,7 @@ function SceneContent() {
       <Crystal
         position={isMobile ? [2.2, 0.5, -1] : [4, 0.8, -1]}
         scale={isMobile ? 0.8 : 1.3}
-        color={GOLD}
+        color={ACCENT}
         rotationSpeed={0.12}
         distort={0.2}
         floatSpeed={1.2}
@@ -272,7 +272,7 @@ function SceneContent() {
       <Gem
         position={isMobile ? [1.5, -1.5, -1.5] : [3, -2, -1.5]}
         scale={isMobile ? 0.35 : 0.55}
-        color={GOLD}
+        color={ACCENT}
         rotationSpeed={0.2}
         floatSpeed={1.8}
         floatIntensity={0.7}
@@ -291,7 +291,7 @@ function SceneContent() {
       <TorusRing
         position={isMobile ? [-1, -1.5, -3] : [-2, -2.5, -3]}
         scale={isMobile ? 0.3 : 0.5}
-        color={GOLD}
+        color={ACCENT}
         rotationSpeed={0.1}
         floatSpeed={0.8}
         floatIntensity={0.3}

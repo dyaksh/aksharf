@@ -54,12 +54,12 @@ function StatItem({ stat, index }: { stat: typeof stats[number]; index: number }
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-        <Icon className="w-5 h-5 text-[#D4AF37]" />
+        <Icon className="w-5 h-5 text-[#9b6ec5]" />
       </div>
       <div>
         <p className="text-2xl lg:text-3xl font-bold font-serif-display text-white">
           {count}
-          <span className="text-[#D4AF37]">{stat.suffix}</span>
+          <span className="text-[#9b6ec5]">{stat.suffix}</span>
         </p>
         <p className="text-[10px] tracking-widest text-white/50 font-sans-body uppercase">
           {stat.label}
@@ -67,7 +67,7 @@ function StatItem({ stat, index }: { stat: typeof stats[number]; index: number }
       </div>
       {/* Separator dot */}
       {index < stats.length - 1 && (
-        <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]/40 ml-8 lg:ml-12" />
+        <div className="w-1.5 h-1.5 rounded-full bg-[#9b6ec5]/40 ml-8 lg:ml-12" />
       )}
     </motion.div>
   );
@@ -80,9 +80,9 @@ export default function StatsTicker() {
       <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-[#1A1A1A] to-transparent z-10 pointer-events-none" />
       <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-[#1A1A1A] to-transparent z-10 pointer-events-none" />
 
-      {/* Subtle gold top/bottom borders */}
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+      {/* Subtle accent top/bottom borders */}
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#9b6ec5]/30 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#9b6ec5]/30 to-transparent" />
 
       {/* Scrolling ticker container */}
       <div className="flex items-center">
@@ -93,18 +93,18 @@ export default function StatsTicker() {
             return (
               <div key={i} className="flex items-center gap-4 px-8 lg:px-12 shrink-0">
                 <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                  <Icon className="w-5 h-5 text-[#D4AF37]" />
+                  <Icon className="w-5 h-5 text-[#9b6ec5]" />
                 </div>
                 <div>
                   <p className="text-2xl lg:text-3xl font-bold font-serif-display text-white">
                     {stat.value}
-                    <span className="text-[#D4AF37]">{stat.suffix}</span>
+                    <span className="text-[#9b6ec5]">{stat.suffix}</span>
                   </p>
                   <p className="text-[10px] tracking-widest text-white/50 font-sans-body uppercase">
                     {stat.label}
                   </p>
                 </div>
-                <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37]/40 ml-8 lg:ml-12" />
+                <div className="w-1.5 h-1.5 rounded-full bg-[#9b6ec5]/40 ml-8 lg:ml-12" />
               </div>
             );
           })}

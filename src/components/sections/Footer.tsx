@@ -110,8 +110,8 @@ export default function Footer() {
 
   return (
     <footer id="contact" className="bg-[#0D0D0D] relative" ref={footerRef}>
-      {/* Decorative gold line at the very top */}
-      <div className="h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent" />
+      {/* Decorative accent line at the very top */}
+      <div className="h-[2px] bg-gradient-to-r from-transparent via-[#9b6ec5] to-transparent" />
 
       {/* Geometric dot pattern background */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
@@ -125,7 +125,7 @@ export default function Footer() {
               height="32"
               patternUnits="userSpaceOnUse"
             >
-              <circle cx="2" cy="2" r="1" fill="#D4AF37" />
+              <circle cx="2" cy="2" r="1" fill="#9b6ec5" />
             </pattern>
           </defs>
           <rect width="100%" height="100%" fill="url(#footer-dots)" />
@@ -170,25 +170,25 @@ export default function Footer() {
               <div className="space-y-3 mb-6">
                 <a
                   href="tel:+17606170800"
-                  className="flex items-center gap-2 text-xs text-white/50 font-sans-body hover:text-[#D4AF37] transition-colors group"
+                  className="flex items-center gap-2 text-xs text-white/50 font-sans-body hover:text-[#9b6ec5] transition-colors group"
                 >
                   <div className="w-6 h-6 rounded-md bg-white/5 flex items-center justify-center group-hover:bg-[#5d2c86]/20 transition-colors">
-                    <Phone className="w-3 h-3 text-[#D4AF37]" />
+                    <Phone className="w-3 h-3 text-[#9b6ec5]" />
                   </div>
                   +1 (760) 617-0800
                 </a>
                 <a
                   href="mailto:yogin@aksharfoshan.com"
-                  className="flex items-center gap-2 text-xs text-white/50 font-sans-body hover:text-[#D4AF37] transition-colors group"
+                  className="flex items-center gap-2 text-xs text-white/50 font-sans-body hover:text-[#9b6ec5] transition-colors group"
                 >
                   <div className="w-6 h-6 rounded-md bg-white/5 flex items-center justify-center group-hover:bg-[#5d2c86]/20 transition-colors">
-                    <Mail className="w-3 h-3 text-[#D4AF37]" />
+                    <Mail className="w-3 h-3 text-[#9b6ec5]" />
                   </div>
                   yogin@aksharfoshan.com
                 </a>
                 <div className="flex items-start gap-2">
                   <div className="w-6 h-6 rounded-md bg-white/5 flex items-center justify-center shrink-0 mt-0.5">
-                    <MapPin className="w-3 h-3 text-[#D4AF37]" />
+                    <MapPin className="w-3 h-3 text-[#9b6ec5]" />
                   </div>
                   <span className="text-xs text-white/50 font-sans-body">
                     No. 29, Sanling Road, Gaoming District, Foshan City
@@ -223,7 +223,7 @@ export default function Footer() {
               transition={{ duration: 0.6, delay: 0.15 }}
             >
               <div className="flex items-center gap-2 mb-4">
-                <Diamond className="w-3 h-3 text-[#D4AF37]" />
+                <Diamond className="w-3 h-3 text-[#9b6ec5]" />
                 <h4 className="text-xs tracking-[0.2em] text-white/80 font-sans-body font-bold">
                   EXPLORE
                 </h4>
@@ -233,11 +233,11 @@ export default function Footer() {
                   <li key={link.label}>
                     <button
                       onClick={() => handleNavClick(link.href)}
-                      className="text-sm text-white/40 hover:text-[#D4AF37] font-sans-body transition-colors relative group flex items-center gap-2"
+                      className="text-sm text-white/40 hover:text-[#9b6ec5] font-sans-body transition-colors relative group flex items-center gap-2"
                     >
-                      <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#D4AF37] transition-colors" />
+                      <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#9b6ec5] transition-colors" />
                       {link.label}
-                      <span className="absolute -bottom-0.5 left-3 w-0 h-[1px] bg-[#D4AF37] group-hover:w-[calc(100%-12px)] transition-all duration-300" />
+                      <span className="absolute -bottom-0.5 left-3 w-0 h-[1px] bg-[#9b6ec5] group-hover:w-[calc(100%-12px)] transition-all duration-300" />
                     </button>
                   </li>
                 ))}
@@ -251,7 +251,7 @@ export default function Footer() {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <div className="flex items-center gap-2 mb-4">
-                <Package className="w-3 h-3 text-[#D4AF37]" />
+                <Package className="w-3 h-3 text-[#9b6ec5]" />
                 <h4 className="text-xs tracking-[0.2em] text-white/80 font-sans-body font-bold">
                   PRODUCTS
                 </h4>
@@ -261,11 +261,11 @@ export default function Footer() {
                   <li key={link.label}>
                     <button
                       onClick={() => handleNavClick(link.href)}
-                      className="text-sm text-white/40 hover:text-[#D4AF37] font-sans-body transition-colors relative group flex items-center gap-2"
+                      className="text-sm text-white/40 hover:text-[#9b6ec5] font-sans-body transition-colors relative group flex items-center gap-2"
                     >
-                      <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#D4AF37] transition-colors" />
+                      <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#9b6ec5] transition-colors" />
                       {link.label}
-                      <span className="absolute -bottom-0.5 left-3 w-0 h-[1px] bg-[#D4AF37] group-hover:w-[calc(100%-12px)] transition-all duration-300" />
+                      <span className="absolute -bottom-0.5 left-3 w-0 h-[1px] bg-[#9b6ec5] group-hover:w-[calc(100%-12px)] transition-all duration-300" />
                     </button>
                   </li>
                 ))}
@@ -279,7 +279,7 @@ export default function Footer() {
               transition={{ duration: 0.6, delay: 0.25 }}
             >
               <div className="flex items-center gap-2 mb-4">
-                <Shield className="w-3 h-3 text-[#D4AF37]" />
+                <Shield className="w-3 h-3 text-[#9b6ec5]" />
                 <h4 className="text-xs tracking-[0.2em] text-white/80 font-sans-body font-bold">
                   STUDIO
                 </h4>
@@ -289,11 +289,11 @@ export default function Footer() {
                   <li key={link.label}>
                     <button
                       onClick={() => handleNavClick(link.href)}
-                      className="text-sm text-white/40 hover:text-[#D4AF37] font-sans-body transition-colors relative group flex items-center gap-2"
+                      className="text-sm text-white/40 hover:text-[#9b6ec5] font-sans-body transition-colors relative group flex items-center gap-2"
                     >
-                      <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#D4AF37] transition-colors" />
+                      <span className="w-1 h-1 rounded-full bg-white/20 group-hover:bg-[#9b6ec5] transition-colors" />
                       {link.label}
-                      <span className="absolute -bottom-0.5 left-3 w-0 h-[1px] bg-[#D4AF37] group-hover:w-[calc(100%-12px)] transition-all duration-300" />
+                      <span className="absolute -bottom-0.5 left-3 w-0 h-[1px] bg-[#9b6ec5] group-hover:w-[calc(100%-12px)] transition-all duration-300" />
                     </button>
                   </li>
                 ))}
@@ -307,7 +307,7 @@ export default function Footer() {
               transition={{ duration: 0.6, delay: 0.3 }}
             >
               <div className="flex items-center gap-2 mb-4">
-                <Mail className="w-3.5 h-3.5 text-[#D4AF37]" />
+                <Mail className="w-3.5 h-3.5 text-[#9b6ec5]" />
                 <h4 className="text-xs tracking-[0.2em] text-white/80 font-sans-body font-bold">
                   NEWSLETTER
                 </h4>
@@ -323,7 +323,7 @@ export default function Footer() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="Enter your email"
-                    className="rounded-lg font-sans-body text-xs h-9 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/50 transition-all duration-300"
+                    className="rounded-lg font-sans-body text-xs h-9 bg-white/5 border-white/10 text-white placeholder:text-white/30 focus-visible:ring-[#9b6ec5]/40 focus-visible:border-[#9b6ec5]/50 transition-all duration-300"
                   />
                 </div>
                 <AnimatePresence mode="wait">
@@ -397,10 +397,10 @@ export default function Footer() {
               </p>
             </div>
             <div className="flex items-center gap-6">
-              <span className="text-xs text-white/30 font-sans-body hover:text-[#D4AF37] cursor-pointer transition-colors">
+              <span className="text-xs text-white/30 font-sans-body hover:text-[#9b6ec5] cursor-pointer transition-colors">
                 Privacy Policy
               </span>
-              <span className="text-xs text-white/30 font-sans-body hover:text-[#D4AF37] cursor-pointer transition-colors">
+              <span className="text-xs text-white/30 font-sans-body hover:text-[#9b6ec5] cursor-pointer transition-colors">
                 Terms of Service
               </span>
             </div>
@@ -410,7 +410,7 @@ export default function Footer() {
           <div className="flex justify-center mt-8">
             <button
               onClick={handleBackToTop}
-              className="group flex items-center gap-1.5 text-xs text-white/30 font-sans-body hover:text-[#D4AF37] transition-colors duration-300"
+              className="group flex items-center gap-1.5 text-xs text-white/30 font-sans-body hover:text-[#9b6ec5] transition-colors duration-300"
             >
               <ArrowUp className="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-1" />
               Back to top
@@ -419,8 +419,8 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Subtle gold gradient line at the very bottom */}
-      <div className="h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37]/30 to-transparent" />
+      {/* Subtle accent gradient line at the very bottom */}
+      <div className="h-[2px] bg-gradient-to-r from-transparent via-[#9b6ec5]/30 to-transparent" />
     </footer>
   );
 }

@@ -29,8 +29,8 @@ function FloatingParticle({
         height: size,
         background:
           size > 6
-            ? 'radial-gradient(circle, rgba(212,175,55,0.15) 0%, transparent 70%)'
-            : 'radial-gradient(circle, rgba(212,175,55,0.1) 0%, transparent 70%)',
+            ? 'radial-gradient(circle, rgba(125,68,168,0.15) 0%, transparent 70%)'
+            : 'radial-gradient(circle, rgba(125,68,168,0.1) 0%, transparent 70%)',
       }}
       animate={{
         y: [0, -30, 0],
@@ -91,7 +91,7 @@ export default function CTASection() {
       <div
         className="absolute inset-0 pointer-events-none z-[2]"
         style={{
-          background: `radial-gradient(600px circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(212,175,55,0.06), transparent 50%)`,
+          background: `radial-gradient(600px circle at ${mousePos.x * 100}% ${mousePos.y * 100}%, rgba(125,68,168,0.06), transparent 50%)`,
           transition: 'background 0.3s ease',
         }}
         aria-hidden="true"
@@ -105,7 +105,7 @@ export default function CTASection() {
         <motion.div
           className="absolute inset-3 sm:inset-5 lg:inset-8 rounded-2xl"
           style={{
-            background: 'conic-gradient(from 0deg, transparent, rgba(212,175,55,0.15), transparent, rgba(93,44,134,0.15), transparent)',
+            background: 'conic-gradient(from 0deg, transparent, rgba(125,68,168,0.15), transparent, rgba(93,44,134,0.15), transparent)',
           }}
           animate={{ rotate: 360 }}
           transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
@@ -142,7 +142,7 @@ export default function CTASection() {
         style={{ y: backgroundY }}
       />
       <motion.div
-        className="absolute bottom-0 right-0 w-96 h-96 bg-[#D4AF37]/10 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"
+        className="absolute bottom-0 right-0 w-96 h-96 bg-[#9b6ec5]/10 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"
         style={{ y: backgroundY }}
       />
 
@@ -158,14 +158,14 @@ export default function CTASection() {
         transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
       />
       <motion.div
-        className="absolute bottom-16 left-[10%] w-14 h-14 border border-[#D4AF37]/10 rounded-full pointer-events-none"
+        className="absolute bottom-16 left-[10%] w-14 h-14 border border-[#9b6ec5]/10 rounded-full pointer-events-none"
         animate={{ scale: [1, 1.3, 1], opacity: [0.3, 0.6, 0.3] }}
         transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       {/* Content */}
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        {/* Decorative gold line separator */}
+        {/* Decorative accent line separator */}
         <motion.div
           className="flex items-center justify-center mb-8"
           initial={{ opacity: 0, scaleX: 0 }}
@@ -173,13 +173,13 @@ export default function CTASection() {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-[#D4AF37]/50" />
-          <div className="w-2 h-2 rounded-full bg-[#D4AF37] mx-3" />
-          <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-[#D4AF37]/50" />
+          <div className="h-[1px] w-16 bg-gradient-to-r from-transparent to-[#9b6ec5]/50" />
+          <div className="w-2 h-2 rounded-full bg-[#9b6ec5] mx-3" />
+          <div className="h-[1px] w-16 bg-gradient-to-l from-transparent to-[#9b6ec5]/50" />
         </motion.div>
 
         <motion.p
-          className="text-xs tracking-[0.3em] text-[#D4AF37] mb-6 font-sans-body"
+          className="text-xs tracking-[0.3em] text-[#9b6ec5] mb-6 font-sans-body"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -199,16 +199,16 @@ export default function CTASection() {
         </motion.h2>
 
         <motion.h3
-          className="text-3xl sm:text-4xl lg:text-6xl font-bold font-serif-display text-[#D4AF37] italic mb-8 relative"
+          className="text-3xl sm:text-4xl lg:text-6xl font-bold font-serif-display text-[#9b6ec5] italic mb-8 relative"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <span
-            className="relative inline-block animate-[goldGlow_3s_ease-in-out_infinite]"
+            className="relative inline-block animate-[accentGlow_3s_ease-in-out_infinite]"
             style={{
-              textShadow: '0 0 20px rgba(212,175,55,0.3), 0 0 40px rgba(212,175,55,0.1)',
+              textShadow: '0 0 20px rgba(125,68,168,0.3), 0 0 40px rgba(125,68,168,0.1)',
             }}
           >
             We&apos;ll script the FF&amp;E.
@@ -237,7 +237,7 @@ export default function CTASection() {
           {/* Primary button with glow/shimmer effect */}
           <div className="relative group">
             {/* Glow effect behind button */}
-            <div className="absolute -inset-1 bg-[#D4AF37]/0 group-hover:bg-[#D4AF37]/20 rounded-full blur-md transition-all duration-500" />
+            <div className="absolute -inset-1 bg-[#9b6ec5]/0 group-hover:bg-[#9b6ec5]/20 rounded-full blur-md transition-all duration-500" />
             <Button
               onClick={() => {
                 window.location.hash = 'contact';
@@ -281,12 +281,12 @@ export default function CTASection() {
             transform: translateX(100%);
           }
         }
-        @keyframes goldGlow {
+        @keyframes accentGlow {
           0%, 100% {
-            text-shadow: 0 0 20px rgba(212,175,55,0.3), 0 0 40px rgba(212,175,55,0.1);
+            text-shadow: 0 0 20px rgba(125,68,168,0.3), 0 0 40px rgba(125,68,168,0.1);
           }
           50% {
-            text-shadow: 0 0 30px rgba(212,175,55,0.5), 0 0 60px rgba(212,175,55,0.2), 0 0 80px rgba(212,175,55,0.1);
+            text-shadow: 0 0 30px rgba(125,68,168,0.5), 0 0 60px rgba(125,68,168,0.2), 0 0 80px rgba(125,68,168,0.1);
           }
         }
       `}</style>

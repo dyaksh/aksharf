@@ -8,7 +8,7 @@ import { CinematicParticles } from './CinematicParticles';
 
 /* ─────────────── Color constants ─────────────── */
 const PURPLE = '#5d2c86';
-const GOLD = '#D4AF37';
+const ACCENT = '#9b6ec5';
 const CREAM = '#f8f3ed';
 
 /* ─────────────── Floating Cube ─────────────── */
@@ -211,14 +211,14 @@ function SceneContent({ reducedMotion }: { reducedMotion: boolean }) {
       <directionalLight
         position={[4, 4, 4]}
         intensity={0.4}
-        color={GOLD}
+        color={ACCENT}
       />
       <directionalLight
         position={[-3, 2, 3]}
         intensity={0.2}
         color={PURPLE}
       />
-      <pointLight position={[0, 2, 3]} intensity={0.3} color={GOLD} distance={10} />
+      <pointLight position={[0, 2, 3]} intensity={0.3} color={ACCENT} distance={10} />
       <pointLight position={[-3, -1, 2]} intensity={0.2} color={PURPLE} distance={8} />
 
       {/* Cinematic dust particles - purple tinted */}
@@ -232,9 +232,9 @@ function SceneContent({ reducedMotion }: { reducedMotion: boolean }) {
         additive
       />
 
-      {/* Second layer of gold dust - sparser */}
+      {/* Second layer of accent particles - sparser */}
       <CinematicParticles
-        color={GOLD}
+        color={ACCENT}
         count={60}
         spread={14}
         speed={0.025 * motionScale}
@@ -247,7 +247,7 @@ function SceneContent({ reducedMotion }: { reducedMotion: boolean }) {
       <FloatingCube
         position={isMobile ? [2.5, 1, -2] : [5, 1.5, -2]}
         scale={isMobile ? 0.4 : 0.6}
-        color={GOLD}
+        color={ACCENT}
         rotationSpeed={0.06 * motionScale}
         floatSpeed={0.7}
         floatIntensity={0.25}
@@ -276,7 +276,7 @@ function SceneContent({ reducedMotion }: { reducedMotion: boolean }) {
       <FloatingSphere
         position={isMobile ? [-1.5, 1.5, -2.5] : [-3.5, 2.5, -2.5]}
         scale={isMobile ? 0.3 : 0.5}
-        color={GOLD}
+        color={ACCENT}
         rotationSpeed={0.04 * motionScale}
         floatSpeed={0.6}
         floatIntensity={0.2}
@@ -295,7 +295,7 @@ function SceneContent({ reducedMotion }: { reducedMotion: boolean }) {
       <FloatingSphere
         position={isMobile ? [-2.5, -1.5, -4.5] : [-5, -2.5, -4.5]}
         scale={isMobile ? 0.15 : 0.25}
-        color={GOLD}
+        color={ACCENT}
         rotationSpeed={0.03 * motionScale}
         floatSpeed={0.5}
         floatIntensity={0.2}
@@ -314,7 +314,7 @@ function SceneContent({ reducedMotion }: { reducedMotion: boolean }) {
       <FloatingOctahedron
         position={isMobile ? [-1, 0.5, -4] : [-2, 0.8, -4]}
         scale={isMobile ? 0.1 : 0.18}
-        color={GOLD}
+        color={ACCENT}
         rotationSpeed={0.09 * motionScale}
         floatSpeed={1.0}
         floatIntensity={0.35}

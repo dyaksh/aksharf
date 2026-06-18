@@ -111,7 +111,7 @@ export default function AwardsSection() {
 
         {/* Gradient orbs */}
         <div className="absolute top-16 right-16 w-72 h-72 rounded-full bg-[#5d2c86]/[0.03] dark:bg-[#5d2c86]/[0.08] blur-3xl" />
-        <div className="absolute bottom-16 left-16 w-56 h-56 rounded-full bg-[#D4AF37]/[0.04] dark:bg-[#D4AF37]/[0.06] blur-3xl" />
+        <div className="absolute bottom-16 left-16 w-56 h-56 rounded-full bg-[#9b6ec5]/[0.04] dark:bg-[#9b6ec5]/[0.06] blur-3xl" />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -123,12 +123,12 @@ export default function AwardsSection() {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <p className="text-xs tracking-[0.3em] text-[#D4AF37] mb-4 font-sans-body font-medium">
+          <p className="text-xs tracking-[0.3em] text-[#9b6ec5] mb-4 font-sans-body font-medium">
             CERTIFICATIONS &amp; STANDARDS
           </p>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-[#1A1A1A] dark:text-white mb-4">
             Quality that meets{' '}
-            <span className="text-[#D4AF37] italic">global standards</span>
+            <span className="text-[#9b6ec5] italic">global standards</span>
           </h2>
           <p className="text-gray-500 dark:text-gray-400 font-sans-body text-lg max-w-xl mx-auto">
             Every product is backed by internationally recognized certifications and rigorous quality assurance.
@@ -155,13 +155,13 @@ export default function AwardsSection() {
                 <div
                   className="award-card-border absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
                   style={{
-                    background: 'conic-gradient(from var(--border-angle, 0deg), #5d2c86, #D4AF37, #7d44a8, #D4AF37, #5d2c86)',
+                    background: 'conic-gradient(from var(--border-angle, 0deg), #5d2c86, #9b6ec5, #7d44a8, #9b6ec5, #5d2c86)',
                   }}
                 />
                 {/* Inner card content */}
                 <div className="relative bg-[#f8f3ed]/60 dark:bg-[#1A1A1A]/80 rounded-2xl p-6 h-full border border-gray-100 dark:border-gray-800/50 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 overflow-hidden">
-                  {/* Gold top border accent on hover */}
-                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#D4AF37] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-t-2xl" />
+                  {/* Accent top border accent on hover */}
+                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-[#9b6ec5] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left rounded-t-2xl" />
 
                   {/* Number badge in top-left corner */}
                   <div className="absolute top-4 left-4 w-7 h-7 rounded-full bg-[#5d2c86]/10 dark:bg-[#5d2c86]/20 flex items-center justify-center">
@@ -171,18 +171,18 @@ export default function AwardsSection() {
                   </div>
 
                   {/* Verified badge in corner */}
-                  <div className="absolute top-4 right-4 flex items-center gap-1 bg-[#D4AF37]/15 px-2.5 py-1 rounded-full transition-all duration-300 group-hover:shadow-sm group-hover:shadow-[#D4AF37]/20">
+                  <div className="absolute top-4 right-4 flex items-center gap-1 bg-[#9b6ec5]/15 px-2.5 py-1 rounded-full transition-all duration-300 group-hover:shadow-sm group-hover:shadow-[#9b6ec5]/20">
                     <motion.div
                       className="group-hover:hidden"
                     >
-                      <Badge className="w-3 h-3 text-[#D4AF37]" />
+                      <Badge className="w-3 h-3 text-[#9b6ec5]" />
                     </motion.div>
                     <motion.div
                       className="hidden group-hover:block"
                     >
-                      <CheckCircle className="w-3 h-3 text-[#D4AF37]" />
+                      <CheckCircle className="w-3 h-3 text-[#9b6ec5]" />
                     </motion.div>
-                    <span className="text-[10px] font-medium text-[#D4AF37] font-sans-body tracking-wide">
+                    <span className="text-[10px] font-medium text-[#9b6ec5] font-sans-body tracking-wide">
                       Verified
                     </span>
                   </div>
@@ -204,7 +204,7 @@ export default function AwardsSection() {
 
                   {/* Learn more link - appears on hover */}
                   <div className="opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-300">
-                    <span className="inline-flex items-center gap-1 text-xs font-medium text-[#D4AF37] font-sans-body hover:gap-2 transition-all duration-300">
+                    <span className="inline-flex items-center gap-1 text-xs font-medium text-[#9b6ec5] font-sans-body hover:gap-2 transition-all duration-300">
                       Learn more
                       <ArrowRight className="w-3 h-3" />
                     </span>

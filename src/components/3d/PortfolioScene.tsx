@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { CinematicParticles } from './CinematicParticles';
 
 /* ─────────────── Color constants ─────────────── */
-const GOLD = '#D4AF37';
+const ACCENT = '#9b6ec5';
 const CREAM = '#f8f3ed';
 const DARK = '#1A1A1A';
 
@@ -127,7 +127,7 @@ function FloatingAccent({
 function HorizontalLine({
   position,
   length = 8,
-  color = GOLD,
+  color = ACCENT,
 }: {
   position: [number, number, number];
   length?: number;
@@ -179,8 +179,8 @@ function SceneContent({ reducedMotion }: { reducedMotion: boolean }) {
     const offsetX = ((cols - 1) * spacing) / 2;
     const offsetY = ((rows - 1) * spacing) / 2;
 
-    const palette = [GOLD, CREAM, '#c9a22d', '#e8dcc8', DARK];
-    const rectPalette = [GOLD, CREAM, '#b8942a'];
+    const palette = [ACCENT, CREAM, '#b892d4', '#e8dcc8', DARK];
+    const rectPalette = [ACCENT, CREAM, '#a07bbd'];
 
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
@@ -209,19 +209,19 @@ function SceneContent({ reducedMotion }: { reducedMotion: boolean }) {
       <directionalLight
         position={[5, 5, 5]}
         intensity={0.35}
-        color={GOLD}
+        color={ACCENT}
       />
       <directionalLight
         position={[-4, 3, 4]}
         intensity={0.2}
         color={CREAM}
       />
-      <pointLight position={[0, 3, 4]} intensity={0.4} color={GOLD} distance={14} />
+      <pointLight position={[0, 3, 4]} intensity={0.4} color={ACCENT} distance={14} />
       <pointLight position={[4, -2, 3]} intensity={0.15} color={CREAM} distance={10} />
 
-      {/* Gold particle dust */}
+      {/* Accent particle dust */}
       <CinematicParticles
-        color={GOLD}
+        color={ACCENT}
         count={100}
         spread={18}
         speed={0.02 * motionScale}
@@ -262,7 +262,7 @@ function SceneContent({ reducedMotion }: { reducedMotion: boolean }) {
       <FloatingAccent
         position={isMobile ? [3, 2, -4] : [6, 3, -4]}
         scale={isMobile ? 0.2 : 0.35}
-        color={GOLD}
+        color={ACCENT}
         floatSpeed={0.6}
         floatIntensity={0.25}
         rotationSpeed={0.04 * motionScale}
@@ -280,7 +280,7 @@ function SceneContent({ reducedMotion }: { reducedMotion: boolean }) {
       <FloatingAccent
         position={isMobile ? [1.5, -2.5, -5.5] : [4, -3.5, -5.5]}
         scale={isMobile ? 0.12 : 0.2}
-        color={GOLD}
+        color={ACCENT}
         floatSpeed={0.5}
         floatIntensity={0.2}
         rotationSpeed={0.03 * motionScale}
@@ -290,12 +290,12 @@ function SceneContent({ reducedMotion }: { reducedMotion: boolean }) {
       <HorizontalLine
         position={[0, isMobile ? 3 : 4.5, -4]}
         length={isMobile ? 10 : 16}
-        color={GOLD}
+        color={ACCENT}
       />
       <HorizontalLine
         position={[0, isMobile ? -3 : -4.5, -4]}
         length={isMobile ? 10 : 16}
-        color={GOLD}
+        color={ACCENT}
       />
     </>
   );

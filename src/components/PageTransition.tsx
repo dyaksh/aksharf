@@ -10,7 +10,7 @@ interface PageTransitionProps {
 
 /**
  * Cinematic page transition overlay.
- * When pageKey changes, a dark overlay with gold streak sweeps in,
+ * When pageKey changes, a dark overlay with accent streak sweeps in,
  * content swaps, then overlay sweeps out.
  */
 export default function PageTransition({ children, pageKey }: PageTransitionProps) {
@@ -65,12 +65,12 @@ export default function PageTransition({ children, pageKey }: PageTransitionProp
             {/* Dark base */}
             <div className="absolute inset-0 bg-[#1A1A1A]" />
 
-            {/* Gold accent streak — diagonal slash */}
+            {/* accent streak — diagonal slash */}
             <div
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(105deg, transparent 40%, rgba(212,175,55,0.15) 45%, rgba(212,175,55,0.35) 48%, rgba(212,175,55,0.15) 51%, transparent 56%)',
+                  'linear-gradient(105deg, transparent 40%, rgba(125,68,168,0.15) 45%, rgba(125,68,168,0.35) 48%, rgba(125,68,168,0.15) 51%, transparent 56%)',
               }}
             />
 
@@ -102,7 +102,7 @@ export default function PageTransition({ children, pageKey }: PageTransitionProp
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(105deg, transparent 40%, rgba(212,175,55,0.15) 45%, rgba(212,175,55,0.35) 48%, rgba(212,175,55,0.15) 51%, transparent 56%)',
+                  'linear-gradient(105deg, transparent 40%, rgba(125,68,168,0.15) 45%, rgba(125,68,168,0.35) 48%, rgba(125,68,168,0.15) 51%, transparent 56%)',
               }}
             />
             <div

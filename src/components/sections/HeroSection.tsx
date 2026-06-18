@@ -26,14 +26,14 @@ function FloatingDiamond() {
   return (
     <div className="hidden lg:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
       <motion.div
-        className="w-20 h-20 border-2 border-[#D4AF37]/30 dark:border-[#D4AF37]/20 rounded-md"
+        className="w-20 h-20 border-2 border-[#9b6ec5]/30 dark:border-[#9b6ec5]/20 rounded-md"
         animate={{ rotate: [0, 45, 90, 135, 180, 225, 270, 315, 360] }}
         transition={{ duration: 30, repeat: Infinity, ease: 'linear' }}
         style={{ transformOrigin: 'center center' }}
       >
         {/* Inner smaller diamond */}
         <motion.div
-          className="absolute inset-2 border border-[#D4AF37]/15 dark:border-[#D4AF37]/10 rounded-sm"
+          className="absolute inset-2 border border-[#9b6ec5]/15 dark:border-[#9b6ec5]/10 rounded-sm"
           animate={{ rotate: [360, 315, 270, 225, 180, 135, 90, 45, 0] }}
           transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}
           style={{ transformOrigin: 'center center' }}
@@ -55,7 +55,7 @@ function CornerBracket() {
     >
       <motion.path
         d="M 2 2 L 2 38"
-        stroke="#D4AF37"
+        stroke="#9b6ec5"
         strokeWidth="1.5"
         strokeLinecap="round"
         initial={{ pathLength: 0 }}
@@ -64,7 +64,7 @@ function CornerBracket() {
       />
       <motion.path
         d="M 2 2 L 38 2"
-        stroke="#D4AF37"
+        stroke="#9b6ec5"
         strokeWidth="1.5"
         strokeLinecap="round"
         initial={{ pathLength: 0 }}
@@ -107,7 +107,7 @@ function DecorativeParticle({
         style={{
           width: size,
           height: size,
-          background: 'radial-gradient(circle, #D4AF37 0%, rgba(212,175,55,0.5) 100%)',
+          background: 'radial-gradient(circle, #9b6ec5 0%, rgba(125,68,168,0.5) 100%)',
         }}
         animate={{
           y: [0, -14, -6, -18, 0],
@@ -190,7 +190,7 @@ function HeroCanvas() {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    const colors = ['#D4AF37', '#5d2c86'];
+    const colors = ['#9b6ec5', '#5d2c86'];
     const particleCount = 35;
 
     interface Particle {
@@ -333,7 +333,7 @@ function TypewriterHeadline() {
       transition={{ duration: 0.8, delay: 0.6 }}
     >
       <span>Furniture that</span>{' '}
-      <span className="text-[#D4AF37] italic">
+      <span className="text-[#9b6ec5] italic">
         <span className="inline-block relative">
           <span
             className={`transition-all duration-500 ${visibleWords.includes(0) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'}`}
@@ -356,7 +356,7 @@ function TypewriterHeadline() {
           </span>
           {/* Underline decoration that draws in after word reveal */}
           <motion.span
-            className="absolute -bottom-1 left-0 h-[2px] bg-[#D4AF37]"
+            className="absolute -bottom-1 left-0 h-[2px] bg-[#9b6ec5]"
             initial={{ width: 0 }}
             animate={{ width: visibleWords.includes(2) ? '100%' : 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
@@ -400,7 +400,7 @@ function StatItem({ stat, index }: { stat: (typeof stats)[number]; index: number
       <p
         className={`text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display ${isComplete ? 'count-glow' : ''}`}
         style={{
-          background: 'linear-gradient(135deg, #5d2c86, #D4AF37)',
+          background: 'linear-gradient(135deg, #5d2c86, #9b6ec5)',
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
           backgroundClip: 'text',
@@ -527,7 +527,7 @@ export default function HeroSection() {
             {/* Subheading with animated line */}
             <div className="flex items-center gap-3 mb-4">
               <motion.div
-                className="h-[1px] bg-gradient-to-r from-transparent to-[#D4AF37] shrink-0"
+                className="h-[1px] bg-gradient-to-r from-transparent to-[#9b6ec5] shrink-0"
                 initial={{ width: 0 }}
                 animate={{ width: 32 }}
                 transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
@@ -576,7 +576,7 @@ export default function HeroSection() {
                 </Button>
               </div>
 
-              {/* Secondary button with gold underline on hover */}
+              {/* Secondary button with accent underline on hover */}
               <div className="relative group/btn">
                 <Button
                   variant="outline"
@@ -587,12 +587,12 @@ export default function HeroSection() {
                 </Button>
               </div>
 
-              {/* Download Brochure button — gold accent */}
+              {/* Download Brochure button — accent */}
               <div className="relative">
                 <Button
                   variant="outline"
                   onClick={() => window.open('/brochure.pdf', '_blank')}
-                  className="border-[#D4AF37]/50 text-[#D4AF37] hover:bg-[#D4AF37]/10 rounded-full px-6 min-h-12 font-sans-body text-sm font-medium whitespace-nowrap transition-colors duration-300"
+                  className="border-[#9b6ec5]/50 text-[#9b6ec5] hover:bg-[#9b6ec5]/10 rounded-full px-6 min-h-12 font-sans-body text-sm font-medium whitespace-nowrap transition-colors duration-300"
                 >
                   <Download className="w-4 h-4 mr-2" />
                   Brochure
@@ -635,15 +635,15 @@ export default function HeroSection() {
                     className="w-full h-[220px] sm:h-[350px] lg:h-[480px] object-cover"
                     fetchPriority="high"
                   />
-                  {/* Enhanced badge with gold border-left accent */}
+                  {/* Enhanced badge with accent border-left accent */}
                   <motion.div
-                    className="absolute bottom-4 left-4 bg-black/75 backdrop-blur-sm text-white px-5 py-3 rounded-lg border-l-[3px] border-[#D4AF37] shadow-lg"
+                    className="absolute bottom-4 left-4 bg-black/75 backdrop-blur-sm text-white px-5 py-3 rounded-lg border-l-[3px] border-[#9b6ec5] shadow-lg"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ duration: 0.8, delay: 1.2 }}
                   >
                     <p className="text-xs tracking-widest font-sans-body">
-                      NOW MANUFACTURING — <span className="font-bold text-[#D4AF37]">240 KEYS</span>
+                      NOW MANUFACTURING — <span className="font-bold text-[#9b6ec5]">240 KEYS</span>
                     </p>
                   </motion.div>
                 </div>
@@ -670,7 +670,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, scale: 0.8, y: -20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ duration: 0.7, delay: 1.2 }}
-                style={{ border: '3px solid #D4AF37', y: prefersReduced ? undefined : floatingImageY2 }}
+                style={{ border: '3px solid #9b6ec5', y: prefersReduced ? undefined : floatingImageY2 }}
               >
                 <img
                   src="/catalog-pages/page_7.png"
@@ -684,12 +684,12 @@ export default function HeroSection() {
 
         {/* Stats Section */}
         <div className="relative pb-12 lg:pb-20 pt-8">
-          {/* Separator line above stats with traveling gold dot */}
+          {/* Separator line above stats with traveling accent dot */}
           <div className="relative w-full mb-10">
             <motion.div
               className="w-full h-[2px]"
               style={{
-                background: 'linear-gradient(90deg, transparent, rgba(93,44,134,0.35) 20%, rgba(212,175,55,0.35) 80%, transparent)',
+                background: 'linear-gradient(90deg, transparent, rgba(93,44,134,0.35) 20%, rgba(125,68,168,0.35) 80%, transparent)',
               }}
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}

@@ -40,11 +40,11 @@ function BrandPill({ name }: { name: string }) {
           inline-flex items-center justify-center
           px-5 py-2.5 sm:px-6 sm:py-3
           rounded-full
-          border border-[#5d2c86]/15 dark:border-[#D4AF37]/25
+          border border-[#5d2c86]/15 dark:border-[#9b6ec5]/25
           bg-[#f8f3ed]/60 dark:bg-[#1E1E2A]/80
           backdrop-blur-sm
           transition-colors duration-300
-          hover:border-[#5d2c86]/40 dark:hover:border-[#D4AF37]/50
+          hover:border-[#5d2c86]/40 dark:hover:border-[#9b6ec5]/50
           hover:bg-[#f8f3ed] dark:hover:bg-[#1E1E2A]
           group cursor-default select-none
         "
@@ -52,10 +52,10 @@ function BrandPill({ name }: { name: string }) {
         <span
           className="
             font-sans-body text-sm sm:text-base font-medium
-            text-[#5d2c86]/75 dark:text-[#D4AF37]/80
+            text-[#5d2c86]/75 dark:text-[#9b6ec5]/80
             tracking-wide uppercase
             transition-colors duration-300
-            group-hover:text-[#5d2c86] dark:group-hover:text-[#D4AF37]
+            group-hover:text-[#5d2c86] dark:group-hover:text-[#9b6ec5]
             whitespace-nowrap
           "
         >
@@ -81,8 +81,8 @@ export default function BrandMarquee() {
       "
     >
       {/* Subtle top/bottom border accents */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#5d2c86]/10 dark:via-[#D4AF37]/10 to-transparent" />
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#5d2c86]/10 dark:via-[#D4AF37]/10 to-transparent" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#5d2c86]/10 dark:via-[#9b6ec5]/10 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#5d2c86]/10 dark:via-[#9b6ec5]/10 to-transparent" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section heading */}
@@ -95,7 +95,7 @@ export default function BrandMarquee() {
           <p
             className="
               font-sans-body text-xs sm:text-sm
-              text-[#D4AF37] dark:text-[#D4AF37]
+              text-[#9b6ec5] dark:text-[#9b6ec5]
               tracking-[0.2em] sm:tracking-[0.25em] uppercase
               font-semibold
             "
@@ -103,9 +103,9 @@ export default function BrandMarquee() {
             Trusted by Leading Hospitality Brands
           </p>
           <div className="mt-3 flex items-center justify-center gap-3">
-            <span className="block h-px w-8 sm:w-12 bg-[#D4AF37]/40 dark:bg-[#D4AF37]/30" />
-            <span className="block w-1.5 h-1.5 rounded-full bg-[#D4AF37]/60 dark:bg-[#D4AF37]/50" />
-            <span className="block h-px w-8 sm:w-12 bg-[#D4AF37]/40 dark:bg-[#D4AF37]/30" />
+            <span className="block h-px w-8 sm:w-12 bg-[#9b6ec5]/40 dark:bg-[#9b6ec5]/30" />
+            <span className="block w-1.5 h-1.5 rounded-full bg-[#9b6ec5]/60 dark:bg-[#9b6ec5]/50" />
+            <span className="block h-px w-8 sm:w-12 bg-[#9b6ec5]/40 dark:bg-[#9b6ec5]/30" />
           </div>
         </motion.div>
       </div>

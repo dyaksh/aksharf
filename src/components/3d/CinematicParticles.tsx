@@ -69,7 +69,7 @@ export interface CinematicParticlesProps {
 /* ─────────────── Component ─────────────── */
 
 export function CinematicParticles({
-  color = '#D4AF37',
+  color = '#9b6ec5',
   count = 200,
   spread = 10,
   speed = 0.05,

@@ -141,7 +141,7 @@ function StepCircle({
     >
       {/* Pulse ring — always subtle, stronger on hover */}
       <motion.div
-        className="absolute inset-0 rounded-full border-2 border-[#D4AF37]/30"
+        className="absolute inset-0 rounded-full border-2 border-[#9b6ec5]/30"
         animate={
           isHovered
             ? { scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }
@@ -158,9 +158,9 @@ function StepCircle({
       <div
         className={`
           relative w-14 h-14 rounded-full flex items-center justify-center
-          border-2 border-[#D4AF37] bg-[#5d2c86]
+          border-2 border-[#9b6ec5] bg-[#5d2c86]
           transition-all duration-300
-          ${isHovered ? 'shadow-[0_0_24px_rgba(212,175,55,0.35)] scale-110' : 'shadow-lg'}
+          ${isHovered ? 'shadow-[0_0_24px_rgba(125,68,168,0.35)] scale-110' : 'shadow-lg'}
         `}
       >
         <span className="text-white font-bold font-serif-display text-lg">
@@ -219,17 +219,17 @@ function DesktopStepCard({
             shadow-sm cursor-default
             transition-all duration-500
             hover:shadow-xl hover:-translate-y-1.5
-            hover:border-[#D4AF37]/40 dark:hover:border-[#D4AF37]/30
+            hover:border-[#9b6ec5]/40 dark:hover:border-[#9b6ec5]/30
             group relative overflow-hidden
           `}
           onMouseEnter={onHover}
           onMouseLeave={onLeave}
         >
-          {/* Top gold accent on hover */}
+          {/* Top accent on hover */}
           <div
             className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{
-              background: 'linear-gradient(90deg, #5d2c86, #D4AF37, #5d2c86)',
+              background: 'linear-gradient(90deg, #5d2c86, #9b6ec5, #5d2c86)',
             }}
           />
 
@@ -239,7 +239,7 @@ function DesktopStepCard({
           </div>
 
           {/* Duration badge */}
-          <span className="inline-block text-[10px] font-semibold tracking-wider text-[#D4AF37] bg-[#D4AF37]/10 dark:bg-[#D4AF37]/15 rounded-full px-2.5 py-0.5 mb-2 font-sans-body">
+          <span className="inline-block text-[10px] font-semibold tracking-wider text-[#9b6ec5] bg-[#9b6ec5]/10 dark:bg-[#9b6ec5]/15 rounded-full px-2.5 py-0.5 mb-2 font-sans-body">
             {step.duration}
           </span>
 
@@ -321,11 +321,11 @@ function MobileStepCard({
             >
               {/* Track */}
               <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700/50 rounded-full" />
-              {/* Gold fill */}
+              {/* Accent fill */}
               <motion.div
                 className="absolute inset-x-0 top-0 bottom-0 rounded-full origin-top"
                 style={{
-                  background: 'linear-gradient(180deg, #5d2c86, #D4AF37)',
+                  background: 'linear-gradient(180deg, #5d2c86, #9b6ec5)',
                 }}
                 initial={{ scaleY: 0 }}
                 animate={isInView ? { scaleY: 1 } : {}}
@@ -348,7 +348,7 @@ function MobileStepCard({
             shadow-sm cursor-default
             transition-all duration-500
             hover:shadow-xl hover:-translate-y-1
-            hover:border-[#D4AF37]/40 dark:hover:border-[#D4AF37]/30
+            hover:border-[#9b6ec5]/40 dark:hover:border-[#9b6ec5]/30
             group relative overflow-hidden
           `}
           onMouseEnter={onHover}
@@ -356,11 +356,11 @@ function MobileStepCard({
           onTouchStart={onHover}
           onTouchEnd={onLeave}
         >
-          {/* Top gold accent on hover */}
+          {/* Top accent on hover */}
           <div
             className="absolute top-0 left-0 right-0 h-[3px] rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
             style={{
-              background: 'linear-gradient(90deg, #5d2c86, #D4AF37, #5d2c86)',
+              background: 'linear-gradient(90deg, #5d2c86, #9b6ec5, #5d2c86)',
             }}
           />
 
@@ -370,7 +370,7 @@ function MobileStepCard({
             </div>
 
             {/* Duration badge */}
-            <span className="text-[10px] font-semibold tracking-wider text-[#D4AF37] bg-[#D4AF37]/10 dark:bg-[#D4AF37]/15 rounded-full px-2.5 py-0.5 font-sans-body">
+            <span className="text-[10px] font-semibold tracking-wider text-[#9b6ec5] bg-[#9b6ec5]/10 dark:bg-[#9b6ec5]/15 rounded-full px-2.5 py-0.5 font-sans-body">
               {step.duration}
             </span>
           </div>
@@ -439,7 +439,7 @@ export default function ProjectTimeline() {
         className="absolute -bottom-20 -right-20 w-96 h-96 rounded-full pointer-events-none"
         style={{
           background:
-            'radial-gradient(circle, rgba(212,175,55,0.04) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(125,68,168,0.04) 0%, transparent 70%)',
         }}
       />
 
@@ -447,7 +447,7 @@ export default function ProjectTimeline() {
         {/* ---- Section Header ---- */}
         <div className="text-center mb-16 lg:mb-20">
           <motion.p
-            className="text-xs tracking-[0.3em] text-[#D4AF37] mb-4 font-sans-body font-semibold"
+            className="text-xs tracking-[0.3em] text-[#9b6ec5] mb-4 font-sans-body font-semibold"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -463,7 +463,7 @@ export default function ProjectTimeline() {
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             From concept to{' '}
-            <span className="text-[#D4AF37] italic">completion</span>
+            <span className="text-[#9b6ec5] italic">completion</span>
           </motion.h2>
           <motion.p
             className="mt-4 text-gray-500 dark:text-gray-400 max-w-xl mx-auto text-sm sm:text-base font-sans-body leading-relaxed"
@@ -477,12 +477,12 @@ export default function ProjectTimeline() {
             for.
           </motion.p>
 
-          {/* Gold accent line */}
+          {/* accent line */}
           <motion.div
             className="mx-auto mt-6 h-[1px] w-24 rounded-full"
             style={{
               background:
-                'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+                'linear-gradient(90deg, transparent, #9b6ec5, transparent)',
             }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -495,16 +495,16 @@ export default function ProjectTimeline() {
         <div className="hidden lg:block">
           {/* Horizontal connecting line */}
           <div className="relative flex items-start justify-between">
-            {/* Full-width gold gradient line behind the circles */}
+            {/* Full-width accent gradient line behind the circles */}
             <div className="absolute top-7 left-[calc(8.33%+28px)] right-[calc(8.33%+28px)] h-[2px]">
               {/* Track */}
               <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700/50 rounded-full" />
-              {/* Animated gold fill */}
+              {/* Animated accent fill */}
               <motion.div
                 className="absolute inset-y-0 left-0 right-0 rounded-full origin-left"
                 style={{
                   background:
-                    'linear-gradient(90deg, #5d2c86, #D4AF37 50%, #5d2c86)',
+                    'linear-gradient(90deg, #5d2c86, #9b6ec5 50%, #5d2c86)',
                 }}
                 initial={{ scaleX: 0 }}
                 animate={isInView ? { scaleX: 1 } : {}}
@@ -531,14 +531,14 @@ export default function ProjectTimeline() {
         {/* ---- Tablet: Horizontal with scroll ---- */}
         <div className="hidden md:block lg:hidden">
           <div className="relative">
-            {/* Horizontal gold line */}
+            {/* Horizontal accent line */}
             <div className="absolute top-7 left-7 right-7 h-[2px]">
               <div className="absolute inset-0 bg-gray-200 dark:bg-gray-700/50 rounded-full" />
               <motion.div
                 className="absolute inset-y-0 left-0 right-0 rounded-full origin-left"
                 style={{
                   background:
-                    'linear-gradient(90deg, #5d2c86, #D4AF37 50%, #5d2c86)',
+                    'linear-gradient(90deg, #5d2c86, #9b6ec5 50%, #5d2c86)',
                 }}
                 initial={{ scaleX: 0 }}
                 animate={isInView ? { scaleX: 1 } : {}}
@@ -582,10 +582,10 @@ export default function ProjectTimeline() {
         {/* ---- Bottom badge ---- */}
         <RevealOnScroll direction="up" delay={0.8} duration={0.6}>
           <div className="flex justify-center mt-14 lg:mt-20">
-            <div className="inline-flex items-center gap-2.5 bg-white dark:bg-[#1E1E1E] border border-[#D4AF37]/30 dark:border-[#D4AF37]/20 rounded-full px-6 py-3 shadow-sm">
-              <Clock className="w-4 h-4 text-[#D4AF37]" />
+            <div className="inline-flex items-center gap-2.5 bg-white dark:bg-[#1E1E1E] border border-[#9b6ec5]/30 dark:border-[#9b6ec5]/20 rounded-full px-6 py-3 shadow-sm">
+              <Clock className="w-4 h-4 text-[#9b6ec5]" />
               <span className="text-sm font-semibold text-[#1A1A1A] dark:text-white font-sans-body">
-                <span className="text-[#D4AF37]">21 days</span> average lead
+                <span className="text-[#9b6ec5]">21 days</span> average lead
                 time
               </span>
             </div>

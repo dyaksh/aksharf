@@ -279,7 +279,7 @@ export default function HomeClientContent() {
       {/* Initial load overlay — white screen fades out */}
       {!isLoaded && <div className="load-overlay" aria-hidden="true" />}
 
-      {/* Scroll progress bar — gold gradient at top */}
+      {/* Scroll progress bar — accent gradient at top */}
       <ScrollProgress />
 
       <Header />

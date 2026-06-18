@@ -18,7 +18,7 @@ export default function MagneticButton({
   children,
   className,
   magneticStrength = 8,
-  glowColor = 'rgba(212,175,55,0.25)',
+  glowColor = 'rgba(125,68,168,0.25)',
   ...props
 }: MagneticButtonProps) {
   const ref = useRef<HTMLDivElement>(null);

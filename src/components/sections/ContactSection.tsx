@@ -34,8 +34,8 @@ import {
 // Simple email regex for validation
 const isValidEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-// Gold confetti particle component - more celebratory
-function GoldConfettiParticle({ delay, x, color, size, rotation }: { delay: number; x: number; color: string; size: number; rotation: number }) {
+// Accent confetti particle component - more celebratory
+function AccentConfettiParticle({ delay, x, color, size, rotation }: { delay: number; x: number; color: string; size: number; rotation: number }) {
   const shapes = ['rounded-full', 'rounded-sm', 'rounded-none'];
   const shape = shapes[Math.floor(rotation) % 3];
   return (
@@ -68,7 +68,7 @@ function GoldConfettiParticle({ delay, x, color, size, rotation }: { delay: numb
 // Stylized World Map SVG Component with highlighted China/Foshan
 function WorldMapGraphic() {
   return (
-    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-[#5d2c86]/5 via-[#f8f3ed] to-[#D4AF37]/5 dark:from-[#5d2c86]/10 dark:via-[#1E1E1E] dark:to-[#D4AF37]/5 border border-gray-200 dark:border-gray-700">
+    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden bg-gradient-to-br from-[#5d2c86]/5 via-[#f8f3ed] to-[#9b6ec5]/5 dark:from-[#5d2c86]/10 dark:via-[#1E1E1E] dark:to-[#9b6ec5]/5 border border-gray-200 dark:border-gray-700">
       {/* Background grid */}
       <svg
         className="absolute inset-0 w-full h-full pointer-events-none"
@@ -158,9 +158,9 @@ function WorldMapGraphic() {
         />
 
         {/* China/Foshan highlighted area - pulsing glow */}
-        <circle cx="445" cy="95" r="35" fill="#D4AF37" opacity="0.06" />
-        <circle cx="445" cy="95" r="20" fill="#D4AF37" opacity="0.12" />
-        <circle cx="445" cy="95" r="8" fill="#D4AF37" opacity="0.4">
+        <circle cx="445" cy="95" r="35" fill="#9b6ec5" opacity="0.06" />
+        <circle cx="445" cy="95" r="20" fill="#9b6ec5" opacity="0.12" />
+        <circle cx="445" cy="95" r="8" fill="#9b6ec5" opacity="0.4">
           <animate
             attributeName="r"
             values="8;12;8"
@@ -180,20 +180,20 @@ function WorldMapGraphic() {
           {/* Pin drop */}
           <path
             d="M 0 -12 C -5 -12 -8 -8 -8 -4 C -8 2 0 12 0 12 C 0 12 8 2 8 -4 C 8 -8 5 -12 0 -12Z"
-            fill="#D4AF37"
+            fill="#9b6ec5"
             opacity="0.9"
           />
           <circle cx="0" cy="-4" r="3" fill="white" opacity="0.9" />
         </g>
 
         {/* Connection lines from Foshan to other regions */}
-        <line x1="445" y1="85" x2="130" y2="90" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.2">
+        <line x1="445" y1="85" x2="130" y2="90" stroke="#9b6ec5" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.2">
           <animate attributeName="stroke-dashoffset" values="0;8" dur="3s" repeatCount="indefinite" />
         </line>
-        <line x1="445" y1="85" x2="310" y2="65" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.2">
+        <line x1="445" y1="85" x2="310" y2="65" stroke="#9b6ec5" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.2">
           <animate attributeName="stroke-dashoffset" values="0;8" dur="3s" repeatCount="indefinite" />
         </line>
-        <line x1="445" y1="85" x2="510" y2="240" stroke="#D4AF37" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.15">
+        <line x1="445" y1="85" x2="510" y2="240" stroke="#9b6ec5" strokeWidth="0.5" strokeDasharray="4 4" opacity="0.15">
           <animate attributeName="stroke-dashoffset" values="0;8" dur="3s" repeatCount="indefinite" />
         </line>
 
@@ -215,13 +215,13 @@ function WorldMapGraphic() {
           </p>
         </div>
         <div className="text-right">
-          <p className="text-[10px] font-medium text-[#D4AF37] font-sans-body">Foshan HQ</p>
+          <p className="text-[10px] font-medium text-[#9b6ec5] font-sans-body">Foshan HQ</p>
           <p className="text-[9px] text-gray-400 dark:text-gray-500 font-sans-body">23.02°N, 113.12°E</p>
         </div>
       </div>
 
-      {/* Purple-gold gradient accent at bottom */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37]" />
+      {/* Purple-accent gradient accent at bottom */}
+      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5]" />
     </div>
   );
 }
@@ -283,8 +283,8 @@ export default function ContactSection() {
   const parallaxY1 = useTransform(scrollYProgress, [0, 1], [-30, 30]);
   const parallaxY2 = useTransform(scrollYProgress, [0, 1], [20, -20]);
 
-  // Gold confetti colors - more celebratory with gold dominance
-  const confettiColors = ['#D4AF37', '#F0C040', '#E5B830', '#5d2c86', '#7d44a8', '#8B5CF6', '#D4AF37', '#F5D060'];
+  // Accent confetti colors - more celebratory with accent dominance
+  const confettiColors = ['#9b6ec5', '#F0C040', '#E5B830', '#5d2c86', '#7d44a8', '#8B5CF6', '#9b6ec5', '#F5D060'];
   const confettiParticles = useMemo(() => Array.from({ length: 28 }, (_, i) => ({
     id: i,
     delay: 0.2 + i * 0.04,
@@ -408,7 +408,7 @@ export default function ContactSection() {
         className="absolute -bottom-16 -left-16 w-48 h-48 rounded-full pointer-events-none"
         style={{
           background:
-            'radial-gradient(circle, rgba(212,175,55,0.03) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(125,68,168,0.03) 0%, transparent 70%)',
           y: parallaxY2,
         }}
       />
@@ -445,7 +445,7 @@ export default function ContactSection() {
               <WorldMapGraphic />
             </motion.div>
 
-            {/* Contact Info Cards with gold left border */}
+            {/* Contact Info Cards with accent left border */}
             <div className="space-y-3 mt-6">
               {contactItems.map((item, index) => {
                 const Icon = item.icon;
@@ -453,14 +453,14 @@ export default function ContactSection() {
                   <motion.a
                     key={item.label}
                     href={item.href || '#'}
-                    className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md border-l-[3px] border-l-[#D4AF37] hover:border-l-[#5d2c86] dark:border-l-[#D4AF37] dark:hover:border-l-[#7d44a8] transition-all duration-300 group cursor-pointer"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-white dark:bg-[#1E1E1E] border border-gray-100 dark:border-gray-800 shadow-sm hover:shadow-md border-l-[3px] border-l-[#9b6ec5] hover:border-l-[#5d2c86] dark:border-l-[#9b6ec5] dark:hover:border-l-[#7d44a8] transition-all duration-300 group cursor-pointer"
                     initial={{ opacity: 0, x: -30 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.1 * index }}
                   >
-                    <div className="w-11 h-11 rounded-xl bg-[#D4AF37]/5 dark:bg-[#D4AF37]/10 flex items-center justify-center group-hover:bg-[#D4AF37]/10 dark:group-hover:bg-[#D4AF37]/20 transition-colors duration-300 shrink-0">
-                      <Icon className="w-5 h-5 text-[#D4AF37] group-hover:scale-110 transition-transform duration-300" />
+                    <div className="w-11 h-11 rounded-xl bg-[#9b6ec5]/5 dark:bg-[#9b6ec5]/10 flex items-center justify-center group-hover:bg-[#9b6ec5]/10 dark:group-hover:bg-[#9b6ec5]/20 transition-colors duration-300 shrink-0">
+                      <Icon className="w-5 h-5 text-[#9b6ec5] group-hover:scale-110 transition-transform duration-300" />
                     </div>
                     <div>
                       <p className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">
@@ -538,7 +538,7 @@ export default function ContactSection() {
                 className="flex-1 bg-white dark:bg-[#1E1E1E] rounded-2xl p-6 lg:p-8 shadow-sm border border-gray-100 dark:border-gray-800 transition-shadow duration-500 hover:shadow-xl relative overflow-hidden"
               >
                 {/* Top accent line */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37]" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5]" />
 
                 {/* Form Progress Indicator */}
                 <div className="mb-6">
@@ -546,7 +546,7 @@ export default function ContactSection() {
                     <span className="text-xs text-gray-400 dark:text-gray-500 font-sans-body">
                       Form Progress
                     </span>
-                    <span className="text-xs font-medium font-sans-body" style={{ color: formProgress.percentage === 100 ? '#22c55e' : formProgress.percentage >= 50 ? '#D4AF37' : '#9ca3af' }}>
+                    <span className="text-xs font-medium font-sans-body" style={{ color: formProgress.percentage === 100 ? '#22c55e' : formProgress.percentage >= 50 ? '#9b6ec5' : '#9ca3af' }}>
                       {formProgress.filled}/{formProgress.total} fields
                     </span>
                   </div>
@@ -556,7 +556,7 @@ export default function ContactSection() {
                       style={{
                         background: formProgress.percentage === 100
                           ? 'linear-gradient(to right, #22c55e, #16a34a)'
-                          : 'linear-gradient(to right, #5d2c86, #D4AF37)',
+                          : 'linear-gradient(to right, #5d2c86, #9b6ec5)',
                       }}
                       initial={{ width: 0 }}
                       animate={{ width: `${formProgress.percentage}%` }}
@@ -575,9 +575,9 @@ export default function ContactSection() {
                       exit={{ opacity: 0 }}
                       transition={{ duration: 0.3 }}
                     >
-                      {/* Gold confetti particles */}
+                      {/* Accent confetti particles */}
                       {confettiParticles.map((particle) => (
-                        <GoldConfettiParticle
+                        <AccentConfettiParticle
                           key={particle.id}
                           delay={particle.delay}
                           x={particle.x}
@@ -587,7 +587,7 @@ export default function ContactSection() {
                         />
                       ))}
 
-                      {/* Gold sparkle ring */}
+                      {/* Accent sparkle ring */}
                       <motion.div
                         initial={{ scale: 0, rotate: -180 }}
                         animate={{ scale: 1, rotate: 0 }}
@@ -599,7 +599,7 @@ export default function ContactSection() {
                         }}
                         className="relative mb-6"
                       >
-                        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#D4AF37]/20 to-[#F0C040]/10 flex items-center justify-center ring-2 ring-[#D4AF37]/30">
+                        <div className="w-24 h-24 rounded-full bg-gradient-to-br from-[#9b6ec5]/20 to-[#F0C040]/10 flex items-center justify-center ring-2 ring-[#9b6ec5]/30">
                           <motion.div
                             initial={{ scale: 0, rotate: -180 }}
                             animate={{ scale: 1, rotate: 0 }}
@@ -610,7 +610,7 @@ export default function ContactSection() {
                               delay: 0.25,
                             }}
                           >
-                            <CheckCircle className="w-12 h-12 text-[#D4AF37]" />
+                            <CheckCircle className="w-12 h-12 text-[#9b6ec5]" />
                           </motion.div>
                         </div>
                         {/* Sparkle decorations */}
@@ -620,7 +620,7 @@ export default function ContactSection() {
                           animate={{ scale: 1, opacity: 1 }}
                           transition={{ delay: 0.5, duration: 0.3 }}
                         >
-                          <Sparkles className="w-4 h-4 text-[#D4AF37]" />
+                          <Sparkles className="w-4 h-4 text-[#9b6ec5]" />
                         </motion.div>
                         <motion.div
                           className="absolute -bottom-1 -left-1"
@@ -671,12 +671,12 @@ export default function ContactSection() {
                         onBlur={() =>
                           setTouched({ ...touched, name: true })
                         }
-                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#9b6ec5]/40 focus-visible:border-[#9b6ec5]/60 dark:focus-visible:ring-[#9b6ec5]/30 dark:focus-visible:border-[#9b6ec5]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(125,68,168,0)] focus-visible:shadow-[0_0_0_3px_rgba(125,68,168,0.15)]"
                         placeholder="John Smith"
                       />
                       {/* Animated underline */}
                       <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                       </div>
                       <ValidationIndicator
                         valid={formData.name.trim().length > 0}
@@ -702,7 +702,7 @@ export default function ContactSection() {
                         onBlur={() =>
                           setTouched({ ...touched, email: true })
                         }
-                        className={`rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)] ${
+                        className={`rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#9b6ec5]/40 focus-visible:border-[#9b6ec5]/60 dark:focus-visible:ring-[#9b6ec5]/30 dark:focus-visible:border-[#9b6ec5]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(125,68,168,0)] focus-visible:shadow-[0_0_0_3px_rgba(125,68,168,0.15)] ${
                           touched.email && formData.email && !isValidEmail(formData.email)
                             ? 'border-red-300 dark:border-red-500/50 focus-visible:ring-red-200 focus-visible:shadow-[0_0_0_3px_rgba(239,68,68,0.1)]'
                             : ''
@@ -711,7 +711,7 @@ export default function ContactSection() {
                       />
                       {/* Animated underline */}
                       <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                       </div>
                       <ValidationIndicator
                         valid={isValidEmail(formData.email)}
@@ -747,12 +747,12 @@ export default function ContactSection() {
                       onBlur={() =>
                         setTouched({ ...touched, company: true })
                       }
-                      className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+                      className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#9b6ec5]/40 focus-visible:border-[#9b6ec5]/60 dark:focus-visible:ring-[#9b6ec5]/30 dark:focus-visible:border-[#9b6ec5]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(125,68,168,0)] focus-visible:shadow-[0_0_0_3px_rgba(125,68,168,0.15)]"
                       placeholder="Hilton, Marriott, IHG..."
                     />
                     {/* Animated underline */}
                     <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                     </div>
                     <ValidationIndicator
                       valid={formData.company.trim().length > 0}
@@ -778,12 +778,12 @@ export default function ContactSection() {
                         onBlur={() =>
                           setTouched({ ...touched, location: true })
                         }
-                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#9b6ec5]/40 focus-visible:border-[#9b6ec5]/60 dark:focus-visible:ring-[#9b6ec5]/30 dark:focus-visible:border-[#9b6ec5]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(125,68,168,0)] focus-visible:shadow-[0_0_0_3px_rgba(125,68,168,0.15)]"
                         placeholder="City, Country"
                       />
                       {/* Animated underline */}
                       <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                       </div>
                       <ValidationIndicator
                         valid={formData.location.trim().length > 0}
@@ -807,12 +807,12 @@ export default function ContactSection() {
                         onBlur={() =>
                           setTouched({ ...touched, product: true })
                         }
-                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+                        className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#9b6ec5]/40 focus-visible:border-[#9b6ec5]/60 dark:focus-visible:ring-[#9b6ec5]/30 dark:focus-visible:border-[#9b6ec5]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(125,68,168,0)] focus-visible:shadow-[0_0_0_3px_rgba(125,68,168,0.15)]"
                         placeholder="e.g. Furniture, Lighting, Decor"
                       />
                       {/* Animated underline */}
                       <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                       </div>
                       <ValidationIndicator
                         valid={formData.product.trim().length > 0}
@@ -837,12 +837,12 @@ export default function ContactSection() {
                       onBlur={() =>
                         setTouched({ ...touched, quantity: true })
                       }
-                      className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+                      className="rounded-xl font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#9b6ec5]/40 focus-visible:border-[#9b6ec5]/60 dark:focus-visible:ring-[#9b6ec5]/30 dark:focus-visible:border-[#9b6ec5]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(125,68,168,0)] focus-visible:shadow-[0_0_0_3px_rgba(125,68,168,0.15)]"
                       placeholder="e.g. 200 rooms, 50 suites, Full hotel FF&E"
                     />
                     {/* Animated underline */}
                     <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                     </div>
                     <ValidationIndicator
                       valid={formData.quantity.trim().length > 0}
@@ -866,7 +866,7 @@ export default function ContactSection() {
                           setTouched({ ...touched, projectType: true });
                         }}
                       >
-                        <SelectTrigger className="w-full rounded-xl font-sans-body h-10 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus:ring-[#D4AF37]/40 focus:border-[#D4AF37]/60 dark:focus:ring-[#D4AF37]/30 dark:focus:border-[#D4AF37]/50 transition-all duration-300">
+                        <SelectTrigger className="w-full rounded-xl font-sans-body h-10 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus:ring-[#9b6ec5]/40 focus:border-[#9b6ec5]/60 dark:focus:ring-[#9b6ec5]/30 dark:focus:border-[#9b6ec5]/50 transition-all duration-300">
                           <div className="flex items-center gap-2">
                             <Building2 className="w-4 h-4 text-gray-400 dark:text-gray-500 shrink-0" />
                             <SelectValue placeholder="Select project type..." />
@@ -881,7 +881,7 @@ export default function ContactSection() {
                       </Select>
                       {/* Animated underline */}
                       <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                       </div>
                     </div>
                   </div>
@@ -899,7 +899,7 @@ export default function ContactSection() {
                           setTouched({ ...touched, contactTime: true });
                         }}
                       >
-                        <SelectTrigger className="w-full rounded-xl font-sans-body h-10 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus:ring-[#D4AF37]/40 focus:border-[#D4AF37]/60 dark:focus:ring-[#D4AF37]/30 dark:focus:border-[#D4AF37]/50 transition-all duration-300">
+                        <SelectTrigger className="w-full rounded-xl font-sans-body h-10 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus:ring-[#9b6ec5]/40 focus:border-[#9b6ec5]/60 dark:focus:ring-[#9b6ec5]/30 dark:focus:border-[#9b6ec5]/50 transition-all duration-300">
                           <div className="flex items-center gap-2">
                             <Clock className="w-4 h-4 text-gray-400 dark:text-gray-500 shrink-0" />
                             <SelectValue placeholder="Select time..." />
@@ -914,7 +914,7 @@ export default function ContactSection() {
                       </Select>
                       {/* Animated underline */}
                       <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
-                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                       </div>
                     </div>
                   </div>
@@ -936,12 +936,12 @@ export default function ContactSection() {
                         setTouched({ ...touched, message: true })
                       }
                       maxLength={maxChars}
-                      className="rounded-xl min-h-[120px] font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#D4AF37]/40 focus-visible:border-[#D4AF37]/60 dark:focus-visible:ring-[#D4AF37]/30 dark:focus-visible:border-[#D4AF37]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(212,175,55,0)] focus-visible:shadow-[0_0_0_3px_rgba(212,175,55,0.15)]"
+                      className="rounded-xl min-h-[120px] font-sans-body pr-8 bg-gray-50/50 dark:bg-gray-900/50 border-gray-200 dark:border-gray-700 focus-visible:ring-[#9b6ec5]/40 focus-visible:border-[#9b6ec5]/60 dark:focus-visible:ring-[#9b6ec5]/30 dark:focus-visible:border-[#9b6ec5]/50 transition-all duration-300 shadow-[0_0_0_0_rgba(125,68,168,0)] focus-visible:shadow-[0_0_0_3px_rgba(125,68,168,0.15)]"
                       placeholder="Tell us about your project — property type, number of keys, timeline..."
                     />
                     {/* Animated underline */}
                     <div className="absolute bottom-0 left-0 right-0 h-[2px] rounded-full overflow-hidden pointer-events-none">
-                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#D4AF37] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-[#5d2c86] to-[#9b6ec5] origin-left scale-x-0 group-focus-within:scale-x-100 transition-transform duration-500 ease-out" />
                     </div>
                     <ValidationIndicator
                       valid={formData.message.trim().length > 0}
@@ -990,9 +990,9 @@ export default function ContactSection() {
 
                   {/* Response time badge */}
                   <div className="flex items-center justify-center gap-2">
-                    <div className="inline-flex items-center gap-1.5 bg-[#D4AF37]/10 dark:bg-[#D4AF37]/15 px-3 py-1.5 rounded-full">
-                      <Clock className="w-3 h-3 text-[#D4AF37]" />
-                      <span className="text-[10px] font-medium text-[#D4AF37] font-sans-body">
+                    <div className="inline-flex items-center gap-1.5 bg-[#9b6ec5]/10 dark:bg-[#9b6ec5]/15 px-3 py-1.5 rounded-full">
+                      <Clock className="w-3 h-3 text-[#9b6ec5]" />
+                      <span className="text-[10px] font-medium text-[#9b6ec5] font-sans-body">
                         Typical response time: Within 24 hours
                       </span>
                     </div>
@@ -1053,7 +1053,7 @@ export default function ContactSection() {
 
                 {/* Business hours card in sidebar */}
                 <motion.div
-                  className="p-3 rounded-xl bg-gradient-to-br from-[#5d2c86]/5 to-[#D4AF37]/5 dark:from-[#5d2c86]/10 dark:to-[#D4AF37]/5 border border-gray-100 dark:border-gray-800 mt-1"
+                  className="p-3 rounded-xl bg-gradient-to-br from-[#5d2c86]/5 to-[#9b6ec5]/5 dark:from-[#5d2c86]/10 dark:to-[#9b6ec5]/5 border border-gray-100 dark:border-gray-800 mt-1"
                   initial={{ opacity: 0, y: 15 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.4, delay: 0.9 }}

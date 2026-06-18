@@ -148,7 +148,7 @@ export default function ChatWidget() {
                   className="w-7 h-7 rounded-full bg-[#5d2c86]/20 hover:bg-[#5d2c86]/30 flex items-center justify-center transition-colors relative"
                 >
                   <WhatsAppIcon className="w-3.5 h-3.5 text-white" />
-                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#D4AF37] border border-[#5d2c86]" />
+                  <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#9b6ec5] border border-[#5d2c86]" />
                 </a>
 
                 {/* WeChat quick-action button in header */}
@@ -160,7 +160,7 @@ export default function ChatWidget() {
                       className="w-7 h-7 rounded-full bg-[#5d2c86]/20 hover:bg-[#5d2c86]/30 flex items-center justify-center transition-colors relative"
                     >
                       <WeChatIcon className="w-3.5 h-3.5 text-white" />
-                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#D4AF37] border border-[#5d2c86]" />
+                      <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-[#9b6ec5] border border-[#5d2c86]" />
                     </button>
                   </PopoverTrigger>
                   <PopoverContent
@@ -207,8 +207,8 @@ export default function ChatWidget() {
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center py-8 text-center"
                 >
-                  <div className="w-14 h-14 rounded-full bg-[#5d2c86]/10 dark:bg-[#D4AF37]/15 flex items-center justify-center mb-4">
-                    <CheckCircle className="w-7 h-7 text-[#5d2c86] dark:text-[#D4AF37]" />
+                  <div className="w-14 h-14 rounded-full bg-[#5d2c86]/10 dark:bg-[#9b6ec5]/15 flex items-center justify-center mb-4">
+                    <CheckCircle className="w-7 h-7 text-[#5d2c86] dark:text-[#9b6ec5]" />
                   </div>
                   <h4 className="text-base font-bold text-[#1A1A1A] dark:text-white font-sans-body mb-1">
                     Message Sent!
@@ -348,8 +348,8 @@ export default function ChatWidget() {
             className="absolute right-16 bottom-3 bg-[#5d2c86] text-white px-3 py-1.5 rounded-lg text-xs font-sans-body font-medium shadow-lg whitespace-nowrap pointer-events-none"
           >
             Chat with us
-            {/* Gold arrow pointing right */}
-            <div className="absolute right-[-6px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[6px] border-l-[#D4AF37]" />
+            {/* Accent arrow pointing right */}
+            <div className="absolute right-[-6px] top-1/2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-t-transparent border-b-[6px] border-b-transparent border-l-[6px] border-l-[#9b6ec5]" />
           </motion.div>
         )}
       </AnimatePresence>
@@ -403,7 +403,7 @@ export default function ChatWidget() {
               }}
             />
             <motion.span
-              className="absolute inset-0 rounded-full border-2 border-[#D4AF37]"
+              className="absolute inset-0 rounded-full border-2 border-[#9b6ec5]"
               animate={{
                 scale: [1, 2],
                 opacity: [0.4, 0],

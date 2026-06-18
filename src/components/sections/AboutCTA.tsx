@@ -29,7 +29,7 @@ export default function AboutCTA() {
       <div
         className="absolute inset-0 opacity-[0.04] pointer-events-none"
         style={{
-          backgroundImage: 'radial-gradient(circle, #D4AF37 1px, transparent 1px)',
+          backgroundImage: 'radial-gradient(circle, #9b6ec5 1px, transparent 1px)',
           backgroundSize: '32px 32px',
         }}
         aria-hidden="true"
@@ -44,7 +44,7 @@ export default function AboutCTA() {
           transition={{ duration: 2.5, ease: 'easeInOut' }}
           className="h-full w-1/2"
           style={{
-            background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+            background: 'linear-gradient(90deg, transparent, #9b6ec5, transparent)',
           }}
         />
       </div>
@@ -58,7 +58,7 @@ export default function AboutCTA() {
           transition={{ duration: 2.5, ease: 'easeInOut', delay: 0.3 }}
           className="h-full w-1/2"
           style={{
-            background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+            background: 'linear-gradient(90deg, transparent, #9b6ec5, transparent)',
           }}
         />
       </div>
@@ -89,13 +89,13 @@ export default function AboutCTA() {
               <div className="absolute inset-0 bg-[#5d2c86]/15" />
             </div>
 
-            {/* Gold accent corner */}
+            {/* accent corner */}
             <div
-              className="absolute -top-2 -left-2 w-10 h-10 border-t-2 border-l-2 border-[#D4AF37]/40 rounded-tl-xl pointer-events-none"
+              className="absolute -top-2 -left-2 w-10 h-10 border-t-2 border-l-2 border-[#9b6ec5]/40 rounded-tl-xl pointer-events-none"
               aria-hidden="true"
             />
             <div
-              className="absolute -bottom-2 -right-2 w-10 h-10 border-b-2 border-r-2 border-[#D4AF37]/40 rounded-br-xl pointer-events-none"
+              className="absolute -bottom-2 -right-2 w-10 h-10 border-b-2 border-r-2 border-[#9b6ec5]/40 rounded-br-xl pointer-events-none"
               aria-hidden="true"
             />
 
@@ -108,8 +108,8 @@ export default function AboutCTA() {
               className="absolute -bottom-4 -right-2 sm:-right-4 bg-white dark:bg-[#1a1a1a] rounded-xl shadow-xl px-4 py-3 border border-gray-100 dark:border-gray-800"
             >
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-[#D4AF37]/15 flex items-center justify-center">
-                  <Shield className="w-4 h-4 text-[#D4AF37]" />
+                <div className="w-8 h-8 rounded-full bg-[#9b6ec5]/15 flex items-center justify-center">
+                  <Shield className="w-4 h-4 text-[#9b6ec5]" />
                 </div>
                 <div>
                   <p className="text-lg font-bold font-serif-display text-[#1A1A1A] dark:text-white leading-tight">
@@ -135,7 +135,7 @@ export default function AboutCTA() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#D4AF37] mb-4 font-sans-body"
+              className="text-xs sm:text-sm tracking-[0.25em] uppercase font-semibold text-[#9b6ec5] mb-4 font-sans-body"
             >
               About Akshar Foshan
             </motion.p>
@@ -148,7 +148,7 @@ export default function AboutCTA() {
               className="text-3xl sm:text-4xl lg:text-5xl font-bold font-serif-display text-white leading-tight mb-6"
             >
               Built on Trust,{' '}
-              <span className="text-[#D4AF37] italic">Driven by Craft</span>
+              <span className="text-[#9b6ec5] italic">Driven by Craft</span>
             </motion.h2>
 
             <motion.div
@@ -156,7 +156,7 @@ export default function AboutCTA() {
               whileInView={{ scaleX: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="w-16 h-[2px] bg-[#D4AF37] mb-6 origin-left"
+              className="w-16 h-[2px] bg-[#9b6ec5] mb-6 origin-left"
             />
 
             <motion.p
@@ -197,7 +197,7 @@ export default function AboutCTA() {
                 { icon: Shield, value: '100%', label: 'Pass Rate' },
               ].map((stat) => (
                 <div key={stat.label} className="flex items-center gap-2">
-                  <stat.icon className="w-4 h-4 text-[#D4AF37]" />
+                  <stat.icon className="w-4 h-4 text-[#9b6ec5]" />
                   <span className="text-sm font-sans-body text-white/80">
                     <span className="font-bold text-white">{stat.value}</span>{' '}
                     {stat.label}
@@ -215,7 +215,7 @@ export default function AboutCTA() {
             >
               <a
                 href="#about"
-                className="group inline-flex items-center gap-2 bg-[#D4AF37] text-[#1A1A1A] font-semibold font-sans-body px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base hover:bg-[#c9a02e] transition-all duration-300 hover:shadow-lg hover:shadow-[#D4AF37]/20"
+                className="group inline-flex items-center gap-2 bg-[#9b6ec5] text-[#1A1A1A] font-semibold font-sans-body px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base hover:bg-[#c9a02e] transition-all duration-300 hover:shadow-lg hover:shadow-[#9b6ec5]/20"
               >
                 Learn More About Us
                 <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />

@@ -82,12 +82,12 @@ function FAQAccordionItem({
           }
         `}
       >
-        {/* Left border accent - gold on active, subtle on hover */}
+        {/* Left border accent - accent on active, subtle on hover */}
         <div
           className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-l-xl transition-all duration-500 ${
             isOpen
-              ? 'bg-gradient-to-b from-[#5d2c86] via-[#D4AF37] to-[#5d2c86] dark:from-[#7d44a8] dark:via-[#D4AF37] dark:to-[#7d44a8]'
-              : 'bg-gray-200 dark:bg-gray-700 group-hover:bg-[#D4AF37]/50 dark:group-hover:bg-[#D4AF37]/30'
+              ? 'bg-gradient-to-b from-[#5d2c86] via-[#9b6ec5] to-[#5d2c86] dark:from-[#7d44a8] dark:via-[#9b6ec5] dark:to-[#7d44a8]'
+              : 'bg-gray-200 dark:bg-gray-700 group-hover:bg-[#9b6ec5]/50 dark:group-hover:bg-[#9b6ec5]/30'
           }`}
         />
 
@@ -102,8 +102,8 @@ function FAQAccordionItem({
           <span
             className={`text-[15px] sm:text-base font-semibold font-sans-body leading-snug transition-colors duration-300 ${
               isOpen
-                ? 'text-[#5d2c86] dark:text-[#D4AF37]'
-                : 'text-[#1A1A1A] dark:text-gray-200 group-hover:text-[#5d2c86] dark:group-hover:text-[#D4AF37]'
+                ? 'text-[#5d2c86] dark:text-[#9b6ec5]'
+                : 'text-[#1A1A1A] dark:text-gray-200 group-hover:text-[#5d2c86] dark:group-hover:text-[#9b6ec5]'
             }`}
           >
             {item.question}
@@ -154,7 +154,7 @@ function FAQAccordionItem({
             >
               <div className="px-6 pb-5 pl-7 flex gap-4 bg-gradient-to-r from-[#5d2c86]/[0.03] via-transparent to-transparent dark:from-[#5d2c86]/[0.06] dark:via-transparent dark:to-transparent rounded-b-xl">
                 {/* Decorative gradient line on the left of the answer */}
-                <div className="flex-shrink-0 w-[3px] rounded-full bg-gradient-to-b from-[#5d2c86] via-[#5d2c86]/60 to-[#D4AF37]/40 dark:from-[#7d44a8] dark:via-[#7d44a8]/60 dark:to-[#D4AF37]/40" />
+                <div className="flex-shrink-0 w-[3px] rounded-full bg-gradient-to-b from-[#5d2c86] via-[#5d2c86]/60 to-[#9b6ec5]/40 dark:from-[#7d44a8] dark:via-[#7d44a8]/60 dark:to-[#9b6ec5]/40" />
                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed font-sans-body pt-0.5">
                   {item.answer}
                 </p>
@@ -228,7 +228,7 @@ export default function FAQSection() {
         className="absolute -bottom-24 -left-24 w-72 h-72 rounded-full pointer-events-none"
         style={{
           background:
-            'radial-gradient(circle, rgba(212,175,55,0.04) 0%, transparent 70%)',
+            'radial-gradient(circle, rgba(125,68,168,0.04) 0%, transparent 70%)',
         }}
       />
 
@@ -267,9 +267,9 @@ export default function FAQSection() {
             our capabilities to logistics and quality assurance.
           </motion.p>
 
-          {/* Gold accent line */}
+          {/* accent line */}
           <motion.div
-            className="mx-auto mt-6 h-[2px] w-16 rounded-full bg-gradient-to-r from-[#5d2c86] via-[#D4AF37] to-[#5d2c86]"
+            className="mx-auto mt-6 h-[2px] w-16 rounded-full bg-gradient-to-r from-[#5d2c86] via-[#9b6ec5] to-[#5d2c86]"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: true }}
@@ -375,7 +375,7 @@ export default function FAQSection() {
             </p>
             <a
               href="#contact"
-              className="text-sm text-[#5d2c86] dark:text-[#D4AF37] font-semibold font-sans-body hover:underline underline-offset-2 transition-colors"
+              className="text-sm text-[#5d2c86] dark:text-[#9b6ec5] font-semibold font-sans-body hover:underline underline-offset-2 transition-colors"
             >
               Contact us for help.
             </a>
@@ -394,7 +394,7 @@ export default function FAQSection() {
             Still have questions?{' '}
             <a
               href="#contact"
-              className="text-[#5d2c86] dark:text-[#D4AF37] font-semibold hover:underline underline-offset-2 transition-colors"
+              className="text-[#5d2c86] dark:text-[#9b6ec5] font-semibold hover:underline underline-offset-2 transition-colors"
             >
               Get in touch with our team
             </a>

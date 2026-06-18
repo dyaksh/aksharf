@@ -338,8 +338,8 @@ export default function CatalogSection() {
                       onClick={() => handleOpenPage(page.page)}
                       className="group relative rounded-xl overflow-hidden border border-gray-100 dark:border-gray-700/50 hover:border-[#4A2364]/40 dark:hover:border-[#6B3F8E]/40 shadow-sm hover:shadow-2xl hover:shadow-[#4A2364]/10 dark:hover:shadow-[#6B3F8E]/10 hover:scale-[1.03] transition-all duration-500 bg-gray-50 dark:bg-[#1E1E1E] w-full active:scale-[0.98]"
                     >
-                      {/* Gold top accent line on hover */}
-                      <div className="absolute top-0 left-0 right-0 h-[3px] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(90deg, #4A2364, #D4AF37, #4A2364)' }} />
+                      {/* Accent top accent line on hover */}
+                      <div className="absolute top-0 left-0 right-0 h-[3px] z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" style={{ background: 'linear-gradient(90deg, #4A2364, #9b6ec5, #4A2364)' }} />
 
                       <div className="aspect-[3/4] relative">
                         <img
@@ -537,7 +537,7 @@ export default function CatalogSection() {
                     }}
                     className={`flex-shrink-0 rounded-md overflow-hidden border-2 transition-all duration-200 ${
                       tp.page === selectedPage
-                        ? 'border-[#D4AF37] shadow-lg shadow-[#D4AF37]/20'
+                        ? 'border-[#9b6ec5] shadow-lg shadow-[#9b6ec5]/20'
                         : 'border-white/10 hover:border-white/30 opacity-60 hover:opacity-100'
                     }`}
                   >

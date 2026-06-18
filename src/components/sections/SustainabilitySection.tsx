@@ -366,7 +366,7 @@ export default function SustainabilitySection() {
         }}
       />
 
-      {/* Gold accent line at top */}
+      {/* accent line at top */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[#22C55E]/20 to-transparent" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -380,11 +380,11 @@ export default function SustainabilitySection() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <Leaf className="w-4 h-4 text-[#D4AF37]" />
-            <p className="text-xs tracking-[0.3em] text-[#D4AF37] dark:text-[#D4AF37] font-sans-body font-medium">
+            <Leaf className="w-4 h-4 text-[#9b6ec5]" />
+            <p className="text-xs tracking-[0.3em] text-[#9b6ec5] dark:text-[#9b6ec5] font-sans-body font-medium">
               GREEN MANUFACTURING
             </p>
-            <Leaf className="w-4 h-4 text-[#D4AF37]" />
+            <Leaf className="w-4 h-4 text-[#9b6ec5]" />
           </motion.div>
 
           {/* Title */}
@@ -412,11 +412,11 @@ export default function SustainabilitySection() {
             deliver exceptional FF&E — without compromising the planet.
           </motion.p>
 
-          {/* Gold accent line under header */}
+          {/* accent line under header */}
           <motion.div
             className="mx-auto mt-8 h-[1px] w-24 rounded-full"
             style={{
-              background: 'linear-gradient(90deg, transparent, #22C55E, #D4AF37, transparent)',
+              background: 'linear-gradient(90deg, transparent, #22C55E, #9b6ec5, transparent)',
             }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -460,7 +460,7 @@ export default function SustainabilitySection() {
               className="absolute inset-0"
               style={{
                 background:
-                  'linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(93,44,134,0.08) 50%, rgba(212,175,55,0.05) 100%)',
+                  'linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(93,44,134,0.08) 50%, rgba(125,68,168,0.05) 100%)',
               }}
             />
 

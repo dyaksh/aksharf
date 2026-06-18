@@ -34,7 +34,7 @@ import {
 /* ── Brand Tokens ────────────────────────────────────────────── */
 const PURPLE = '#5d2c86';
 const CREAM = '#f8f3ed';
-const GOLD = '#5d2c86';
+const ACCENT = '#5d2c86';
 const DARK = '#1A1A1A';
 
 /* ── Animation Variants ──────────────────────────────────────── */
@@ -104,8 +104,8 @@ const blurToFocus = {
   }),
 };
 
-/* Gold line separator animation */
-const goldLineReveal = {
+/* Accent line separator animation */
+const accentLineReveal = {
   hidden: { scaleX: 0, opacity: 0 },
   visible: (delay: number = 0) => ({
     scaleX: 1,
@@ -121,7 +121,7 @@ const values = [
     title: 'Quality',
     description:
       'Every piece is crafted to the highest hospitality standards, rigorously inspected before it leaves our facilities.',
-    accent: GOLD,
+    accent: ACCENT,
   },
   {
     icon: Handshake,
@@ -135,7 +135,7 @@ const values = [
     title: 'Service',
     description:
       'Client-centric approach from first contact to final install. One dedicated team, one accountable partner.',
-    accent: GOLD,
+    accent: ACCENT,
   },
   {
     icon: Lightbulb,
@@ -249,7 +249,7 @@ const manufacturingSteps = [
 
 /* ── Corner Brackets Component ───────────────────────────────── */
 function CornerBrackets({ size = 28, inset = 3 }: { size?: number; inset?: number }) {
-  const stroke = GOLD;
+  const stroke = ACCENT;
   const sw = 2;
   const len = 20;
 
@@ -271,15 +271,15 @@ function CornerBrackets({ size = 28, inset = 3 }: { size?: number; inset?: numbe
   );
 }
 
-/* ── Gold Line Separator ─────────────────────────────────────── */
-function GoldLineSeparator({ delay = 0 }: { delay?: number }) {
+/* ── Accent Line Separator ─────────────────────────────────────── */
+function AccentLineSeparator({ delay = 0 }: { delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
   return (
     <div ref={ref} className="flex items-center justify-center py-4" aria-hidden="true">
       <motion.div
-        variants={goldLineReveal}
+        variants={accentLineReveal}
         custom={delay}
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
@@ -440,10 +440,10 @@ function CinematicGalleryItem({
       {/* Dark overlay on hover */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/80 via-[#1A1A1A]/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-      {/* Gold border glow on hover */}
+      {/* Accent border glow on hover */}
       <div className="absolute inset-0 rounded-xl opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none"
         style={{
-          boxShadow: `inset 0 0 0 2px ${GOLD}60, 0 0 20px ${GOLD}20`,
+          boxShadow: `inset 0 0 0 2px ${ACCENT}60, 0 0 20px ${ACCENT}20`,
         }}
       />
 
@@ -709,7 +709,7 @@ function WorkshopGallery() {
               <ParallaxImage src={img.src} alt={img.alt} speed={0.1} />
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-[#1A1A1A]/70 via-transparent to-transparent" />
-              {/* Gold accent bottom border on hover */}
+              {/* accent bottom border on hover */}
               <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#5d2c86] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               {/* Corner brackets on hover */}
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
@@ -884,7 +884,7 @@ function JourneyBlock({
             </p>
           </div>
 
-          {/* Gold accent line */}
+          {/* accent line */}
           <div className="mt-6 flex items-center gap-2">
             <div className="w-6 h-px bg-[#5d2c86]" />
             <ArrowRight className="w-3 h-3 text-[#5d2c86]" />
@@ -1001,7 +1001,7 @@ export default function AboutSection() {
                 </span>
               </motion.h2>
               <motion.div
-                variants={goldLineReveal}
+                variants={accentLineReveal}
                 custom={0.15}
                 initial="hidden"
                 whileInView="visible"
@@ -1101,9 +1101,9 @@ export default function AboutSection() {
                     alt="Craftsman working on hotel furniture details"
                     speed={0.1}
                   />
-                  {/* Gold border glow on hover */}
+                  {/* Accent border glow on hover */}
                   <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none"
-                    style={{ boxShadow: `inset 0 0 0 2px ${GOLD}50, 0 0 16px ${GOLD}15` }}
+                    style={{ boxShadow: `inset 0 0 0 2px ${ACCENT}50, 0 0 16px ${ACCENT}15` }}
                   />
                   {/* Corner brackets on hover */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
@@ -1120,13 +1120,13 @@ export default function AboutSection() {
                     alt="Finished hotel room furniture installation"
                     speed={0.1}
                   />
-                  {/* Gold accent badge */}
+                  {/* accent badge */}
                   <div className="absolute bottom-3 left-3 bg-[#5d2c86] text-[#1A1A1A] text-[10px] tracking-[0.15em] uppercase font-bold px-3 py-1.5 rounded-full font-sans-body">
                     Est. 2010
                   </div>
-                  {/* Gold border glow on hover */}
+                  {/* Accent border glow on hover */}
                   <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none"
-                    style={{ boxShadow: `inset 0 0 0 2px ${GOLD}50, 0 0 16px ${GOLD}15` }}
+                    style={{ boxShadow: `inset 0 0 0 2px ${ACCENT}50, 0 0 16px ${ACCENT}15` }}
                   />
                   {/* Corner brackets on hover */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none">
@@ -1155,8 +1155,8 @@ export default function AboutSection() {
         </div>
       </div>
 
-      {/* ── Gold Line Separator ── */}
-      <GoldLineSeparator delay={0} />
+      {/* ── Accent Line Separator ── */}
+      <AccentLineSeparator delay={0} />
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 2: VALUES — Animated Cards with 3D Tilt
@@ -1204,8 +1204,8 @@ export default function AboutSection() {
         </div>
       </div>
 
-      {/* ── Gold Line Separator ── */}
-      <GoldLineSeparator delay={0} />
+      {/* ── Accent Line Separator ── */}
+      <AccentLineSeparator delay={0} />
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 3: FULL IMAGE GALLERY — Cinematic Masonry
@@ -1269,9 +1269,9 @@ export default function AboutSection() {
             <div className="absolute inset-0 pointer-events-none" style={{
               background: 'radial-gradient(ellipse at center, transparent 50%, rgba(26,26,26,0.3) 100%)',
             }} />
-            {/* Gold border glow on hover */}
+            {/* Accent border glow on hover */}
             <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none"
-              style={{ boxShadow: `inset 0 0 0 2px ${GOLD}50, 0 0 24px ${GOLD}15` }}
+              style={{ boxShadow: `inset 0 0 0 2px ${ACCENT}50, 0 0 24px ${ACCENT}15` }}
             />
             {/* Corner brackets */}
             <div className="absolute inset-0 pointer-events-none">
@@ -1302,8 +1302,8 @@ export default function AboutSection() {
         </div>
       </div>
 
-      {/* ── Gold Line Separator ── */}
-      <GoldLineSeparator delay={0} />
+      {/* ── Accent Line Separator ── */}
+      <AccentLineSeparator delay={0} />
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 4: OUR WORKSHOP — Horizontal Scroll Gallery
@@ -1359,8 +1359,8 @@ export default function AboutSection() {
         </div>
       </div>
 
-      {/* ── Gold Line Separator ── */}
-      <GoldLineSeparator delay={0} />
+      {/* ── Accent Line Separator ── */}
+      <AccentLineSeparator delay={0} />
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 5: OUR JOURNEY — Visual Narrative
@@ -1403,12 +1403,12 @@ export default function AboutSection() {
             </motion.p>
           </motion.div>
 
-          {/* Journey blocks with gold accent lines between */}
+          {/* Journey blocks with accent lines between */}
           <div className="space-y-12 lg:space-y-20">
             {journeyBlocks.map((block, i) => (
               <div key={block.title}>
                 <JourneyBlock block={block} index={i} />
-                {/* Gold accent line between blocks */}
+                {/* accent line between blocks */}
                 {i < journeyBlocks.length - 1 && (
                   <div className="flex justify-center py-8 lg:py-12">
                     <motion.div
@@ -1432,8 +1432,8 @@ export default function AboutSection() {
         </div>
       </div>
 
-      {/* ── Gold Line Separator ── */}
-      <GoldLineSeparator delay={0} />
+      {/* ── Accent Line Separator ── */}
+      <AccentLineSeparator delay={0} />
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 6: HERITAGE TIMELINE — Visual Storytelling
@@ -1485,8 +1485,8 @@ export default function AboutSection() {
         </div>
       </div>
 
-      {/* ── Gold Line Separator ── */}
-      <GoldLineSeparator delay={0} />
+      {/* ── Accent Line Separator ── */}
+      <AccentLineSeparator delay={0} />
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 7: MANUFACTURING PROCESS — Step-by-step
@@ -1572,8 +1572,8 @@ export default function AboutSection() {
         </div>
       </div>
 
-      {/* ── Gold Line Separator ── */}
-      <GoldLineSeparator delay={0} />
+      {/* ── Accent Line Separator ── */}
+      <AccentLineSeparator delay={0} />
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 8: TEAM & SCALE — Stats with Animated Counters
@@ -1703,8 +1703,8 @@ export default function AboutSection() {
         </div>
       </div>
 
-      {/* ── Gold Line Separator ── */}
-      <GoldLineSeparator delay={0} />
+      {/* ── Accent Line Separator ── */}
+      <AccentLineSeparator delay={0} />
 
       {/* ═══════════════════════════════════════════════════════════
           SECTION 9: CLOSING — Full-width cinematic image with quote
