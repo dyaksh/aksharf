@@ -28,51 +28,51 @@ interface PortfolioItem {
 
 const portfolioItems: PortfolioItem[] = [
   // ── Sofas & Seating ──
-  { id: 'p-1', name: 'Modern Gray Sofa', image: 'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=800&q=80' },
-  { id: 'p-2', name: 'Contemporary Sectional Sofa', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80' },
-  { id: 'p-3', name: 'Luxury Cream Sofa', image: 'https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=800&q=80' },
-  { id: 'p-4', name: 'Modern Black Leather Sofa', image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=800&q=80' },
-  { id: 'p-5', name: 'Contemporary Blue Sofa', image: 'https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=800&q=80' },
-  { id: 'p-6', name: 'Elegant Beige Sofa', image: 'https://images.unsplash.com/photo-1551298370-7641cdcaf5f6?w=800&q=80' },
+  { id: 'p-1', name: 'Modern Gray Sofa', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-2', name: 'Contemporary Sectional Sofa', image: 'https://images.unsplash.com/photo-1592078615290-033ee584e267?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-3', name: 'Luxury Cream Sofa', image: 'https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-4', name: 'Modern Black Leather Sofa', image: 'https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-5', name: 'Contemporary Blue Sofa', image: 'https://images.unsplash.com/photo-1517457373614-b7152f800fd1?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-6', name: 'Elegant Beige Sofa', image: 'https://images.unsplash.com/photo-1551298370-7641cdcaf5f6?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
   
   // ── Dining Tables & Chairs ──
-  { id: 'p-7', name: 'Modern Dining Table Set', image: 'https://images.unsplash.com/photo-1550298317-6180733d7c31?w=800&q=80' },
-  { id: 'p-8', name: 'Contemporary Glass Dining Table', image: 'https://images.unsplash.com/photo-1562159278-1253fdc50c63?w=800&q=80' },
-  { id: 'p-9', name: 'Wooden Dining Table', image: 'https://images.unsplash.com/photo-1611183626405-461fdeae12b8?w=800&q=80' },
-  { id: 'p-10', name: 'Luxury Dining Chairs', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80' },
-  { id: 'p-11', name: 'Modern Upholstered Dining Chairs', image: 'https://images.unsplash.com/photo-1559400198-8cd5a5343b23?w=800&q=80' },
-  { id: 'p-12', name: 'Contemporary Dining Room', image: 'https://images.unsplash.com/photo-1606728517514-a3fb3c6b0bea?w=800&q=80' },
+  { id: 'p-7', name: 'Modern Dining Table Set', image: 'https://images.unsplash.com/photo-1550298317-6180733d7c31?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-8', name: 'Contemporary Glass Dining Table', image: 'https://images.unsplash.com/photo-1562159278-1253fdc50c63?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-9', name: 'Wooden Dining Table', image: 'https://images.unsplash.com/photo-1611183626405-461fdeae12b8?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-10', name: 'Luxury Dining Chairs', image: 'https://images.unsplash.com/photo-1581428774223-e570f83ace72?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-11', name: 'Modern Upholstered Dining Chairs', image: 'https://images.unsplash.com/photo-1559400198-8cd5a5343b23?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-12', name: 'Contemporary Dining Room', image: 'https://images.unsplash.com/photo-1606728517514-a3fb3c6b0bea?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
   
-  // ���─ Bedroom Furniture ──
-  { id: 'p-13', name: 'Luxury Bed Frame', image: 'https://images.unsplash.com/photo-1540932239986-310128078ceb?w=800&q=80' },
-  { id: 'p-14', name: 'Modern Bedroom Set', image: 'https://images.unsplash.com/photo-1616902076663-187f57cfe487?w=800&q=80' },
-  { id: 'p-15', name: 'Contemporary Platform Bed', image: 'https://images.unsplash.com/photo-1631049307038-da5ec5d79645?w=800&q=80' },
-  { id: 'p-16', name: 'Luxury Upholstered Headboard', image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&q=80' },
-  { id: 'p-17', name: 'Modern Master Bedroom', image: 'https://images.unsplash.com/photo-1566665556112-652601dda491?w=800&q=80' },
-  { id: 'p-18', name: 'Contemporary Bed Design', image: 'https://images.unsplash.com/photo-1570129477492-45a003b06b63?w=800&q=80' },
+  // ── Bedroom Furniture ──
+  { id: 'p-13', name: 'Luxury Bed Frame', image: 'https://images.unsplash.com/photo-1540932239986-310128078ceb?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-14', name: 'Modern Bedroom Set', image: 'https://images.unsplash.com/photo-1616902076663-187f57cfe487?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-15', name: 'Contemporary Platform Bed', image: 'https://images.unsplash.com/photo-1631049307038-da5ec5d79645?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-16', name: 'Luxury Upholstered Headboard', image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-17', name: 'Modern Master Bedroom', image: 'https://images.unsplash.com/photo-1566665556112-652601dda491?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-18', name: 'Contemporary Bed Design', image: 'https://images.unsplash.com/photo-1570129477492-45a003b06b63?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
   
   // ── Cabinets & Storage ──
-  { id: 'p-19', name: 'Modern Storage Cabinet', image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&q=80' },
-  { id: 'p-20', name: 'Contemporary Wooden Cabinet', image: 'https://images.unsplash.com/photo-1603086891726-36bfd957e0ee?w=800&q=80' },
-  { id: 'p-21', name: 'Minimalist Wall Cabinet', image: 'https://images.unsplash.com/photo-1565182999555-f47c487bbd00?w=800&q=80' },
-  { id: 'p-22', name: 'Luxury Sideboard Cabinet', image: 'https://images.unsplash.com/photo-1578500494198-246f612d03b3?w=800&q=80' },
-  { id: 'p-23', name: 'Modern Console Cabinet', image: 'https://images.unsplash.com/photo-1598928506323-50e7e60999f9?w=800&q=80' },
-  { id: 'p-24', name: 'Contemporary Storage Unit', image: 'https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=800&q=80' },
+  { id: 'p-19', name: 'Modern Storage Cabinet', image: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-20', name: 'Contemporary Wooden Cabinet', image: 'https://images.unsplash.com/photo-1603086891726-36bfd957e0ee?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-21', name: 'Minimalist Wall Cabinet', image: 'https://images.unsplash.com/photo-1565182999555-f47c487bbd00?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-22', name: 'Luxury Sideboard Cabinet', image: 'https://images.unsplash.com/photo-1578500494198-246f612d03b3?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-23', name: 'Modern Console Cabinet', image: 'https://images.unsplash.com/photo-1598928506323-50e7e60999f9?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-24', name: 'Contemporary Storage Unit', image: 'https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
   
   // ── Coffee Tables & Side Tables ──
-  { id: 'p-25', name: 'Modern Coffee Table', image: 'https://images.unsplash.com/photo-1533090481720-856c6ebaa50d?w=800&q=80' },
-  { id: 'p-26', name: 'Luxury Glass Coffee Table', image: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=800&q=80' },
-  { id: 'p-27', name: 'Contemporary Wooden Coffee Table', image: 'https://images.unsplash.com/photo-1574180045827-48cf960f8d4b?w=800&q=80' },
-  { id: 'p-28', name: 'Modern Side Table', image: 'https://images.unsplash.com/photo-1580148519922-b21a3c6e1c25?w=800&q=80' },
-  { id: 'p-29', name: 'Elegant Console Table', image: 'https://images.unsplash.com/photo-1586023566370-fde6a47dd974?w=800&q=80' },
-  { id: 'p-30', name: 'Contemporary Accent Table', image: 'https://images.unsplash.com/photo-1581428774223-e570f83ace72?w=800&q=80' },
+  { id: 'p-25', name: 'Modern Coffee Table', image: 'https://images.unsplash.com/photo-1533090481720-856c6ebaa50d?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-26', name: 'Luxury Glass Coffee Table', image: 'https://images.unsplash.com/photo-1535700476ee67bbb40a31519dc5a01ca0d6dba69?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-27', name: 'Contemporary Wooden Coffee Table', image: 'https://images.unsplash.com/photo-1574180045827-48cf960f8d4b?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-28', name: 'Modern Side Table', image: 'https://images.unsplash.com/photo-1580148519922-b21a3c6e1c25?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-29', name: 'Elegant Console Table', image: 'https://images.unsplash.com/photo-1586023566370-fde6a47dd974?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-30', name: 'Contemporary Accent Table', image: 'https://images.unsplash.com/photo-1581428774223-e570f83ace72?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
   
   // ── Study & Office Furniture ──
-  { id: 'p-31', name: 'Modern Study Desk', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&q=80' },
-  { id: 'p-32', name: 'Contemporary Office Desk', image: 'https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=800&q=80' },
-  { id: 'p-33', name: 'Luxury Executive Desk', image: 'https://images.unsplash.com/photo-1520744352312-123e8e7fb895?w=800&q=80' },
-  { id: 'p-34', name: 'Modern Study Table', image: 'https://images.unsplash.com/photo-1611183626405-461fdeae12b8?w=800&q=80' },
-  { id: 'p-35', name: 'Contemporary Workspace', image: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800&q=80' },
+  { id: 'p-31', name: 'Modern Study Desk', image: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-32', name: 'Contemporary Office Desk', image: 'https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-33', name: 'Luxury Executive Desk', image: 'https://images.unsplash.com/photo-1520744352312-123e8e7fb895?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-34', name: 'Modern Study Table', image: 'https://images.unsplash.com/photo-1611183626405-461fdeae12b8?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
+  { id: 'p-35', name: 'Contemporary Workspace', image: 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=800&h=800&q=80&crop=entropy&cs=tinysrgb&fit=max' },
 ];
 
 /* ── Varying heights for Pinterest masonry effect ──────────── */
