@@ -3,11 +3,6 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence, useInView, useScroll, useTransform } from 'framer-motion';
 import {
-  Table,
-  Armchair,
-  Sofa,
-  Box,
-  Bed,
   X,
   ChevronLeft,
   ChevronRight,
@@ -15,7 +10,6 @@ import {
   ArrowRight,
   Sparkles,
   Keyboard,
-  Lamp,
 } from 'lucide-react';
 import {
   Dialog,
@@ -24,83 +18,36 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-/* ── Category & Image Data ──────────────────────────────────── */
+/* ── Portfolio Item Data ──────────────────────────────────── */
 
 interface PortfolioItem {
   id: string;
-  category: string;
   name: string;
   image: string;
 }
 
-interface CategoryDef {
-  key: string;
-  label: string;
-  icon: React.ElementType;
-}
-
-const categories: CategoryDef[] = [
-  { key: 'all', label: 'All', icon: ZoomIn },
-  { key: 'headboard', label: 'Headboard', icon: Bed },
-  { key: 'sofa', label: 'Sofa & Seating', icon: Armchair },
-  { key: 'table', label: 'Table & Desk', icon: Table },
-  { key: 'cabinet', label: 'Cabinet & Storage', icon: Box },
-  { key: 'lighting', label: 'Lighting', icon: Lamp },
-];
-
-/* ── Portfolio Items — using real product images from categorized subfolders ── */
-const PF = '/images/portfolio';
-
 const portfolioItems: PortfolioItem[] = [
-  // ── Headboard (4 items) ──
-  { id: 'hb-1', category: 'headboard', name: 'Upholstered Velvet Headboard', image: `${PF}/products/headboard-1.png` },
-  { id: 'ns-1', category: 'headboard', name: 'Nightstand with Headboard Set', image: `${PF}/products/nightstand-1.png` },
-  { id: 'bd-1', category: 'headboard', name: 'Luxury Hotel Bed Setup', image: `${PF}/bed/bed-1.png` },
-  { id: 'bd-2', category: 'headboard', name: 'Premium King Bed Frame', image: `${PF}/bed/bed-2.png` },
-
-  // ── Sofa & Seating (6 items) ──
-  { id: 'sf-1', category: 'sofa', name: 'Modern Hotel Sofa', image: `${PF}/sofa/sofa-1.jpeg` },
-  { id: 'sf-2', category: 'sofa', name: 'Contemporary Lounge Sofa', image: `${PF}/sofa/sofa-2.jpeg` },
-  { id: 'sf-3', category: 'sofa', name: 'Elegant Hospitality Sofa', image: `${PF}/sofa/sofa-3.png` },
-  { id: 'sf-4', category: 'sofa', name: 'Designer Modular Sofa', image: `${PF}/sofa/sofa-4.png` },
-  { id: 'ch-1', category: 'sofa', name: 'Lounge Accent Chair', image: `${PF}/chairs/chair-1.jpeg` },
-  { id: 'ch-2', category: 'sofa', name: 'Executive Club Chair', image: `${PF}/chairs/chair-2.jpeg` },
-
-  // ── Table & Desk (4 items) ──
-  { id: 'tb-1', category: 'table', name: 'Hotel Writing Desk', image: `${PF}/table/table-1.jpeg` },
-  { id: 'tb-2', category: 'table', name: 'Contemporary Side Table', image: `${PF}/table/table-2.png` },
-  { id: 'tb-3', category: 'table', name: 'Accent Console Table', image: `${PF}/table/table-3.png` },
-  { id: 'ch-3', category: 'table', name: 'Designer Accent Chair', image: `${PF}/chairs/chair-3.png` },
-
-  // ── Cabinet & Storage (2 items) ──
-  { id: 'cb-1', category: 'cabinet', name: 'Premium Storage Cabinet', image: `${PF}/cabinet/cabinet-1.png` },
-  { id: 'cp-1', category: 'cabinet', name: 'Hospitality Cupboard Unit', image: `${PF}/cupboard/cupboard-1.png` },
-
-  // ── Lighting (2 items) ──
-  { id: 'lm-1', category: 'lighting', name: 'Fabric Shade Table Lamp', image: `${PF}/lamp/lamp-1.png` },
-  { id: 'lm-2', category: 'lighting', name: 'Brass Floor Lamp', image: `${PF}/lamp/lamp-2.png` },
+  { id: 'p-1', name: 'Project One', image: `/images/portfolio/project-1.png` },
+  { id: 'p-2', name: 'Project Two', image: `/images/portfolio/project-2.png` },
+  { id: 'p-3', name: 'Project Three', image: `/images/portfolio/project-3.png` },
+  { id: 'p-4', name: 'Project Four', image: `/images/portfolio/project-4.png` },
+  { id: 'p-5', name: 'Project Five', image: `/images/portfolio/project-5.png` },
+  { id: 'p-6', name: 'Project Six', image: `/images/portfolio/project-6.png` },
+  { id: 'p-7', name: 'Project Seven', image: `/images/portfolio/project-7.png` },
+  { id: 'p-8', name: 'Project Eight', image: `/images/portfolio/project-8.png` },
 ];
 
 /* ── Varying heights for Pinterest masonry effect ──────────── */
 const heightClasses: Record<string, string> = {
-  // Headboard
-  'hb-1': 'aspect-[3/4]', 'ns-1': 'aspect-[4/5]', 'bd-1': 'aspect-[3/4]', 'bd-2': 'aspect-[4/5]',
-  // Sofa
-  'sf-1': 'aspect-[4/5]', 'sf-2': 'aspect-[3/4]', 'sf-3': 'aspect-[4/5]', 'sf-4': 'aspect-square',
-  'ch-1': 'aspect-[3/4]', 'ch-2': 'aspect-[4/5]',
-  // Table
-  'tb-1': 'aspect-[3/4]', 'tb-2': 'aspect-[4/5]', 'tb-3': 'aspect-square', 'ch-3': 'aspect-[4/5]',
-  // Cabinet
-  'cb-1': 'aspect-[3/4]', 'cp-1': 'aspect-[4/5]',
-  // Lighting
-  'lm-1': 'aspect-square', 'lm-2': 'aspect-[3/4]',
+  'p-1': 'aspect-[3/4]',
+  'p-2': 'aspect-[4/5]',
+  'p-3': 'aspect-[3/4]',
+  'p-4': 'aspect-[4/5]',
+  'p-5': 'aspect-square',
+  'p-6': 'aspect-[3/4]',
+  'p-7': 'aspect-[4/5]',
+  'p-8': 'aspect-square',
 };
-
-/* ── Count items per category ──────────────────────────────── */
-function getCategoryCount(key: string): number {
-  if (key === 'all') return portfolioItems.length;
-  return portfolioItems.filter((i) => i.category === key).length;
-}
 
 /* ── Stagger Animation Variants (blur-to-focus) ────────────── */
 const containerVariants = {
@@ -231,9 +178,6 @@ function Lightbox({
   const currentItem = items[currentIndex];
   if (!currentItem) return null;
 
-  const categoryLabel =
-    categories.find((c) => c.key === currentItem.category)?.label ?? currentItem.category;
-
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
@@ -241,16 +185,16 @@ function Lightbox({
         className="fixed inset-0 z-[100] w-screen h-screen max-w-none max-h-none translate-x-0 translate-y-0 top-0 left-0 rounded-none border-0 p-0 bg-black/80 backdrop-blur-2xl flex items-center justify-center"
       >
         <DialogTitle className="sr-only">
-          {categoryLabel} — {currentItem.name}
+          {currentItem.name}
         </DialogTitle>
         <DialogDescription className="sr-only">
-          View {currentItem.name} in the {categoryLabel} category — image {currentIndex + 1} of {items.length}
+          View {currentItem.name} — image {currentIndex + 1} of {items.length}
         </DialogDescription>
 
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200 backdrop-blur-sm"
+          className="absolute top-4 right-4 sm:top-6 sm:right-6 z-10 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200"
           aria-label="Close lightbox"
         >
           <X className="w-5 h-5" />
@@ -259,7 +203,7 @@ function Lightbox({
         {/* Keyboard Hints Toggle */}
         <button
           onClick={() => setShowHints((p) => !p)}
-          className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200 backdrop-blur-sm"
+          className="absolute top-4 left-4 sm:top-6 sm:left-6 z-10 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200"
           aria-label="Show keyboard shortcuts"
         >
           <Keyboard className="w-4 h-4" />
@@ -302,7 +246,7 @@ function Lightbox({
               onClick={() =>
                 navigateTo(currentIndex > 0 ? currentIndex - 1 : items.length - 1)
               }
-              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200 backdrop-blur-sm"
+              className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200"
               aria-label="Previous image"
             >
               <ChevronLeft className="w-6 h-6" />
@@ -311,7 +255,7 @@ function Lightbox({
               onClick={() =>
                 navigateTo(currentIndex < items.length - 1 ? currentIndex + 1 : 0)
               }
-              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200 backdrop-blur-sm"
+              className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-10 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors duration-200"
               aria-label="Next image"
             >
               <ChevronRight className="w-6 h-6" />
@@ -363,7 +307,7 @@ function Lightbox({
                 >
                   <img
                     src={currentItem.image}
-                    alt={`${currentItem.name} — ${categoryLabel}`}
+                    alt={`${currentItem.name}`}
                     className="max-h-[70vh] max-w-full object-contain rounded-lg shadow-2xl"
                     draggable={false}
                   />
@@ -380,9 +324,6 @@ function Lightbox({
             className="flex flex-col items-center gap-3 mt-4 sm:mt-6"
           >
             <div className="flex items-center gap-3">
-              <span className="px-3 py-1 rounded-full text-xs font-medium tracking-wide uppercase bg-[#5d2c86] text-white font-sans-body">
-                {categoryLabel}
-              </span>
               <span className="text-white/80 text-sm sm:text-base font-sans-body">
                 {currentItem.name}
               </span>
@@ -427,9 +368,6 @@ function MasonryItem({
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
-  const categoryLabel =
-    categories.find((c) => c.key === item.category)?.label ?? item.category;
-  const CategoryIcon = categories.find((c) => c.key === item.category)?.icon ?? Box;
   const aspectClass = heightClasses[item.id] || 'aspect-square';
 
   // 3D tilt handler
@@ -476,7 +414,7 @@ function MasonryItem({
       >
         <img
           src={item.image}
-          alt={`${item.name} — ${categoryLabel}`}
+          alt={`${item.name}`}
           className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
           loading="lazy"
         />
@@ -496,16 +434,6 @@ function MasonryItem({
           </div>
         </div>
 
-        {/* Hover: Category pill at top-left */}
-        <div className="absolute top-3 left-3 opacity-0 group-hover:opacity-100 transition-all duration-300 -translate-x-2 group-hover:translate-x-0">
-          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#5d2c86]/80 backdrop-blur-sm">
-            <CategoryIcon className="w-3 h-3 text-white" />
-            <span className="text-[10px] tracking-widest uppercase text-white/90 font-sans-body font-medium">
-              {categoryLabel}
-            </span>
-          </div>
-        </div>
-
         {/* Purple border on hover */}
         <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" style={{ boxShadow: 'inset 0 0 0 2px rgba(93,44,134,0.5)' }} />
       </div>
@@ -515,12 +443,6 @@ function MasonryItem({
         <h3 className="text-sm sm:text-base font-serif-display font-semibold text-[#000] leading-snug line-clamp-2 group-hover:text-[#5d2c86] transition-colors duration-300">
           {item.name}
         </h3>
-        <div className="flex items-center gap-1.5 mt-1">
-          <CategoryIcon className="w-3 h-3 text-[#5d2c86]/50" />
-          <span className="text-[10px] tracking-wider uppercase text-[#5d2c86]/50 font-sans-body font-medium">
-            {categoryLabel}
-          </span>
-        </div>
       </div>
     </motion.div>
   );
@@ -528,11 +450,8 @@ function MasonryItem({
 
 /* ── Main Portfolio Section ─────────────────────────────────── */
 export default function PortfolioSection() {
-  const [activeCategory, setActiveCategory] = useState('all');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
-  const [particlesKey, setParticlesKey] = useState(0);
-  const [showParticles, setShowParticles] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: '-80px' });
@@ -544,12 +463,6 @@ export default function PortfolioSection() {
   });
   const gridY = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
-  // Get filtered items
-  const filteredItems =
-    activeCategory === 'all'
-      ? portfolioItems
-      : portfolioItems.filter((item) => item.category === activeCategory);
-
   // Lightbox navigation
   const handleNavigate = useCallback((index: number) => {
     setLightboxIndex(index);
@@ -557,19 +470,12 @@ export default function PortfolioSection() {
 
   const openLightbox = useCallback(
     (item: PortfolioItem) => {
-      const idx = filteredItems.findIndex((i) => i.id === item.id);
+      const idx = portfolioItems.findIndex((i) => i.id === item.id);
       setLightboxIndex(idx >= 0 ? idx : 0);
       setLightboxOpen(true);
     },
-    [filteredItems]
+    []
   );
-
-  // Category switch with particles
-  const handleCategoryChange = useCallback((key: string) => {
-    setActiveCategory(key);
-    setShowParticles(true);
-    setParticlesKey((prev) => prev + 1);
-  }, []);
 
   // Prevent body scroll when lightbox is open
   useEffect(() => {
@@ -702,74 +608,17 @@ export default function PortfolioSection() {
         </motion.div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-          {/* ── Category Filter Pills ──────────────────────────── */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.5, delay: 1.5, ease: 'easeOut' }}
-            className="mb-10 sm:mb-14"
-          >
-            <div className="relative flex gap-2 sm:gap-3 overflow-x-auto pb-2 scrollbar-hide justify-start sm:justify-center px-1 flex-wrap">
-              {categories.filter(cat => cat.key === 'all' || getCategoryCount(cat.key) > 0).map((cat) => {
-                const isActive = activeCategory === cat.key;
-                const Icon = cat.icon;
-                const count = getCategoryCount(cat.key);
-                return (
-                  <div key={cat.key} className="relative flex-shrink-0">
-                    <button
-                      onClick={() => handleCategoryChange(cat.key)}
-                      className={`
-                        flex items-center gap-1.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full text-sm font-medium
-                        transition-all duration-300 whitespace-nowrap font-sans-body
-                        ${
-                          isActive
-                            ? 'bg-[#5d2c86] text-white shadow-lg shadow-[#5d2c86]/25 scale-105'
-                            : 'bg-white text-[#000]/45 hover:text-[#5d2c86] hover:bg-white hover:shadow-md border border-[#000]/8'
-                        }
-                      `}
-                      aria-pressed={isActive}
-                      aria-label={`Filter by ${cat.label}`}
-                    >
-                      <Icon className={`w-4 h-4 ${isActive ? 'text-white' : 'text-[#000]/30'}`} />
-                      <span>{cat.label}</span>
-                      {/* Count badge */}
-                      <span
-                        className={`ml-0.5 text-[10px] font-semibold px-1.5 py-0.5 rounded-full min-w-[18px] text-center ${
-                          isActive
-                            ? 'bg-white/20 text-white'
-                            : 'bg-[#000]/5 text-[#000]/30'
-                        }`}
-                      >
-                        {count}
-                      </span>
-                    </button>
-                    {/* Particle burst on this active pill */}
-                    {isActive && (
-                      <ParticleBurst
-                        key={particlesKey}
-                        active={showParticles}
-                        onDone={() => setShowParticles(false)}
-                      />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
-          </motion.div>
-
           {/* ── Masonry Grid with Parallax ─────────────────────── */}
           <motion.div style={{ y: gridY }} ref={gridRef}>
             <AnimatePresence mode="wait">
               <motion.div
-                key={activeCategory}
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
                 className="masonry-grid"
               >
-                {filteredItems.map((item, index) => (
+                {portfolioItems.map((item, index) => (
                   <MasonryItem
                     key={item.id}
                     item={item}
@@ -780,17 +629,6 @@ export default function PortfolioSection() {
               </motion.div>
             </AnimatePresence>
           </motion.div>
-
-          {/* Empty state */}
-          {filteredItems.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-20 text-[#000]/30 font-sans-body"
-            >
-              No items in this category yet.
-            </motion.div>
-          )}
 
           {/* ── Accent line between sections ────────────── */}
           <motion.div
@@ -859,7 +697,7 @@ export default function PortfolioSection() {
 
                 <a
                   href="#contact"
-                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#FFF] hover:bg-[#f8f3ed] text-[#5d2c86] font-sans-body font-semibold text-sm sm:text-base transition-all duration-300 hover:shadow-[0_0_24px_rgba(93,44,134,0.3)] hover:scale-105 group"
+                  className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full bg-[#FFF] hover:bg-[#f8f3ed] text-[#5d2c86] font-sans-body font-semibold text-sm sm:text-base transition-all duration-300 group"
                 >
                   Request Custom Piece
                   <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -874,7 +712,7 @@ export default function PortfolioSection() {
       <Lightbox
         isOpen={lightboxOpen}
         onClose={() => setLightboxOpen(false)}
-        items={filteredItems}
+        items={portfolioItems}
         currentIndex={lightboxIndex}
         onNavigate={handleNavigate}
       />
