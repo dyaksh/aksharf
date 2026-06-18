@@ -100,53 +100,27 @@ const rooms: RoomData[] = [
   },
 ];
 
-// ─── Smart image with dual fallback ──────────────────────────────────
-// Tries AI image first, falls back to a different real image
+// ─── Smart image with before filter ──────────────────────────────────
 function SmartImage({
-  primarySrc,
-  fallbackSrc,
+  src,
   alt,
   className,
   draggable,
   isBefore = false,
 }: {
-  primarySrc: string;
-  fallbackSrc: string;
+  src: string;
   alt: string;
   className?: string;
   draggable?: boolean;
   isBefore?: boolean;
 }) {
-  const [imgSrc, setImgSrc] = useState(fallbackSrc);
-  const [isAi, setIsAi] = useState(false);
-
-  // Check if AI image exists; fall back to catalog/room image
-  useEffect(() => {
-    let cancelled = false;
-    const img = new Image();
-    img.onload = () => {
-      if (!cancelled) {
-        setImgSrc(primarySrc);
-        setIsAi(true);
-      }
-    };
-    img.onerror = () => {
-      if (!cancelled) {
-        setImgSrc(fallbackSrc);
-        setIsAi(false);
-      }
-    };
-    img.src = primarySrc;
-    return () => { cancelled = true; };
-  }, [primarySrc, fallbackSrc]);
-
   return (
     <img
-      src={imgSrc}
+      src={src}
       alt={alt}
       className={className || ''}
       draggable={draggable}
-      style={isBefore && !isAi ? {
+      style={isBefore ? {
         filter: 'grayscale(0.6) brightness(0.85) contrast(1.05) saturate(0.7)',
       } : undefined}
     />
@@ -157,15 +131,11 @@ function SmartImage({
 function ComparisonSlider({
   beforeSrc,
   afterSrc,
-  fallbackBeforeSrc,
-  fallbackAfterSrc,
   roomLabel,
   accentColor,
 }: {
   beforeSrc: string;
   afterSrc: string;
-  fallbackBeforeSrc: string;
-  fallbackAfterSrc: string;
   roomLabel: string;
   accentColor: string;
 }) {
@@ -267,8 +237,7 @@ function ComparisonSlider({
       {/* After image (full, underneath) */}
       <div className="absolute inset-0">
         <SmartImage
-          primarySrc={afterSrc}
-          fallbackSrc={fallbackAfterSrc}
+          src={afterSrc}
           alt={`${roomLabel} — after Akshar Foshan FF&E furnishing`}
           className="w-full h-full object-cover"
           draggable={false}
@@ -285,8 +254,7 @@ function ComparisonSlider({
         style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
       >
         <SmartImage
-          primarySrc={beforeSrc}
-          fallbackSrc={fallbackBeforeSrc}
+          src={beforeSrc}
           alt={`${roomLabel} — before FF&E installation`}
           className="w-full h-full object-cover"
           draggable={false}
@@ -397,8 +365,6 @@ function FullscreenModal({
         <ComparisonSlider
           beforeSrc={room.before}
           afterSrc={room.after}
-          fallbackBeforeSrc={room.fallbackBefore}
-          fallbackAfterSrc={room.fallbackAfter}
           roomLabel={room.label}
           accentColor={room.accentColor}
         />
@@ -654,8 +620,6 @@ export default function BeforeAfterSection() {
                 <ComparisonSlider
                   beforeSrc={currentRoom.before}
                   afterSrc={currentRoom.after}
-                  fallbackBeforeSrc={currentRoom.fallbackBefore}
-                  fallbackAfterSrc={currentRoom.fallbackAfter}
                   roomLabel={currentRoom.label}
                   accentColor={currentRoom.accentColor}
                 />

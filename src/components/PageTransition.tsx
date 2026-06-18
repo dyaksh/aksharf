@@ -16,45 +16,35 @@ interface PageTransitionProps {
 export default function PageTransition({ children, pageKey }: PageTransitionProps) {
   // The key currently being displayed
   const [displayKey, setDisplayKey] = useState(pageKey);
-  // The children currently being displayed
-  const [displayChildren, setDisplayChildren] = useState(children);
+  // Frozen children during transition (only updated in event handlers)
+  const [frozenChildren, setFrozenChildren] = useState<ReactNode>(null);
   // Whether the overlay is in its "exit" phase (sliding out to the left)
   const [isExiting, setIsExiting] = useState(false);
   // Keep a ref to the latest children so callbacks always read fresh value
   const childrenRef = useRef(children);
-  childrenRef.current = children;
+
+  // Sync ref on every render
+  useEffect(() => {
+    childrenRef.current = children;
+  });
 
   // Derived: do we need a transition?
   const needsTransition = pageKey !== displayKey;
+  // During transition or exit, show frozen content; otherwise show live children
+  const isTransitioning = needsTransition || isExiting;
 
   // When overlay enter animation completes, swap content and start exit
   const handleEnterComplete = useCallback(() => {
+    setFrozenChildren(childrenRef.current);
     setDisplayKey(pageKey);
-    setDisplayChildren(childrenRef.current);
     setIsExiting(true);
   }, [pageKey]);
 
   // When overlay exit animation completes, clean up
   const handleExitComplete = useCallback(() => {
     setIsExiting(false);
+    setFrozenChildren(null);
   }, []);
-
-  // Sync: if pageKey changed but no transition played (e.g. initial render),
-  // ensure displayChildren stays in sync
-  useEffect(() => {
-    if (!needsTransition && displayKey !== pageKey) {
-      setDisplayKey(pageKey);
-      setDisplayChildren(childrenRef.current);
-    }
-  }, [pageKey, needsTransition, displayKey]);
-
-  // Also sync displayChildren when there's no transition at all
-  // (handles the case where children change but pageKey stays the same)
-  useEffect(() => {
-    if (!needsTransition && !isExiting) {
-      setDisplayChildren(childrenRef.current);
-    }
-  });
 
   return (
     <>
@@ -135,7 +125,7 @@ export default function PageTransition({ children, pageKey }: PageTransitionProp
           exit={{ opacity: 0.5 }}
           transition={{ duration: 0.25 }}
         >
-          {displayChildren}
+          {isTransitioning && frozenChildren ? frozenChildren : children}
         </motion.div>
       </AnimatePresence>
     </>
