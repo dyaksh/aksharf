@@ -19,7 +19,7 @@ import {
 
 // ─── Room data ───────────────────────────────────────────────────────
 // Uses AI-generated images when available (in /ai/ folder).
-// Falls back to distinct real images: catalog pages for BEFORE, room photos for AFTER.
+// Falls back to distinct real room photos for both BEFORE and AFTER.
 interface RoomData {
   id: string;
   label: string;
@@ -27,7 +27,7 @@ interface RoomData {
   icon: React.ElementType;
   before: string;       // AI before (primary)
   after: string;        // AI after (primary)
-  fallbackBefore: string; // Real catalog/factory image
+  fallbackBefore: string; // Real room photo (different from after)
   fallbackAfter: string;  // Real furnished room photo
   description: string;
   specs: string[];
@@ -42,7 +42,7 @@ const rooms: RoomData[] = [
     icon: Bed,
     before: '/images/room-transformation/ai/before-guest-room.png',
     after: '/images/room-transformation/ai/after-guest-room.png',
-    fallbackBefore: '/catalog-pages/page_7.png',
+    fallbackBefore: '/images/room-transformation/room-7.png',
     fallbackAfter: '/images/room-transformation/room-1.png',
     description: 'Complete FF&E transformation — casegoods, headboard, seating, lighting & decor for a premium guest experience.',
     specs: ['Custom headboard & bed frame', 'Nightstands & dresser', 'Desk & task chair', 'Floor lamp & sconces', 'Art & accent pieces'],
@@ -55,7 +55,7 @@ const rooms: RoomData[] = [
     icon: DoorOpen,
     before: '/images/room-transformation/ai/before-suite.png',
     after: '/images/room-transformation/ai/after-suite.png',
-    fallbackBefore: '/catalog-pages/page_8.png',
+    fallbackBefore: '/images/room-transformation/room-8.png',
     fallbackAfter: '/images/room-transformation/room-2.png',
     description: 'Full suite FF&E package — living area, bedroom zone, and workspace with bespoke furniture & ambient lighting.',
     specs: ['Upholstered sofa & armchairs', 'Console & coffee table', 'King headboard panel', 'Chandelier & pendants', 'Decorative mirrors & art'],
@@ -68,7 +68,7 @@ const rooms: RoomData[] = [
     icon: Bath,
     before: '/images/room-transformation/ai/before-bathroom.png',
     after: '/images/room-transformation/ai/after-bathroom.png',
-    fallbackBefore: '/catalog-pages/page_12.png',
+    fallbackBefore: '/images/room-transformation/room-9.png',
     fallbackAfter: '/images/room-transformation/room-3.png',
     description: 'Elegant bathroom FF&E — vanities, mirrors, towel accessories, and hardware crafted for durability & style.',
     specs: ['Vanity unit & basin', 'Framed mirror', 'Towel rack & hooks', 'Soap dispenser & tray', 'Vanity lighting'],
@@ -81,7 +81,7 @@ const rooms: RoomData[] = [
     icon: Sofa,
     before: '/images/room-transformation/ai/before-lobby.png',
     after: '/images/room-transformation/ai/after-lobby.png',
-    fallbackBefore: '/catalog-pages/page_20.png',
+    fallbackBefore: '/images/room-transformation/room-10.png',
     fallbackAfter: '/images/room-transformation/room-4.png',
     description: 'Grand lobby FF&E — statement seating, reception desk, lighting installations, and curated art for an unforgettable welcome.',
     specs: ['Reception desk & credenza', 'Lobby seating ensemble', 'Statement chandelier', 'Planters & accent tables', 'Feature wall art'],
@@ -94,7 +94,7 @@ const rooms: RoomData[] = [
     icon: Utensils,
     before: '/images/room-transformation/ai/before-dining.png',
     after: '/images/room-transformation/ai/after-dining.png',
-    fallbackBefore: '/catalog-pages/page_28.png',
+    fallbackBefore: '/images/room-transformation/room-11.png',
     fallbackAfter: '/images/room-transformation/room-5.png',
     description: 'Restaurant & banquet FF&E — dining tables, chairs, buffet stations, and atmospheric lighting solutions.',
     specs: ['Dining tables & chairs', 'Buffet & server stations', 'Pendant & ambient lighting', 'Upholstered banquettes', 'Decorative partitions'],
@@ -107,7 +107,7 @@ const rooms: RoomData[] = [
     icon: Lamp,
     before: '/images/room-transformation/ai/before-lighting.png',
     after: '/images/room-transformation/ai/after-lighting.png',
-    fallbackBefore: '/catalog-pages/page_32.png',
+    fallbackBefore: '/images/room-transformation/room-12.png',
     fallbackAfter: '/images/room-transformation/room-6.png',
     description: 'Comprehensive lighting FF&E — chandeliers, sconces, pendants, and task lighting designed for hospitality spaces.',
     specs: ['Chandeliers & pendants', 'Wall sconces & vanity lights', 'Table & floor lamps', 'LED accent lighting', 'Custom fixture design'],
@@ -162,7 +162,7 @@ function SmartImage({
       className={className || ''}
       draggable={draggable}
       style={isBefore && !isAi ? {
-        filter: 'grayscale(1) brightness(0.55) contrast(1.15) sepia(0.2)',
+        filter: 'grayscale(0.6) brightness(0.85) contrast(1.05) saturate(0.7)',
       } : undefined}
     />
   );

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { ReactNode, useState, useCallback } from 'react';
+import { ReactNode, useState, useCallback, useRef, useEffect } from 'react';
 
 interface PageTransitionProps {
   children: ReactNode;
@@ -20,6 +20,9 @@ export default function PageTransition({ children, pageKey }: PageTransitionProp
   const [displayChildren, setDisplayChildren] = useState(children);
   // Whether the overlay is in its "exit" phase (sliding out to the left)
   const [isExiting, setIsExiting] = useState(false);
+  // Keep a ref to the latest children so callbacks always read fresh value
+  const childrenRef = useRef(children);
+  childrenRef.current = children;
 
   // Derived: do we need a transition?
   const needsTransition = pageKey !== displayKey;
@@ -27,14 +30,31 @@ export default function PageTransition({ children, pageKey }: PageTransitionProp
   // When overlay enter animation completes, swap content and start exit
   const handleEnterComplete = useCallback(() => {
     setDisplayKey(pageKey);
-    setDisplayChildren(children);
+    setDisplayChildren(childrenRef.current);
     setIsExiting(true);
-  }, [pageKey, children]);
+  }, [pageKey]);
 
   // When overlay exit animation completes, clean up
   const handleExitComplete = useCallback(() => {
     setIsExiting(false);
   }, []);
+
+  // Sync: if pageKey changed but no transition played (e.g. initial render),
+  // ensure displayChildren stays in sync
+  useEffect(() => {
+    if (!needsTransition && displayKey !== pageKey) {
+      setDisplayKey(pageKey);
+      setDisplayChildren(childrenRef.current);
+    }
+  }, [pageKey, needsTransition, displayKey]);
+
+  // Also sync displayChildren when there's no transition at all
+  // (handles the case where children change but pageKey stays the same)
+  useEffect(() => {
+    if (!needsTransition && !isExiting) {
+      setDisplayChildren(childrenRef.current);
+    }
+  });
 
   return (
     <>

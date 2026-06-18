@@ -2010,3 +2010,30 @@ Stage Summary:
 - 18 portfolio items with real product photos across 5 categories
 - Lint passes, no errors
 - Note: Some images have inconsistent dimensions (some small ~500px, some large 1080px) — may need standardizing later
+
+---
+Task ID: 11
+Agent: Main Agent
+Task: Fix images in room transformation section (Services page)
+
+Work Log:
+- User reported: "fix he image in portfolio page" — traced to room transformation before/after images
+- Discovered two bugs:
+  1. **Wrong "before" images**: Used catalog page images (page_7.png etc.) with harsh CSS filter as "before" — these are product catalog pages, NOT room photos
+  2. **PageTransition stale children bug**: BeforeAfterSection didn't render on client-side navigation (Home→Services) because `displayChildren` state captured stale closure
+- Fixed BeforeAfterSection.tsx:
+  - Changed all 6 fallbackBefore from catalog pages to actual room photos (room-7.png through room-12.png)
+  - Before/after are now genuinely different room photos for each category
+  - Softened CSS filter from harsh `grayscale(1) brightness(0.55) sepia(0.2)` to subtle `grayscale(0.6) brightness(0.85) saturate(0.7)`
+- Fixed PageTransition.tsx:
+  - Added `childrenRef` to always have latest children reference
+  - Added useEffect sync for when no transition plays (keeps displayChildren fresh)
+  - Fixed stale closure in `handleEnterComplete` callback
+- Verified all 6 room tabs via browser: each shows distinct before/after room photos
+- Verified client-side navigation (Home→Services, Portfolio→Services) — all 3 sections render correctly
+
+Stage Summary:
+- Room transformation now uses distinct real room photos for both before and after (no more catalog pages)
+- PageTransition bug fixed — all page sections render correctly on client-side navigation
+- Image pairing: Guest Room (7→1), Suite (8→2), Bathroom (9→3), Lobby (10→4), Dining (11→5), Lighting (12→6)
+- AI image paths still configured for when rate limit clears — SmartImage will auto-detect
