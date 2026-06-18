@@ -1989,3 +1989,24 @@ Stage Summary:
 - 0/12 AI images generated — blocked by daily API rate limit (429), all retries from ~22:07 UTC exhausted
 - Scripts ready: scripts/generate-room-images.mjs, scripts/gen-one.mjs, scripts/single-gen.sh
 - NOTE: Cron should skip retries until rate limit resets (likely next UTC day boundary)
+
+---
+Task ID: 10
+Agent: Main Agent
+Task: Fix broken images in Portfolio page
+
+Work Log:
+- Identified root cause: PortfolioSection referenced 14 images in `/images/portfolio/products/` but only 2 existed (headboard-1.png, nightstand-1.png)
+- 12 images were 404: sofa-1.png, chair-1.png, desk-1.png, ctable-1.png, bench-1.png, dresser-1.png, wardrobe-1.png, tv-console-1.png, ottoman-1.png, lamp-1.png, lamp-2.png, mirror-1.png
+- Found real product images in categorized subdirectories: bed/, chairs/, sofa/, table/, lamp/, cabinet/, cupboard/
+- Rewrote portfolioItems to use existing real images from subfolders instead of non-existent products/ paths
+- Expanded portfolio from 14 to 18 items using all available real images
+- Updated heightClasses to match new item IDs
+- Tested via agent-browser: ALL 18 images load correctly (0 broken, 0 missing)
+- All category tabs work: All (18), Headboard (4), Sofa & Seating (6), Table & Desk (4), Cabinet & Storage (2), Lighting (2)
+
+Stage Summary:
+- Portfolio page fully fixed — all images now load from real existing files
+- 18 portfolio items with real product photos across 5 categories
+- Lint passes, no errors
+- Note: Some images have inconsistent dimensions (some small ~500px, some large 1080px) — may need standardizing later

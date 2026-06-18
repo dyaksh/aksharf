@@ -48,47 +48,52 @@ const categories: CategoryDef[] = [
   { key: 'lighting', label: 'Lighting', icon: Lamp },
 ];
 
-/* ── Portfolio Items — SINGLE PRODUCT images only (no combined catalog pages) ── */
-const P = '/images/portfolio/products';
+/* ── Portfolio Items — using real product images from categorized subfolders ── */
+const PF = '/images/portfolio';
 
 const portfolioItems: PortfolioItem[] = [
-  // ── Headboard (2 items) ──
-  { id: 'hb-1', category: 'headboard', name: 'Upholstered Velvet Headboard', image: `${P}/headboard-1.png` },
-  { id: 'ns-1', category: 'headboard', name: 'Nightstand with Headboard Set', image: `${P}/nightstand-1.png` },
+  // ── Headboard (4 items) ──
+  { id: 'hb-1', category: 'headboard', name: 'Upholstered Velvet Headboard', image: `${PF}/products/headboard-1.png` },
+  { id: 'ns-1', category: 'headboard', name: 'Nightstand with Headboard Set', image: `${PF}/products/nightstand-1.png` },
+  { id: 'bd-1', category: 'headboard', name: 'Luxury Hotel Bed Setup', image: `${PF}/bed/bed-1.png` },
+  { id: 'bd-2', category: 'headboard', name: 'Premium King Bed Frame', image: `${PF}/bed/bed-2.png` },
 
-  // ── Sofa & Seating (2 items) ──
-  { id: 'sf-1', category: 'sofa', name: 'Modern Hotel Sofa', image: `${P}/sofa-1.png` },
-  { id: 'ch-1', category: 'sofa', name: 'Lounge Accent Chair', image: `${P}/chair-1.png` },
+  // ── Sofa & Seating (6 items) ──
+  { id: 'sf-1', category: 'sofa', name: 'Modern Hotel Sofa', image: `${PF}/sofa/sofa-1.jpeg` },
+  { id: 'sf-2', category: 'sofa', name: 'Contemporary Lounge Sofa', image: `${PF}/sofa/sofa-2.jpeg` },
+  { id: 'sf-3', category: 'sofa', name: 'Elegant Hospitality Sofa', image: `${PF}/sofa/sofa-3.png` },
+  { id: 'sf-4', category: 'sofa', name: 'Designer Modular Sofa', image: `${PF}/sofa/sofa-4.png` },
+  { id: 'ch-1', category: 'sofa', name: 'Lounge Accent Chair', image: `${PF}/chairs/chair-1.jpeg` },
+  { id: 'ch-2', category: 'sofa', name: 'Executive Club Chair', image: `${PF}/chairs/chair-2.jpeg` },
 
-  // ── Table & Desk (3 items) ──
-  { id: 'dk-1', category: 'table', name: 'Walnut Writing Desk', image: `${P}/desk-1.png` },
-  { id: 'ct-1', category: 'table', name: 'C-Table Nesting Side Table', image: `${P}/ctable-1.png` },
-  { id: 'bn-1', category: 'table', name: 'Luggage Bench', image: `${P}/bench-1.png` },
+  // ── Table & Desk (4 items) ──
+  { id: 'tb-1', category: 'table', name: 'Hotel Writing Desk', image: `${PF}/table/table-1.jpeg` },
+  { id: 'tb-2', category: 'table', name: 'Contemporary Side Table', image: `${PF}/table/table-2.png` },
+  { id: 'tb-3', category: 'table', name: 'Accent Console Table', image: `${PF}/table/table-3.png` },
+  { id: 'ch-3', category: 'table', name: 'Designer Accent Chair', image: `${PF}/chairs/chair-3.png` },
 
-  // ── Cabinet & Storage (4 items) ──
-  { id: 'dr-1', category: 'cabinet', name: 'Walnut Dresser Chest', image: `${P}/dresser-1.png` },
-  { id: 'wr-1', category: 'cabinet', name: 'Wardrobe Closet', image: `${P}/wardrobe-1.png` },
-  { id: 'tv-1', category: 'cabinet', name: 'TV Console Media Unit', image: `${P}/tv-console-1.png` },
-  { id: 'ot-1', category: 'cabinet', name: 'Ottoman Storage Bench', image: `${P}/ottoman-1.png` },
+  // ── Cabinet & Storage (2 items) ──
+  { id: 'cb-1', category: 'cabinet', name: 'Premium Storage Cabinet', image: `${PF}/cabinet/cabinet-1.png` },
+  { id: 'cp-1', category: 'cabinet', name: 'Hospitality Cupboard Unit', image: `${PF}/cupboard/cupboard-1.png` },
 
-  // ── Lighting (3 items) ──
-  { id: 'lm-1', category: 'lighting', name: 'Fabric Shade Table Lamp', image: `${P}/lamp-1.png` },
-  { id: 'lm-2', category: 'lighting', name: 'Brass Floor Lamp', image: `${P}/lamp-2.png` },
-  { id: 'mr-1', category: 'lighting', name: 'Decorative Wall Mirror', image: `${P}/mirror-1.png` },
+  // ── Lighting (2 items) ──
+  { id: 'lm-1', category: 'lighting', name: 'Fabric Shade Table Lamp', image: `${PF}/lamp/lamp-1.png` },
+  { id: 'lm-2', category: 'lighting', name: 'Brass Floor Lamp', image: `${PF}/lamp/lamp-2.png` },
 ];
 
 /* ── Varying heights for Pinterest masonry effect ──────────── */
 const heightClasses: Record<string, string> = {
   // Headboard
-  'hb-1': 'aspect-[3/4]', 'ns-1': 'aspect-[4/5]',
+  'hb-1': 'aspect-[3/4]', 'ns-1': 'aspect-[4/5]', 'bd-1': 'aspect-[3/4]', 'bd-2': 'aspect-[4/5]',
   // Sofa
-  'sf-1': 'aspect-[4/5]', 'ch-1': 'aspect-[3/4]',
+  'sf-1': 'aspect-[4/5]', 'sf-2': 'aspect-[3/4]', 'sf-3': 'aspect-[4/5]', 'sf-4': 'aspect-square',
+  'ch-1': 'aspect-[3/4]', 'ch-2': 'aspect-[4/5]',
   // Table
-  'dk-1': 'aspect-[3/4]', 'ct-1': 'aspect-[4/5]', 'bn-1': 'aspect-square',
+  'tb-1': 'aspect-[3/4]', 'tb-2': 'aspect-[4/5]', 'tb-3': 'aspect-square', 'ch-3': 'aspect-[4/5]',
   // Cabinet
-  'dr-1': 'aspect-[3/4]', 'wr-1': 'aspect-[4/5]', 'tv-1': 'aspect-square', 'ot-1': 'aspect-[4/5]',
+  'cb-1': 'aspect-[3/4]', 'cp-1': 'aspect-[4/5]',
   // Lighting
-  'lm-1': 'aspect-square', 'lm-2': 'aspect-[3/4]', 'mr-1': 'aspect-[4/5]',
+  'lm-1': 'aspect-square', 'lm-2': 'aspect-[3/4]',
 };
 
 /* ── Count items per category ──────────────────────────────── */
